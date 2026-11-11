@@ -1,0 +1,80 @@
+[
+  {
+    "slug": "something-wrong-with-me",
+    "title": "Something Wrong With Me",
+    "themes": "Identity, self-worth, belonging",
+    "lyrics_available": true
+  },
+  {
+    "slug": "im-learning-to-fly",
+    "title": "I’m Learning to Fly",
+    "themes": "Growth, hope, freedom",
+    "lyrics_available": true
+  },
+  {
+    "slug": "passenger-inside-my-skin",
+    "title": "Passenger Inside My Skin",
+    "themes": "Invisible illness, resilience",
+    "lyrics_available": true
+  },
+  {
+    "slug": "nobodys-number-one",
+    "title": "Nobody’s Number One",
+    "themes": "Friendship, self-worth",
+    "lyrics_available": true
+  },
+  {
+    "slug": "you-walked-away",
+    "title": "You Walked Away",
+    "themes": "Friendship, grief, healing",
+    "lyrics_available": true
+  },
+  {
+    "slug": "all-too-well",
+    "title": "All Too Well",
+    "themes": "Trust, vulnerability, connection",
+    "lyrics_available": true
+  },
+  {
+    "slug": "im-screaming",
+    "title": "I’m Screaming",
+    "themes": "Invisible illness, voice, resilience",
+    "lyrics_available": true
+  },
+  {
+    "slug": "i-dont-want-to-be-here-anymore",
+    "title": "I Don’t Want to Be Here Anymore",
+    "themes": "Isolation, emotional exhaustion",
+    "lyrics_available": true
+  },
+  {
+    "slug": "i-dont-want-to-lose-what-we-have",
+    "title": "I Don’t Want to Lose What We Have",
+    "themes": "Friendship, love, honesty",
+    "lyrics_available": true
+  },
+  {
+    "slug": "smoke-and-mirrors",
+    "title": "Smoke and Mirrors",
+    "themes": "Deception, identity, truth",
+    "lyrics_available": true
+  },
+  {
+    "slug": "insomnia",
+    "title": "Insomnia",
+    "themes": "Sleeplessness, overthinking, creativity",
+    "lyrics_available": true
+  },
+  {
+    "slug": "anxiety",
+    "title": "Anxiety",
+    "themes": "Anxiety, overwhelm, resilience",
+    "lyrics_available": true
+  },
+  {
+    "slug": "my-mind-is-over-crowded",
+    "title": "My Mind Is Over Crowded",
+    "themes": "Overthinking, acceptance, growth",
+    "lyrics_available": true
+  }
+]
