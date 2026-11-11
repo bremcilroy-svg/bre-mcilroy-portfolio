@@ -25,7 +25,8 @@ For the new repository, open Settings > Pages. Under Build and deployment, choos
 - events.html: Moonlit Sirens community and event projects.
 - websites-apps.html: Personal portfolio and travel concept.
 - travel.html: Travel Easy with Breezy, clearly identified as in development.
-- photography.html, acting-modeling.html, fashion-design.html: Gallery foundations awaiting work samples.
+- photography.html: Bre Lynn Photography, with 67 images across six collections, filters, and a full-screen viewer.
+- acting-modeling.html, fashion-design.html: Gallery foundations awaiting work samples.
 - contact.html: Portfolio and GitHub connections, awaiting a professional contact email.
 - 404.html: Navigation back to the portfolio for missing pages.
 
@@ -36,7 +37,7 @@ For the new repository, open Settings > Pages. Under Build and deployment, choos
 - Review the career summary: 9+ years of customer service and office management; law firm Administrative Assistant in 2025; documentation, calendars, case files, and legal research. Employer names, exact dates, education, certifications, and other details were not supplied in the website archive and have not been invented.
 - The Releasing Myself publication listing uses information previously supplied by the author: Unseal Your Best Life: Poems Revealing Past, Present, and Perfect Moments; compiled by Lauren Brill; pages 206–207. Supply publication images and the poem if you want a reading sample.
 - Add only the poems you select from the unpublished manuscript. No full manuscript or poem text is included.
-- Supply photographs, performance credits, artwork, and project links for the collections marked in progress.
+- Photography is now included. Supply performance credits, artwork, and project links for the remaining collections marked in progress.
 - Music is now featured on music.html, with all 13 titles, individual song pages, and complete lyrics for all 13 songs. The music links open the Spotify artist profile; no track-specific URLs or audio embeds have been invented.
 - All 13 songs now include full original lyrics. Something Wrong With Me uses the author-corrected version beginning “I watch the door close, one more time.” The rejected version beginning “You said forever, but you packed light” is not used.
 - Passenger Inside My Skin uses the title on the author’s lyric submission. A previously described Spotify screenshot used Passenger In My Own Skin; the release-title difference has not been silently resolved.
@@ -56,7 +57,7 @@ For the new repository, open Settings > Pages. Under Build and deployment, choos
 
 ## Validation
 
-Twenty-six HTML pages and 460 local page, fragment, stylesheet, script, image, and icon references checked. All 13 complete lyric texts were compared against their rendered HTML content, ignoring formatting whitespace. JavaScript syntax was checked. Desktop and 320/390-pixel phone layouts were reviewed. Browser tests confirmed theme search, an empty result, Clear restoring all 13 entries, and song navigation. Deployment to your GitHub repository has not been performed.
+Twenty-six HTML pages and 625 local page, fragment, stylesheet, script, image, and icon references checked. All 13 complete lyric texts were compared against their rendered HTML content, ignoring formatting whitespace. JavaScript syntax was checked. Desktop and 320/390-pixel phone layouts were reviewed. Browser tests confirmed theme search, an empty result, Clear restoring all 13 entries, and song navigation. Deployment to your GitHub repository has not been performed.
 
 
 ## Music update
@@ -79,3 +80,18 @@ Added the author’s corrected Something Wrong With Me lyrics and the complete I
 ## Repository name update
 
 Prepared for bre-mcilroy-portfolio. Internal links and asset paths resolve within /bre-mcilroy-portfolio/; no domain-root paths are used by normal pages. The 404 page has an explicit repository base path for its navigation and assets. All 13 complete lyric pages are retained.
+
+
+## Bre Lynn Photography gallery
+
+The photography update includes 67 images from all supplied batches. Six exact repeated uploads and one repeated roadside image export were omitted. Distinct portraits, crops, and alternate photographic treatments are retained.
+
+Collections: Portraits & Creative (20), Family & Milestones (12), Wildlife & Pets (12), Landscapes & Travel (11), Flowers & Details (5), Events & Celebrations (7).
+
+Images are displayed in full proportions without cropping. Existing watermarks and the original color or black-and-white treatment are retained. JPEG copies are optimized for web display, up to 2048 pixels on the longest edge; original files remain separate from this upload package. The HEIF garden photo is included as a browser-compatible JPEG. Photo titles are editable descriptive labels rather than claims about dates or locations.
+
+Use a category button to filter the collection. Open a photo to view it full-screen; Previous/Next and left/right arrow keys move within the active category. Escape or Close dismisses the viewer. The normal image links still work when JavaScript is unavailable.
+
+Upload all extracted files, including every blp-photo-*.jpg file, the updated HTML pages, style.css, and site.js. All files go directly into the root of bre-mcilroy-portfolio; no image folders need to be uploaded. If your phone limits the selection, upload the blp-photo-*.jpg images as one batch, then the remaining files as a second batch.
+
+Browser checks covered filtering, a full-screen image opening, next-photo navigation, keyboard navigation, Escape closing, and layouts at 320 and 390 pixels. All photo files decode correctly; all 13 full lyric texts are retained. The live GitHub site has not been changed here.
