@@ -7,3 +7,5 @@ dialog{width:min(650px,calc(100% - 28px));max-height:86svh;overflow:auto;border:
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.dust{display:none}}
 
 .menu-pair button svg{width:14px;height:14px;vertical-align:-2px;margin-right:6px;fill:none;stroke:var(--gold);stroke-width:1.4}
+
+.entrance-footer a{color:#f0d29e;padding:5px 0;display:inline-block;text-underline-offset:4px}.entrance-footer a:focus-visible{outline:3px solid #fff5c2;outline-offset:3px}

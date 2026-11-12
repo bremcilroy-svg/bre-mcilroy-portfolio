@@ -1,0 +1,45 @@
+THE POETRY VAULT — LAUNCH UPDATE
+The Library of Forgotten Words · Original poetry by Bre McIlroy
+
+WHAT IS INCLUDED
+The latest full set of all previous 42 game/portfolio update files, plus a 46-second MP4 teaser with an original instrumental score and readable title cards, a full-resolution official poster, the video/poster showcase page, a feedback email-drafting form, and a moderated guestbook. Existing poem content and puzzle logic are unchanged. The teaser does not contain prerecorded female narration; see the voiceover script included separately. It never shows unlocked poem pages or puzzle answers.
+
+UPLOAD TO GITHUB PAGES
+1. Keep a backup of your existing GitHub repository.
+2. Unzip this launch-update file on your device. Open the extracted folder.
+3. In GitHub, open bremcilroy-svg/bre-mcilroy-portfolio at its root (the same folder as index.html).
+4. Upload ALL files individually from this extracted folder. Replace files with matching names and keep unrelated photos, videos and portfolio files unchanged.
+5. Commit the changes; allow GitHub Pages to deploy.
+6. Open:
+   https://bremcilroy-svg.github.io/bre-mcilroy-portfolio/poetry-vault-launch.html
+   https://bremcilroy-svg.github.io/bre-mcilroy-portfolio/poetry-vault-feedback.html
+   https://bremcilroy-svg.github.io/bre-mcilroy-portfolio/poetry-vault-entrance.html
+7. On Android, open the video with sound, test the phone movement controls, and check narration through the GAME's Settings. Game narration uses voices available on your device; trailer narration is not recorded in this version.
+
+FEEDBACK AND GUESTBOOK — PRIVACY
+The feedback page PREPARES an email to Bremcilroy@gmail.com. The player reviews it, then must press Send in their mail application. No messages are silently sent or stored by this website. If a device has no mail application, players can copy the draft and email it manually. Bug reports and messages without permission to publish must remain private.
+
+PUBLIC GUESTBOOK APPROVAL
+Guestbook is intentionally empty at launch. For a consenting player's review, open vault-guestbook.json and add a small owner-approved, spoiler-free excerpt. Example ONLY (not an actual review):
+{
+  "schemaVersion": 1,
+  "entries": [
+    {"name":"Example Explorer", "date":"2026-11-12", "message":"An example review goes here.", "approved":true}
+  ]
+}
+Do not add a guestbook entry unless they opted into publication. Remove puzzle hints, full poem text, hidden codes, or private contact details before publishing. Do not post an email address.
+
+FINAL LAUNCH CHECKLIST
+[ ] GitHub Pages links load (no 404)
+[ ] Trailer plays on Android + desktop; captions are visible if enabled
+[ ] Official poster downloads
+[ ] Feedback form prepares a real email draft, with private-by-default guestbook consent
+[ ] Browser remains responsible for sending, so no automatic submission
+[ ] Approved guestbook is empty until you add a consented entry
+[ ] Four chapters still unlock poem text only after solving puzzles
+[ ] Continue Game does not reset saved progress
+[ ] Android motion, music, effects and female game narration tested on physical phone
+[ ] Homepage and original portrait/black frame still display correctly
+
+TRAILER NOTE
+The 46-second teaser uses an original synthesized atmospheric instrumental score and hard-coded title cards. The supplied .vtt file contains matching captions. There is no female narration audio mixed into this version; the separate script is ready for a future recording.
