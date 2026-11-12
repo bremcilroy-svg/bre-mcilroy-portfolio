@@ -5,7 +5,7 @@ WHAT THIS UPDATE ADDS
 One playable first-person Victorian library room, four hidden letters,
 a four-digit desk lock, the diary-symbol puzzle, a silver mirror key,
 three-stage hints, a journal, browser progress saving, optional ambient
-sound, device narration, and a direct reading option. Keyboard, mouse,
+sound, device narration, and poetry unlocked through play. Keyboard, mouse,
 and on-screen movement controls are included. Explore objects provides
 an alternative to moving around the room.
 
@@ -38,7 +38,9 @@ object named by the prompt. Arrow keys walk forward/back and turn.
 Phone: hold the on-screen arrows; drag to look. Curved arrows turn.
 Explore objects lets you inspect everything without navigating in 3D.
 Hints become more explicit each time. Nothing is timed.
-Just read the poetry bypasses puzzles without completing them.
+Poems stay locked until you collect all four letters, solve the desk
+lock, and complete the diary-symbol puzzle. There is no reading bypass.
+After unlocking, revisit the poems from your saved journal.
 Progress saves in this browser only. Settings > Reset progress starts
 this chapter over after a confirmation. No account is required.
 
@@ -51,7 +53,7 @@ is included in this version.
 The enhanced renderer uses WebGL2. A Canvas compatibility renderer uses
 the same room, camera, movement, and interactions when WebGL is missing.
 Compatibility graphics can be slower and simpler on older devices.
-The completed puzzle path, incorrect-answer feedback, reading mode,
+The completed puzzle path, incorrect-answer feedback, locked journal,
 progress reload, and narrow layouts were tested in the browser.
 The test browser disables WebGL, so its enhanced graphics were not
 visually verified; the compatibility renderer was tested instead.
