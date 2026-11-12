@@ -1,4 +1,4 @@
-THE POETRY VAULT — ALL FOUR CHAPTERS
+THE POETRY VAULT — ALL FOUR CHAPTERS / CINEMATIC EDITION
 Bre McIlroy
 
 THIS REPLACES THE EARLIER POETRY VAULT UPDATE
@@ -6,13 +6,16 @@ Four first-person chapters are now playable, with sixteen original poems.
 Each chapter keeps its poem pages locked until its puzzles are completed.
 There is no direct reading or skip-to-poetry option.
 The Door to Tomorrow, Chapter IV, completes the journey.
+This edition adds graphics/movement improvements, animated interactions,
+optional layered sound, and replay keepsakes. Existing chapter saves are
+compatible; no reset is required after uploading.
 
 UPLOAD TO YOUR EXISTING GITHUB SITE
 1. Download bre-lynn-poetry-vault-update.zip and extract/unzip it.
 2. Open your bremcilroy-svg/bre-mcilroy-portfolio repository.
 3. Go to the folder containing index.html and writing.html (the website
    root). Choose Add file > Upload files.
-4. Upload ALL 31 extracted files at that level. Upload the files themselves,
+4. Upload ALL 36 extracted files at that level. Upload the files themselves,
    not the ZIP and not an enclosing folder. Replace matching files. Keep
    all other website files, photos, videos, and existing media.
 5. Commit to the branch your GitHub Pages site already uses. You do not
@@ -114,39 +117,88 @@ an item required to enter the next one until you earn that item again;
 the next chapter's saved progress is kept. Settings asks for confirmation
 before a reset. Unlocked poems are never available in a fresh save.
 
-SOUND AND GRAPHICS
-Sound starts off. Ambient audio and narration are optional. Narration uses
-English voices installed on the device; a recognised female voice is
-preferred when available. This download includes no recorded narrator
-track. All story instructions remain on screen if a voice is unavailable.
-The enhanced renderer uses WebGL2. A Canvas compatibility renderer provides
-the same room, camera, and interactions when WebGL2 is unavailable. It can
-look simpler or run more slowly on older devices. The test browser disables
-WebGL, so compatibility graphics were visually tested; enhanced WebGL
-rendering was not visually verified there.
-Mirror panels use decorative glass, not live player-camera reflections.
+THE FOUR CINEMATIC UPGRADES
+1. Graphics and movement
+The compatibility renderer draws flat faces as quads, overlaps texture
+edges to avoid diagonal seams, caches geometry, and reduces its internal
+resolution on large screens. World transforms remain live for animation.
+Movement uses elapsed time, buffered quick taps, equal straight/diagonal
+speeds, and short collision steps. Camera bobbing is removed. WASD, arrow
+keys, drag-to-look, touch buttons, and Explore objects remain available.
+The GPU renderer caps its pixel ratio at 1.4 to reduce phone rendering work.
+
+2. Room interactions
+Hinged doors open in all four rooms. Diaries and books open into visible
+paper spreads. The restored mirror brightens. New poem pages transition
+in gently, and puzzle/door completions have a soft light effect. Saved
+completed objects restore immediately. The device's reduced-motion setting
+skips movement effects and animations. Mirror glass is decorative; it is
+not a webcam image or a real-time reflection.
+
+3. Sound and narration
+Sound starts off for a new player. Settings provides separate ambience,
+effects, gentle music, and spoken-story switches, plus volume, narrator
+selection, Test narrator, Replay story narration, Stop narration, and Mute
+all. Each room has locally generated ambience; optional effects include
+footsteps, doors, page rustles, collection chimes, and puzzle-completion
+notes. No external audio service, paid subscription, or recorded narrator
+track is included. Choices carry between chapters in this browser.
+Narration uses installed English device voices, preferring a recognised
+female voice when available. Late-arriving device voices update the settings
+without reloading the page. If voices are unavailable, a message explains
+this and voice controls stay disabled. After a poem is unlocked, its reader
+includes optional Read this poem aloud and Stop reading controls.
+Audio pauses when the page is hidden. Muting stops narration and sound.
+
+4. Replay keepsakes
+One optional physical bookmark is placed in each room and is also available
+through Explore objects. These hold fictional library inscriptions, not
+poem excerpts. Collecting them never unlocks a poem or changes a puzzle.
+Open Keepsakes & discoveries from a journal, chapter ending, or Settings.
+Completion stamps derive from existing chapter progress, so earlier saves
+are recognised. Find all four bookmarks to earn Keeper of the Margins.
+Complete all four chapters to earn The Whole Story and a downloadable SVG
+completion keepsake. Its optional name is used only on the player's device.
+This private journey overview has no public scores or leaderboard. Hints
+do not reduce rewards. A reset removes that chapter's current completion
+stamp and locks its poems; previously collected bookmarks remain saved.
+
+GRAPHICS AND VOICE TEST LIMITS
+Compatibility graphics were visually tested in the browser at desktop and
+320/390 CSS-pixel phone widths. Sampled conservatory and labyrinth redraws
+were around 8–14 ms in that test environment; this is not a physical-phone
+frame-rate guarantee. WebGL rendering and physical Android performance
+still need a device check. The test browser has no installed narrator
+voices. Voice selection, late arrival, volume, and muting were tested with
+simulated voices; an audible female narrator must be checked on the phone.
+Audio activation and control state were verified, not speaker sound quality.
 
 VERIFIED FOR THIS UPDATE
-Fresh playthrough of all four chapters, including each earned-item handoff;
-locked final entrance without the emblem; locked final pages before the
-window puzzle; wrong pane orders and rotations; incomplete and incorrect
-book orders; all four final poems still locked after the window alone;
-final unlocks; all sixteen manuscript texts; the ending; revisiting earlier
-journals; saved final unlocks after reload; separate final-chapter reset;
-progressive hints; phone movement and 320/390px layouts. State checks cover
-invalid saves, sparse/duplicate puzzle values, and resume round trips.
-Compatibility graphics were visually tested, including the complete ending.
-Existing photos, videos, the home-page black frame, and unrelated portfolio
+Fresh reset-and-replay of all four chapters with the new modules; all item
+handoffs and puzzle unlocks; four locked poems at each chapter start; final
+poems still locked after the window alone; existing completed saves; chapter
+reset and completion-keepsake eligibility; collecting all four bookmarks;
+reward persistence after reload; completion SVG download; optional poem
+voice controls; sound activation, saved toggles across chapters, and muting;
+320/390px layouts without horizontal overflow; quick touch movement; phone
+settings and keepsake panels. No app runtime errors were observed in QA.
+Automated checks cover frame-rate-independent movement, diagonal speed,
+thin-wall collision, animated renderer transforms/visibility, sound and
+reward normalization, late-arriving voices, SVG text escaping, malformed
+saves, and original manuscript text. All sixteen poem bodies, prior state
+modules, photos, videos, the home-page black frame, and unrelated portfolio
 pages are preserved.
 
 LOCAL PREVIEW AND SOURCE FILES
 Use an HTTP preview/server. Opening HTML directly as a local file can block
 JavaScript modules. GitHub Pages serves these files as a website.
 All assets are local. No API keys, CDN, installation, or build step is needed.
+This is still a static GitHub Pages game with browser-local progress.
+Keeping progress and rewards between chapters requires browser storage.
 These are public website files: reading is locked within the game, but the
 poem text remains in the source files.
 
-FILES (UPLOAD ALL 31)
+FILES (UPLOAD ALL 36)
 poetry-vault.html
 poetry-vault.css
 poetry-vault.js
@@ -178,8 +230,13 @@ vault-dawn-poems.js
 writing.html
 love-pain-chaos.html
 POETRY-VAULT-UPDATE.txt
+vault-motion.js
+vault-cinematics.js
+vault-sound.js
+vault-rewards.js
+vault-cinematic.css
 
 NOT LIVE UNTIL YOU UPLOAD
 This download does not automatically deploy to GitHub. It updates your
 existing website; do not replace your entire repository with only these
-31 files. Keep your existing media and all other website files.
+36 files. Keep your existing media and all other website files.

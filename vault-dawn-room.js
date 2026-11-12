@@ -1,9 +1,13 @@
+import {SECRETS} from './vault-rewards.js?v=20261112-cinematic';
+import {createRoomCinematics} from './vault-cinematics.js?v=20261112-cinematic';
+import {createRoomMotion} from './vault-motion.js?v=20261112-cinematic';
 import * as THREE from './vault-three.module.js';
-import {createCanvasRenderer} from './vault-canvas.js';
+import {createCanvasRenderer} from './vault-canvas.js?v=20261112-cinematic';
 
 // A self-contained room: local textures and no external network dependencies.
 export function createDawnRoom(container, {onTarget, onInspect, onReady, onFailure}) {
   const scene = new THREE.Scene();
+  const cinema=createRoomCinematics();
   scene.background = new THREE.Color(0x37372e);
   scene.fog = new THREE.FogExp2(0x4c4d3c, .026);
   const camera = new THREE.PerspectiveCamera(64, 1, .06, 60);
@@ -13,7 +17,7 @@ export function createDawnRoom(container, {onTarget, onInspect, onReady, onFailu
   const gl=probe.getContext('webgl2',{antialias:true});
   if(gl){renderer=new THREE.WebGLRenderer({canvas:probe,context:gl,antialias:true,powerPreference:'high-performance'});}
   else renderer=createCanvasRenderer(THREE);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.7));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.4));
   renderer.shadowMap.enabled=true;
   renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
@@ -42,8 +46,8 @@ export function createDawnRoom(container, {onTarget, onInspect, onReady, onFailu
   materials.wall.color.set(0xddd4b8);materials.red.color.set(0x4a725a);
   const colliders=[], interactables=[], map=new Map();
   function box(w,h,d,x,y,z,mat,parent=scene,cast=true){const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);mesh.position.set(x,y,z);mesh.castShadow=cast;mesh.receiveShadow=true;parent.add(mesh);return mesh;}
-  function cylinder(r1,r2,h,x,y,z,mat,parent=scene){const mesh=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,16),mat);mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;parent.add(mesh);return mesh;}
-  function sphere(r,x,y,z,mat,parent=scene){const mesh=new THREE.Mesh(new THREE.SphereGeometry(r,12,8),mat);mesh.position.set(x,y,z);parent.add(mesh);return mesh;}
+  function cylinder(r1,r2,h,x,y,z,mat,parent=scene){const mesh=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,renderer.isCompatibility?8:16),mat);mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;parent.add(mesh);return mesh;}
+  function sphere(r,x,y,z,mat,parent=scene){const mesh=new THREE.Mesh(new THREE.SphereGeometry(r,renderer.isCompatibility?8:12,renderer.isCompatibility?6:8),mat);mesh.position.set(x,y,z);parent.add(mesh);return mesh;}
   function collide(x,z,w,d){colliders.push({x,z,w:w/2+.24,d:d/2+.24});}
 
 
@@ -92,27 +96,19 @@ export function createDawnRoom(container, {onTarget, onInspect, onReady, onFailu
   page('seed',-4,2.3,.2);page('rain',4,2.3,-.2);page('leaf',-4.6,-3.8,.4);page('bloom',4.6,-3.8,-.3);
   const book=target('book',0,1.22,-2.25,1.4,.8,1);const cover=box(.88,.13,.7,0,0,0,materials.red,book);const bookSeal=box(.14,.035,.74,0,.085,0,materials.gold,book);const opened=new THREE.Group();book.add(opened);box(.73,.03,.62,-.37,.07,0,materials.paper,opened);box(.73,.03,.62,.37,.07,0,materials.paper,opened);opened.visible=false;
   target('window',0,2,-6.13,3.5,3.6,.4);target('door',0,1.5,6.5,1.8,3,.35);
-  let yaw=0,pitch=-.025,active=false,paused=true,targetId=null,drag=null,last=performance.now(),distance=0;
-  const keys=new Set(),hold=new Set(),tapUntil=new Map(),ray=new THREE.Raycaster(),center=new THREE.Vector2(0,0);
+  function movable(x,z){return Math.abs(x)<5.55&&Math.abs(z)<6.5&&!colliders.some(b=>Math.abs(x-b.x)<b.w&&Math.abs(z-b.z)<b.d);}
+  const openDoor=cinema.door(scene,[closedDoor],-.85,6.75,1,false);
+  const openBook=cinema.book(scene,book,.88,.7);
+  const secret=SECRETS[3],bookmark=target('secret',secret.x,secret.y,secret.z,.6,.45,.6);
+  box(.16,.012,.43,0,0,0,materials.gold,bookmark);box(.06,.015,.36,0,.012,0,materials.paper,bookmark);
+  const motion=createRoomMotion({canvas,camera,container,movable,interactables,map,onTarget,onInspect,onStep:()=>document.dispatchEvent(new CustomEvent('vault-step'))});
   function resized(){const rect=container.getBoundingClientRect();renderer.setSize(rect.width,rect.height,false);camera.aspect=rect.width/rect.height;camera.updateProjectionMatrix();}
   new ResizeObserver(resized).observe(container);resized();
-  function movable(x,z){return Math.abs(x)<5.55&&Math.abs(z)<6.5&&!colliders.some(b=>Math.abs(x-b.x)<b.w&&Math.abs(z-b.z)<b.d);}
-  const instructions = {'KeyW':'forward','ArrowUp':'forward','KeyS':'back','ArrowDown':'back','KeyA':'left','KeyD':'right','ArrowLeft':'turnLeft','ArrowRight':'turnRight'};
-  window.addEventListener('keydown',e=>{canvas.dataset.lastInput=e.code;if(!active||paused||e.target.closest('dialog,input,select,textarea'))return;if(instructions[e.code]){e.preventDefault();keys.add(instructions[e.code]);if(!e.repeat)tapUntil.set(instructions[e.code],performance.now()+150);}if(e.code==='KeyE'&&targetId){e.preventDefault();onInspect(targetId);}});
-  window.addEventListener('keyup',e=>keys.delete(instructions[e.code]));
-  window.addEventListener('blur',()=>{keys.clear();hold.clear();drag=null;});
-  document.addEventListener('visibilitychange',()=>{keys.clear();hold.clear();drag=null;});
-  canvas.addEventListener('pointerdown',e=>{if(!active||paused)return;canvas.focus({preventScroll:true});drag={id:e.pointerId,x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY};canvas.setPointerCapture(e.pointerId);});
-  canvas.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId||paused)return;yaw-=(e.clientX-drag.x)*.004;pitch-= (e.clientY-drag.y)*.003;pitch=Math.max(-.9,Math.min(.9,pitch));drag.x=e.clientX;drag.y=e.clientY;});
-  canvas.addEventListener('pointerup',e=>{if(!drag||drag.id!==e.pointerId)return;const clicked=Math.hypot(e.clientX-drag.startX,e.clientY-drag.startY)<7;drag=null;if(clicked){const r=canvas.getBoundingClientRect();ray.setFromCamera(new THREE.Vector2((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1),camera);const hit=ray.intersectObjects(interactables)[0];if(hit&&hit.distance<3.4)onInspect(hit.object.userData.id);}});
-  canvas.addEventListener('pointercancel',()=>drag=null);
-  document.querySelectorAll('[data-move]').forEach(b=>{b.addEventListener('pointerdown',e=>{e.preventDefault();if(paused)return;hold.add(b.dataset.move);tapUntil.set(b.dataset.move,performance.now()+180);b.setPointerCapture(e.pointerId);});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>hold.delete(b.dataset.move));});
-  function frame(now){requestAnimationFrame(frame);const dt=Math.min((now-last)/1000,.05);last=now;
-    if(active&&!paused){const pressed=k=>keys.has(k)||hold.has(k)||(tapUntil.get(k)||0)>now;yaw+=(Number(pressed('turnLeft'))-Number(pressed('turnRight')))*dt*1.4;let f=Number(pressed('forward'))-Number(pressed('back')),s=Number(pressed('right'))-Number(pressed('left'));const norm=Math.hypot(f,s)||1;const dx=(-Math.sin(yaw)*f+Math.cos(yaw)*s)/norm*dt*2.05,dz=(-Math.cos(yaw)*f-Math.sin(yaw)*s)/norm*dt*2.05;const px=camera.position.x,pz=camera.position.z;if(movable(px+dx,pz))camera.position.x+=dx;if(movable(camera.position.x,pz+dz))camera.position.z+=dz;distance+=Math.hypot(dx,dz);camera.position.y=1.67+(matchMedia('(prefers-reduced-motion: reduce)').matches?0:Math.sin(distance*8)*.012*(f||s?1:0));}
-    camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0);canvas.dataset.cameraPosition=JSON.stringify([camera.position.x,camera.position.z]);canvas.dataset.paused=String(paused);canvas.dataset.yaw=String(yaw);
-    if(active&&!paused){ray.setFromCamera(center,camera);const hits=ray.intersectObjects(interactables);let current=hits[0]&&hits[0].distance<3.4?hits[0].object.userData.id:null;if(!current){let best=2.1;for(const [id,g]of map){const d=camera.position.distanceTo(g.position);if(d<best){current=id;best=d;}}}if(current!==targetId){targetId=current;onTarget(current);}}
-    const t=now/1000;flames.forEach((f,i)=>{f.scale.y=1.8+Math.sin(t*5+i)*.15;});renderer.render(scene,camera);
+  let lastPausedRender=-Infinity;
+  function frame(now){requestAnimationFrame(frame);motion.tick(now);cinema.tick(now);if(document.hidden)return;
+    if(motion.paused&&!cinema.active&&now-lastPausedRender<350)return;lastPausedRender=now;
+    const t=now/1000;flames.forEach((f,i)=>{f.scale.y=1.8+Math.sin(t*5+i)*.15;});renderer.render(scene,camera,cinema.active);
   }
   requestAnimationFrame(frame);onReady(renderer.isCompatibility);
-  return {placeEmblem(){emblem.visible=true;},setPanels(slots,turns){paneGroups.forEach((variants,i)=>{for(const id of paneIds)variants[id].forEach((g,t)=>g.visible=slots[i]===id&&turns[id]===t);});},lightMorning(){clasps.forEach(m=>m.visible=false);materials.wall.color.set(0xf3e4bf);materials.rug.color.set(0x638366);sunLight.intensity=3.4;},unsealBook(){bookSeal.visible=false;cover.visible=false;opened.visible=true;},openFinalDoor(){closedDoor.visible=false;},start(){active=true;paused=false;canvas.focus({preventScroll:true});},pause(value){paused=value;keys.clear();hold.clear();tapUntil.clear();if(value){targetId=null;onTarget(null);}},collected(id){const g=map.get(id);if(g){g.visible=false;const i=interactables.findIndex(m=>m.userData.id===id);if(i>=0)interactables.splice(i,1);}},inspect(){if(targetId&&!paused)onInspect(targetId);},getPosition(){return{x:camera.position.x,z:camera.position.z};}};
+  return {placeEmblem(){emblem.visible=true;},setPanels(slots,turns){paneGroups.forEach((variants,i)=>{for(const id of paneIds)variants[id].forEach((g,t)=>g.visible=slots[i]===id&&turns[id]===t);});},lightMorning(){clasps.forEach(m=>m.visible=false);materials.wall.color.set(0xf3e4bf);materials.rug.color.set(0x638366);sunLight.intensity=3.4;},unsealBook(instant=false){bookSeal.visible=false;cover.visible=false;opened.visible=false;openBook(instant);},openFinalDoor(instant=false){openDoor(instant);},...motion,collected(id){const g=map.get(id);if(g){g.visible=false;const i=interactables.findIndex(m=>m.userData.id===id);if(i>=0)interactables.splice(i,1);}}};
 }

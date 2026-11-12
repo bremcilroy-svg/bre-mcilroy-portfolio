@@ -1,9 +1,13 @@
+import {SECRETS} from './vault-rewards.js?v=20261112-cinematic';
+import {createRoomCinematics} from './vault-cinematics.js?v=20261112-cinematic';
+import {createRoomMotion} from './vault-motion.js?v=20261112-cinematic';
 import * as THREE from './vault-three.module.js';
-import {createCanvasRenderer} from './vault-canvas.js';
+import {createCanvasRenderer} from './vault-canvas.js?v=20261112-cinematic';
 
 // A self-contained room: local textures and no external network dependencies.
 export function createRoom(container, {onTarget, onInspect, onReady, onFailure}) {
   const scene = new THREE.Scene();
+  const cinema=createRoomCinematics();
   scene.background = new THREE.Color(0x171019);
   scene.fog = new THREE.FogExp2(0x1a1015, .026);
   const camera = new THREE.PerspectiveCamera(64, 1, .06, 60);
@@ -13,7 +17,7 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   const gl=probe.getContext('webgl2',{antialias:true});
   if(gl){renderer=new THREE.WebGLRenderer({canvas:probe,context:gl,antialias:true,powerPreference:'high-performance'});}
   else renderer=createCanvasRenderer(THREE);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.7));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.4));
   renderer.shadowMap.enabled=true;
   renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
@@ -40,8 +44,8 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   },undefined,()=>{});
   const colliders=[], interactables=[], map=new Map();
   function box(w,h,d,x,y,z,mat,parent=scene,cast=true){const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);mesh.position.set(x,y,z);mesh.castShadow=cast;mesh.receiveShadow=true;parent.add(mesh);return mesh;}
-  function cylinder(r1,r2,h,x,y,z,mat,parent=scene){const mesh=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,16),mat);mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;parent.add(mesh);return mesh;}
-  function sphere(r,x,y,z,mat,parent=scene){const mesh=new THREE.Mesh(new THREE.SphereGeometry(r,12,8),mat);mesh.position.set(x,y,z);parent.add(mesh);return mesh;}
+  function cylinder(r1,r2,h,x,y,z,mat,parent=scene){const mesh=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,renderer.isCompatibility?8:16),mat);mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;parent.add(mesh);return mesh;}
+  function sphere(r,x,y,z,mat,parent=scene){const mesh=new THREE.Mesh(new THREE.SphereGeometry(r,renderer.isCompatibility?8:12,renderer.isCompatibility?6:8),mat);mesh.position.set(x,y,z);parent.add(mesh);return mesh;}
   function collide(x,z,w,d){colliders.push({x,z,w:w/2+.24,d:d/2+.24});}
   const hemi=new THREE.HemisphereLight(0xb8b1d1,0x4d2417,1.1);scene.add(hemi);
   const moon=new THREE.DirectionalLight(0x9fbcff,2.3);moon.position.set(-6,6,3);scene.add(moon);
@@ -99,8 +103,10 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   // Chandelier: dark brass arms and a crown of warm candlelight.
   cylinder(.035,.035,.75,0,4.16,-.5,materials.gold);const chandelier=new THREE.Mesh(new THREE.TorusGeometry(.72,.045,8,32),materials.gold);chandelier.rotation.x=Math.PI/2;chandelier.position.set(0,3.72,-.5);scene.add(chandelier);
   for(let i=0;i<6;i++){const a=i*Math.PI/3;candle(Math.sin(a)*.72,3.72,-.5+Math.cos(a)*.72,.18);}
+  const doorStart=scene.children.length;
   // Exit door and framed plaque.
   box(1.7,3,.16,0,1.5,6.76,materials.wood);for(const x of [-.92,.92])box(.14,3.2,.23,x,1.6,6.62,materials.gold);box(1.98,.14,.23,0,3.2,6.62,materials.gold);for(const y of [.75,2.15]){box(1.32,1.1,.06,0,y,6.64,materials.darkwood);for(const x of [-.65,.65])box(.025,1.08,.015,x,y,6.6,materials.gold);}sphere(.07,-.6,1.35,6.48,materials.gold);
+  const openDoor=cinema.door(scene,scene.children.slice(doorStart).filter(m=>Math.abs(m.position.x)<.85&&m.position.y<3.1),-.85,6.76,1);
   function textPlaque(text,w,h){const c=document.createElement('canvas');c.width=768;c.height=256;const ctx=c.getContext('2d');ctx.fillStyle='#20181a';ctx.fillRect(0,0,768,256);ctx.strokeStyle='#b29762';ctx.lineWidth=5;ctx.strokeRect(12,12,744,232);ctx.fillStyle='#dfc794';ctx.textAlign='center';ctx.font='36px Georgia';ctx.fillText(text,384,145);const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;return new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:tex}));}
   const plaque=textPlaque('THE HEART CHAMBER',2.7,.65);plaque.position.set(0,3.81,6.69);plaque.rotation.y=Math.PI;scene.add(plaque);
   // Readable gold-seal props. A separate hit area keeps touch interaction forgiving.
@@ -109,27 +115,18 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   envelope('rose',-3.8,1.04,-2.35,.3);envelope('ribbon',5.1,1.85,.35,.7);envelope('moon',-5.05,.9,2,.2);envelope('key',.58,2.05,-6.12,-.3);
   const diary=target('diary',0,1.3,-2.15,1.1,.55,.9);box(.68,.11,.86,0,0,0,materials.red,diary);for(const x of [-.3,.3])box(.018,.009,.79,x,.061,0,materials.gold,diary);for(const z of [-.37,.37])box(.61,.009,.02,0,.061,z,materials.gold,diary);box(.15,.04,.18,.31,.04,.05,materials.gold,diary);const heart=sphere(.055,-.035,.09,0,materials.gold,diary);sphere(.055,.035,.09,0,materials.gold,diary);const tip=box(.085,.03,.085,0,.085,.05,materials.gold,diary);tip.rotation.y=Math.PI/4;
   target('door',0,1.5,6.5,1.7,2.8,.3);
-  let yaw=0,pitch=-.025,active=false,paused=true,targetId=null,drag=null,last=performance.now(),distance=0;
-  const keys=new Set(),hold=new Set(),tapUntil=new Map(),ray=new THREE.Raycaster(),center=new THREE.Vector2(0,0);
+  const openBook=cinema.book(scene,diary,.68,.86);
+  function movable(x,z){return Math.abs(x)<5.55&&Math.abs(z)<6.5&&!colliders.some(b=>Math.abs(x-b.x)<b.w&&Math.abs(z-b.z)<b.d);}
+  const secret=SECRETS[0],bookmark=target('secret',secret.x,secret.y,secret.z,.6,.45,.6);
+  box(.16,.012,.43,0,0,0,materials.gold,bookmark);box(.06,.015,.36,0,.012,0,materials.paper,bookmark);
+  const motion=createRoomMotion({canvas,camera,container,movable,interactables,map,onTarget,onInspect,onStep:()=>document.dispatchEvent(new CustomEvent('vault-step'))});
   function resized(){const rect=container.getBoundingClientRect();renderer.setSize(rect.width,rect.height,false);camera.aspect=rect.width/rect.height;camera.updateProjectionMatrix();}
   new ResizeObserver(resized).observe(container);resized();
-  function movable(x,z){return Math.abs(x)<5.55&&Math.abs(z)<6.5&&!colliders.some(b=>Math.abs(x-b.x)<b.w&&Math.abs(z-b.z)<b.d);}
-  const instructions = {'KeyW':'forward','ArrowUp':'forward','KeyS':'back','ArrowDown':'back','KeyA':'left','KeyD':'right','ArrowLeft':'turnLeft','ArrowRight':'turnRight'};
-  window.addEventListener('keydown',e=>{canvas.dataset.lastInput=e.code;if(!active||paused||e.target.closest('dialog,input,select,textarea'))return;if(instructions[e.code]){e.preventDefault();keys.add(instructions[e.code]);if(!e.repeat)tapUntil.set(instructions[e.code],performance.now()+150);}if(e.code==='KeyE'&&targetId){e.preventDefault();onInspect(targetId);}});
-  window.addEventListener('keyup',e=>keys.delete(instructions[e.code]));
-  window.addEventListener('blur',()=>{keys.clear();hold.clear();drag=null;});
-  document.addEventListener('visibilitychange',()=>{keys.clear();hold.clear();drag=null;});
-  canvas.addEventListener('pointerdown',e=>{if(!active||paused)return;canvas.focus({preventScroll:true});drag={id:e.pointerId,x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY};canvas.setPointerCapture(e.pointerId);});
-  canvas.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId||paused)return;yaw-=(e.clientX-drag.x)*.004;pitch-= (e.clientY-drag.y)*.003;pitch=Math.max(-.9,Math.min(.9,pitch));drag.x=e.clientX;drag.y=e.clientY;});
-  canvas.addEventListener('pointerup',e=>{if(!drag||drag.id!==e.pointerId)return;const clicked=Math.hypot(e.clientX-drag.startX,e.clientY-drag.startY)<7;drag=null;if(clicked){const r=canvas.getBoundingClientRect();ray.setFromCamera(new THREE.Vector2((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1),camera);const hit=ray.intersectObjects(interactables)[0];if(hit&&hit.distance<3.4)onInspect(hit.object.userData.id);}});
-  canvas.addEventListener('pointercancel',()=>drag=null);
-  document.querySelectorAll('[data-move]').forEach(b=>{b.addEventListener('pointerdown',e=>{e.preventDefault();if(paused)return;hold.add(b.dataset.move);tapUntil.set(b.dataset.move,performance.now()+180);b.setPointerCapture(e.pointerId);});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>hold.delete(b.dataset.move));});
-  function frame(now){requestAnimationFrame(frame);const dt=Math.min((now-last)/1000,.05);last=now;
-    if(active&&!paused){const pressed=k=>keys.has(k)||hold.has(k)||(tapUntil.get(k)||0)>now;yaw+=(Number(pressed('turnLeft'))-Number(pressed('turnRight')))*dt*1.4;let f=Number(pressed('forward'))-Number(pressed('back')),s=Number(pressed('right'))-Number(pressed('left'));const norm=Math.hypot(f,s)||1;const dx=(-Math.sin(yaw)*f+Math.cos(yaw)*s)/norm*dt*2.05,dz=(-Math.cos(yaw)*f-Math.sin(yaw)*s)/norm*dt*2.05;const px=camera.position.x,pz=camera.position.z;if(movable(px+dx,pz))camera.position.x+=dx;if(movable(camera.position.x,pz+dz))camera.position.z+=dz;distance+=Math.hypot(dx,dz);camera.position.y=1.67+(matchMedia('(prefers-reduced-motion: reduce)').matches?0:Math.sin(distance*8)*.012*(f||s?1:0));}
-    camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0);canvas.dataset.cameraPosition=JSON.stringify([camera.position.x,camera.position.z]);canvas.dataset.paused=String(paused);canvas.dataset.yaw=String(yaw);
-    if(active&&!paused){ray.setFromCamera(center,camera);const hits=ray.intersectObjects(interactables);let current=hits[0]&&hits[0].distance<3.4?hits[0].object.userData.id:null;if(!current){let best=2.1;for(const [id,g]of map){const d=camera.position.distanceTo(g.position);if(d<best){current=id;best=d;}}}if(current!==targetId){targetId=current;onTarget(current);}}
-    const t=now/1000;firelight.intensity=6+Math.sin(t*11)*.3+Math.sin(t*17)*.2;flames.forEach((f,i)=>{f.scale.y=1.8+Math.sin(t*5+i)*.15;});renderer.render(scene,camera);
+  let lastPausedRender=-Infinity;
+  function frame(now){requestAnimationFrame(frame);motion.tick(now);cinema.tick(now);if(document.hidden)return;
+    if(motion.paused&&!cinema.active&&now-lastPausedRender<350)return;lastPausedRender=now;
+    const t=now/1000;flames.forEach((f,i)=>{f.scale.y=1.8+Math.sin(t*5+i)*.15;});firelight.intensity=6+Math.sin(t*11)*.3;renderer.render(scene,camera,cinema.active);
   }
   requestAnimationFrame(frame);onReady(renderer.isCompatibility);
-  return {start(){active=true;paused=false;canvas.focus({preventScroll:true});},pause(value){paused=value;keys.clear();hold.clear();tapUntil.clear();if(value){targetId=null;onTarget(null);}},collected(id){const g=map.get(id);if(g){g.visible=false;const i=interactables.findIndex(m=>m.userData.id===id);if(i>=0)interactables.splice(i,1);}},inspect(){if(targetId&&!paused)onInspect(targetId);},getPosition(){return{x:camera.position.x,z:camera.position.z};}};
+  return {openDoor,openBook,...motion,collected(id){const g=map.get(id);if(g){g.visible=false;const i=interactables.findIndex(m=>m.userData.id===id);if(i>=0)interactables.splice(i,1);}}};
 }
