@@ -1,0 +1,28 @@
+BRE LYNN ACTING - GITHUB UPLOAD STEPS
+
+This package includes the complete website. If the modeling update is already uploaded, the acting update needs 61 files only.
+
+1. Extract bre-mcilroy-portfolio.zip. Do not upload the ZIP itself.
+2. Open the existing bre-mcilroy-portfolio repository on GitHub, on main.
+3. Add file > Upload files. Upload the 27 bla-video-*.mp4 files, numbered 001 through 027. For easier phone uploads, do this in three batches: 001-009, 010-018, and 019-027. Commit each batch.
+4. Upload all 27 bla-poster-*.jpg files, numbered 001 through 027. Commit.
+5. Upload these seven files, replacing matching existing files:
+   acting.html
+   acting.css
+   acting.js
+   bre-lynn-acting-profile.pdf
+   index.html
+   acting-modeling.html
+   contact.html
+6. Commit, wait for GitHub Pages deployment to finish, and refresh your website.
+
+All files go directly beside index.html in the repository root. Do not create an enclosing folder. You do not need to upload your existing blp-photo images, modeling images, shared style.css, or song pages again for this update.
+
+If you have not uploaded the modeling gallery yet, upload those files too. Acting uses blm-photo-026.jpg and blm-photo-004.jpg for its portraits; both are included in the full package.
+
+WHAT THIS ADDS
+A separate Bre Lynn acting page; all 27 personal performance clips; three featured clips; length filters; video controls and full-screen playback; headshots with JPG downloads; an acting-profile PDF; the supplied Day of the Cicadas credit (background/extra roles, filming completed, anticipated 2027); a link to @cicadas_movie; and a casting inquiry email builder.
+
+The casting form prepares an email for the visitor to review and send in their own email app. It does not send automatically, reserve a date, or store inquiries. No private backend or contract reader is included.
+
+The homepage black frame, complete modeling gallery, photography gallery, and music remain included. This package has not been uploaded to GitHub from this workspace.
