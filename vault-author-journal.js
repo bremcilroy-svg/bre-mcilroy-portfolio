@@ -1,0 +1,32 @@
+const KEY='bre-poetry-vault-author-journal-v1';
+export async function mountJournal(isAllowed){
+ const trigger=document.querySelector('#open-author-journal');
+ let songs=null,pages=[],index=0,bookmarks=[],large=false,storage=true,lastTrigger=null;
+ const dialog=document.createElement('dialog');dialog.id='author-journal';dialog.setAttribute('aria-labelledby','journal-title');
+ dialog.innerHTML=`<div class="journal-shell"><aside class="journal-index"><p class="eyebrow">From the author’s desk</p><h2 id="journal-title">The Author’s<br><em>Journal</em></h2><p class="journal-by">Bre Lynn McIlroy</p><nav aria-label="Song contents" id="journal-contents"></nav><button id="journal-saved">Bookmarked pages</button><p id="journal-storage" role="status"></p></aside><section class="journal-reader"><div class="journal-toolbar"><button id="journal-type" aria-pressed="false">Larger text</button><button id="journal-bookmark" aria-pressed="false">Bookmark page</button><button id="journal-close" aria-label="Close author’s journal">Close ×</button></div><article id="journal-paper" class="journal-paper" aria-labelledby="journal-song"><p class="eyebrow" id="journal-folio"></p><h3 id="journal-song" tabindex="-1"></h3><p id="journal-note"></p><div id="journal-lyrics"></div></article><div class="journal-pagination"><button id="journal-prev">← Previous page</button><span id="journal-page" role="status" aria-live="polite"></span><button id="journal-next">Next page →</button></div><div id="journal-bookmarks" hidden></div></section></div>`;
+ document.body.append(dialog);const $=s=>dialog.querySelector(s);
+ function read(){try{const raw=JSON.parse(localStorage.getItem(KEY)||'null');index=Number.isInteger(raw?.index)?Math.max(0,Math.min(pages.length-1,raw.index)):0;bookmarks=Array.isArray(raw?.bookmarks)?[...new Set(raw.bookmarks.filter(x=>Number.isInteger(x)&&x>=0&&x<pages.length))]:[];large=raw?.large===true;}catch{storage=false;}}
+ function save(){try{localStorage.setItem(KEY,JSON.stringify({index,bookmarks,large}));storage=true;}catch{storage=false;}}
+ function render(focus=false){
+ if(!isAllowed()){dialog.close();return;}const page=pages[index],song=songs[page.song];
+ $('#journal-folio').textContent=`LYRICS / ${String(page.song+1).padStart(2,'0')}`;$('#journal-song').textContent=song.title;$('#journal-note').textContent=song.working?'Working label · This song’s title has not been supplied.':'';
+ $('#journal-lyrics').textContent=song.pages[page.part];$('#journal-paper').classList.toggle('large-type',large);$('#journal-type').setAttribute('aria-pressed',String(large));
+ $('#journal-page').textContent=`Page ${index+1} of ${pages.length} · ${page.part+1} / ${song.pages.length} in this song`;
+ $('#journal-prev').disabled=index===0;$('#journal-next').disabled=index===pages.length-1;$('#journal-bookmark').setAttribute('aria-pressed',String(bookmarks.includes(index)));$('#journal-bookmark').textContent=bookmarks.includes(index)?'Bookmarked ✓':'Bookmark page';
+ $('#journal-storage').textContent=storage?'Your place is kept in this browser.':'Your place cannot be saved in this browser.';
+ dialog.querySelectorAll('[data-song]').forEach(el=>el.setAttribute('aria-current',String(Number(el.dataset.song)===page.song)));
+ const list=$('#journal-bookmarks');list.replaceChildren();const heading=document.createElement('h3');heading.textContent=bookmarks.length?'Your bookmarked pages':'No pages bookmarked yet';list.append(heading);
+ for(const n of [...bookmarks].sort((a,b)=>a-b)){const b=document.createElement('button');b.textContent=`${songs[pages[n].song].title} · page ${n+1}`;b.addEventListener('click',()=>go(n));list.append(b);}
+ if(focus){$('#journal-song').focus({preventScroll:true});$('#journal-paper').scrollTop=0;}
+ }
+ function go(n){if(!isAllowed())return;index=Math.max(0,Math.min(pages.length-1,n));save();render(true);}
+ trigger.addEventListener('click',async()=>{if(!isAllowed())return;lastTrigger=document.activeElement;trigger.disabled=true;
+ try{if(!songs){({songs}=await import('./vault-author-journal-data.js?v=20261112-journal'));pages=songs.flatMap((s,song)=>s.pages.map((_,part)=>({song,part})));read();songs.forEach((s,i)=>{const b=document.createElement('button');b.dataset.song=i;b.textContent=String(i+1).padStart(2,'0')+' / '+s.title;b.addEventListener('click',()=>go(pages.findIndex(p=>p.song===i)));$('#journal-contents').append(b);});}
+ if(!isAllowed())return;render();dialog.showModal();$('#journal-close').focus();}catch{document.querySelector('#journal-open-status').textContent='The journal could not load. Refresh and try again.';}finally{trigger.disabled=false;}});
+ $('#journal-close').addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>{if(isAllowed()&&lastTrigger?.isConnected)lastTrigger.focus({preventScroll:true});});
+ $('#journal-prev').addEventListener('click',()=>go(index-1));$('#journal-next').addEventListener('click',()=>go(index+1));
+ $('#journal-bookmark').addEventListener('click',()=>{bookmarks=bookmarks.includes(index)?bookmarks.filter(n=>n!==index):[...bookmarks,index];save();render();});
+ $('#journal-type').addEventListener('click',()=>{large=!large;save();render();});$('#journal-saved').addEventListener('click',()=>{$('#journal-bookmarks').hidden=!$('#journal-bookmarks').hidden;});
+ dialog.addEventListener('keydown',e=>{if(e.target.matches('button'))return;if(e.key==='ArrowRight'){e.preventDefault();go(index+1);}if(e.key==='ArrowLeft'){e.preventDefault();go(index-1);}});
+ return ()=>{if(!isAllowed()&&dialog.open)dialog.close();};
+}

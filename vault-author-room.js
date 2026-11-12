@@ -1,7 +1,9 @@
+import {mountJournal} from './vault-author-journal.js?v=20261112-journal';
 import {societyStats} from './vault-society.js?v=20261112-phase7fix';
 import {AUTHOR_KEY,DISCOVERIES,authorAccess,normalizeAuthor,discoverAuthor,bookmarkSVG} from './vault-author-state.js?v=20261112-author-bio';
 import {series,welcome,connections,authorLetter} from './vault-author-content.js?v=20261112-author-bio';
 const $=s=>document.querySelector(s), dialog=$('#discovery-dialog');
+let closeJournal=()=>{};
 let state=normalizeAuthor(null),storageOK=true,allowed=false,returnFocus=null;
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function read(){let raw;try{raw=localStorage.getItem(AUTHOR_KEY);storageOK=true;}catch{storageOK=false;return;}try{state=normalizeAuthor(JSON.parse(raw||'null'));}catch{state=normalizeAuthor(null);}}
@@ -14,7 +16,7 @@ function renderProgress(){
  $('#save-status').textContent=storageOK?'Discoveries are saved in this browser.':'Browser storage is unavailable. Discoveries will last only while this page stays open.';
 }
 function refresh(){
- const access=authorAccess(societyStats());allowed=access.allowed;
+ const access=authorAccess(societyStats());allowed=access.allowed;closeJournal();
  $('#gate').hidden=allowed;$('#room').hidden=!allowed;
  if(!allowed){if(dialog.open)dialog.close();const message=!access.story?'The library is still holding a few pages for you. Complete all four original chambers to continue.':!access.hasSeals?'Find the hidden bookmark in each original chamber to earn all four seals.':'The last door is waiting. Complete the Fifth Door epilogue to enter the author’s study.';
  $('#gate-message').textContent=message;$('#gate-actions').innerHTML=`<a class="button" href="${!access.story?'poetry-vault-entrance.html':!access.hasSeals?'poetry-vault-society.html':'poetry-vault-fifth-door.html'}">${!access.story?'Continue your journey':!access.hasSeals?'Visit the Keepers’ Hall':'Approach the Fifth Door'} →</a>`;
@@ -43,3 +45,5 @@ document.querySelectorAll('[data-book]').forEach(el=>el.addEventListener('click'
 $('#close-dialog').addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>{if(returnFocus?.isConnected&&allowed)returnFocus.focus({preventScroll:true});});
 $('#download-mark').addEventListener('click',()=>{if(!allowed||state.seen.length!==4)return;state.kept=true;save();const url=URL.createObjectURL(new Blob([bookmarkSVG()],{type:'image/svg+xml'}));const a=document.createElement('a');a.href=url;a.download='the-authors-mark-bre-mcilroy.svg';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);});
 read();refresh();window.addEventListener('pageshow',refresh);window.addEventListener('storage',event=>{if(event.key===AUTHOR_KEY||event.key===null)read();refresh();});document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
+
+mountJournal(()=>allowed).then(close=>{closeJournal=close;});

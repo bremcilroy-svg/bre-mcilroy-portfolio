@@ -1,0 +1,40 @@
+THE AUTHOR’S JOURNAL — Bre Lynn McIlroy
+
+For your existing Author’s Hidden Room installation.
+1. Extract poetry-vault-author-journal-update.zip.
+2. Upload all SIX extracted files beside index.html in the GitHub Pages
+   source folder. Replace matching filenames. Keep every other file.
+3. Commit, wait for Pages deployment, then refresh the Author’s Hidden Room.
+4. Enter using your existing completed Keeper save and choose Open the journal.
+
+Includes all three supplied lyric documents, across twelve journal pages.
+The first two PDFs had no title, so Untitled song I and Untitled song II are
+working labels. Echos follows the supplied filename. Change titles in
+vault-author-journal-data.js whenever ready. No lyrics were rewritten;
+PDF page breaks were removed and text was repaginated for the reader.
+This is a lyric-reading journal. No audio recordings were supplied or added.
+
+CONTROLS
+Choose a song in the contents, turn pages, enlarge the text, bookmark pages,
+and jump back through Bookmarked pages. Your last page, bookmarks and text
+size are stored in this browser under bre-poetry-vault-author-journal-v1.
+Escape closes the journal and returns focus to its opening button. Arrow
+keys turn pages when focus is in the reading area. Existing gameplay saves,
+poem locks, author portrait and letter, and book shelf are preserved.
+The journal is reached through the already gated Author’s Hidden Room.
+As with the rest of the static game, this is a gameplay gate, not encryption.
+
+VALIDATION
+Local browser checks passed for fresh-save gate, earned-access opening,
+all three song selections, all twelve page transitions, first/last limits,
+bookmark jump, larger text, last-page resume after reload, Escape and focus
+return. A 390px browser frame opened and navigated the journal without
+horizontal overflow. Actual Android touch/performance testing is pending.
+Test access used a clearly labeled local completed-Keeper checkpoint;
+no live site or personal game progress was changed. The fixture is not
+shipped. Lyrics were compared with the extracted source text for preservation.
+
+The full game archive poetry-vault-phase-7-secret-society.zip now has 73
+files and includes this journal. You only need the six-file update if the
+previous Author’s Hidden Room update is already installed. No publication
+was performed automatically; GitHub upload and live confirmation remain.
