@@ -1,0 +1,13 @@
+/* Phase 4.2: self-contained secret findings. Does not alter prior phases. */
+.gizmo-findings{padding:46px max(5%,20px) 60px;background:radial-gradient(ellipse at 20% 0%,#49314a,#18121e 75%);color:#f6e9da;border-top:1px solid #a8876c}
+.gizmo-findings h2{font:normal clamp(30px,5vw,49px) Georgia,serif;color:#f0d2ac;margin:8px 0 14px}
+.gizmo-findings p{line-height:1.6}.gf-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:20px}
+.gf-card{border:1px solid #a78772;background:#241b2a;border-radius:14px;padding:20px;min-width:0}
+.gf-card h3{font:normal 26px Georgia,serif;color:#eac79c;margin:0 0 12px}
+.gf-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.gf-spot{min-height:96px;border:1px solid #a9876b;border-radius:10px;background:linear-gradient(145deg,#55374b,#2c2335);color:#fff2dc;padding:12px;font:600 14px/1.4 system-ui,sans-serif;cursor:pointer}
+.gf-spot:hover,.gf-spot:focus-visible{background:#765069;outline:2px solid #e7c18b;outline-offset:2px}.gf-spot[disabled]{opacity:.7;cursor:default}.gf-spot[data-found=true]{background:#3c493e;border-color:#c3b889}
+.gf-progress{font:600 13px system-ui,sans-serif;color:#d8c3b8}.gf-bar{height:10px;background:#443344;border-radius:20px;overflow:hidden;margin:12px 0}.gf-bar>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#b88d66,#f2d6a2);transition:width .3s}
+.gf-finds{padding-left:20px;line-height:1.8}.gf-finds li{padding:4px 0}.gf-reveal{border:1px solid #d2af82;border-radius:10px;padding:17px;background:#3d2b3c;margin-top:16px}.gf-reveal[hidden]{display:none}
+.gf-note{font-size:13px;color:#d5c1bd}.gf-status{min-height:44px;color:#f0d2ac}.gf-reset{background:transparent;color:#f0d2ac;border:1px solid #a9876b;border-radius:8px;padding:10px 14px;min-height:44px;cursor:pointer}
+@media(max-width:720px){.gf-layout{grid-template-columns:1fr}.gf-card{padding:15px}.gf-spot{font-size:13px}}
+@media(prefers-reduced-motion:reduce){.gf-bar>span{transition:none}}
