@@ -1,9 +1,11 @@
+import {getOwnerAuth} from './vault-owner-auth.js?v=20261112-login';
 import {mountJournal} from './vault-author-journal.js?v=20261112-journal-crease';
 import {societyStats} from './vault-society.js?v=20261112-phase7fix';
 import {AUTHOR_KEY,DISCOVERIES,authorAccess,normalizeAuthor,discoverAuthor,bookmarkSVG} from './vault-author-state.js?v=20261112-author-bio';
 import {series,welcome,connections,authorLetter} from './vault-author-content.js?v=20261112-author-bio';
 const $=s=>document.querySelector(s), dialog=$('#discovery-dialog');
 let closeJournal=()=>{};
+let ownerVerified=false,ownerAuth=null;
 let state=normalizeAuthor(null),storageOK=true,allowed=false,returnFocus=null;
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function read(){let raw;try{raw=localStorage.getItem(AUTHOR_KEY);storageOK=true;}catch{storageOK=false;return;}try{state=normalizeAuthor(JSON.parse(raw||'null'));}catch{state=normalizeAuthor(null);}}
@@ -16,7 +18,7 @@ function renderProgress(){
  $('#save-status').textContent=storageOK?'Discoveries are saved in this browser.':'Browser storage is unavailable. Discoveries will last only while this page stays open.';
 }
 function refresh(){
- const access=authorAccess(societyStats());allowed=access.allowed;closeJournal();
+ const access=authorAccess(societyStats());allowed=access.allowed||ownerVerified;closeJournal();
  $('#gate').hidden=allowed;$('#room').hidden=!allowed;
  if(!allowed){if(dialog.open)dialog.close();const message=!access.story?'The library is still holding a few pages for you. Complete all four original chambers to continue.':!access.hasSeals?'Find the hidden bookmark in each original chamber to earn all four seals.':'The last door is waiting. Complete the Fifth Door epilogue to enter the author’s study.';
  $('#gate-message').textContent=message;$('#gate-actions').innerHTML=`<a class="button" href="${!access.story?'poetry-vault-entrance.html':!access.hasSeals?'poetry-vault-society.html':'poetry-vault-fifth-door.html'}">${!access.story?'Continue your journey':!access.hasSeals?'Visit the Keepers’ Hall':'Approach the Fifth Door'} →</a>`;
@@ -47,3 +49,7 @@ $('#download-mark').addEventListener('click',()=>{if(!allowed||state.seen.length
 read();refresh();window.addEventListener('pageshow',refresh);window.addEventListener('storage',event=>{if(event.key===AUTHOR_KEY||event.key===null)read();refresh();});document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
 
 mountJournal(()=>allowed).then(close=>{closeJournal=close;});
+
+const ownerBar=document.querySelector('#owner-session-bar');
+getOwnerAuth().then(auth=>{ownerAuth=auth;auth.access.subscribe(s=>{ownerVerified=s.owner;ownerBar.hidden=!s.owner;refresh();});}).catch(()=>{ownerVerified=false;refresh();});
+document.querySelector('#owner-room-signout').addEventListener('click',async()=>{const b=document.querySelector('#owner-room-signout');b.disabled=true;ownerVerified=false;refresh();try{await ownerAuth?.signOut();}finally{b.disabled=false;}});
