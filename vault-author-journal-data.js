@@ -1,10 +1,10 @@
-// Lyrics transcribed from the three supplied PDFs. Edit titles here when ready.
+// Author-supplied lyrics. Titles confirmed by Bre Lynn McIlroy.
 export const songs = [
   {
     "id": "song-1",
-    "title": "Untitled song I",
+    "title": "Chaos",
     "source": "Untitled document.pdf",
-    "working": true,
+    "working": false,
     "pages": [
       "(Verse 1)\nIm gonna make my life less emotionally expensive\nYou wonder why I’m always on the defensive\nCause You tell me that it’s all in my head\nThat I’m too sensitive, yeah, that’s what you said\nAnd that’s when I think of my bed\nSo I come to my room and I write about it\nAnd get it all out so I don't have to think about it\nWithout making the world upset about it.\n\n(Pre chorus)\nCalling me \"Mother,\" calling me \"crazy,\"\nTo keep the view of your own wreckage hazy.\nBut I found my voice, I see through the clouds,\nAnd I’m finally done being drowned in your crowd.\n\n(Chorus)\nYou cause the chaos, then blame me for the noise\nYou ask me what I think, just to take away my voice\nDo you feel the high from how you depleted me?\nWhen the dust settles, will you regret the way you treated me?\nSo This is mee...eee removing the knife\nSo I can cre-aaate a bet-ter life.\n",
       "(Verse 2)\nYou say you’re the sun, that you’re the calm before the storm\nBut you’re a tornado, you destroy, you don’t keep anything warm\nYou’re ripping up the roots of everything I’ve built\nThen you stand in the dust and you try to hand me the guilt.\nTrying to move on from my past\nBut people keep dragging me back\n\n(Prechorus)\nYou’re pushing me right to the edge of the line\nSearching for a heartbeat that you’ll never find\nWires on my chest, you’re looking for proof\nBut you call it \"crazy\" while I’m living the truth\n\n(Chorus)\nYou cause the chaos, then blame me for the noise\nYou ask me what I think, just to take away my voice\nDo you feel the high from how you depleted me?\nWhen the dust settles, will you regret the way you treated me?\nSo This is mee...eee removing the knife\nSo I can cre-aaate a bet-ter life.\n\n(Bridge)\nI’m done with the screaming, I’m done with the noise,",
@@ -13,9 +13,9 @@ export const songs = [
   },
   {
     "id": "song-2",
-    "title": "Untitled song II",
+    "title": "Wonderland",
     "source": "Untitled document (1).pdf",
-    "working": true,
+    "working": false,
     "pages": [
       "I crossed a thousand forests\nWith bruises no one sees\nEvery castle door behind me\nFull of broken promises and beasts\nThey said love was a kingdom\nBut it only felt like war\nSo I packed my lonely heart\nAnd I walked through Wonderland’s door.\nWonderland, wonderland right this way,\nWelcome in, enjoy your stay\nThe dopamine keeps you awake\nIt's so much fun, can't you see\nIt's a labyrinth, you can try to leave\nI look around, I explore\nBut something tells me\nThere's so much more\nHidden inside these perfect walls\nWonderland is fun for all\n\n\nWonderland wonderland, come lets play\nThere's no consequences\ncome what may\nYou'll be gaslamped, lied to and disarranged",
       "What?\nYou heard wrong, it's that not kind of game.\nA little gold and attention buys a friend\nBut are they loyal? No one leaves wonderland\nIt's not their fault, they dont know how to be real\nLiving in a screen just shrinks how they feel\nWonderland, wonderland, let's try again\nIf you stay, we can all be friends\nBut I don't know where this app ends\nSomehow,\nI'm back in this maze again\nI look around,\nI search for help\nI find these characters\nall dressed up\nPretty voices with lying eyes\nBut no one can see through\na good disguise.\nThey will play into every desire,\nevery dream,\nfuel every fire\nThey love drama,\nkids too\nThere's probably nothing",
@@ -34,6 +34,19 @@ export const songs = [
       "Like a silver chain\non a golden gate\nI’m the master of\nthe masquerade\nCounting the hours\n'til the colors change\nWhere I\nDrift through\nThe shadows\nof choices\nI've made\nChasing their echos\nuntil they fade\nUntil they fade (echos and slowly fades out)\n\n(Bridge)\nI'm not perfect,\nI've never claimed to be\nI believe things\nPeople say about me\nI’m too skinny,\nI'm too fat\nI’m a masterpiece,\nthen a \"copy-cat\"",
       "I’m way too smart,\nI’m acting dumb\nI’m feeling everything,\nthen I’m feeling numb\nI’m too pretty,\nI’m not enough\nI’m way too sensitive,\nthen I’m \"acting tough\"\nAlways a victim\nAlways a bully\nThings I will never understand fully\nI’m the life of the party,\nThen I’m out of place\nI’m a rising star,\na waste of space\nI’m a \"sweetheart\" till the bitter end\nA perfect stranger,\nA \"loyal friend\"\nI’m too loud,\nI’ve got no voice\nI’m a diaster\n of my own choice.\nI feel sad,\nit’s a heavy weight",
       "Like a silver chain\non a golden gate\nI’m the master of\nthe masquerade\nCounting down hours\n'til the colors change\nWhere I\nDrift through\nThe shadows\nof choices\nI've made\nChasing their echos\nuntil they fade\nUntil they fade (echos and slowly fades out)"
+    ]
+  },
+  {
+    "id": "song-4",
+    "title": "Poison Apple",
+    "source": "User-supplied lyrics",
+    "working": false,
+    "pages": [
+      "I treat everyone with unconditional love\nand respect\nI treat myself like\nan inconvenience at best\nI don't know why\nI have this guilt for\nJust trying to survive\nIt's just hard when\nyour siblings are\nThe ones\nholding the knives.\nI don't understand it\nEspecially the hate\nI get from my brother\nwhen he tells me\nI’m our mother\nwhy?\nbecause she reacted to abuse\nfrom someone who\nshe was supposed to call a lover\nI'm not her\nCan't you separate one another?\nYou still hate her\nfor something that happened",
+      "when you were a young teen\n20 something years later,\nyou think,\nyou would\nhave received\nsome sort of therapy\nI will never blame her\nfor the person she was.\nShe was just trying to survive\nwith kids that were too much.\nYeah,\nshe probably shouldn’t have had us,\nbut can’t change what\nhas already been done\nShe’s grown,\nshe’s changed\nyou can’t blame her\nShes no longer that way\nIf you took a moment\nYou would see the same\nBut I wont stick around\nwhile you\nmaintain this charade\nAnd you can say all that you want",
+      "that I’m just like her and she’s just like me\nbut untreated BPD\nis like a disease\nI understand her more now than ever\nSo I'll follow her lead\nAnd\nI guess I'll leave,\nbecause the apple doesn't fall\nfar from the tree\n\nYou can’t take the heat\nyet you won’t leave the kitchen\nyou started the fire\nnow you won’t even listen\nYou won’t put out the fire\nto save your life.\nI’m holding the water\nwhile you’re holding the strike\nYou couldnt get past the past\nCant see the hurt you caused\nSo you light the match\nSet the room up in flames\nYet still makes me take the blame\nNow the whole house is burning",
+      "what will this prove\nUse your son as a shield\nTo deny it was you\nRemember\n15 years ago\nwhen you hurt me too\nBut youll burn before\nyou admit that its true\nWe all need help\nBut I need to save myself\nso I can help somebody else\nYoure right\nyou cant love me to sanity\nWhen you attack me\nwith profanities\nThen call me mother\nwhen I start to scream\nI guess ill follow her lead, and leave\nCuz the apple doesnt fall\nfar from the tree\n\nYou push me to break\nThen laugh in my face\nI thought blood was supposed to support",
+      "Not twist my reality when it comes to your worth\nEven if i go a little insane\nWho wouldnt living in this much pain\nI have a good heart and thats all that matters\nSo if im like my mom\nThen watch out\nbefore\nthis poison apple splatters\nSo just leave me be\nif im this person you perceive\nIm glad to be like mother and leave\nso i can be who\ni want to be\nThis apple doesnt fall\nfar from the tree"
     ]
   }
 ];

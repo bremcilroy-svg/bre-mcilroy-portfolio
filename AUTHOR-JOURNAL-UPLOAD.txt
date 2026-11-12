@@ -1,40 +1,58 @@
-THE AUTHOR’S JOURNAL — Bre Lynn McIlroy
+AUTHOR’S JOURNAL — CODING UPDATE
+Bre Lynn McIlroy · November 12, 2026
 
-For your existing Author’s Hidden Room installation.
 1. Extract poetry-vault-author-journal-update.zip.
-2. Upload all SIX extracted files beside index.html in the GitHub Pages
-   source folder. Replace matching filenames. Keep every other file.
+2. Upload all SIX files beside index.html in your existing GitHub Pages
+   source folder. Replace matching filenames and keep everything else.
 3. Commit, wait for Pages deployment, then refresh the Author’s Hidden Room.
-4. Enter using your existing completed Keeper save and choose Open the journal.
+4. Open the journal using your existing completed Keeper progress.
 
-Includes all three supplied lyric documents, across twelve journal pages.
-The first two PDFs had no title, so Untitled song I and Untitled song II are
-working labels. Echos follows the supplied filename. Change titles in
-vault-author-journal-data.js whenever ready. No lyrics were rewritten;
-PDF page breaks were removed and text was repaginated for the reader.
-This is a lyric-reading journal. No audio recordings were supplied or added.
+CHANGES
+- Open-book layout with two reading columns on wider screens and a single
+  continuous reading column on phones; controls stay buttons.
+- Corrected song names: Chaos, Wonderland, Echos.
+- Added the supplied Poison Apple lyrics. Four songs, seventeen pages.
+- Gizmo appears as a small gray-and-white vector cat beside the contents.
+- Page turning, song selection, saved place, bookmarks and larger text remain.
+- Existing page numbers for the first three songs stay stable, preserving
+  their saved bookmarks. Poison Apple is appended after Echos.
+- Existing original poems, chapter saves, author portrait/letter and book
+  shelf remain unchanged. Original lyrics have not been copyedited.
 
-CONTROLS
-Choose a song in the contents, turn pages, enlarge the text, bookmark pages,
-and jump back through Bookmarked pages. Your last page, bookmarks and text
-size are stored in this browser under bre-poetry-vault-author-journal-v1.
-Escape closes the journal and returns focus to its opening button. Arrow
-keys turn pages when focus is in the reading area. Existing gameplay saves,
-poem locks, author portrait and letter, and book shelf are preserved.
-The journal is reached through the already gated Author’s Hidden Room.
-As with the rest of the static game, this is a gameplay gate, not encryption.
+This update contains working HTML, CSS and JavaScript. No generated image
+is needed by the revised journal. No audio files were supplied or added.
+Progress stays in this browser. Clearing browser data can lose your place.
+The journal keeps the existing Author-room gameplay gate; static files are
+not encrypted. Do not reset personal progress for a layout check.
 
-VALIDATION
-Local browser checks passed for fresh-save gate, earned-access opening,
-all three song selections, all twelve page transitions, first/last limits,
-bookmark jump, larger text, last-page resume after reload, Escape and focus
-return. A 390px browser frame opened and navigated the journal without
-horizontal overflow. Actual Android touch/performance testing is pending.
-Test access used a clearly labeled local completed-Keeper checkpoint;
-no live site or personal game progress was changed. The fixture is not
-shipped. Lyrics were compared with the extracted source text for preservation.
+LOCAL CHECKS
+JavaScript syntax, exact preservation of the first three songs, final line
+of Poison Apple, all four titles, seventeen-page bounds, bookmark reuse and
+saved place passed checks. Browser checks covered Poison Apple through its
+ending, larger text, existing bookmarks and a new bookmark, reload, and
+navigation in a 390px frame with no horizontal overflow. The browser used
+a previously loaded local Keeper checkpoint; the live website was unchanged.
+Actual Android touch/rotation testing and post-upload live checks remain.
 
-The full game archive poetry-vault-phase-7-secret-society.zip now has 73
-files and includes this journal. You only need the six-file update if the
-previous Author’s Hidden Room update is already installed. No publication
-was performed automatically; GitHub upload and live confirmation remain.
+The refreshed full Phase 7 game archive contains the same 73 file names,
+including this update. You only need this six-file package for the installed
+Author’s Hidden Room. Temporary browser QA fixtures are excluded.
+
+TITLE PLACEMENT CORRECTION
+Journal titles and lyric labels now sit entirely on the left leaf, away
+from the crease. Upload all six files from this ZIP as usual. The public
+Author-room unlock rules have not changed.
+
+SEPARATE OWNER COPY
+Bre-Author-Vault-OWNER-ONLY.html is a separate personal download, NOT in
+this upload package. Keep it on your device; do not upload it to GitHub.
+Open it with a browser to enter the Author room directly, without playing
+or altering chapter progress. Artwork, letter, book data and lyrics are
+embedded. Fonts fall back to local fonts when offline. Public portfolio
+links still require internet. The owner copy does not update itself when
+you edit the live site; download a refreshed copy for later changes.
+Anyone with the owner file can open it. It is a local convenience copy,
+not an account-restricted website login. Website sign-in is not installed.
+The standalone code passed syntax checks and its embedded version opened
+and displayed the journal in the local HTTP preview. Direct local-file
+opening on Android remains untested.

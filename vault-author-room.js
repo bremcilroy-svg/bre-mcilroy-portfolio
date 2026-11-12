@@ -1,4 +1,4 @@
-import {mountJournal} from './vault-author-journal.js?v=20261112-journal';
+import {mountJournal} from './vault-author-journal.js?v=20261112-journal-crease';
 import {societyStats} from './vault-society.js?v=20261112-phase7fix';
 import {AUTHOR_KEY,DISCOVERIES,authorAccess,normalizeAuthor,discoverAuthor,bookmarkSVG} from './vault-author-state.js?v=20261112-author-bio';
 import {series,welcome,connections,authorLetter} from './vault-author-content.js?v=20261112-author-bio';
