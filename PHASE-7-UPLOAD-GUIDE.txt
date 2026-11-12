@@ -1,0 +1,23 @@
+THE POETRY VAULT — PHASE 7: THE SECRET SOCIETY
+Original poetry by Bre McIlroy
+
+This ZIP contains a complete 61-file website update based on the 53-file Phase 5 source archive, plus new Phase 7 files. It includes the Chapter I main-menu link correction.
+
+UPLOAD
+1. Back up your GitHub Pages repository.
+2. Unzip and upload ALL files to the repository root beside index.html, replacing matching files. Keep unrelated photos, videos, and portfolio content.
+3. Commit and wait for Pages deployment.
+4. Visit poetry-vault-society.html from the main entrance.
+5. The Fifth Door is poetry-vault-fifth-door.html. It remains gated until all four chapter completion saves and four optional bookmarks exist in the same browser.
+
+GAMEPLAY
+The Society has 12 achievement slots: completion, bookmark, and hint-free completion in each original chapter. Hint-free achievements are tracked only after this update is installed; prior completed saves are not retroactively certified hint-free. Collecting each optional bookmark also marks its hidden inscription discovered. The four Fifth Door seals are awarded for chapters completed AND bookmarks collected. The optional Fifth Door has three actual puzzles: ordering the seals, rotating a constellation, and binding a four-word book. The original poems and their puzzle locks are unchanged.
+
+PRIVACY AND SAVES
+All Phase 7 progress is stored locally in the player's browser. No sign-in, public leaderboard, automatic review posting, or remote analytics are added. Changing browser/device or clearing site data can lose progress. No poems are exposed on the Society or Fifth Door pages. The certificate name is not uploaded.
+
+TEST
+Check all original chapter links and saved progress. On a fresh browser the Society invitation and Fifth Door must be locked. After completing all chapters and collecting all bookmarks, confirm all four seals appear. Solve Fifth Door and download certificate. Verify mobile screen widths and reduced-motion support.
+
+KNOWN LIMITS
+The Fifth Door is a cinematic text-and-symbol bonus chamber, not a new first-person 3D room. It has animated visual effects and real puzzles; a full 3D room could be a later upgrade. This release does not include recorded female narration. The base game still uses device voices where supported.
