@@ -10,7 +10,7 @@ Expected website address after successful deployment: https://bremcilroy-svg.git
 
 1. Extract this ZIP on your phone or computer.
 2. Open https://github.com/bremcilroy-svg/bre-mcilroy-portfolio and select the main branch.
-3. Choose Add file (+) > Upload files. Select the extracted website files, including index.html, style.css, site.js, all other HTML pages, favicon.svg, and both images. Upload the files directly beside the existing index.html, rather than uploading the ZIP or adding a new enclosing folder.
+3. Choose Add file (+) > Upload files. Select the extracted website files, including index.html, style.css, site.js, all other HTML pages, favicon.svg, and all image files. Upload the files directly beside the existing index.html, rather than uploading the ZIP or adding a new enclosing folder.
 4. Commit changes to main. Files with matching names will update; the new pages will be added.
 5. Wait for the Pages deployment to finish, then visit https://bremcilroy-svg.github.io/bre-mcilroy-portfolio/ and refresh.
 
@@ -26,7 +26,8 @@ For the new repository, open Settings > Pages. Under Build and deployment, choos
 - websites-apps.html: Personal portfolio and travel concept.
 - travel.html: Travel Easy with Breezy, clearly identified as in development.
 - photography.html: Bre Lynn Photography, with 67 images across six collections, filters, and a full-screen viewer.
-- acting-modeling.html, fashion-design.html: Gallery foundations awaiting work samples.
+- acting-modeling.html: Bre Lynn modeling portfolio with all 47 supplied photographs, five collection filters, a full-screen viewer, biography, and booking/payment information.
+- fashion-design.html: Gallery foundation awaiting work samples.
 - contact.html: Public email, portfolio connections, and photography request links.
 - 404.html: Navigation back to the portfolio for missing pages.
 
@@ -112,10 +113,48 @@ Client email-link/password authentication; secure owner Business Hub; private 90
 
 The requested reminder schedule is 48 and 24 hours before photography sessions. Seasonal mini events use 30-minute slots and themes Bre chooses across all seasons and holidays. Automatic waitlist email alerts remain planned; no event capacity or offers are simulated. Referral credits are $10 each after a new client's completed paid session. Birthday choices are $10 or one extra edited photo for returning clients, upgraded to $15 or two edited photos for lifetime VIP. VIP is permanent after five completed paid sessions. Family rewards repeat every third qualifying annual session. Capture Points are one per eligible dollar, 100 points for $5 credit, expiring after 12 months of account inactivity.
 
-The proposed searchable CRM/private client notes and equipment inventory were declined and have not been added. Modeling is the next content update; the existing acting-modeling.html remains a collection foundation.
+The proposed searchable CRM/private client notes and equipment inventory were declined and have not been added. The Bre Lynn modeling gallery is now included; its private owner tools remain planned.
 
 ### Upload this complete update
 
 Use the existing bre-mcilroy-portfolio repository. Extract the ZIP. Upload the blp-photo-*.jpg images as one batch, then upload the remaining files as a second batch into the repository root on main. Do not upload the ZIP itself or put index.html in an enclosing folder. This does not change Pages settings or trigger a deployment from this workspace.
 
 The form was checked in-browser with a test request (prepared only, not sent), a disallowed weekday, and the package-dependent prompt. Automated checks covered the exact 48-hour boundary, the 90-day limit, invalid calendar dates, a daylight-saving gap, Michigan time conversion, and email encoding. New page layouts were reviewed at 320 and 390 pixels.
+
+
+## Homepage black-frame update
+
+The homepage portrait now has a black frame with an inset photo, rounded corners, and a caption on the black lower edge. The offset red outline is removed. The photograph itself is unchanged and displays without cropping.
+
+If you already uploaded the prior services update, only replace index.html and style.css for this frame change. No photographs or other pages need to be uploaded again.
+
+
+## Bre Lynn modeling payment update
+
+Modeling bookings accept credit and debit cards, cash, Cash App, and PayPal. These choices appear on acting-modeling.html, with a direct email inquiry link. Rates and deposits are agreed per project. No online checkout or payment processor is connected. Photography payment preferences are unchanged.
+
+The requested contract reader is planned for an owner-only, authenticated backend. It has not been added to the public website or implemented in this static package. It will need a separate backend with server-enforced owner access before use. A hidden URL or browser-only password would not provide that access control.
+
+If the previous website update is already uploaded, replace only acting-modeling.html for the modeling payment change. The homepage black frame is retained.
+
+
+## Bre Lynn modeling gallery — 47 photographs
+
+The modeling page now includes all 47 supplied images, an introductory featured portrait, two additional featured images, a biography, five collection filters, full-screen viewing, and Book Bre Lynn links. Photographs display in full proportions, preserving existing color treatments, effects, and visible credits. Two HEIF files were converted to browser-compatible JPEG copies. Web copies are up to 1800 pixels on the longest edge; camera/location metadata is omitted. Source originals are not included in this upload package.
+
+Collections: Beauty & Headshots (6), Fashion & Editorial (7), Alternative & Creative (14), Lifestyle & Commercial (7), Outdoor & Nature (13). Collection assignments and descriptive titles can be changed later. No unverified photographer attribution or work credits have been added. The public viewer has no download button. Images displayed on a public website can still be saved through a browser.
+
+The full-screen viewer supports Previous/Next, left/right arrow keys, Escape, a close button, and returning focus to the image that opened it. Filters and the viewer work locally in the browser. No client accounts, owner login, contract reader, payment processing, online calendar, or backend have been added in this gallery update. Modeling booking inquiries open the visitor's email app; they are not sent or confirmed automatically. Accepted payment choices remain credit/debit cards, cash, Cash App, and PayPal. Rates, travel, deposits, and usage are agreed per project.
+
+### Upload only this gallery update
+
+If your previous website update is already online, extract this ZIP and upload these 50 files to the root of the existing bre-mcilroy-portfolio repository on main:
+
+1. acting-modeling.html
+2. modeling.css
+3. modeling.js
+4. All 47 blm-photo-*.jpg files, numbered 001 through 047.
+
+Upload the 47 new modeling photographs as one batch, then the three HTML/CSS/JS files as another batch. Existing blp-photo-*.jpg photography images, index.html, style.css, and other pages do not need to be uploaded again for this gallery update. Commit each upload and wait for GitHub Pages to finish. Do not upload the ZIP itself or an enclosing folder. This ZIP also retains the rest of the complete website for convenience. The live GitHub site has not been updated from this workspace.
+
+Validation covered all five collection counts, full-screen opening, next/previous navigation, keyboard navigation, Escape closing, image decoding, local asset links, and 320/390-pixel layouts. The homepage black frame, 67 photography images, and all 13 song pages remain included.
