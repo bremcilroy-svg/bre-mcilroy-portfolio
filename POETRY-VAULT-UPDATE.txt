@@ -1,94 +1,132 @@
-THE POETRY VAULT — CHAPTERS I & II
+THE POETRY VAULT — CHAPTERS I, II & III
 Bre McIlroy
 
-THIS DOWNLOAD REPLACES THE EARLIER POETRY VAULT UPDATE
-Two first-person rooms are now playable. The Heart Chamber unlocks four
-poems and gives a silver mirror key. The Shattered Mirror uses that key,
-adds four missing glass fragments, a restoration puzzle, a reflected
-word lock, four more poems, and a clockwork gear.
-
-Poems stay locked in the game until each chapter's puzzles are solved.
-No "just read" button, reading bypass, or skip-to-poetry link is included.
-Unlocked poems remain in the chapter's saved journal.
+THIS REPLACES THE EARLIER POETRY VAULT UPDATE
+Three first-person chapters are now playable, with twelve original poems.
+Each chapter keeps its poem pages locked until its puzzles are completed.
+There is no direct reading or skip-to-poetry option.
+The Door to Tomorrow, Chapter IV, remains in development.
 
 UPLOAD TO YOUR EXISTING GITHUB SITE
 1. Download bre-lynn-poetry-vault-update.zip and extract/unzip it.
-2. Open your existing bremcilroy-svg/bre-mcilroy-portfolio repository.
+2. Open your bremcilroy-svg/bre-mcilroy-portfolio repository.
 3. Go to the folder containing index.html and writing.html (the website
    root). Choose Add file > Upload files.
-4. Upload ALL 19 extracted files at that level. Upload the files
-   themselves, not the ZIP and not an enclosing folder. Replace matching
-   existing files. Keep your other site files, photographs, and videos.
-5. Commit to the branch your GitHub Pages site already uses. Your Pages
-   settings do not need to change.
-6. Wait for the Pages deployment, then refresh your website. Begin at
-   Writing & Poetry > Enter The Heart Chamber.
+4. Upload ALL 25 extracted files at that level. Upload the files themselves,
+   not the ZIP and not an enclosing folder. Replace matching files. Keep
+   all other website files, photos, videos, and existing media.
+5. Commit to the branch your GitHub Pages site already uses. You do not
+   need to change your Pages settings.
+6. Wait for the Pages deployment to finish, then refresh your website.
+   Begin at Writing & Poetry > Enter The Heart Chamber.
 
-If Chapter I is already complete in this browser, its opening screen
-now offers Continue to Chapter II. Otherwise complete its puzzles and
-inspect The Mirror Door. The ending links to The Shattered Mirror.
-Continue in the SAME browser on the SAME site address; the key and
-journals are stored there. A different browser, private window, cleared
-browser data, or a different address has its own fresh progress.
+CONTINUE WHERE YOU LEFT OFF
+If Chapter I is complete in this browser, its opening screen offers
+Continue to Chapter II. If Chapter II is complete, its opening screen
+now offers Continue to Chapter III.
+Inspect The Mirror Door at the end of Chapter I to earn the silver key.
+Inspect The Clockwork Door at the end of Chapter II to carry the gear
+into The Midnight Labyrinth. The chapter endings link to the next room.
+Stay on the SAME browser and SAME site address so these items carry over.
+A different browser, a private window, cleared browser data, or another
+site address has its own fresh progress. Chapter handoffs require browser
+storage; there is no account or cloud save.
 
-PLAYABLE CHAPTERS / EXACT MANUSCRIPT WORDING
+PLAYABLE CHAPTERS
 I / The Heart Chamber
+Find four sealed letters, solve the desk lock, and restore the diary.
+Reward: four poems and a silver mirror key.
   Falling in Love
   Waiting for You
   Don't Leave Me
   Love Is Not a Feeling
+
 II / The Shattered Mirror
+Use the key, collect the missing fragments, restore the silver borders,
+and solve the reflected word.
+Reward: four poems and a clockwork gear.
   Not Meant to Be
   I Want to Be Loved
   Or So I Thought
   Darkness
 
-The remaining chapters, The Midnight Labyrinth and The Door to Tomorrow,
-are labelled in development. They are not playable in this download.
+III / The Midnight Labyrinth
+Carry the gear into winding archive passages. Read the caretaker's note,
+repair the clock, set its hands, collect four dated pages, and restore
+chronological order in the ledger.
+Reward: four poems and a sunrise emblem for the final chapter.
+  Late Night Thoughts
+  My Dear Friend, Ana Rex Sia
+  Sold My Soul
+  A Note from the Poor
+
+IV / The Door to Tomorrow — IN DEVELOPMENT
+This chapter is not playable in the current download.
+
+TEXT AND CLUES
+All twelve poem bodies preserve the words, punctuation, and line breaks
+of the supplied manuscript. Short content notes appear outside selected
+poems. The new puzzles use fictional object clues and ledger dates;
+players do not have to interpret a poem's subject matter to solve them.
+Unlocks remain in each chapter's saved journal.
 
 CONTROLS
 Computer: WASD to walk. Drag the room to look. E or the inspect button
 opens the nearby object. Arrow keys move forward/back and turn.
 Phone: hold the movement arrows, drag to look, or use the curved arrows
-to turn. Explore objects provides the same puzzles without spatial
-navigation, including keyboard and screen-reader access.
-The mirror restoration puzzle has four dropdowns and rotation buttons.
-Its visual borders also have text descriptions. Hints grow more explicit.
-No timers or wrong-answer penalties apply.
+to turn. Explore objects gives access to the same objects and puzzles
+without navigating in 3D, including keyboard and screen-reader access.
+The clock has hour/minute dropdowns and a text readout as well as hands.
+The ledger shows each page's date in text. Controls keep their focus and
+scroll position when you change a value.
+Hints become clearer each time. There are no timers or wrong-answer
+penalties. No poem can be opened before its chapter's puzzles are complete.
 
-SAVING AND RESETTING
-Progress saves automatically in this browser. Each chapter has a separate
-journal and reset. Resetting Chapter II keeps the Chapter I key. Resetting
-Chapter I locks its poems and removes its key until you earn it again;
-Chapter II's saved progress is kept, but its entrance requires that key.
-The sound settings provide a confirmation before a reset.
+THE LABYRINTH PATH
+The passages alternate: right at the first opening, left at the second,
+then right to reach the final gallery. Lanterns mark the turns. The
+caretaker's note is on a table near the entrance. Pages sit on tables
+along the route. The clock, ledger, and Sunrise Door are in the last gallery.
+Explore objects is available throughout, with the same puzzle requirements.
+
+SAVES AND RESETS
+Every chapter saves separately in this browser. Resetting a chapter locks
+its poems again and resets only that chapter's progress. Earlier chapter
+items and journals remain saved. Resetting an earlier chapter may remove
+an item required to enter the next one until you earn that item again;
+the next chapter's saved progress is kept. Settings asks for confirmation
+before a reset. Unlocked poems are never available in a fresh save.
 
 SOUND AND GRAPHICS
-Sound starts off. Optional narration uses installed English device voices;
-a recognised female voice is preferred when available. No recorded narrator
-track is included. Text remains available if the device has no voices.
-The enhanced renderer uses WebGL2. A Canvas compatibility renderer uses
-the same room, camera, and interactions on devices without WebGL2.
-The test browser disables WebGL, so compatibility graphics were visually
-tested; enhanced WebGL graphics were not visually verified there.
-Mirror panels use decorative glass and etched shapes, not live reflections
-of the camera or a player avatar.
+Sound starts off. Ambient audio and narration are optional. Narration uses
+English voices installed on the device; a recognised female voice is
+preferred when available. This download includes no recorded narrator
+track. All story instructions remain on screen if a voice is unavailable.
+The enhanced renderer uses WebGL2. A Canvas compatibility renderer provides
+the same room, camera, and interactions when WebGL2 is unavailable. It can
+look simpler or run more slowly on older devices. The test browser disables
+WebGL, so compatibility graphics were visually tested; enhanced WebGL
+rendering was not visually verified there.
+Mirror panels use decorative glass, not live player-camera reflections.
 
-VERIFIED
-Chapter I-to-II key handoff and the locked entrance without the key;
-fragment collection; incorrect and correct placements/rotations; the word
-lock; poem access after both puzzles; eight exact manuscript texts;
-saved progress; separate Chapter II reset; progressive hints; phone layouts.
-No existing media or unrelated portfolio pages have been changed.
+VERIFIED FOR THIS UPDATE
+Chapter II-to-III gear handoff; locked entrance without the gear; missing
+note/gear requirements; page clasps before/after the clock puzzle; incorrect
+and correct times; incomplete and incorrect ledger orders; poem access only
+after both puzzles; all twelve manuscript texts; saved unlocks; separate
+Chapter III reset; progressive hints; phone movement and 320/390px layouts.
+State checks also verify malformed saves and a continuous maze route.
+Existing photos, videos, the home-page black frame, and unrelated portfolio
+pages are preserved.
 
 LOCAL PREVIEW AND SOURCE FILES
-Use an HTTP preview/server; opening HTML directly as a local file can
-block JavaScript modules. GitHub Pages serves the files as a website.
-All assets are local. No API keys, external CDNs, installation, or build
-step are needed. These are public website files: the game locks its
-reading screens, but the poem text remains accessible in the source.
+Use an HTTP preview/server. Opening HTML directly as a local file can block
+JavaScript modules. GitHub Pages serves these files as a website.
+All assets are local. No API keys, CDN, installation, or build step is needed.
+These are public website files: reading is locked within the game, but the
+poem text remains in the source files.
 
-FILES (ALL 19 MUST BE UPLOADED)
+FILES (UPLOAD ALL 25)
 poetry-vault.html
 poetry-vault.css
 poetry-vault.js
@@ -105,11 +143,17 @@ poetry-vault-mirror.js
 vault-mirror-room.js
 vault-mirror-state.js
 vault-mirror-poems.js
+poetry-vault-labyrinth.html
+poetry-vault-labyrinth.css
+poetry-vault-labyrinth.js
+vault-labyrinth-room.js
+vault-labyrinth-state.js
+vault-labyrinth-poems.js
 writing.html
 love-pain-chaos.html
 POETRY-VAULT-UPDATE.txt
 
 NOT LIVE UNTIL YOU UPLOAD
-This download does not automatically deploy to GitHub. It is an update
-package for your existing website, not a replacement for all its files.
-The main page's black portrait frame and all existing media are preserved.
+This download does not automatically deploy to GitHub. It updates your
+existing website; do not replace your entire repository with only these
+25 files. Keep your existing media and all other website files.
