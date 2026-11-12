@@ -2,6 +2,8 @@
 
 A static portfolio for the bre-mcilroy-portfolio GitHub Pages repository. No installation or build tools are needed.
 
+Latest update: Bre Lynn Acting. Start with ACTING-UPLOAD-STEPS.txt for the exact files to upload.
+
 Package: bre-mcilroy-portfolio.zip
 Repository: https://github.com/bremcilroy-svg/bre-mcilroy-portfolio
 Expected website address after successful deployment: https://bremcilroy-svg.github.io/bre-mcilroy-portfolio/
@@ -158,3 +160,20 @@ If your previous website update is already online, extract this ZIP and upload t
 Upload the 47 new modeling photographs as one batch, then the three HTML/CSS/JS files as another batch. Existing blp-photo-*.jpg photography images, index.html, style.css, and other pages do not need to be uploaded again for this gallery update. Commit each upload and wait for GitHub Pages to finish. Do not upload the ZIP itself or an enclosing folder. This ZIP also retains the rest of the complete website for convenience. The live GitHub site has not been updated from this workspace.
 
 Validation covered all five collection counts, full-screen opening, next/previous navigation, keyboard navigation, Escape closing, image decoding, local asset links, and 320/390-pixel layouts. The homepage black frame, 67 photography images, and all 13 song pages remain included.
+
+
+## Bre Lynn Acting - complete video portfolio
+
+The new acting.html page includes 27 full personal performance clips, three featured selections (01, 08, 26), duration filters (12 clips under 20 seconds; 15 clips of 20 seconds or longer), a modal video player with native playback/sound/full-screen controls, two portraits, downloadable JPG portraits, and a one-page acting-profile PDF. Clips are numbered by upload order because titles and specific role descriptions were not supplied. No dialogue, professional training, union status, representation, additional productions, or acting skills have been invented. These personal clips are separate from the film credit. No combined edited demo reel or transcript/caption tracks have been created.
+
+The film credit uses Bre's supplied details: Day of the Cicadas; various background/extra roles; filming completed; anticipated 2027 release; production Instagram https://www.instagram.com/cicadas_movie/. The user-provided release timing is presented as anticipated, not guaranteed. Public research located an extras call for that title, but Instagram could not be retrieved; the release year and Bre's involvement are supplied by Bre rather than independently verified.
+
+Videos are H.264/AAC MP4s with fast-start metadata. Existing smaller files retain their audio/video streams; larger files have browser-friendly copies, up to 720x1280, with AAC audio. Full durations, original audio content, existing on-screen text, and visible watermarks are retained. The rotated source clip is upright in its web copy. Every video is below GitHub's 25 MiB browser upload limit. Videos are not loaded together on page entry; selecting a clip loads the chosen player. Playback requires a user action. Closing the dialog stops the video and clears its source. Public files can still be saved through a browser.
+
+The headshot download uses the smiling red-dress portrait, with the red-haired close-up as an alternate portrait. Both are existing supplied photographs, displayed without generated alterations. The main portrait can be replaced with a newer headshot later. The PDF contains the supplied first film credit, contact email, location, and performance portfolio summary. Measurements and private contact details have not been included.
+
+The casting form prepares an encoded email plus a copyable preview; it does not automatically send, save inquiries, or confirm bookings. Homepage cards now link separately to acting and modeling. The modeling gallery, photography gallery, all 13 complete lyric pages, and the homepage black frame are preserved.
+
+Validation: 31 HTML pages and local asset/fragment links checked; all 27 video files fully decoded with audio; duration, H.264/AAC format, portrait orientation, and per-file upload size checked; one-page PDF text checked and the rendered layout reviewed. Browser checks covered playback of original-stream and converted clips, next/previous navigation, filters, close/Escape cleanup, email preparation and special-character encoding, stale email preview clearing after edits, and desktop plus 320/390-pixel phone layouts.
+
+Upload instructions are in ACTING-UPLOAD-STEPS.txt. GitHub's documented browser limit is 25 MiB per file: https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github. The live GitHub website has not been modified from this workspace.
