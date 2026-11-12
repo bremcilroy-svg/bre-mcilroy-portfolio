@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#170f19">
+<title>The Poetry Vault · The Library of Forgotten Words | Bre McIlroy</title>
+<meta name="description" content="Step inside The Poetry Vault, a four-chapter Victorian escape-room journey through original poetry by Bre McIlroy. Find clues, solve puzzles, and earn each poem.">
+<link rel="preload" as="image" href="vault-entrance.webp">
+<link rel="stylesheet" href="vault-entrance.css?v=20261112-entrance">
+<script type="module" src="vault-entrance.js?v=20261112-entrance"></script>
+</head>
+<body>
+<a class="skip-link" href="#vault-menu">Skip to the game menu</a>
+<div class="entrance-art" aria-hidden="true"></div><div class="entrance-shade" aria-hidden="true"></div>
+<div class="dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<header class="entrance-header"><a href="writing.html" class="back-link"><span aria-hidden="true">←</span> Bre McIlroy / Writing</a><span class="edition">An interactive poetry experience</span></header>
+<main class="entrance-main" id="vault-menu">
+<div class="entrance-copy">
+<p class="eyebrow">The Library of Forgotten Words</p>
+<div class="title-flourish" aria-hidden="true"><span></span><svg viewBox="0 0 44 26"><path d="M8 13h28M22 2l8 11-8 11-8-11Z" fill="none" stroke="currentColor"/></svg><span></span></div>
+<h1><span>The Poetry</span><em>Vault</em></h1>
+<p class="invitation">Some stories wait behind locked doors.</p>
+<p class="premise">Four chambers. Sixteen original poems.<br>Follow the clues. Earn the words.</p>
+<nav class="vault-menu" aria-label="Poetry Vault game menu">
+<a href="poetry-vault.html" class="menu-action enter-action" id="enter-vault"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="11" cy="11" r="6"/><path d="m15 15 12 12m-5-5 3-3m-6 0 3-3"/></svg></span><span><strong>Enter the Vault</strong><small>Begin in The Heart Chamber</small></span><span class="menu-arrow" aria-hidden="true">→</span></a>
+<button class="menu-action continue-action" id="continue-game" disabled aria-describedby="continue-description"><span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7 6h18v22l-9-5-9 5Z"/></svg></span><span><strong>Continue Game</strong><small id="continue-description">Checking for a saved journey…</small></span><span class="menu-arrow" aria-hidden="true">→</span></button>
+<div class="menu-pair"><button id="how-to-play" disabled><span aria-hidden="true">◇</span> How to Play</button><button id="entrance-settings" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4M5 5l3 3m8 8 3 3M5 19l3-3M16 8l3-3"/></svg> Settings</button></div>
+</nav>
+<p class="menu-note" id="menu-note" role="status">Poems stay locked until you solve their chapter’s puzzles.</p>
+<div class="journey-summary" id="journey-summary" hidden><div class="chapter-marks" id="chapter-marks" aria-label="Chapter completion"></div><p id="journey-counts"></p></div>
+<p class="sound-note">Optional sound & narration <span aria-hidden="true">·</span> Headphones welcome</p>
+</div>
+<div class="door-caption" aria-hidden="true"><span class="caption-line"></span><p>A story in four chambers</p><span>Love. Reflection. Midnight. Morning.</span></div>
+</main>
+<footer class="entrance-footer"><p>Original poetry by <strong>Bre McIlroy</strong></p><p>Progress saves in this browser.</p></footer>
+<dialog id="entrance-panel" aria-labelledby="entrance-panel-title"><div class="dialog-top"><p class="eyebrow" id="entrance-panel-kicker">The Poetry Vault</p><button id="entrance-close" aria-label="Close panel">×</button></div><h2 id="entrance-panel-title"></h2><div id="entrance-panel-content"></div></dialog>
+<div class="entrance-toast" id="entrance-toast" role="status"></div>
+<noscript><p class="no-script">Enable JavaScript to play the game and use saved progress. <a href="writing.html">Return to Writing & Poetry</a>.</p></noscript>
+</body>
+</html>

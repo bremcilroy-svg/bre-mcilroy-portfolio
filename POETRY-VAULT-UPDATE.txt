@@ -1,4 +1,4 @@
-THE POETRY VAULT — ALL FOUR CHAPTERS / CINEMATIC EDITION
+THE POETRY VAULT — ALL FOUR CHAPTERS / GRAND ENTRANCE
 Bre McIlroy
 
 THIS REPLACES THE EARLIER POETRY VAULT UPDATE
@@ -10,18 +10,39 @@ This edition adds graphics/movement improvements, animated interactions,
 optional layered sound, and replay keepsakes. Existing chapter saves are
 compatible; no reset is required after uploading.
 
+THE GRAND ENTRANCE
+A new title screen opens at poetry-vault-entrance.html with custom Victorian
+doorway artwork, Enter the Vault, Continue Game, How to Play, and Settings.
+Writing & Poetry, the manuscript page, and the homepage book feature now
+link to this entrance. Select THE POETRY VAULT in any chapter header to
+return to the title menu. Existing direct chapter URLs still work.
+
+Enter the Vault opens Chapter I without resetting its saved progress.
+Continue Game resumes the first unfinished chapter directly in its room,
+respecting the key, gear, and emblem required to reach later chapters. A
+completed journey can revisit Chapter IV. If an earlier chapter is reset,
+Continue returns there so its required item can be earned again; later
+chapter saves remain kept. Collected bookmarks also count as saved progress.
+With no saved journey, Continue is disabled. If storage is unavailable, the
+menu explains this and Enter remains available. No title-menu action clears
+progress. How to Play includes controls and a spoiler-free content note.
+Settings uses the same optional sound and device narration controls as the
+game, with no reset control on the title screen. Reduced-motion settings
+remove the entrance fade and drifting dust.
+
 UPLOAD TO YOUR EXISTING GITHUB SITE
 1. Download bre-lynn-poetry-vault-update.zip and extract/unzip it.
 2. Open your bremcilroy-svg/bre-mcilroy-portfolio repository.
 3. Go to the folder containing index.html and writing.html (the website
    root). Choose Add file > Upload files.
-4. Upload ALL 36 extracted files at that level. Upload the files themselves,
+4. Upload ALL 42 extracted files at that level. Upload the files themselves,
    not the ZIP and not an enclosing folder. Replace matching files. Keep
    all other website files, photos, videos, and existing media.
 5. Commit to the branch your GitHub Pages site already uses. You do not
    need to change your Pages settings.
 6. Wait for the Pages deployment to finish, then refresh your website.
-   Begin at Writing & Poetry > Enter The Heart Chamber.
+   Begin at Writing & Poetry > Enter The Poetry Vault.
+   You can also select Play The Poetry Vault on the homepage book feature.
 
 CONTINUE WHERE YOU LEFT OFF
 If Chapter I is complete in this browser, its opening screen offers
@@ -174,20 +195,34 @@ simulated voices; an audible female narrator must be checked on the phone.
 Audio activation and control state were verified, not speaker sound quality.
 
 VERIFIED FOR THIS UPDATE
-Fresh reset-and-replay of all four chapters with the new modules; all item
-handoffs and puzzle unlocks; four locked poems at each chapter start; final
-poems still locked after the window alone; existing completed saves; chapter
-reset and completion-keepsake eligibility; collecting all four bookmarks;
-reward persistence after reload; completion SVG download; optional poem
-voice controls; sound activation, saved toggles across chapters, and muting;
-320/390px layouts without horizontal overflow; quick touch movement; phone
-settings and keepsake panels. No app runtime errors were observed in QA.
-Automated checks cover frame-rate-independent movement, diagonal speed,
-thin-wall collision, animated renderer transforms/visibility, sound and
-reward normalization, late-arriving voices, SVG text escaping, malformed
-saves, and original manuscript text. All sixteen poem bodies, prior state
-modules, photos, videos, the home-page black frame, and unrelated portfolio
-pages are preserved.
+Final live GitHub Pages replay of all four cinematic chapters: each item
+handoff; poem locks at chapter starts; clock/page clasps; mirror, ledger,
+window and book puzzles; final poems still locked after the window alone;
+all four optional bookmarks; the ending; reward persistence after reload;
+live completion-keepsake download; keyboard and quick phone-width movement;
+320px live layout; sound activation and muting. No app console errors were
+observed in this live pass. This checks the agent's test-browser saves,
+not progress stored on the author's Android phone.
+
+The new entrance was tested locally at desktop and 320/390px widths: title
+art, menu dialogs, no horizontal overflow, sound test/muting, direct Continue
+into the final room, Enter preserving an existing Chapter I save, returning
+to the menu from a chapter, and Continue returning to Chapter I after its
+reset with all four poems locked. Automated checks cover fresh, partial,
+completed, bookmark-only, corrupt and blocked saves; every Continue route;
+all earlier movement/collision, sound/voice, puzzle, and reward checks.
+The sixteen original manuscript poems and chapter save modules are unchanged.
+The homepage changes only by adding a game link to the existing book feature;
+its portrait markup and black-frame stylesheet are unchanged. All existing
+photos, videos, and unrelated pages are kept.
+
+PHYSICAL DEVICE CHECK STILL NEEDED
+The test browser uses compatibility graphics and has no installed narrator
+voices. A narrow viewport is not a physical Android phone. On your phone,
+check sustained movement, drag-to-look, speaker/headphone sound, Settings >
+Test narrator, and a reload after collecting an object. A female voice is
+preferred when the device provides one; no recorded voice is bundled.
+WebGL graphics and actual phone performance/audio remain unverified here.
 
 LOCAL PREVIEW AND SOURCE FILES
 Use an HTTP preview/server. Opening HTML directly as a local file can block
@@ -198,7 +233,7 @@ Keeping progress and rewards between chapters requires browser storage.
 These are public website files: reading is locked within the game, but the
 poem text remains in the source files.
 
-FILES (UPLOAD ALL 36)
+FILES (UPLOAD ALL 42)
 poetry-vault.html
 poetry-vault.css
 poetry-vault.js
@@ -235,8 +270,31 @@ vault-cinematics.js
 vault-sound.js
 vault-rewards.js
 vault-cinematic.css
+poetry-vault-entrance.html
+vault-entrance.css
+vault-entrance.js
+vault-journey.js
+vault-entrance.webp
+index.html
 
 NOT LIVE UNTIL YOU UPLOAD
 This download does not automatically deploy to GitHub. It updates your
 existing website; do not replace your entire repository with only these
-36 files. Keep your existing media and all other website files.
+42 files. Keep your existing media and all other website files.
+
+ENTRANCE ARTWORK
+Asset: vault-entrance.webp. Generated with built-in image generation and
+encoded as WebP for the website; original generated PNG retained separately.
+Prompt: Use case: stylized-concept. Asset type: background artwork for The
+Poetry Vault's cinematic game title screen, no UI. A richly detailed Victorian
+library entrance at night, massive dark walnut double doors under an ornate
+pointed arch, aged brass keyhole and intricate antique gold metalwork,
+flanking bookshelves and candle lanterns, faint warm light from the door's
+central seam. Atmospheric dark plum, burgundy-black, tarnished gold and candle
+amber palette, realistic cinematic game-environment concept art, fine wood
+grain, subtle volumetric light and drifting dust, inviting literary mystery
+rather than horror. Wide landscape composition; the ornate doorway occupies
+the right half, left half falls into dark shadows with negative space for
+separately coded title and menu, no people. Avoid any text, letters, numbers,
+logos, interface, watermark, poem words, puzzle clues or answers. This is a
+standalone website art asset, not a screenshot or website mockup.
