@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Poetry Vault · The Shattered Mirror | Bre McIlroy</title>
+<meta name="description" content="Enter The Shattered Mirror, a first-person Victorian poetry escape room. Find four mirror fragments, restore their frame, and unlock four original poems by Bre McIlroy.">
+<meta name="theme-color" content="#100d0e"><link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="poetry-vault.css?v=20261112-chapter2"><link rel="stylesheet" href="poetry-vault-mirror.css"><script type="module" src="poetry-vault-mirror.js?v=20261112-mirror"></script>
+</head>
+<body class="mirror-chapter">
+<main id="vault">
+<div id="scene" aria-label="First-person view of a Victorian mirror hall"></div>
+<div class="vignette" aria-hidden="true"></div>
+<header class="masthead"><a href="poetry-vault.html" class="back">← <span>Chapter I / The Heart Chamber</span></a><span class="wordmark">THE POETRY VAULT</span><button id="settings-button" aria-label="Open sound and narration settings">Sound & settings</button></header>
+<section class="welcome" id="welcome" aria-labelledby="welcome-title">
+<div class="welcome-copy"><p class="eyebrow">The Library of Forgotten Words</p><p class="chapter-label">CHAPTER II <span>—</span> THE SHATTERED MIRROR</p><h1 id="welcome-title">What remains<br>in the<br><em>reflection?</em></h1><p class="intro">Four fragments. A broken reflection. The words you left behind.</p><p class="description">Restore a fractured mirror and unlock the next four poems from <i>Love, Pain &amp; The Chaos in My Brain</i> by Bre McIlroy.</p><div class="welcome-actions"><button class="primary" id="start">Use the silver key <span>→</span></button></div><p class="fine">Solve the puzzles to unlock the poems · Hints available</p><p id="resume-note" class="fine"></p></div>
+<div class="room-caption"><span class="ornament">✧</span><p>WHAT DOES THE GLASS REMEMBER?</p><span>Find the missing pieces.</span></div>
+</section>
+<section id="play-ui" hidden aria-label="Game controls">
+<div class="chapter-hud"><p class="eyebrow">II / The Shattered Mirror</p><h1 id="objective">Find the four mirror fragments.</h1><p id="progress">0 / 4 fragments · 0 / 4 poems</p></div>
+<nav class="tools" aria-label="Chamber tools"><button id="explore">Explore objects</button><button id="journal">Journal <span id="journal-count">0</span></button><button id="hint">Hint</button><button id="help">Controls</button></nav>
+<div id="crosshair" aria-hidden="true">+</div>
+<div class="interact-wrap"><p id="look-prompt">Look around. Look for glints of broken glass.</p><button id="interact" class="primary" disabled>Approach an object</button></div>
+<div class="move-help" id="desktop-help">W A S D to move · Drag to look · E to inspect</div>
+<div class="touch-controls" aria-label="Touch movement controls"><div class="movement-pad"><button data-move="forward" aria-label="Move forward">↑</button><button data-move="left" aria-label="Step left">←</button><button data-move="back" aria-label="Move backward">↓</button><button data-move="right" aria-label="Step right">→</button></div><div class="look-pad"><button data-move="turnLeft" aria-label="Look left">↶</button><button data-move="turnRight" aria-label="Look right">↷</button></div></div>
+</section>
+<div id="toast" role="status" aria-live="polite"></div>
+<p id="scene-status" class="scene-status" role="status">Opening the library…</p>
+<noscript><div class="no-script">This interactive room needs JavaScript. Enable it, then reload. <a href="writing.html">Return to Writing &amp; Poetry</a>.</div></noscript>
+</main>
+<dialog id="panel" aria-labelledby="panel-title"><div class="dialog-top"><p class="eyebrow" id="panel-kicker">The Shattered Mirror</p><button id="close-panel" class="close" aria-label="Close panel">×</button></div><h2 id="panel-title"></h2><div id="panel-content"></div></dialog>
+</body></html>
