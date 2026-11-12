@@ -1,9 +1,9 @@
 THE POETRY VAULT — PHASE 7: THE SECRET SOCIETY
 Original poetry by Bre McIlroy
 
-The full poetry-vault-phase-7-secret-society.zip contains 61 files, including the Chapter I menu correction and the latest playtest fixes.
+The full poetry-vault-phase-7-secret-society.zip contains 69 files, including the Chapter I menu correction, the latest playtest fixes, and the Author’s Hidden Room extension.
 
-If Phase 7 is already installed, poetry-vault-phase7-playtest-fixes.zip contains only the 15 corrected files. Extract and upload all 15, replacing matching files beside index.html. Keep everything else. You do not need both downloads.
+If Phase 7 is already installed, use poetry-vault-authors-hidden-room-update.zip: 23 files including all 15 previous corrections and the new Author’s Hidden Room. Upload all 23 beside index.html, replacing matching files. Keep everything else. You do not need the older fixes ZIP too. See AUTHOR-HIDDEN-ROOM-GUIDE.txt for the new room and book shelf.
 
 UPLOAD
 1. Back up your GitHub Pages repository.
@@ -40,3 +40,9 @@ Fifth Door puzzles through the ending and certificate. Corrected tracking,
 retry, confirmation and keyboard behavior passed local browser/regression
 checks. These fixes become live only after the owner uploads them. A real
 Android touch/performance/download check remains needed.
+
+MEET THE AUTHOR UPDATE
+Author name: Bre Lynn McIlroy. The first desk discovery opens “The Voice
+They Couldn’t Silence”, with the supplied author photograph in a black
+frame. The edited author letter is preserved, with its byline/signature
+updated. The photo is used unchanged. No game progress is reset.

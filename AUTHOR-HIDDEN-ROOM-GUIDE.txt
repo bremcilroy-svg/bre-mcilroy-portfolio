@@ -1,0 +1,87 @@
+THE AUTHOR’S HIDDEN ROOM — GITHUB PAGES UPDATE
+For Bre McIlroy · The Poetry Vault · 12 November 2026
+
+UPLOAD THIS UPDATE
+1. Download poetry-vault-authors-hidden-room-update.zip and extract it.
+2. In your existing GitHub Pages source folder, upload all 23 files beside
+   index.html. Replace matching filenames; keep all other files and media.
+   Upload the extracted files themselves, not the ZIP or an extra folder.
+3. Commit with a message such as “Add Author’s Hidden Room and planned books”.
+4. Wait for GitHub Pages deployment, then refresh the Fifth Door page.
+   The new entrance appears after its epilogue. Completed Keepers can also
+   revisit from the Keepers’ Hall in the same browser.
+
+The 23-file update includes all 15 earlier Phase 7 playtest corrections.
+You do not need to upload the separate correction ZIP as well.
+The refreshed full poetry-vault-phase-7-secret-society.zip has 69 files;
+use it only if you need the full game package. It is not a replacement for
+all unrelated portfolio files, photographs, or videos in your repository.
+Neither archive is published automatically; uploading makes it live.
+
+WHAT’S NEW
+A candlelit illustrated author’s study with four interactive discoveries:
+a welcome letter, planned-books journal, music box, and camera. On phones,
+the same objects have large buttons below the scene. All four discoveries
+earn The Author’s Mark, a downloadable SVG bookmark. It is an extra keepsake,
+separate from the original twelve achievements and sixteen poems.
+
+THE BROKEN PRINCESS DIARIES
+Planned series by Bre McIlroy.
+Familiar princess stories, reimagined as if they grew up in foster care.
+1. Fairy God-Sister — Cinderella
+2. Rain Black and the 7 Doctors — Snow White
+3. The Beauty Within — Beauty & the Beast
+4. Escaping Wonderland — Alice
+5. Locked Away — Rapunzel
+
+The typographic book designs are presentation concepts for planned works.
+No finished manuscripts, plots, publication dates or purchase links are
+claimed. All five have planned status. Edit vault-author-content.js to
+add more books or change the series introduction. Add a unique id, title,
+inspiration and decorative symbol; the displayed count updates itself.
+The same file holds the editable welcome letter and portfolio connections.
+The welcome letter is new website copy drafted for this room.
+
+UNLOCK AND SAVES
+The room requires four completed original chambers, all four bookmark
+seals, and a previously reached Fifth Door epilogue. Replaying only the
+Fifth Door does not remove an earned invitation. Resetting an original
+chapter closes access until that chapter is completed again.
+The new save key is bre-poetry-vault-author-room-v1. Existing progress is
+read without migration or resets. Discoveries and bookmark collection are
+saved only in the player’s browser; switching devices or clearing browser
+data can lose them. The game gate is a player reward, not a private admin
+login. GitHub Pages serves static public files; do not put private drafts
+or payment/customer records in this room.
+
+CHECK AFTER UPLOAD
+Using the same browser where you earned progress:
+- Finish or revisit the Fifth Door ending and enter the new room.
+- Open the letter and all three other desk discoveries.
+- Check all five planned book titles and their inspirations.
+- Download the bookmark, reload, and confirm discoveries remain collected.
+- Revisit through the Keepers’ Hall.
+- On your Android phone, check touch scrolling, portrait/landscape rotation,
+  dialogs, and the actual bookmark download. Narrow desktop frame tests
+  passed, but physical Android testing remains pending.
+Do not reset your own game progress merely to check the layout.
+
+ART AND ACCESSIBILITY
+The study background is newly generated original scene artwork. It has
+no poem text. Covers and exported bookmark use code-native typography and
+vector decoration. Web fonts have Georgia/Arial fallbacks. Dialogs support
+Escape, visible keyboard focus and focus return; reduced-motion preferences
+remove transitions and smooth scrolling. There is no autoplay audio.
+The room is an illustrated interactive study, not a first-person 3D room.
+
+PRESERVATION
+Original poem files, all four chapter save/state modules, original room
+geometry, homepage and black portrait frame remain unchanged. Existing
+music and photography portfolio pages stay in your repository. The update
+links to them; it does not replace them.
+
+MEET THE AUTHOR UPDATE
+Author name: Bre Lynn McIlroy. The first desk discovery opens “The Voice
+They Couldn’t Silence”, with the supplied author photograph in a black
+frame. The edited author letter is preserved, with its byline/signature
+updated. The photo is used unchanged. No game progress is reset.
