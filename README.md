@@ -27,14 +27,14 @@ For the new repository, open Settings > Pages. Under Build and deployment, choos
 - travel.html: Travel Easy with Breezy, clearly identified as in development.
 - photography.html: Bre Lynn Photography, with 67 images across six collections, filters, and a full-screen viewer.
 - acting-modeling.html, fashion-design.html: Gallery foundations awaiting work samples.
-- contact.html: Portfolio and GitHub connections, awaiting a professional contact email.
+- contact.html: Public email, portfolio connections, and photography request links.
 - 404.html: Navigation back to the portfolio for missing pages.
 
 ## Content to finish
 
-- Add a professional email address to contact.html before using the site as the main contact destination on job applications.
+- The public contact address is Bremcilroy@gmail.com, as supplied by Bre. Review the displayed address before sharing the website widely.
 - Supply a current resume for a proper resume download. The printable career profile is a summary, not a complete employment history.
-- Review the career summary: 9+ years of customer service and office management; law firm Administrative Assistant in 2025; documentation, calendars, case files, and legal research. Employer names, exact dates, education, certifications, and other details were not supplied in the website archive and have not been invented.
+- The career summary now reflects the updated user details: 10+ years of customer service and 4 years in administration, payroll, and office work; law firm administrative experience at Simen, Figura & Parker; Michigan Notary Public commission valid through 2032. Exact employment dates beyond the existing 2025 reference, education, and other credentials have not been invented.
 - The Releasing Myself publication listing uses information previously supplied by the author: Unseal Your Best Life: Poems Revealing Past, Present, and Perfect Moments; compiled by Lauren Brill; pages 206–207. Supply publication images and the poem if you want a reading sample.
 - Add only the poems you select from the unpublished manuscript. No full manuscript or poem text is included.
 - Photography is now included. Supply performance credits, artwork, and project links for the remaining collections marked in progress.
@@ -57,7 +57,7 @@ For the new repository, open Settings > Pages. Under Build and deployment, choos
 
 ## Validation
 
-Twenty-six HTML pages and 625 local page, fragment, stylesheet, script, image, and icon references checked. All 13 complete lyric texts were compared against their rendered HTML content, ignoring formatting whitespace. JavaScript syntax was checked. Desktop and 320/390-pixel phone layouts were reviewed. Browser tests confirmed theme search, an empty result, Clear restoring all 13 entries, and song navigation. Deployment to your GitHub repository has not been performed.
+30 HTML pages and 740 local page, fragment, stylesheet, script, image, and icon references checked. All 13 complete lyric texts were compared against their rendered HTML content, ignoring formatting whitespace. JavaScript syntax was checked. Desktop and 320/390-pixel phone layouts were reviewed. Browser tests confirmed theme search, an empty result, Clear restoring all 13 entries, and song navigation. Deployment to your GitHub repository has not been performed.
 
 
 ## Music update
@@ -95,3 +95,27 @@ Use a category button to filter the collection. Open a photo to view it full-scr
 Upload all extracted files, including every blp-photo-*.jpg file, the updated HTML pages, style.css, and site.js. All files go directly into the root of bre-mcilroy-portfolio; no image folders need to be uploaded. If your phone limits the selection, upload the blp-photo-*.jpg images as one batch, then the remaining files as a second batch.
 
 Browser checks covered filtering, a full-screen image opening, next-photo navigation, keyboard navigation, Escape closing, and layouts at 320 and 390 pixels. All photo files decode correctly; all 13 full lyric texts are retained. The live GitHub site has not been changed here.
+
+
+## Public service update — ready to upload
+
+- photography-services.html: Session categories, the confirmed $50 Seasonal Memories Mini, 15 minutes of photography in a 30-minute slot, three enhanced images, 7–14-day delivery, and 50% deposit information. Other regular package prices and photo counts could not be recovered from the available context and are shown as request-a-quote entries rather than guessed amounts.
+- photography-booking.html and booking.js: A working email-request builder with a session-specific question, Michigan time, Wednesday/Saturday/Sunday validation, a minimum 48 hours of notice, and a maximum 90-day request window. The client must open their own email app and send the prepared message; no request is sent or stored by this website. The form does not reserve a time.
+- photography-rewards.html: The confirmed Memories Club benefits displayed as a coming-soon preview, with one reward per booking.
+- notary.html: Notary by Bre, serving Genesee County by mobile appointment or arranged meeting location, with an email inquiry link. Fees and detailed notary scheduling were not available in the recovered choices and are not invented.
+- Contact, experience, homepage, and shared navigation updated. All 67 photography images and 13 complete lyric pages remain included.
+- Photography travel within Genesee County included; outside-county travel quoted separately; free weather rescheduling; standard 48-hour rescheduling notice; card/debit/cash/Cash App preferences; optional tips without a default selection. These are public service preferences; there is no online payment processor in this package.
+
+### Planned features not implemented in this GitHub Pages package
+
+Client email-link/password authentication; secure owner Business Hub; private 90-day client galleries and favorites; gallery downloads; electronic contracts; online deposits and checkout; automated email or opted-in SMS reminders; automatic waitlists; rewards points and referral tracking; digital membership cards; birthday/expiration emails; promotion management; invoice/receipt generation; expense/receipt and mileage tracking; and automatic monthly/annual financial reports require authenticated server-side services and suitable providers. No client database, login simulation, stored payment information, or public private-records page has been created.
+
+The requested reminder schedule is 48 and 24 hours before photography sessions. Seasonal mini events use 30-minute slots and themes Bre chooses across all seasons and holidays. Automatic waitlist email alerts remain planned; no event capacity or offers are simulated. Referral credits are $10 each after a new client's completed paid session. Birthday choices are $10 or one extra edited photo for returning clients, upgraded to $15 or two edited photos for lifetime VIP. VIP is permanent after five completed paid sessions. Family rewards repeat every third qualifying annual session. Capture Points are one per eligible dollar, 100 points for $5 credit, expiring after 12 months of account inactivity.
+
+The proposed searchable CRM/private client notes and equipment inventory were declined and have not been added. Modeling is the next content update; the existing acting-modeling.html remains a collection foundation.
+
+### Upload this complete update
+
+Use the existing bre-mcilroy-portfolio repository. Extract the ZIP. Upload the blp-photo-*.jpg images as one batch, then upload the remaining files as a second batch into the repository root on main. Do not upload the ZIP itself or put index.html in an enclosing folder. This does not change Pages settings or trigger a deployment from this workspace.
+
+The form was checked in-browser with a test request (prepared only, not sent), a disallowed weekday, and the package-dependent prompt. Automated checks covered the exact 48-hour boundary, the 90-day limit, invalid calendar dates, a daylight-saving gap, Michigan time conversion, and email encoding. New page layouts were reviewed at 320 and 390 pixels.
