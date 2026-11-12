@@ -1,18 +1,18 @@
-THE POETRY VAULT — CHAPTERS I, II & III
+THE POETRY VAULT — ALL FOUR CHAPTERS
 Bre McIlroy
 
 THIS REPLACES THE EARLIER POETRY VAULT UPDATE
-Three first-person chapters are now playable, with twelve original poems.
+Four first-person chapters are now playable, with sixteen original poems.
 Each chapter keeps its poem pages locked until its puzzles are completed.
 There is no direct reading or skip-to-poetry option.
-The Door to Tomorrow, Chapter IV, remains in development.
+The Door to Tomorrow, Chapter IV, completes the journey.
 
 UPLOAD TO YOUR EXISTING GITHUB SITE
 1. Download bre-lynn-poetry-vault-update.zip and extract/unzip it.
 2. Open your bremcilroy-svg/bre-mcilroy-portfolio repository.
 3. Go to the folder containing index.html and writing.html (the website
    root). Choose Add file > Upload files.
-4. Upload ALL 25 extracted files at that level. Upload the files themselves,
+4. Upload ALL 31 extracted files at that level. Upload the files themselves,
    not the ZIP and not an enclosing folder. Replace matching files. Keep
    all other website files, photos, videos, and existing media.
 5. Commit to the branch your GitHub Pages site already uses. You do not
@@ -23,10 +23,13 @@ UPLOAD TO YOUR EXISTING GITHUB SITE
 CONTINUE WHERE YOU LEFT OFF
 If Chapter I is complete in this browser, its opening screen offers
 Continue to Chapter II. If Chapter II is complete, its opening screen
-now offers Continue to Chapter III.
+now offers Continue to Chapter III. If Chapter III is complete, choose
+Continue to the final chapter on its opening screen.
 Inspect The Mirror Door at the end of Chapter I to earn the silver key.
 Inspect The Clockwork Door at the end of Chapter II to carry the gear
-into The Midnight Labyrinth. The chapter endings link to the next room.
+into The Midnight Labyrinth. Inspect the Sunrise Door at the end of
+Chapter III to earn the sunrise emblem, then choose Enter The Door to
+Tomorrow. The chapter endings link to the next room.
 Stay on the SAME browser and SAME site address so these items carry over.
 A different browser, a private window, cleared browser data, or another
 site address has its own fresh progress. Chapter handoffs require browser
@@ -60,11 +63,23 @@ Reward: four poems and a sunrise emblem for the final chapter.
   Sold My Soul
   A Note from the Poor
 
-IV / The Door to Tomorrow — IN DEVELOPMENT
-This chapter is not playable in the current download.
+IV / The Door to Tomorrow
+Carry the sunrise emblem into a Victorian morning conservatory. Fit the
+emblem, arrange and rotate four window panes, collect four released pages,
+and bind them in the order described by their clues.
+Reward: the final four poems, the last door, and the complete ending.
+  Afraid of Change
+  Moving On
+  Never
+  Self Love
+
+After the final book opens, reading is optional. Inspect the final door to
+finish the game. The whole journey panel links back to each chapter's saved
+journal. The final chapter can be reset without resetting earlier journals
+or the sunrise emblem earned in Chapter III.
 
 TEXT AND CLUES
-All twelve poem bodies preserve the words, punctuation, and line breaks
+All sixteen poem bodies preserve the words, punctuation, and line breaks
 of the supplied manuscript. Short content notes appear outside selected
 poems. The new puzzles use fictional object clues and ledger dates;
 players do not have to interpret a poem's subject matter to solve them.
@@ -77,7 +92,9 @@ Phone: hold the movement arrows, drag to look, or use the curved arrows
 to turn. Explore objects gives access to the same objects and puzzles
 without navigating in 3D, including keyboard and screen-reader access.
 The clock has hour/minute dropdowns and a text readout as well as hands.
-The ledger shows each page's date in text. Controls keep their focus and
+The ledger shows each page's date in text. The final window has numbered
+panes, dropdowns, rotation buttons, and text orientation labels. The final
+book repeats the page clues beside its controls. Controls keep their focus and
 scroll position when you change a value.
 Hints become clearer each time. There are no timers or wrong-answer
 penalties. No poem can be opened before its chapter's puzzles are complete.
@@ -110,12 +127,15 @@ rendering was not visually verified there.
 Mirror panels use decorative glass, not live player-camera reflections.
 
 VERIFIED FOR THIS UPDATE
-Chapter II-to-III gear handoff; locked entrance without the gear; missing
-note/gear requirements; page clasps before/after the clock puzzle; incorrect
-and correct times; incomplete and incorrect ledger orders; poem access only
-after both puzzles; all twelve manuscript texts; saved unlocks; separate
-Chapter III reset; progressive hints; phone movement and 320/390px layouts.
-State checks also verify malformed saves and a continuous maze route.
+Fresh playthrough of all four chapters, including each earned-item handoff;
+locked final entrance without the emblem; locked final pages before the
+window puzzle; wrong pane orders and rotations; incomplete and incorrect
+book orders; all four final poems still locked after the window alone;
+final unlocks; all sixteen manuscript texts; the ending; revisiting earlier
+journals; saved final unlocks after reload; separate final-chapter reset;
+progressive hints; phone movement and 320/390px layouts. State checks cover
+invalid saves, sparse/duplicate puzzle values, and resume round trips.
+Compatibility graphics were visually tested, including the complete ending.
 Existing photos, videos, the home-page black frame, and unrelated portfolio
 pages are preserved.
 
@@ -126,7 +146,7 @@ All assets are local. No API keys, CDN, installation, or build step is needed.
 These are public website files: reading is locked within the game, but the
 poem text remains in the source files.
 
-FILES (UPLOAD ALL 25)
+FILES (UPLOAD ALL 31)
 poetry-vault.html
 poetry-vault.css
 poetry-vault.js
@@ -149,6 +169,12 @@ poetry-vault-labyrinth.js
 vault-labyrinth-room.js
 vault-labyrinth-state.js
 vault-labyrinth-poems.js
+poetry-vault-dawn.html
+poetry-vault-dawn.css
+poetry-vault-dawn.js
+vault-dawn-room.js
+vault-dawn-state.js
+vault-dawn-poems.js
 writing.html
 love-pain-chaos.html
 POETRY-VAULT-UPDATE.txt
@@ -156,4 +182,4 @@ POETRY-VAULT-UPDATE.txt
 NOT LIVE UNTIL YOU UPLOAD
 This download does not automatically deploy to GitHub. It updates your
 existing website; do not replace your entire repository with only these
-25 files. Keep your existing media and all other website files.
+31 files. Keep your existing media and all other website files.
