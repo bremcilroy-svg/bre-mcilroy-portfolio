@@ -40,7 +40,7 @@ if(id==='letter')show('Meet the Author','The Voice They Couldn’t Silence',`<fi
 }
 $('#series-title').textContent=series.title;$('#series-description').textContent=series.description;$('.series-byline').textContent=`By ${series.author} · ${series.books.length} planned books`;
 const covers=['#543145','#293c39','#583e3a','#3e3455','#343a4b'];
-$('#book-grid').innerHTML=series.books.map((book,i)=>`<article class="book-wrap"><button class="book" data-book="${escape(book.id)}" style="--cover:${covers[i%covers.length]}" aria-label="About planned book ${i+1}: ${escape(book.title)}"><span class="book-number">BOOK ${String(i+1).padStart(2,'0')}</span><span class="book-symbol" aria-hidden="true">${book.symbol}</span><h3>${escape(book.title)}</h3><span class="inspiration">${escape(book.inspiration)}</span><span class="book-author">BRE LYNN MCILROY</span></button><p class="book-caption">Planned · Discover this book ↗</p></article>`).join('');
+$('#book-grid').innerHTML=series.books.map((book,i)=>`<article class="book-wrap"><button class="book book-cover-${i+1}" data-book="${escape(book.id)}" style="--cover:${covers[i%covers.length]}" aria-label="About planned book ${i+1}: ${escape(book.title)}"><span class="book-number">BOOK ${String(i+1).padStart(2,'0')}</span><span class="book-symbol" aria-hidden="true">${book.symbol}</span><h3>${escape(book.title)}</h3><span class="inspiration">${escape(book.inspiration)}</span><span class="book-author">BRE LYNN MCILROY</span></button><p class="book-caption">Planned · Discover this book ↗</p></article>`).join('');
 $('#connections').innerHTML=connections.map(c=>`<a class="connection" href="${c.href}"><h3>${escape(c.title)}</h3><p>${escape(c.description)}</p><span>${escape(c.label)} →</span></a>`).join('');
 document.querySelectorAll('[data-discover]').forEach(el=>el.addEventListener('click',()=>discover(el.dataset.discover,el)));
 document.querySelectorAll('[data-book]').forEach(el=>el.addEventListener('click',()=>{if(!allowed)return;const i=series.books.findIndex(b=>b.id===el.dataset.book),book=series.books[i];state=discoverAuthor(state,'books');save();show(`Book ${i+1} · Planned`,book.title,`<p class="dialog-meta"><strong>Series</strong><br>${escape(series.title)}<br><br><strong>Fairy-tale inspiration</strong><br>${escape(book.inspiration)}</p><p>${escape(series.description)}</p><p>This book is planned. Story details and publication updates will be added as they are ready.</p>`,el);}));
@@ -53,3 +53,9 @@ mountJournal(()=>allowed).then(close=>{closeJournal=close;});
 const ownerBar=document.querySelector('#owner-session-bar');
 getOwnerAuth().then(auth=>{ownerAuth=auth;auth.access.subscribe(s=>{ownerVerified=s.owner;ownerBar.hidden=!s.owner;refresh();});}).catch(()=>{ownerVerified=false;refresh();});
 document.querySelector('#owner-room-signout').addEventListener('click',async()=>{const b=document.querySelector('#owner-room-signout');b.disabled=true;ownerVerified=false;refresh();try{await ownerAuth?.signOut();}finally{b.disabled=false;}});
+
+// Phase 2: Gizmo is a CSS-animated character modeled on the real cat's markings, not a photograph.
+const gizmo=document.querySelector('#gizmo'),gizmoSays=document.querySelector('#gizmo-says');
+const gizmoLines=['Prrr... Welcome to the library.','The best stories are the ones you make yourself.','A little curiosity opens every door.','Gizmo is guarding the unfinished chapters.','A nap on a manuscript counts as editing, right?'];
+let gizmoClicks=0;
+gizmo?.addEventListener('click',()=>{if(!allowed)return;gizmoClicks++;gizmo.classList.remove('gizmo-petted');void gizmo.offsetWidth;gizmo.classList.add('gizmo-petted');gizmoSays.textContent=gizmoLines[(gizmoClicks-1)%gizmoLines.length];});
