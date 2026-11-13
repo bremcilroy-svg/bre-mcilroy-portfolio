@@ -1,0 +1,24 @@
+/* Phase 15.5 — small, accessible door navigation; separate from the game HUD */
+#pv155-bridge{position:fixed;z-index:8500;left:12px;top:calc(12px + env(safe-area-inset-top));font:13px/1.4 system-ui,sans-serif;color:#fff0df}
+#pv155-bridge *{box-sizing:border-box}
+#pv155-bridge button{font:inherit;cursor:pointer}
+#pv155-bridge .pv155-open{border:1px solid #d9b07a;border-radius:24px;padding:9px 12px;background:#3d213bdc;color:#ffe8ca;box-shadow:0 3px 14px #0007;min-height:40px}
+#pv155-bridge .pv155-panel{position:absolute;top:48px;left:0;width:min(310px,calc(100vw - 24px));padding:16px;background:#241529f5;border:1px solid #c69a80;border-radius:15px;box-shadow:0 15px 35px #000b}
+#pv155-bridge .pv155-panel[hidden]{display:none}
+#pv155-bridge .pv155-heading{font:700 12px Georgia,serif;letter-spacing:.14em;color:#e7b987;margin:0 0 7px}
+#pv155-bridge .pv155-location{margin:0 0 12px}
+#pv155-bridge .pv155-links{display:grid;gap:8px}
+#pv155-bridge .pv155-route{display:block;text-align:left;border:1px solid #a27c94;border-radius:8px;padding:10px;background:#4b2a4d;color:#fff0e6;min-height:42px}
+#pv155-bridge .pv155-route:disabled{opacity:.53;cursor:not-allowed}
+#pv155-bridge .pv155-note{font-size:11px;opacity:.8;margin:12px 0 0}
+#pv155-transition{position:fixed;inset:0;z-index:20000;overflow:hidden;pointer-events:all;background:#100a17;color:#f6d7a6;display:grid;place-items:center}
+#pv155-transition[hidden]{display:none!important}
+#pv155-transition p{position:relative;z-index:2;font:italic clamp(22px,5vw,40px) Georgia,serif;text-shadow:0 2px 12px #000}
+#pv155-transition .pv155-door{position:absolute;top:0;bottom:0;width:50%;background:repeating-linear-gradient(90deg,#301b31 0 28px,#53314b 29px 48px,#38223a 49px 58px);border:7px ridge #b88b57;transition:transform .55s ease}
+#pv155-transition .left{left:0;transform-origin:left center}
+#pv155-transition .right{right:0;transform-origin:right center}
+#pv155-transition.pv155-animate .left{transform:translateX(-15%)}
+#pv155-transition.pv155-animate .right{transform:translateX(15%)}
+body.pv13-inside #pv155-bridge{display:none!important}
+@media(max-width:650px){#pv155-bridge{top:calc(58px + env(safe-area-inset-top));left:8px}#pv155-bridge .pv155-open{font-size:11px;padding:7px 10px}}
+@media(prefers-reduced-motion:reduce){#pv155-transition .pv155-door{transition:none}}
