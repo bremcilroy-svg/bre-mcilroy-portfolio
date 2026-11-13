@@ -4,3 +4,47 @@
 @media(max-width:480px){.keepsake-grid{grid-template-columns:1fr}.tools{gap:4px}.tools button{font-size:9px;padding:10px 7px}.certificate{padding:22px 12px}.certificate h3{font-size:26px}}@media(prefers-reduced-motion:reduce){#panel[open],#poem-body,.vault-celebrate *{animation:none!important}.vault-celebrate #vault:after{display:none!important}}
 
 .masthead a.wordmark{font-family:Georgia,serif;font-size:16px;letter-spacing:.19em;color:var(--cream)}@media(max-width:800px){.masthead a.wordmark{font-size:12px;letter-spacing:.12em}}
+/* Phase 15.1 — Mobile royal study layout */
+@media (max-width: 600px) {
+  body.pv13-inside #pv12-experience .pv12-hud {
+    position: absolute !important;
+    top: 64px !important;
+    bottom: auto !important;
+    left: 50% !important;
+    width: max-content !important;
+    max-width: 75vw !important;
+    padding: 5px 9px !important;
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+    opacity: .85;
+    pointer-events: none;
+  }
+
+  body.pv13-inside #pv12-experience .pv12-controls {
+    left: 8px !important;
+    bottom: 10px !important;
+    max-width: 53% !important;
+    gap: 4px !important;
+  }
+
+  body.pv13-inside #pv12-experience .pv12-actions {
+    right: 8px !important;
+    bottom: 10px !important;
+    max-width: 42% !important;
+    gap: 4px !important;
+  }
+
+  body.pv13-inside #pv12-experience
+  .pv12-controls button,
+  body.pv13-inside #pv12-experience
+  .pv12-actions button {
+    font-size: 10px !important;
+    padding: 6px !important;
+    min-height: 36px !important;
+  }
+
+  body.pv13-inside #pv-gizmo-companion {
+    right: 10px !important;
+    bottom: 225px !important;
+  }
+}
