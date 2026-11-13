@@ -25,3 +25,19 @@ body #pv-gizmo-companion[hidden] {
   display: none !important;
 }
 
+/* Gizmo: display original artwork directly */
+#pv-gizmo-companion .pvg-cat {
+  background-image: url("vault-gizmo-original.svg") !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: contain !important;
+  width: 90px !important;
+  height: 100px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+#pv-gizmo-companion .pvg-art {
+  opacity: 0 !important;
+}
+
