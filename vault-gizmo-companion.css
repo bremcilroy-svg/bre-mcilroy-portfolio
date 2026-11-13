@@ -1,0 +1,21 @@
+/* Whole-Vault Gizmo — visual walking companion */
+#pv-gizmo-companion{position:fixed;left:max(8px,env(safe-area-inset-left));bottom:calc(78px + env(safe-area-inset-bottom));width:92px;height:100px;z-index:7800;pointer-events:none;transform:translateX(var(--pvg-offset,0px));transition:opacity .2s ease}
+#pv-gizmo-companion[hidden]{display:none!important}
+#pv-gizmo-companion .pvg-cat{position:absolute;bottom:0;left:8px;width:73px;height:77px;display:flex;align-items:center;justify-content:center;border:0;background:transparent;cursor:pointer;pointer-events:auto;touch-action:manipulation;filter:drop-shadow(0 5px 5px #0008)}
+#pv-gizmo-companion .pvg-art{display:block;font-size:53px;transform-origin:50% 90%}
+#pv-gizmo-companion .pvg-art svg{width:72px;height:70px;display:block}
+#pv-gizmo-companion.pvg-walking .pvg-art{animation:pvg-trot .22s ease-in-out infinite alternate}
+#pv-gizmo-companion.pvg-facing-left .pvg-art{scale:-1 1}
+#pv-gizmo-companion .pvg-shadow{position:absolute;bottom:1px;width:52px;height:8px;background:#0006;border-radius:50%;z-index:-1}
+#pv-gizmo-companion .pvg-rest{position:absolute;bottom:-18px;left:10px;border:1px solid #c7a480;border-radius:16px;background:#35243c;color:#fbe7d3;font:600 10px system-ui;padding:3px 7px;pointer-events:auto;cursor:pointer;min-height:26px}
+#pv-gizmo-companion .pvg-speech{position:absolute;bottom:94px;left:0;width:175px;max-width:45vw;padding:9px 11px;border:1px solid #d6b38c;border-radius:12px;background:#2b1d32;color:#f8e7d9;box-shadow:0 4px 16px #0009;font:12px/1.35 Georgia,serif;pointer-events:none}
+#pv-gizmo-companion .pvg-speech[hidden]{display:none}
+#pv-gizmo-companion.pvg-resting .pvg-art{transform:rotate(-13deg) scale(.82)}
+#pv-gizmo-companion .pvg-cat:focus-visible,#pv-gizmo-companion .pvg-rest:focus-visible{outline:3px solid #ffdea1;outline-offset:3px}
+#pv-gizmo-companion .pvg-cat.pvg-pet .pvg-art{animation:pvg-pet .5s ease-in-out 2}
+@keyframes pvg-trot{to{translate:0 -6px}}@keyframes pvg-pet{50%{transform:scale(1.13) rotate(-5deg)}}
+@media(max-width:700px){#pv-gizmo-companion{bottom:calc(108px + env(safe-area-inset-bottom));left:5px;scale:.82;transform-origin:bottom left;z-index:7000}}
+@media(max-width:700px){body.pv15-puzzle-visible #pv-gizmo-companion{display:none!important}}
+@media(prefers-reduced-motion:reduce){#pv-gizmo-companion .pvg-art{animation:none!important}#pv-gizmo-companion{transition:none!important}}
+
+body.pv13-inside #pv-gizmo-companion{z-index:10050;bottom:calc(100px + env(safe-area-inset-bottom));}
