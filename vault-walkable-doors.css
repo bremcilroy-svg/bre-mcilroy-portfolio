@@ -1,0 +1,6 @@
+/* Phase 15.6 — keep the physical 3D doors and their original inspection puzzles. */
+#panel .pv156-door-link{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 18px;border:1px solid #d9ad74;border-radius:12px;background:linear-gradient(135deg,#4b243e,#26182f);color:#fff0d4;text-decoration:none;font-weight:700;box-shadow:0 4px 18px #170d1c55}
+#panel .pv156-door-link:focus-visible{outline:3px solid #f2d7a4;outline-offset:3px}
+body.pv156-fade::after{content:'Beyond the next door…';position:fixed;inset:0;z-index:20000;display:grid;place-items:center;background:#170e21;color:#f4d5a6;font:1.4rem Georgia,serif;animation:pv156-arrive .65s ease both;pointer-events:all}
+@keyframes pv156-arrive{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){body.pv156-fade::after{animation:none}}
