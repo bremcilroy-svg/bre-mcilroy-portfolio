@@ -1,0 +1,20 @@
+/* Full-month wall calendar. Original 0913 wheel lock is unchanged. */
+#pv-kimmi-lock{grid-template-columns:minmax(240px,1fr) minmax(240px,1fr);max-width:800px;align-items:start}
+#pv-kimmi-lock .pvk-calendar[data-full-month="true"]{width:100%;max-width:none;transform:rotate(-1.5deg);border:7px ridge #b88d68}
+#pv-kimmi-lock .pvk-calendar[data-full-month="true"] .pvk-calendar-top{display:flex;justify-content:space-between;align-items:center;padding:14px 12px;font-size:clamp(16px,3vw,23px);letter-spacing:.11em}
+#pv-kimmi-lock .pvk-month-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));padding:11px 8px 6px;gap:4px}
+#pv-kimmi-lock .pvk-weekday{text-align:center;font:700 clamp(9px,1.8vw,11px)/1.5 system-ui,sans-serif;color:#7a4d61}
+#pv-kimmi-lock .pvk-date-cell{position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:1/1.08;min-width:0;border:1px solid #bca48a7d;border-radius:3px;font:600 clamp(12px,2.2vw,19px)/1 Georgia,serif;color:#523247;background:#fff9ee45}
+#pv-kimmi-lock .pvk-date-cell.pvk-empty{background:transparent;border-color:transparent}
+#pv-kimmi-lock .pvk-birthday-date{background:#723b59;color:#fff0c8;border:2px solid #b67c42;box-shadow:0 0 0 2px #f4d99d,0 0 14px #b65b79a0;font-weight:700;transform:scale(1.06);z-index:1}
+#pv-kimmi-lock .pvk-date-cake{position:absolute;bottom:-3px;right:-4px;font-size:clamp(9px,1.8vw,15px);filter:drop-shadow(0 1px 1px #0007)}
+#pv-kimmi-lock .pvk-calendar[data-full-month="true"] .pvk-calendar-note{padding:12px 6px 16px;font-size:clamp(15px,2.5vw,19px);border-top:1px solid #ad8c8a66;margin:8px 12px 0}
+#pv-kimmi-lock .pvk-heart{color:#8d4562}
+@media(max-width:680px){
+ #pv-kimmi-lock{grid-template-columns:1fr;max-width:420px}
+ #pv-kimmi-lock .pvk-calendar[data-full-month="true"]{max-width:400px;margin:0 auto;transform:rotate(-1deg)}
+ #pv-kimmi-lock .pvk-month-grid{gap:4px;padding:11px 9px 7px}
+ #pv-kimmi-lock .pvk-date-cell{font-size:17px}
+ #pv-kimmi-lock .pvk-weekday{font-size:10px}
+ #pv-kimmi-lock .pvk-date-cake{font-size:13px}
+}
