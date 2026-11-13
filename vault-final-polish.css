@@ -1,0 +1,34 @@
+/* The Poetry Vault — Final Cross-Room Polish. Add AFTER previous styles. */
+:root { color-scheme: dark; }
+html { scroll-padding-top: 70px; }
+body { overflow-x: clip; }
+button, a, input, select { touch-action: manipulation; }
+button:focus-visible, a:focus-visible, input:focus-visible {
+ outline: 3px solid #f4d5a3!important; outline-offset: 3px!important;
+}
+@media(max-width:700px){
+ /* Keep the helper toggle in document flow, rather than over the birthday lock. */
+ #pv-kimmi-lock #pv15-helpers {
+   position:static!important;display:block!important;z-index:auto!important;
+   width:max-content!important;max-width:100%!important;
+   margin:0 0 14px auto!important;
+   min-height:44px!important;
+   box-shadow:0 3px 10px #0006!important;
+ }
+ body.pv15-puzzle-visible #pv-kimmi-lock #pv15-helpers{display:block!important}
+ #pv-kimmi-lock .pvk-calendar{width:100%!important;max-width:100%!important}
+ #pv-kimmi-lock .pvk-panel{max-width:100%;min-width:0}
+ #pv-kimmi-lock .pvk-wheels{gap:clamp(4px,2vw,9px)}
+ #pv-kimmi-lock .pvk-column{min-width:0}
+ #pv-kimmi-lock .pvk-digit{width:clamp(44px,12vw,55px)}
+ #pv-kimmi-lock .pvk-spin{width:clamp(44px,12vw,55px)}
+ .pv13-arch {max-width:100%;min-width:0}
+}
+@media(max-width:420px){
+ #pv-kimmi-lock .pvk-calendar-top{font-size:clamp(14px,4vw,19px)}
+ #pv-kimmi-lock .pvk-month-grid{min-width:0}
+}
+@media(prefers-reduced-motion:reduce){
+ html:focus-within{scroll-behavior:auto!important}
+ #pv-kimmi-lock *, #pv13-door * {animation-duration:.01ms!important;transition-duration:.01ms!important}
+}

@@ -1,0 +1,5 @@
+/* Phase 14: moonlit visual polish without changing the Phase 13 entrance */
+#pv12-experience .pv12-viewport{border-color:#bb9bd0;box-shadow:0 0 0 2px #e4c8a455,0 18px 55px #000c,0 0 30px #ae8fe022}
+#pv12-experience .pv12-intro h3{color:#ead0ff;text-shadow:0 0 18px #d1a8ff55}
+#pv13-door .pv13-arch{background:radial-gradient(ellipse at 50% 5%,#765489 0%,#43284c 52%,#1b1423 100%)}
+#pv13-door .pv13-crest{color:#f6e1a5;text-shadow:0 0 18px #f3e5a8}
