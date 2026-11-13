@@ -1,0 +1,30 @@
+/* Phase 9.1 — self-contained, mobile-friendly treasure cabinet */
+#pv91-cabinet{max-width:1120px;margin:48px auto;padding:clamp(20px,4vw,44px);border:1px solid #a581a4;border-radius:20px;background:radial-gradient(ellipse at 20% 0%,#503151,#211628 65%,#17111c);color:#f6e8e4;box-shadow:0 15px 50px #0005}
+#pv91-cabinet *{box-sizing:border-box}
+#pv91-cabinet .pv91-heading{text-align:center;max-width:720px;margin:0 auto 28px}
+#pv91-cabinet .eyebrow{color:#dfb7d0;letter-spacing:.14em;font-size:.77rem}
+#pv91-cabinet h2,#pv91-cabinet h3{font-family:Georgia,serif;color:#f0c99e}
+#pv91-cabinet h2{font-size:clamp(1.9rem,4.8vw,3.3rem);margin:8px 0 12px}
+#pv91-cabinet .pv91-main{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px}
+#pv91-cabinet .pv91-display,#pv91-cabinet .pv91-detail{border:1px solid #86678d;border-radius:14px;padding:22px;background:#211728}
+#pv91-cabinet .pv91-shelf-title{text-align:center;color:#e8c89d;letter-spacing:.16em;font-size:.76rem}
+#pv91-cabinet .pv91-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px 0}
+#pv91-cabinet .pv91-treasure{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:150px;gap:9px;padding:14px 8px;border:2px solid #80617c;border-radius:12px;background:linear-gradient(#49334a,#291d30);color:#f5e2d4;cursor:pointer;text-align:center}
+#pv91-cabinet .pv91-treasure[data-collected="true"]{border-color:#d5b282;background:linear-gradient(#65425e,#342137)}
+#pv91-cabinet .pv91-treasure[aria-pressed="true"]{outline:3px solid #ead0aa;outline-offset:2px}
+#pv91-cabinet .pv91-item-icon{font-size:2.5rem}
+#pv91-cabinet .pv91-treasure strong{font-size:.95rem;line-height:1.2}
+#pv91-cabinet .pv91-treasure small{font-size:.78rem;color:#d6b8c7}
+#pv91-cabinet .pv91-progress{text-align:center;margin:10px 0}
+#pv91-cabinet .pv91-meter{height:9px;border-radius:20px;background:#4b354e;overflow:hidden}
+#pv91-cabinet .pv91-meter span{display:block;height:100%;width:0;background:linear-gradient(90deg,#c391bf,#f3cf9c);transition:width .3s}
+#pv91-cabinet .pv91-detail{display:flex;flex-direction:column;gap:12px}
+#pv91-cabinet .pv91-detail h3{font-size:1.5rem;margin:12px 0}
+#pv91-cabinet .pv91-detail blockquote{margin:18px 0;padding:12px;border-left:3px solid #d4b18c;font:italic 1.05rem/1.6 Georgia,serif;color:#e8c8d8}
+#pv91-cabinet button#pv91-find{margin-top:auto;padding:12px 16px;min-height:48px;background:#65436b;color:white;border:1px solid #dfbca1;border-radius:8px;cursor:pointer}
+#pv91-cabinet button:focus-visible{outline:3px solid white;outline-offset:3px}
+#pv91-cabinet .pv91-reward{text-align:center;margin-top:24px;padding:22px;border:1px solid #c9a77f;border-radius:12px;background:#38243e}
+#pv91-cabinet .pv91-reward span{font-size:1.7rem}
+#pv91-cabinet .pv91-note{text-align:center;color:#d4baca;font-size:.86rem;margin-top:20px}
+@media(max-width:700px){#pv91-cabinet{margin:24px 12px;padding:18px}#pv91-cabinet .pv91-main{grid-template-columns:1fr}#pv91-cabinet .pv91-display,#pv91-cabinet .pv91-detail{padding:16px}#pv91-cabinet .pv91-treasure{min-height:135px}}
+@media(prefers-reduced-motion:reduce){#pv91-cabinet .pv91-meter span{transition:none}}
