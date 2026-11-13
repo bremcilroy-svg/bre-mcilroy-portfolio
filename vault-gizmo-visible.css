@@ -37,7 +37,18 @@ body #pv-gizmo-companion[hidden] {
   visibility: visible !important;
 }
 
-#pv-gizmo-companion .pvg-art {
-  opacity: 0 !important;
+
+/* Keep Gizmo's original artwork visible */
+#pv-gizmo-companion .pvg-art,
+#pv-gizmo-companion .pvg-art img {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+#pv-gizmo-companion .pvg-art img {
+  display: block !important;
+  width: 78px !important;
+  height: 88px !important;
+  object-fit: contain !important;
 }
 
