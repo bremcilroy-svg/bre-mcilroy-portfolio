@@ -1,0 +1,26 @@
+/* Phase 10 — separate gallery, no existing selectors overwritten */
+#pv10-gallery{box-sizing:border-box;max-width:1160px;margin:56px auto;padding:clamp(18px,4vw,44px);border:2px solid #a47c7b;border-radius:22px;background:radial-gradient(ellipse at 50% 10%,#66365e,#29182e 62%,#170f1d);color:#f7e5db;box-shadow:inset 0 0 65px #07030988,0 15px 55px #0008}
+#pv10-gallery *{box-sizing:border-box}
+#pv10-gallery .pv10-intro{text-align:center;margin:0 auto 32px;max-width:760px}
+#pv10-gallery h2{font:clamp(2rem,5vw,3.3rem)/1.1 Georgia,serif;color:#f6cba8;margin:10px 0 20px}
+#pv10-gallery .pv10-wall{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,2.3vw,28px);align-items:start;padding:clamp(12px,2vw,26px);border-radius:14px;background:repeating-linear-gradient(90deg,#341b38 0,#341b38 16px,#3a2040 17px,#3a2040 32px);box-shadow:inset 0 0 40px #0008}
+#pv10-gallery .pv10-frame{appearance:none;display:flex;flex-direction:column;align-items:stretch;min-width:0;padding:9px;background:linear-gradient(135deg,#f9db8d,#8b5a2d 22%,#f1bc5d 45%,#5c3326 75%,#e5bf78);border:4px ridge #dfad68;border-radius:8px;box-shadow:0 10px 15px #0009,0 0 0 2px #472444;cursor:pointer;color:#3b2034;text-align:center;transition:transform .2s ease,box-shadow .2s ease}
+#pv10-gallery .pv10-frame:hover,#pv10-gallery .pv10-frame:focus-visible{transform:translateY(-5px);box-shadow:0 14px 28px #000a,0 0 0 3px #b97fdf;outline:2px solid #f6dc9d;outline-offset:4px}
+#pv10-gallery .pv10-frame img{display:block;width:100%;height:clamp(125px,17vw,225px);object-fit:cover;object-position:center;border:3px solid #432039;background:#261426}
+#pv10-gallery .pv10-frame span{display:block;padding:8px 2px 2px;font:clamp(.8rem,1.4vw,1rem) Georgia,serif;color:#351c27}
+#pv10-gallery .pv10-animal{border-color:#c49ccf}
+#pv10-gallery .pv10-animal img{object-position:center}
+#pv10-gallery .pv10-note{text-align:center;font:italic 1.1rem Georgia,serif;color:#dfc1d9;margin-top:28px}
+#pv10-viewer{border:2px solid #d3a5c9;border-radius:14px;padding:14px;max-width:min(92vw,850px);max-height:90dvh;background:#24172c;color:#f5dfd8;box-shadow:0 20px 70px #000b}
+#pv10-viewer::backdrop{background:#08030bdc}
+#pv10-viewer .pv10-dialog-content{display:flex;flex-direction:column;align-items:center;gap:12px;max-height:calc(90dvh - 30px)}
+#pv10-viewer img{display:block;max-width:100%;max-height:60dvh;width:auto;height:auto;object-fit:contain;border:7px ridge #c9a16a}
+#pv10-viewer button{border:1px solid #d2acc9;background:#69446b;color:#fff0e6;border-radius:8px;min-height:44px;padding:10px 18px;cursor:pointer}
+#pv10-viewer .pv10-close{align-self:flex-end}
+#pv10-viewer .pv10-caption{text-align:center;font:1.1rem Georgia,serif;margin:0}
+#pv10-viewer .pv10-controls{display:flex;justify-content:center;gap:16px}
+#pv10-wall-gallery{position:absolute;top:21%;left:64%;width:12%;min-width:48px;padding:3px;border:3px ridge #e3b975;background:#54304d;box-shadow:0 0 12px #e4b2ec99;z-index:8;cursor:pointer;color:#f6dbb0;font:9px Georgia,serif}
+#pv10-wall-gallery img{width:100%;height:55px;object-fit:cover;display:block}
+#pv10-wall-gallery span{display:block;white-space:nowrap;font-size:clamp(6px,.7vw,10px)}
+@media(max-width:720px){#pv10-gallery{margin:25px 12px}#pv10-gallery .pv10-wall{grid-template-columns:repeat(2,minmax(0,1fr))}#pv10-gallery .pv10-frame img{height:clamp(130px,39vw,220px)}#pv10-gallery .pv10-frame span{font-size:.83rem}#pv10-wall-gallery{top:24%;left:66%;width:14%}}
+@media(prefers-reduced-motion:reduce){#pv10-gallery .pv10-frame{transition:none}}
