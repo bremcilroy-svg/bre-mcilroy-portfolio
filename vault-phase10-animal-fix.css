@@ -1,0 +1,39 @@
+/* Phase 10.2: Animal art already contains an ornate frame.
+   Remove the website's second frame only for the zebra, wolf, turtle. */
+#pv10-gallery .pv10-frame.pv10-animal {
+  appearance: none;
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: auto;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+#pv10-gallery .pv10-frame.pv10-animal::before,
+#pv10-gallery .pv10-frame.pv10-animal::after { content: none; display: none; }
+#pv10-gallery .pv10-frame.pv10-animal img {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: auto;
+  object-fit: contain;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+#pv10-gallery .pv10-frame.pv10-animal:hover,
+#pv10-gallery .pv10-frame.pv10-animal:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: none;
+  outline: 2px solid #f1d7ab;
+  outline-offset: 3px;
+}
+#pv10-gallery .pv10-frame.pv10-animal span { display: none !important; }
