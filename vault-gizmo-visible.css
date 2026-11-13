@@ -15,3 +15,13 @@
 }
 @media(max-width:380px){body #pv-gizmo-companion{right:4px!important;bottom:calc(225px + env(safe-area-inset-bottom,0px))!important}}
 @media(prefers-reduced-motion:reduce){#pv-gizmo-companion.pvg-visible-original .pvg-art{animation:none!important}}
+
+/* Keep Gizmo visible in the Heart Chamber during gameplay. */
+body.pv15-puzzle-visible #pv-gizmo-companion {
+  display: block !important;
+}
+
+body #pv-gizmo-companion[hidden] {
+  display: none !important;
+}
+
