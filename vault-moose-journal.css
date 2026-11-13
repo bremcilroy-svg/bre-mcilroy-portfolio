@@ -1,0 +1,39 @@
+/* Phase 8: The Secret of 0919 */
+#pv8-secret{max-width:1120px;margin:5rem auto;padding:clamp(18px,4vw,48px);color:#f3e5dc;background:radial-gradient(ellipse at 75% 10%,#4b254f 0%,#261629 48%,#160f1b 100%);border:1px solid #ad7b9e;border-radius:22px;box-shadow:0 20px 60px #0005}
+#pv8-secret *{box-sizing:border-box}
+#pv8-secret .pv8-title{text-align:center;margin-bottom:2rem}
+#pv8-secret h2,#pv8-secret h3{font-family:Georgia,serif;color:#edc49b}
+#pv8-secret h2{font-size:clamp(2rem,5vw,3.5rem);margin:.4rem 0}
+#pv8-secret .eyebrow{letter-spacing:.17em;font-size:.76rem;color:#dfb4a5}
+#pv8-secret .pv8-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(18px,4vw,48px);align-items:center}
+#pv8-secret .pv8-portrait{background:#29172c;border:1px solid #ae8baf;border-radius:12px;padding:12px;color:#f2d0a7;cursor:pointer;width:100%;min-width:0}
+#pv8-secret .pv8-portrait img{display:block;width:100%;height:auto;border-radius:5px}
+#pv8-secret .pv8-portrait span{display:block;padding:12px;font-weight:700}
+#pv8-secret .pv8-scroll{background:linear-gradient(140deg,#3c2933,#251c29);border:1px solid #a88677;border-radius:12px;padding:clamp(20px,4vw,36px)}
+#pv8-secret .pv8-scroll h3{font-size:clamp(1.6rem,3vw,2.4rem);margin:.3rem 0 1.3rem}
+#pv8-secret .pv8-verse{font-family:Georgia,serif;font-style:italic;line-height:1.8;font-size:clamp(1rem,2.1vw,1.18rem)}
+#pv8-secret .pv8-hint{border-top:1px solid #886678;padding-top:16px;color:#e4b9ce}
+#pv8-secret .pv8-journal{margin-top:2rem;border:1px solid #946d9b;border-radius:16px;padding:clamp(16px,3vw,32px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:25px;align-items:center;background:#1c1024}
+#pv8-secret .pv8-book-art{min-height:300px;position:relative;display:grid;place-items:center;background:linear-gradient(145deg,#62365e,#240e2f 70%);border:10px ridge #9d7a95;border-radius:10px 25px 25px 10px;box-shadow:inset 0 0 0 3px #c5a27e,8px 8px 0 #130e17}
+#pv8-secret .pv8-book-name{font:italic clamp(1.8rem,4vw,3rem)/1.3 Georgia,serif;color:#f6d4a2;text-align:center;text-shadow:0 2px 6px #000}
+#pv8-secret .pv8-chain{position:absolute;top:52%;left:0;width:100%;height:8px;background:repeating-linear-gradient(90deg,#bda5a2 0 12px,#6d526c 12px 18px,#d4c5b4 18px 28px);transform:rotate(-6deg);box-shadow:0 2px 5px #000}
+#pv8-secret .pv8-heart{position:absolute;top:48%;left:50%;transform:translate(-50%,-5%);width:88px;height:84px;display:grid;place-items:center;background:#a977b0;border:5px solid #e5c1b3;clip-path:polygon(50% 14%,62% 3%,81% 1%,97% 16%,100% 39%,90% 60%,50% 96%,10% 60%,0 39%,3% 16%,19% 1%,38% 3%);filter:drop-shadow(0 4px 8px #000);font-size:2rem}
+#pv8-secret .pv8-entry h3{font-size:1.8rem}
+#pv8-secret label{display:block;margin:1rem 0 .5rem}
+#pv8-secret .pv8-code-row{display:flex;gap:10px;flex-wrap:wrap}
+#pv8-secret input{width:110px;min-height:48px;background:#f7e8e0;color:#28152c;font-size:1.4rem;text-align:center;letter-spacing:.16em;border-radius:6px;border:2px solid #d1a9a9}
+#pv8-secret button:not(.pv8-portrait){min-height:48px;border:1px solid #e1b9a1;border-radius:8px;background:#613b60;color:#fff1df;padding:10px 16px;cursor:pointer}
+#pv8-secret button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+#pv8-secret #pv8-status{min-height:2em;color:#f4d3a7}
+#pv8-secret .pv8-unlocked .pv8-chain{opacity:0;transition:opacity .5s}
+#pv8-secret .pv8-unlocked .pv8-heart{transform:translate(-50%,-5%) rotate(-18deg);transition:transform .5s}
+#pv8-secret #pv8-detail{max-width:min(92vw,680px);max-height:90vh;overflow:auto;background:#201326;border:2px solid #d0a6b9;color:#f5dfce;border-radius:15px;padding:22px}
+#pv8-secret #pv8-detail::backdrop{background:#07020ad9}
+#pv8-secret .pv8-detail-body{text-align:center}
+#pv8-secret .pv8-detail-body img{display:block;max-width:100%;max-height:65vh;object-fit:contain;margin:auto}
+#pv8-secret .pv8-close{float:right}
+#author-immersive .pv8-wall-portrait{position:absolute;z-index:4;left:65%;top:18%;width:15%;max-height:33%;padding:3px;border:3px ridge #c9a48c;background:#251527;box-shadow:0 4px 15px #0008;cursor:pointer;overflow:hidden}
+#author-immersive .pv8-wall-portrait img{width:100%;display:block;aspect-ratio:1/1;object-fit:cover}
+#author-immersive .pv8-wall-portrait span{display:block;color:#ffe1ae;font-size:clamp(6px,1vw,11px);white-space:nowrap}
+@media(max-width:700px){#pv8-secret{margin:3rem 12px;padding:18px}#pv8-secret .pv8-layout,#pv8-secret .pv8-journal{grid-template-columns:1fr}#pv8-secret .pv8-portrait{max-width:480px;margin:auto}#pv8-secret .pv8-book-art{min-height:260px}#author-immersive .pv8-wall-portrait{left:64%;top:22%;width:18%}}
+@media(prefers-reduced-motion:reduce){#pv8-secret *{scroll-behavior:auto!important;transition:none!important}}
