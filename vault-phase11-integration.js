@@ -3,6 +3,7 @@
 'use strict';
 if(document.getElementById('pv11-journey'))return;
 const path=location.pathname.split('/').pop()||'index.html';
+if(path==='poetry-vault-entrance.html')return;
 const routes=[
  ['poetry-vault-entrance.html','Entrance','Begin the adventure'],
  ['poetry-vault.html','Four Chambers','Solve the original puzzles'],
