@@ -137,6 +137,66 @@ box(.18,.2,2.7,5.3,2.3,1.1,materials.gold);
 // Carpet.
 const rug=new THREE.Mesh(new THREE.PlaneGeometry(3.5,4.2),new THREE.MeshStandardMaterial({color:'#633653',roughness:1,side:THREE.DoubleSide}));
 rug.rotation.x=-Math.PI/2;rug.position.set(0,.025,.65);scene.add(rug);
+// PHASE 15 — Royal purple-and-ruby decor (insert immediately after scene.add(rug);)
+// Decorative objects only: does not change puzzles, controls, camera or Gizmo.
+const royal={
+ ruby:new THREE.MeshStandardMaterial({color:'#811f39',roughness:.92}),
+ velvet:new THREE.MeshStandardMaterial({color:'#51205f',roughness:.98}),
+ trim:new THREE.MeshStandardMaterial({color:'#d8a765',metalness:.62,roughness:.3}),
+ glow:new THREE.MeshBasicMaterial({color:'#ffe2a0'}),
+ dark:new THREE.MeshStandardMaterial({color:'#31132f',roughness:.9})
+};
+// Ruby-and-amethyst carpet with layered gold borders.
+const royalRug=new THREE.Mesh(new THREE.PlaneGeometry(4.8,5.4),new THREE.MeshStandardMaterial({color:'#681b43',side:THREE.DoubleSide,roughness:1}));
+royalRug.rotation.x=-Math.PI/2;royalRug.position.set(0,.036,.75);scene.add(royalRug);
+for(const [w,h,y,mat] of [[4.65,5.25,.039,royal.trim],[4.46,5.06,.042,royal.ruby],[4.15,4.76,.045,royal.velvet]]){
+ const layer=new THREE.Mesh(new THREE.PlaneGeometry(w,h),mat);
+ layer.rotation.x=-Math.PI/2;layer.position.set(0,y,.75);scene.add(layer);
+}
+// Royal ceiling medallion and chandelier, high enough to walk beneath.
+const medallion=new THREE.Mesh(new THREE.CylinderGeometry(.9,.9,.08,16),royal.trim);
+medallion.position.set(0,4.14,0);scene.add(medallion);
+const chandelierStem=new THREE.Mesh(new THREE.CylinderGeometry(.045,.045,.9,8),royal.trim);
+chandelierStem.position.set(0,3.7,0);scene.add(chandelierStem);
+for(let i=0;i<8;i++){
+ const angle=i*Math.PI/4;
+ const x=Math.cos(angle)*.72,z=Math.sin(angle)*.72;
+ const orb=new THREE.Mesh(new THREE.SphereGeometry(.105,8,6),royal.glow);
+ orb.position.set(x,3.35,z);scene.add(orb);
+ const cup=new THREE.Mesh(new THREE.CylinderGeometry(.15,.11,.09,8),royal.trim);
+ cup.position.set(x,3.23,z);scene.add(cup);
+ const jewel=new THREE.Mesh(new THREE.OctahedronGeometry(.12),i%2?royal.ruby:royal.velvet);
+ jewel.position.set(x,3.03,z);scene.add(jewel);
+}
+const chandelierLight=new THREE.PointLight('#ffd4ae',5,8,2);
+chandelierLight.position.set(0,3.4,0);scene.add(chandelierLight);
+// Ruby velvet curtains framing the moonlit rear-wall scene.
+for(const x of [-3.35,4.45]){
+ box(.48,2.75,.22,x,2.69,-5.43,royal.ruby);
+ box(.12,2.75,.25,x+(x<0?.28:-.28),2.69,-5.38,royal.trim);
+ for(let j=0;j<3;j++)box(.055,2.5,.24,x-.16+j*.16,2.69,-5.28,royal.velvet);
+}
+box(8,.15,.24,.55,4.16,-5.38,royal.trim);
+box(8,.34,.24,.55,3.93,-5.4,royal.ruby);
+// Queen's upholstered reading throne near the front-right wall, clear of the desk.
+const tx=3.65,tz=3.5;
+box(1.15,.27,.95,tx,.53,tz,royal.velvet);
+box(1.15,1.6,.22,tx,1.25,tz+.43,royal.ruby);
+box(.18,.85,.95,tx-.58,.95,tz,royal.trim);
+box(.18,.85,.95,tx+.58,.95,tz,royal.trim);
+for(const x of [tx-.43,tx+.43])for(const z of [tz-.33,tz+.33])box(.11,.5,.11,x,.25,z,royal.trim);
+for(let i=0;i<5;i++){
+ const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.09),i%2?royal.velvet:royal.ruby);
+ gem.position.set(tx-.4+i*.2,2.13,tz+.43);scene.add(gem);
+}
+// Gold-framed jewel panels on the front wall, away from the doorway.
+for(const x of [-3.9,3.9]){
+ box(1.65,1.65,.08,x,2.6,5.7,royal.trim);
+ box(1.48,1.48,.11,x,2.6,5.63,royal.dark);
+ const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.47),x<0?royal.ruby:royal.velvet);
+ gem.position.set(x,2.6,5.54);scene.add(gem);
+}
+
 // Portraits on actual side/back walls, including Moose (its original click opens original dialog).
 const photos=[
  ['pv10-memory-1.jpg','Memory one',-5.65,2.35,3.1,.85,1.14,Math.PI/2,0],
