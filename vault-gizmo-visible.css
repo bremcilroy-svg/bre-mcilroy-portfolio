@@ -1,0 +1,17 @@
+/* Always keep Gizmo visible and away from first-person movement controls. */
+#pv-gizmo-companion.pvg-visible-original .pvg-art img.pvg-original-img{display:block!important;width:78px!important;height:88px!important;object-fit:contain!important;max-width:none!important;opacity:1!important;visibility:visible!important}
+#pv-gizmo-companion.pvg-visible-original .pvg-art{font-size:0!important;line-height:0!important;display:block!important;opacity:1!important}
+#pv-gizmo-companion.pvg-visible-original .pvg-cat{opacity:1!important;visibility:visible!important}
+/* Place Gizmo on the right edge of the scene, not above the left-hand D-pad. */
+@media(max-width:700px){
+ body #pv-gizmo-companion{left:auto!important;right:10px!important;bottom:calc(230px + env(safe-area-inset-bottom,0px))!important;transform:none!important;scale:1!important;width:88px!important;height:110px!important;z-index:9000!important}
+ body #pv-gizmo-companion .pvg-cat{left:5px!important;bottom:19px!important;width:78px!important;height:88px!important}
+ body #pv-gizmo-companion .pvg-rest{left:8px!important;bottom:0!important;min-height:30px!important;padding:5px 9px!important}
+ body #pv-gizmo-companion .pvg-speech{left:auto!important;right:0!important;bottom:125px!important;max-width:min(200px,65vw)!important}
+ body #pv11-journey{left:auto!important;right:8px!important;bottom:calc(6px + env(safe-area-inset-bottom,0px))!important;z-index:8000!important}
+ body #pv11-journey .pv11-toggle{font-size:11px!important;padding:6px 9px!important;min-height:35px!important;max-width:112px!important;white-space:normal!important}
+ body #pv11-journey .pv11-routes{left:auto!important;right:0!important}
+ body.pv15-puzzle-visible #pv-gizmo-companion{display:none!important}
+}
+@media(max-width:380px){body #pv-gizmo-companion{right:4px!important;bottom:calc(225px + env(safe-area-inset-bottom,0px))!important}}
+@media(prefers-reduced-motion:reduce){#pv-gizmo-companion.pvg-visible-original .pvg-art{animation:none!important}}
