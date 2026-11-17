@@ -1,0 +1,12 @@
+ACTING PORTFOLIO FEATURED ORDER
+
+1. Upload acting-featured-order.js to the repository root.
+2. Edit acting.html and insert this line IMMEDIATELY BEFORE the existing acting.js script tag:
+   <script defer src="acting-featured-order.js?v=1"></script>
+3. Commit. Refresh the published acting page.
+
+Featured gallery order: original performances 08, 10, 15, 11, then all remaining clips.
+Original performance names and video files are preserved.
+Broken preview images get a video-still fallback.
+
+IMPORTANT: The featured section above the main gallery is separate; this script only reorders the main gallery. If you want the featured strip reordered too, ask for an HTML update.
