@@ -33,3 +33,17 @@ body.pv13-inside #pv155-bridge{display:none!important}
 #pv155-bridge .pv192-map-door:disabled{opacity:.55;cursor:not-allowed}
 #pv155-bridge .pv192-map-note{font-size:12px;color:#e1d3ea}
 @media(max-width:650px){#pv155-bridge .pv155-panel{max-height:calc(100dvh - 110px);overflow-y:auto}}
+
+/* Phase 19.2 — silver and amethyst cinematic owl guardians */
+#pv155-transition{background:radial-gradient(ellipse at 50% 40%,#38244c,#100a17 78%);color:#e9d9ff}
+#pv155-transition .pv155-door{background:repeating-linear-gradient(90deg,#28182f 0 25px,#55253f 26px 47px,#322141 48px 59px);border:7px ridge #bfc8db;box-shadow:inset 0 0 38px #090510,0 0 28px #a4bde522}
+#pv155-transition .pv155-door::before{content:"";position:absolute;top:9%;bottom:9%;width:5px;background:linear-gradient(#a5d6fa,#d9c1ed,#a5d6fa);opacity:.7}
+#pv155-transition .pv155-door.left::before{right:18px}
+#pv155-transition .pv155-door.right::before{left:18px}
+#pv155-transition .pv192-owl{position:absolute;top:24%;z-index:2;font-size:clamp(28px,6vw,58px);filter:drop-shadow(0 0 12px #a4d6ff);pointer-events:none;transition:transform .55s ease,opacity .55s ease}
+#pv155-transition .pv192-owl-left{left:21%}
+#pv155-transition .pv192-owl-right{right:21%}
+#pv155-transition.pv155-animate .pv192-owl-left{transform:translateX(-24px);opacity:.65}
+#pv155-transition.pv155-animate .pv192-owl-right{transform:translateX(24px);opacity:.65}
+#pv155-transition p{max-width:85vw;text-align:center;color:#f1e6ff}
+@media(prefers-reduced-motion:reduce){#pv155-transition .pv192-owl{transition:none}}
