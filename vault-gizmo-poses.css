@@ -1,0 +1,4 @@
+/* Dedicated sitting/sleeping pose overrides. */
+body #pv-gizmo-companion.pvg-pose-mode #pvg-real-artwork{object-fit:contain!important;animation:none!important;transform:none!important}
+body #pv-gizmo-companion.pvg-pose-mode .pvg-cat{background:none!important;background-image:none!important}
+body #pv-gizmo-companion.pvg-pose-mode.pvg-facing-left #pvg-real-artwork{transform:none!important}
