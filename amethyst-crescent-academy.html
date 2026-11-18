@@ -21,6 +21,16 @@ main{min-height:100svh;display:flex;flex-direction:column}.landscape{position:re
 .content{padding:clamp(22px,5vw,55px);max-width:1050px;margin:auto;width:100%;text-align:center}.content h2{font-size:clamp(22px,3vw,34px);margin:0 0 10px}.intro{line-height:1.6;color:#ddd4ef;max-width:700px;margin:0 auto 24px}
 .places{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:13px;text-align:left}.place{border:1px solid #79699c;border-radius:15px;background:#211933;padding:18px;min-height:125px}.place strong{display:block;margin:8px 0}.place p{font:13px/1.5 system-ui,sans-serif;color:#c6bcd9;margin:0}
 .actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:25px 0}.actions a{display:inline-block;padding:14px 21px;border:1px solid #c8b7e9;border-radius:30px;background:#493369;text-decoration:none;font:600 14px system-ui,sans-serif;min-height:48px}.actions a.secondary{background:#211933}
+.grounds-map{margin:24px auto;padding:20px;border:1px solid #a896ce;border-radius:20px;background:radial-gradient(ellipse at 50% 40%,#382450,#17152e 75%);max-width:800px}
+.grounds-map h3{margin:0 0 12px}.grounds-map p{color:#ded2f0;line-height:1.5}
+.grounds-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.grounds-options button{font:600 14px/1.4 system-ui,sans-serif;min-height:58px;text-align:left;color:#f4eaff;background:#342746;border:1px solid #8779ac;border-radius:12px;padding:12px;cursor:pointer}
+.grounds-options button[aria-pressed="true"]{border-color:#b4dcff;background:#4b3a68;box-shadow:inset 3px 0 #b4dcff}
+.grounds-options button:focus-visible{outline:3px solid #b4dcff;outline-offset:2px}
+.grounds-detail{margin-top:15px;padding:18px;border:1px solid #8976b5;border-radius:14px;background:#181329;text-align:left;min-height:150px}
+.grounds-detail h4{margin:0 0 8px;font-size:21px}.grounds-detail p{margin:0}
+.realm-preview{margin-top:26px}.realm-preview h3{margin-bottom:14px}.realm-preview .place{min-height:105px}
+@media(max-width:440px){.grounds-options{grid-template-columns:1fr}}
 footer{padding:25px;text-align:center;font:12px system-ui,sans-serif;color:#bbb0d0}
 @media(max-width:650px){.landscape{height:67svh;min-height:470px}.castle{width:120vw;max-width:none;height:63%;margin-bottom:13%}.caption{bottom:9px}.moon{right:12%;top:15%}header .crest{font-size:11px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important}}
@@ -45,7 +55,41 @@ footer{padding:25px;text-align:center;font:12px system-ui,sans-serif;color:#bbb0
 <div class="caption"><h1>Amethyst Crescent Academy</h1><p>Where Every Story Holds a Little Magic</p></div></section>
 <section class="content" id="explore"><h2>Welcome to the Academy Grounds</h2>
 <p class="intro">Beyond the moonlit towers lie secret libraries, royal halls, snowy-owl guardians, and five enchanted realms. The grounds are the beginning of a larger world still being built.</p>
+<section class="grounds-map" aria-labelledby="grounds-map-heading"><h3 id="grounds-map-heading">✦ Explore the Academy Grounds ✦</h3>
+<p>Choose a landmark to discover its story. These are illustrated guidebook stops; free-roaming exploration is planned for a later phase.</p>
+<div class="grounds-options" role="group" aria-label="Academy landmarks">
+<button type="button" data-landmark="owl" aria-pressed="true">🦉 Snow Owl Watchtower</button>
+<button type="button" data-landmark="lake" aria-pressed="false">❄️ Crescent Lake</button>
+<button type="button" data-landmark="garden" aria-pressed="false">🌹 The Royal Gardens</button>
+<button type="button" data-landmark="observatory" aria-pressed="false">🌙 Celestial Observatory</button>
+<button type="button" data-landmark="gates" aria-pressed="false">👑 Silver Crown Gates</button>
+</div>
+<div class="grounds-detail" id="grounds-detail" aria-live="polite"><h4>🦉 Snow Owl Watchtower</h4><p>High above the silver rooftops, snowy owls with icy-blue eyes watch the academy and its visitors. Their story has only just begun.</p></div></section>
 <div class="places"><div class="place">🦉<strong>The Owl Watch</strong><p>Snowy guardians keep watch over the academy towers.</p></div><div class="place">🌙<strong>The Crescent Observatory</strong><p>Look toward the stars and the mysteries of the night sky.</p></div><div class="place">👑<strong>The Silver Crown Gates</strong><p>The grand threshold to the castle and its hidden stories.</p></div><div class="place">💜<strong>The Poetry Vault</strong><p>A secret literary journey waiting inside the academy.</p></div></div>
+<section class="realm-preview" aria-label="The five future fantasy realms"><h3>Five Realms of the Academy</h3><div class="places">
+<div class="place">👸<strong>The Enchanted Kingdom</strong><p>Princesses, silver crowns, and royal mysteries · Planned realm</p></div>
+<div class="place">🏀<strong>The Court of Champions</strong><p>A spirited world of basketball and courage · Planned realm</p></div>
+<div class="place">🧸<strong>The Kingdom of Forgotten Toys</strong><p>A whimsical adventure through cherished childhood stories · Planned realm</p></div>
+<div class="place">🐺<strong>The Moonfang Forest</strong><p>Wolves beneath a glowing crescent moon · Planned realm</p></div>
+<div class="place">🪐<strong>The Celestial Observatory Realm</strong><p>Planets, constellations, and cosmic discovery · Planned realm</p></div>
+</div></section>
 <div class="actions"><a href="poetry-vault-entrance.html">Enter the Silver Crown Gates →</a><a class="secondary" href="writing.html">Return to the Portfolio</a></div>
 <p class="intro">The academy's five fantasy realms and free-roaming grounds are coming in later chapters. Your existing Poetry Vault progress stays in its original game.</p>
-</section></main><footer>Amethyst Crescent Academy · An original fantasy world by Bre McIlroy</footer></body></html>
+</section></main>
+<script>
+(()=>{'use strict';
+const stories={
+ owl:['🦉 Snow Owl Watchtower','High above the silver rooftops, snowy owls with icy-blue eyes watch the academy and its visitors. Their story has only just begun.'],
+ lake:['❄️ Crescent Lake','A frozen lake mirrors the crescent moon. Silver mist gathers at its banks, where future secrets may be discovered.'],
+ garden:['🌹 The Royal Gardens','Crimson roses, amethyst blossoms, and silver pathways surround the academy. A quiet place for stories and reflection.'],
+ observatory:['🌙 Celestial Observatory','The tallest tower studies the moon and stars. Beyond its windows wait the mysteries of the planned celestial realm.'],
+ gates:['👑 Silver Crown Gates','The great silver gates lead to the Poetry Vault, the academy’s first playable adventure. Enter when you are ready.']
+};
+const buttons=document.querySelectorAll('[data-landmark]'),panel=document.getElementById('grounds-detail');
+buttons.forEach(button=>button.addEventListener('click',()=>{
+ const story=stories[button.dataset.landmark];if(!story)return;
+ buttons.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+ panel.querySelector('h4').textContent=story[0];panel.querySelector('p').textContent=story[1];
+}));
+})();
+</script><footer>Amethyst Crescent Academy · An original fantasy world by Bre McIlroy</footer></body></html>
