@@ -24,15 +24,15 @@ function eligible(i,s){
 }
 function go(i){if(travelling)return;const s=stats();if(!eligible(i,s)){render();return;}travelling=true;overlay.hidden=false;overlay.classList.remove('pv155-animate');void overlay.offsetWidth;overlay.classList.add('pv155-animate');setTimeout(()=>{location.assign(routes[i]);},650);}
 function render(){const s=stats();root.querySelector('.pv155-location').textContent='You are in: '+titles[index];links.replaceChildren();castleMap.replaceChildren();
- const heading=document.createElement('p');heading.textContent='✦ THE LIVING CASTLE ✦';heading.style.cssText='text-align:center;color:#e8d0ff;letter-spacing:.13em;font-weight:bold';castleMap.append(heading);
+ const heading=document.createElement('p');heading.textContent='✦ THE LIVING CASTLE ✦';heading.className='pv192-map-heading';castleMap.append(heading);
  for(let i=0;i<routes.length;i++){
-  const ok=eligible(i,s),b=document.createElement('button');b.type='button';b.className='pv155-route pv192-map-door';b.disabled=!ok;
-  b.style.cssText='display:block;width:100%;margin:6px 0;padding:10px;text-align:left;border:1px solid #a48ac0;border-radius:8px;background:#2c1939;color:#f5edff';
+  const ok=eligible(i,s),b=document.createElement('button');b.type='button';b.className='pv155-route pv192-map-door';b.disabled=!ok||i===index;
+  if(i===index)b.setAttribute('aria-current','page');
   b.textContent=(i===index?'◆ You are here · ':'◇ ')+titles[i]+(ok?'':' · Locked');
   b.title=ok?'Travel through the castle':'Complete the earlier chapters to unlock this passage';
   b.addEventListener('click',()=>go(i));castleMap.append(b);
  }
- const note=document.createElement('p');note.textContent='The five fantasy realms remain in development. Existing chapter locks and saved puzzles are preserved.';note.style.cssText='font-size:12px;color:#e1d3ea';castleMap.append(note);
+ const note=document.createElement('p');note.textContent='The five fantasy realms remain in development. Existing chapter locks and saved puzzles are preserved.';note.className='pv192-map-note';castleMap.append(note);
  const options=[];
  if(index>0)options.push(index-1);
  if(index<routes.length-1)options.push(index+1);
@@ -45,6 +45,6 @@ function render(){const s=stats();root.querySelector('.pv155-location').textCont
  }
 }
 toggle.addEventListener('click',()=>{const show=panel.hidden;panel.hidden=!show;toggle.setAttribute('aria-expanded',String(show));if(show)render();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden){panel.hidden=true;toggle.setAttribute('aria-expanded','false');}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden){panel.hidden=true;toggle.setAttribute('aria-expanded','false');toggle.focus();}});
 render();
 })();
