@@ -26,4 +26,4 @@ document.getElementById('save').addEventListener('click',()=>{try{localStorage.s
 document.getElementById('reset').addEventListener('click',()=>{apply(defaults);status.textContent='Choices reset. Save to replace your previous character.';});
 try{const saved=JSON.parse(localStorage.getItem(KEY)||'null');apply(saved||defaults);if(saved)status.textContent='Your saved character has returned!';}catch{apply(defaults);}
 })();
-</script></body></html>
+</script><p style="text-align:center;padding:20px"><a href="academy-houses.html">🏰 Choose Your Academy House →</a></p></body></html>
