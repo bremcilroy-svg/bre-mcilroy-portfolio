@@ -1,0 +1,37 @@
+/* Realistic Gizmo walking test — Heart Chamber only. */
+body #pv-gizmo-companion.pvg-real-companion{
+ --pvg-real-x:0px;
+ width:175px!important;height:128px!important;
+ transform:translateX(var(--pvg-real-x))!important;
+}
+body #pv-gizmo-companion.pvg-real-companion .pvg-cat{
+ background-image:none!important;width:165px!important;height:112px!important;
+ left:0!important;bottom:18px!important;
+}
+body #pv-gizmo-companion.pvg-real-companion .pvg-art{
+ animation:none!important;transform:none!important;scale:1!important;
+ width:165px!important;height:112px!important;overflow:visible;
+}
+body #pv-gizmo-companion.pvg-real-companion .pvg-art img.pvg-real-walk{
+ display:block!important;width:165px!important;height:112px!important;
+ object-fit:contain!important;max-width:none!important;
+ opacity:1!important;visibility:visible!important;
+}
+body #pv-gizmo-companion.pvg-real-companion .pvg-shadow{bottom:19px;width:115px;left:25px}
+body #pv-gizmo-companion.pvg-real-companion .pvg-rest{left:38px!important;bottom:0!important}
+body #pv-gizmo-companion.pvg-real-companion .pvg-speech{bottom:140px!important}
+body #pv-gizmo-companion.pvg-real-companion.pvg-real-left .pvg-art{scale:-1 1!important}
+body #pv-gizmo-companion.pvg-real-companion.pvg-resting .pvg-art{transform:none!important}
+@media(max-width:700px){
+ body #pv-gizmo-companion.pvg-real-companion{
+  right:8px!important;left:auto!important;
+  bottom:calc(230px + env(safe-area-inset-bottom,0px))!important;
+  width:155px!important;height:120px!important;scale:1!important;
+ }
+ body #pv-gizmo-companion.pvg-real-companion .pvg-cat,
+ body #pv-gizmo-companion.pvg-real-companion .pvg-art,
+ body #pv-gizmo-companion.pvg-real-companion .pvg-art img.pvg-real-walk{width:150px!important;height:103px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ body #pv-gizmo-companion.pvg-real-companion{transform:none!important}
+}
