@@ -1,0 +1,12 @@
+/* Celebration is pointer-transparent, short-lived, and respects reduced motion. */
+#pv-discovery-moment{position:fixed;inset:0;z-index:10000;pointer-events:none;display:grid;place-items:center;opacity:0;visibility:hidden}
+#pv-discovery-moment.pv-reveal-active{visibility:visible;animation:pv-reveal-appear 2.6s ease-out both}
+.pv-reveal-halo{position:absolute;width:min(66vw,410px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(215,173,255,.26),rgba(159,102,222,.10) 38%,transparent 72%);filter:blur(8px);animation:pv-reveal-bloom 2.6s ease-out both}
+.pv-reveal-halo.heart{filter:hue-rotate(-45deg) blur(8px)}.pv-reveal-halo.moon{filter:hue-rotate(45deg) blur(8px)}.pv-reveal-halo.dawn{filter:hue-rotate(-95deg) blur(8px)}
+.pv-reveal-caption{position:absolute;top:23%;font:600 clamp(14px,2.5vw,23px)/1.4 Georgia,serif;letter-spacing:.08em;text-align:center;color:#f8e8ff;text-shadow:0 0 15px #7f49a9,0 2px 9px #1b0d25;padding:0 22px}
+.pv-reveal-star{position:absolute;top:50%;left:50%;width:5px;height:5px;border-radius:50%;background:#eee0ff;box-shadow:0 0 11px 3px #b9a4ec;animation:pv-reveal-scatter 2.6s ease-out both}
+@keyframes pv-reveal-appear{0%{opacity:0}13%,67%{opacity:1}100%{opacity:0}}
+@keyframes pv-reveal-bloom{0%{transform:scale(.3);opacity:0}28%{transform:scale(1);opacity:1}100%{transform:scale(1.35);opacity:0}}
+@keyframes pv-reveal-scatter{0%{transform:rotate(var(--a)) translateX(0);opacity:0}22%{opacity:1}100%{transform:rotate(var(--a)) translateX(var(--r));opacity:0}}
+@media(prefers-reduced-motion:reduce){#pv-discovery-moment,#pv-discovery-moment *{animation:none!important}#pv-discovery-moment.pv-reveal-active{opacity:0!important;visibility:hidden!important}}
+@media(max-width:600px){.pv-reveal-caption{top:18%}.pv-reveal-halo{width:75vw}}
