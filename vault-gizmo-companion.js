@@ -80,10 +80,22 @@ function init(){
  curious:['Gizmo tilts his head. Something caught his attention. 🐾','Gizmo’s whiskers twitch as he studies the room.','A tiny curious chirp. Gizmo is investigating.'],
  exploring:['Gizmo pads beside you, ears perked.','Gizmo pauses to inspect a mysterious corner.','Gizmo follows your footsteps quietly.']
  };
- const reactionCounts={curious:0,exploring:0};
+ // Room-aware personality, without touching doors, puzzles, or completion state.
+ const roomReactions={
+  'poetry-vault-entrance.html':['Gizmo sniffs the threshold. Adventure smells interesting!','Gizmo gives the castle doorway an approving tail flick.'],
+  'poetry-vault.html':['Gizmo listens quietly to the heart of this room.','A gentle paw touches the floor. Gizmo stays close.'],
+  'poetry-vault-mirror.html':['Gizmo spots another cat in the mirror—and looks twice!','Gizmo watches the reflections with enormous curiosity.'],
+  'poetry-vault-labyrinth.html':['Gizmo checks each corner with his whiskers.','Gizmo sits beside you, patiently considering the path.'],
+  'poetry-vault-dawn.html':['Gizmo stretches toward the morning light.','Gizmo blinks happily at the promise of a new day.'],
+  'poetry-vault-society.html':['Gizmo sits very straight, as if attending a royal council.','Gizmo gives the Keepers his most serious little stare.'],
+  'poetry-vault-fifth-door.html':['Gizmo waits beside you, tail curled in anticipation.','Gizmo gives a brave little chirp before the final door.'],
+  'poetry-vault-author-room.html':['Gizmo knows this room by heart. His favorite cushion is nearby.','Gizmo gives you a long, grateful slow blink. Home. 💜']
+ };
+ const reactionCounts={curious:0,exploring:0,room:0};
+
  function react(kind){
    if(resting||!isAllowed()||document.hidden||Date.now()-lastReaction<11000)return;
-   const list=reactions[kind];if(!list)return;
+   const list=kind==='room'?roomReactions[file]:reactions[kind];if(!list)return;
    lastReaction=Date.now();talk(list[reactionCounts[kind]++%list.length]);
    wrap.classList.add('pvg-curious');
    setTimeout(()=>wrap.classList.remove('pvg-curious'),900);
@@ -99,12 +111,12 @@ function init(){
   'poetry-vault-fifth-door.html':'One more door, then home.',
   'poetry-vault-author-room.html':'We made it to my favorite room!'
  };
- cat.addEventListener('click',()=>{if(!isAllowed())return;cat.classList.remove('pvg-pet');void cat.offsetWidth;cat.classList.add('pvg-pet');talk('Purrr! Gizmo loves you too. 💜');petCount++;wrap.classList.add('pvg-pleased');setTimeout(()=>wrap.classList.remove('pvg-pleased'),850);playCatSound(petCount%4===0?'meow':'purr')});
+ cat.addEventListener('click',()=>{if(!isAllowed())return;cat.classList.remove('pvg-pet');void cat.offsetWidth;cat.classList.add('pvg-pet');talk(file==='poetry-vault-author-room.html'?'Gizmo leans into your hand. Home is even better with you here. 💜':'Purrr! Gizmo loves you too. 💜');petCount++;wrap.classList.add('pvg-pleased');setTimeout(()=>wrap.classList.remove('pvg-pleased'),850);playCatSound(petCount%4===0?'meow':'purr')});
  rest.addEventListener('click',()=>{resting=!resting;try{sessionStorage.setItem(restKey,resting?'yes':'no')}catch{};wrap.classList.toggle('pvg-resting',resting);rest.setAttribute('aria-pressed',String(resting));rest.textContent=resting?'🐾 Follow':'🐾 Rest';talk(resting?'Gizmo curls up for a little rest.':'Gizmo is following again!');if(!resting)playCatSound('meow')});
  // Companion pads left and right in response to actual visitor activity, but
  // never intercepts the room's pointer controls or changes game state.
  let target=0,position=0,lastMove=0,raf=0;
- function moveToward(x){if(resting||!isAllowed())return;target=Math.max(-46,Math.min(46,x));wrap.classList.add('pvg-walking');clearTimeout(lastMove);lastMove=setTimeout(()=>wrap.classList.remove('pvg-walking'),750);if(!raf)raf=requestAnimationFrame(animate);if(Date.now()-lastReaction>28000)react('exploring')}
+ function moveToward(x){if(resting||!isAllowed())return;target=Math.max(-46,Math.min(46,x));wrap.classList.add('pvg-walking');clearTimeout(lastMove);lastMove=setTimeout(()=>wrap.classList.remove('pvg-walking'),750);if(!raf)raf=requestAnimationFrame(animate);if(Date.now()-lastReaction>28000)react('room')}
  function animate(){raf=0;position+=(target-position)*.17;wrap.style.setProperty('--pvg-offset',position+'px');wrap.classList.toggle('pvg-facing-left',target<position-2);if(Math.abs(target-position)>.6)raf=requestAnimationFrame(animate)}
  // Make Gizmo's movement intentional in every chapter, rather than random jumps.
  // On touch, mouse, or keyboard exploration he pads toward the visitor's direction.
@@ -118,7 +130,7 @@ function init(){
   else if(dir==='right'||dir==='turnRight')moveToward(38);
   else moveToward(e.clientX<innerWidth/2?-24:24);
  },{passive:true});
- document.addEventListener('click',e=>{if(e.target.closest('#pv-gizmo-companion,dialog,[role="dialog"]'))return;if(e.target.closest('[data-clue],[data-inspect],[data-hotspot],.hotspot'))react('curious');},{passive:true});
+ document.addEventListener('click',e=>{if(e.target.closest('#pv-gizmo-companion,dialog,[role="dialog"]'))return;if(e.target.closest('[data-clue],[data-inspect],[data-hotspot],.hotspot'))react('room');},{passive:true});
  document.addEventListener('keydown',e=>{if(['ArrowLeft','a','A'].includes(e.key))moveToward(-38);if(['ArrowRight','d','D'].includes(e.key))moveToward(38)},{passive:true});
  if(room){new MutationObserver(setVisibility).observe(room,{attributes:true,attributeFilter:['hidden']})}
  new MutationObserver(setVisibility).observe(document.body,{attributes:true,attributeFilter:['class']});
