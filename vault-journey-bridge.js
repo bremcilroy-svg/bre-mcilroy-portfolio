@@ -8,9 +8,11 @@ const index=routes.indexOf(path);if(index<0)return;
 let stats;
 try{const mod=await import('./vault-society.js');stats=mod.societyStats;}catch(e){console.warn('Journey guide unavailable',e);return;}
 const root=document.createElement('nav');root.id='pv155-bridge';root.setAttribute('aria-label','Castle passage');
-root.innerHTML='<button type="button" class="pv155-open" aria-expanded="false">✦ Castle passage</button><div class="pv155-panel" hidden><p class="pv155-heading">THE POETRY VAULT</p><p class="pv155-location"></p><div class="pv155-links"></div><p class="pv155-note">Your original puzzle progress remains saved in this browser.</p></div>';
+root.innerHTML='<button type="button" class="pv155-open" aria-expanded="false">✦ Castle passage</button><div class="pv155-panel" hidden><p class="pv155-heading">THE POETRY VAULT</p><p class="pv155-location"></p><div class="pv155-links"></div><button type="button" class="pv192-map-toggle" aria-expanded="false">🗺 Castle map · All chambers</button><div class="pv192-map" hidden></div><p class="pv155-note">Your original puzzle progress remains saved in this browser.</p></div>';
 document.body.append(root);
 const toggle=root.querySelector('.pv155-open'),panel=root.querySelector('.pv155-panel'),links=root.querySelector('.pv155-links');
+const mapToggle=root.querySelector('.pv192-map-toggle'),castleMap=root.querySelector('.pv192-map');
+mapToggle.addEventListener('click',()=>{const showing=castleMap.hidden;castleMap.hidden=!showing;mapToggle.setAttribute('aria-expanded',String(showing));if(showing)render();});
 const overlay=document.createElement('div');overlay.id='pv155-transition';overlay.hidden=true;overlay.innerHTML='<div class="pv155-door left"></div><div class="pv155-door right"></div><p>Beyond the next door…</p>';document.body.append(overlay);
 let travelling=false;
 function eligible(i,s){
@@ -21,7 +23,16 @@ function eligible(i,s){
  return s.journey.allComplete&&s.seals.length===4&&s.society.fifth===true;
 }
 function go(i){if(travelling)return;const s=stats();if(!eligible(i,s)){render();return;}travelling=true;overlay.hidden=false;overlay.classList.remove('pv155-animate');void overlay.offsetWidth;overlay.classList.add('pv155-animate');setTimeout(()=>{location.assign(routes[i]);},650);}
-function render(){const s=stats();root.querySelector('.pv155-location').textContent='You are in: '+titles[index];links.replaceChildren();
+function render(){const s=stats();root.querySelector('.pv155-location').textContent='You are in: '+titles[index];links.replaceChildren();castleMap.replaceChildren();
+ const heading=document.createElement('p');heading.textContent='✦ THE LIVING CASTLE ✦';heading.style.cssText='text-align:center;color:#e8d0ff;letter-spacing:.13em;font-weight:bold';castleMap.append(heading);
+ for(let i=0;i<routes.length;i++){
+  const ok=eligible(i,s),b=document.createElement('button');b.type='button';b.className='pv155-route pv192-map-door';b.disabled=!ok;
+  b.style.cssText='display:block;width:100%;margin:6px 0;padding:10px;text-align:left;border:1px solid #a48ac0;border-radius:8px;background:#2c1939;color:#f5edff';
+  b.textContent=(i===index?'◆ You are here · ':'◇ ')+titles[i]+(ok?'':' · Locked');
+  b.title=ok?'Travel through the castle':'Complete the earlier chapters to unlock this passage';
+  b.addEventListener('click',()=>go(i));castleMap.append(b);
+ }
+ const note=document.createElement('p');note.textContent='The five fantasy realms remain in development. Existing chapter locks and saved puzzles are preserved.';note.style.cssText='font-size:12px;color:#e1d3ea';castleMap.append(note);
  const options=[];
  if(index>0)options.push(index-1);
  if(index<routes.length-1)options.push(index+1);
