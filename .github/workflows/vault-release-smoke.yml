@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - phase-19-2-connected-castle
+      - release-poetry-vault-playable
   workflow_dispatch:
 jobs:
   source-smoke:
