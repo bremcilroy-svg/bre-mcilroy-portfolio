@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Amethyst Crescent Academy · The Castle Grounds</title><meta name="theme-color" content="#160e2a">
+<meta name="description" content="Discover Amethyst Crescent Academy, a moonlit castle of stories, snowy owls, and enchanted realms.">
+<style>
+:root{color-scheme:dark;font-family:Georgia,serif}*{box-sizing:border-box}body{margin:0;color:#f5ebff;background:#100c20}a{color:#e1d6ff}
+.skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;z-index:5;background:#20152d;padding:12px}
+header{position:absolute;z-index:3;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px clamp(16px,4vw,50px);background:linear-gradient(#100b24c9,transparent)}
+header a{font:600 13px system-ui,sans-serif;text-decoration:none}header .crest{font-size:14px;letter-spacing:.12em;color:#e6d5ff}
+main{min-height:100svh;display:flex;flex-direction:column}.landscape{position:relative;isolation:isolate;min-height:min(78vw,710px);height:75svh;max-height:860px;overflow:hidden;background:radial-gradient(ellipse at 52% 23%,#6b528c 0%,#322a5b 36%,#15152e 78%);display:flex;align-items:end;justify-content:center}
+.moon{position:absolute;top:12%;right:16%;width:clamp(65px,12vw,150px);aspect-ratio:1;border-radius:50%;background:#e9e4ff;box-shadow:0 0 70px 22px #b1a6ff70}
+.moon:after{content:"";position:absolute;inset:-9% -18% 13% 28%;background:#302750;border-radius:50%}
+.stars{position:absolute;inset:0;background-image:radial-gradient(#e8e7ff 1px,transparent 1.5px),radial-gradient(#b4cfff 1px,transparent 1.5px);background-size:93px 83px,137px 127px;background-position:18px 16px,57px 41px;opacity:.75}
+.hills{position:absolute;inset:auto -5% 0;height:29%;background:linear-gradient(170deg,#bcc7e1,#64729c 60%,#1c2447);clip-path:polygon(0 46%,10% 23%,20% 42%,30% 14%,41% 45%,55% 18%,69% 42%,82% 11%,100% 38%,100% 100%,0 100%)}
+.castle{position:relative;width:min(92vw,950px);height:76%;max-height:650px;z-index:1;filter:drop-shadow(0 12px 18px #080612bb)}
+.castle svg{width:100%;height:100%;overflow:visible}
+.castle .stone{fill:#62567d;stroke:#c4b9dd;stroke-width:3}.castle .roof{fill:#3c244e;stroke:#d3c3e7;stroke-width:3}.castle .window{fill:#c7a1ff;stroke:#d4d9ff;stroke-width:3;filter:drop-shadow(0 0 8px #c4a0ff)}.castle .door{fill:#271b38;stroke:#d5d7ed;stroke-width:5}
+.foreground{position:absolute;inset:auto 0 0;height:13%;z-index:2;background:linear-gradient(#a3b2d0,#e4e8f3);clip-path:polygon(0 40%,25% 15%,50% 50%,74% 20%,100% 45%,100% 100%,0 100%)}
+.caption{position:absolute;z-index:3;bottom:15px;left:50%;transform:translateX(-50%);width:min(92%,720px);text-align:center;text-shadow:0 3px 14px #10091e;background:#120d2cbb;border:1px solid #baa8e3;border-radius:18px;padding:15px}
+.caption h1{margin:0;font-size:clamp(22px,4vw,43px);letter-spacing:.05em}.caption p{margin:7px 0 0;color:#c9dafa}
+.content{padding:clamp(22px,5vw,55px);max-width:1050px;margin:auto;width:100%;text-align:center}.content h2{font-size:clamp(22px,3vw,34px);margin:0 0 10px}.intro{line-height:1.6;color:#ddd4ef;max-width:700px;margin:0 auto 24px}
+.places{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:13px;text-align:left}.place{border:1px solid #79699c;border-radius:15px;background:#211933;padding:18px;min-height:125px}.place strong{display:block;margin:8px 0}.place p{font:13px/1.5 system-ui,sans-serif;color:#c6bcd9;margin:0}
+.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:25px 0}.actions a{display:inline-block;padding:14px 21px;border:1px solid #c8b7e9;border-radius:30px;background:#493369;text-decoration:none;font:600 14px system-ui,sans-serif;min-height:48px}.actions a.secondary{background:#211933}
+footer{padding:25px;text-align:center;font:12px system-ui,sans-serif;color:#bbb0d0}
+@media(max-width:650px){.landscape{height:67svh;min-height:470px}.castle{width:120vw;max-width:none;height:63%;margin-bottom:13%}.caption{bottom:9px}.moon{right:12%;top:15%}header .crest{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important}}
+</style></head>
+<body><a class="skip" href="#explore">Skip to academy exploration</a>
+<header><a href="writing.html">← Bre McIlroy / Writing</a><span class="crest">☾ ACA · EST. IN STORIES ☽</span></header>
+<main><section class="landscape" aria-label="Illustrated exterior of Amethyst Crescent Academy under a crescent moon">
+<div class="stars" aria-hidden="true"></div><div class="moon" aria-hidden="true"></div><div class="hills" aria-hidden="true"></div>
+<div class="castle" aria-hidden="true"><svg viewBox="0 0 950 620" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+<defs><pattern id="bricks" width="40" height="23" patternUnits="userSpaceOnUse"><path d="M0 0H40M20 0V12M0 12H40M0 12V23" stroke="#b1a7c7" stroke-opacity=".18" fill="none"/></pattern></defs>
+<path class="stone" d="M135 310H815V610H135Z"/><path d="M135 310H815V610H135Z" fill="url(#bricks)"/>
+<path class="stone" d="M80 210H220V610H80Z M730 210H870V610H730Z"/>
+<path class="roof" d="M60 210L150 45L240 210Z M710 210L800 45L890 210Z"/>
+<path class="stone" d="M315 150H635V610H315Z"/><path class="roof" d="M290 150L475 5L660 150Z"/>
+<path class="stone" d="M425 65H525V610H425Z"/><path class="roof" d="M406 65L475 -40L544 65Z"/>
+<path class="stone" d="M240 245H325V610H240Z M625 245H710V610H625Z"/>
+<path class="roof" d="M224 245L282 125L341 245Z M609 245L668 125L726 245Z"/>
+<path class="window" d="M459 100Q475 70 491 100V151H459Z M124 260Q150 218 176 260V324H124Z M774 260Q800 218 826 260V324H774Z M269 300Q282 275 295 300V347H269Z M655 300Q668 275 681 300V347H655Z M370 250Q390 218 410 250V313H370Z M540 250Q560 218 580 250V313H540Z M369 375Q390 345 411 375V437H369Z M539 375Q560 345 581 375V437H539Z M124 420Q150 385 176 420V480H124Z M774 420Q800 385 826 420V480H774Z"/>
+<path class="door" d="M411 610V517Q475 425 539 517V610Z"/><path d="M475 478V610" stroke="#a8a2c4" stroke-width="4"/><circle cx="462" cy="550" r="5" fill="#d7c2ff"/><circle cx="488" cy="550" r="5" fill="#d7c2ff"/>
+<path d="M475 -40V-67" stroke="#d7d7ec" stroke-width="4"/><path d="M475 -67l54 13-54 14" fill="#ad83da"/>
+</svg></div><div class="foreground" aria-hidden="true"></div>
+<div class="caption"><h1>Amethyst Crescent Academy</h1><p>Where Every Story Holds a Little Magic</p></div></section>
+<section class="content" id="explore"><h2>Welcome to the Academy Grounds</h2>
+<p class="intro">Beyond the moonlit towers lie secret libraries, royal halls, snowy-owl guardians, and five enchanted realms. The grounds are the beginning of a larger world still being built.</p>
+<div class="places"><div class="place">🦉<strong>The Owl Watch</strong><p>Snowy guardians keep watch over the academy towers.</p></div><div class="place">🌙<strong>The Crescent Observatory</strong><p>Look toward the stars and the mysteries of the night sky.</p></div><div class="place">👑<strong>The Silver Crown Gates</strong><p>The grand threshold to the castle and its hidden stories.</p></div><div class="place">💜<strong>The Poetry Vault</strong><p>A secret literary journey waiting inside the academy.</p></div></div>
+<div class="actions"><a href="poetry-vault-entrance.html">Enter the Silver Crown Gates →</a><a class="secondary" href="writing.html">Return to the Portfolio</a></div>
+<p class="intro">The academy's five fantasy realms and free-roaming grounds are coming in later chapters. Your existing Poetry Vault progress stays in its original game.</p>
+</section></main><footer>Amethyst Crescent Academy · An original fantasy world by Bre McIlroy</footer></body></html>
