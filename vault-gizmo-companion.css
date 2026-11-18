@@ -47,3 +47,10 @@ body.pv13-inside #pv-gizmo-companion{z-index:10050;bottom:calc(100px + env(safe-
  #pv-gizmo-companion{bottom:calc(165px + env(safe-area-inset-bottom))}
  #pv-gizmo-companion .pvg-recording-panel{bottom:calc(100% + 10px)}
 }
+
+/* Subtle body-language cues for Gizmo's curious and affectionate moments. */
+#pv-gizmo-companion.pvg-curious .pvg-art{animation:pvg-curious .85s ease-in-out 1}
+#pv-gizmo-companion.pvg-pleased .pvg-art{animation:pvg-pleased .8s ease-in-out 1}
+@keyframes pvg-curious{35%{transform:rotate(-9deg)}70%{transform:rotate(8deg)}}
+@keyframes pvg-pleased{40%{transform:translateY(-5px) scale(1.07)}75%{transform:rotate(-5deg)}}
+@media(prefers-reduced-motion:reduce){#pv-gizmo-companion.pvg-curious .pvg-art,#pv-gizmo-companion.pvg-pleased .pvg-art{animation:none!important}}
