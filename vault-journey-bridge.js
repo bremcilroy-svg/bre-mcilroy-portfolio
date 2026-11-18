@@ -22,7 +22,10 @@ function eligible(i,s){
  if(i===6)return s.journey.allComplete&&s.seals.length===4;
  return s.journey.allComplete&&s.seals.length===4&&s.society.fifth===true;
 }
-function go(i){if(travelling||i===index)return;const s=stats();if(!eligible(i,s)){render();return;}\n const travel=()=>{if(travelling)return;travelling=true;const gizmo=document.querySelector('#pv-gizmo-companion .pvg-speech');if(gizmo){gizmo.textContent='🐾 Gizmo is coming with you to '+titles[i]+'!';gizmo.hidden=false;}overlay.querySelector('p').textContent='✦ '+titles[i]+' awaits… ✦';overlay.hidden=false;overlay.classList.remove('pv155-animate');void overlay.offsetWidth;overlay.classList.add('pv155-animate');setTimeout(()=>{location.assign(routes[i]);},650);};\n if(i>=2&&i<=4){const request=new CustomEvent('pv192:door-request',{detail:{destination:i,proceed:travel,handled:false}});document.dispatchEvent(request);if(!request.detail.handled){console.warn('Castle lock unavailable; passage remains closed.');return;}return;}\n travel();}
+function go(i){if(travelling||i===index)return;const s=stats();if(!eligible(i,s)){render();return;}
+ const travel=()=>{if(travelling)return;travelling=true;const gizmo=document.querySelector('#pv-gizmo-companion .pvg-speech');if(gizmo){gizmo.textContent='🐾 Gizmo is coming with you to '+titles[i]+'!';gizmo.hidden=false;}overlay.querySelector('p').textContent='✦ '+titles[i]+' awaits… ✦';overlay.hidden=false;overlay.classList.remove('pv155-animate');void overlay.offsetWidth;overlay.classList.add('pv155-animate');setTimeout(()=>{location.assign(routes[i]);},650);};
+ if(i>=2&&i<=4){const request=new CustomEvent('pv192:door-request',{detail:{destination:i,proceed:travel,handled:false}});document.dispatchEvent(request);if(!request.detail.handled){console.warn('Castle lock unavailable; passage remains closed.');return;}return;}
+ travel();}
 function render(){const s=stats();root.querySelector('.pv155-location').textContent='You are in: '+titles[index];links.replaceChildren();castleMap.replaceChildren();
  const heading=document.createElement('p');heading.textContent='✦ THE LIVING CASTLE ✦';heading.className='pv192-map-heading';castleMap.append(heading);
  for(let i=0;i<routes.length;i++){
