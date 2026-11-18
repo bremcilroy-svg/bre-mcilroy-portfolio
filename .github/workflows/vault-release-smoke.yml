@@ -1,0 +1,18 @@
+name: Poetry Vault release smoke checks
+on:
+  push:
+    branches:
+      - phase-19-2-connected-castle
+  workflow_dispatch:
+jobs:
+  source-smoke:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify JavaScript and local page assets
+        run: node scripts/vault-release-smoke.cjs
