@@ -48,7 +48,16 @@ function init(){
      talk(kind==='meow'?'Meow recording ready! 🐾':'Purr recording ready! 💜');
    });
  }
- window.addEventListener('pagehide',()=>{Object.values(recordedUrls).forEach(url=>URL.revokeObjectURL(url));});
+ window.addEventListener('pagehide',()=>{
+   // Blob URLs are page-session assets. Release them without leaving stale
+   references that a back/forward-cache restoration might try to play.
+   for(const kind of ['meow','purr']){
+     if(recordedUrls[kind]){
+       if(clips[kind]){clips[kind].pause();delete clips[kind];}
+       URL.revokeObjectURL(recordedUrls[kind]);delete recordedUrls[kind];
+     }
+   }
+ });
 
  function playCatSound(kind){
    if(!catSounds||!isAllowed()||document.hidden||Date.now()-lastSound<4500)return;
