@@ -23,3 +23,11 @@ export const TRIALS=[
 export function readTrials(){let raw={};try{raw=JSON.parse(localStorage.getItem(PUZZLE_KEY)||'{}')||{}}catch{}return Object.fromEntries(TRIALS.map((_,i)=>[i,raw[i]===true]))}
 export function solved(chapter){return readTrials()[chapter]===true}
 export function markSolved(chapter){if(!Number.isInteger(chapter)||chapter<0||chapter>=TRIALS.length)return false;const raw=readTrials();raw[chapter]=true;try{localStorage.setItem(PUZZLE_KEY,JSON.stringify(raw));return true}catch{return false}}
+
+/* Separate, validated partial-stage saves. A chapter's original story saves remain untouched. */
+export const STAGE_KEY='aca-secret-chest-stages-v1';
+export function readStage(chapter){if(!Number.isInteger(chapter)||chapter<0||chapter>=TRIALS.length)return 0;let raw={};try{raw=JSON.parse(localStorage.getItem(STAGE_KEY)||'{}')||{}}catch{}const value=Number(raw[chapter]);return Number.isInteger(value)?Math.max(0,Math.min(TRIALS[chapter].steps.length,value)):0}
+export function writeStage(chapter,value){if(!Number.isInteger(chapter)||chapter<0||chapter>=TRIALS.length||!Number.isInteger(value)||value<0||value>TRIALS[chapter].steps.length)return false;let raw={};try{raw=JSON.parse(localStorage.getItem(STAGE_KEY)||'{}')||{}}catch{}raw[chapter]=value;try{localStorage.setItem(STAGE_KEY,JSON.stringify(raw));return true}catch{return false}}
+export const DISCOVERY_KEY='aca-secret-chest-discovery-v1';
+export function readDiscovery(chapter){try{const raw=JSON.parse(localStorage.getItem(DISCOVERY_KEY)||'{}');return raw?.[chapter]===true}catch{return false}}
+export function saveDiscovery(chapter){if(!Number.isInteger(chapter)||chapter<0||chapter>=TRIALS.length)return false;let raw={};try{raw=JSON.parse(localStorage.getItem(DISCOVERY_KEY)||'{}')||{}}catch{}raw[chapter]=true;try{localStorage.setItem(DISCOVERY_KEY,JSON.stringify(raw));return true}catch{return false}}
