@@ -1,7 +1,8 @@
 import {SECRETS} from './vault-rewards.js?v=20261112-cinematic';
 import {createRoomCinematics} from './vault-cinematics.js?v=20261112-cinematic';
-import {createRoomMotion} from './vault-motion.js?v=20261112-cinematic';
+const academyDecor=installAcademyGreatHall(scene,THREE);import {createRoomMotion} from './vault-motion.js?v=20261112-cinematic';
 import * as THREE from './vault-three.module.js';
+import {installAcademyGreatHall} from './vault-academy-3d.js?v=1';
 import {createCanvasRenderer} from './vault-canvas.js?v=20261112-cinematic';
 
 // A self-contained room: local textures and no external network dependencies.
@@ -125,7 +126,7 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   let lastPausedRender=-Infinity;
   function frame(now){requestAnimationFrame(frame);motion.tick(now);cinema.tick(now);if(document.hidden)return;
     if(motion.paused&&!cinema.active&&now-lastPausedRender<350)return;lastPausedRender=now;
-    const t=now/1000;flames.forEach((f,i)=>{f.scale.y=1.8+Math.sin(t*5+i)*.15;});firelight.intensity=6+Math.sin(t*11)*.3;renderer.render(scene,camera,cinema.active);
+    const t=now/1000;flames.forEach((f,i)=>{f.scale.y=1.8+Math.sin(t*5+i)*.15;});firelight.intensity=6+Math.sin(t*11)*.3;academyDecor?.tick(now);renderer.render(scene,camera,cinema.active);
   }
   requestAnimationFrame(frame);onReady(renderer.isCompatibility);
   return {openDoor,openBook,...motion,collected(id){const g=map.get(id);if(g){g.visible=false;const i=interactables.findIndex(m=>m.userData.id===id);if(i>=0)interactables.splice(i,1);}}};
