@@ -16,6 +16,8 @@ jobs:
           node-version: '22'
       - name: Verify JavaScript and local page assets
         run: node scripts/vault-release-smoke.cjs
+      - name: Verify all four chapter puzzle state machines
+        run: node scripts/vault-state-regression.cjs
       - name: Install headless browser
         run: |
           npm install --no-save playwright@1.58.2
