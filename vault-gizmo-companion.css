@@ -19,3 +19,38 @@
 @media(prefers-reduced-motion:reduce){#pv-gizmo-companion .pvg-art{animation:none!important}#pv-gizmo-companion{transition:none!important}}
 
 body.pv13-inside #pv-gizmo-companion{z-index:10050;bottom:calc(100px + env(safe-area-inset-bottom));}
+
+/* Gizmo's optional natural-audio controls: keep controls accessible without covering puzzles. */
+#pv-gizmo-companion .pvg-sound,
+#pv-gizmo-companion .pvg-recordings{
+ position:absolute;left:8px;min-height:30px;min-width:80px;padding:5px 7px;
+ border:1px solid #c7a480;border-radius:16px;background:#35243c;color:#fbe7d3;
+ font:600 10px system-ui,sans-serif;pointer-events:auto;cursor:pointer;
+}
+#pv-gizmo-companion .pvg-sound{bottom:-52px}
+#pv-gizmo-companion .pvg-recordings{bottom:-86px}
+#pv-gizmo-companion .pvg-recording-panel{
+ position:absolute;bottom:calc(100% + 15px);left:0;width:min(280px,calc(100vw - 22px));
+ padding:13px;border:1px solid #c7a480;border-radius:14px;background:#251a30;
+ color:#fbe7d3;box-shadow:0 8px 22px #000a;pointer-events:auto;
+ font:12px/1.5 system-ui,sans-serif;
+}
+#pv-gizmo-companion .pvg-recording-panel[hidden]{display:none!important}
+#pv-gizmo-companion .pvg-recording-panel label{display:block;margin-bottom:10px}
+#pv-gizmo-companion .pvg-recording-panel input{display:block;width:100%;margin-top:4px;font:12px system-ui,sans-serif}
+#pv-gizmo-companion .pvg-recording-panel small{display:block;color:#e0c7da}
+#pv-gizmo-companion .pvg-sound:focus-visible,
+#pv-gizmo-companion .pvg-recordings:focus-visible,
+#pv-gizmo-companion .pvg-recording-panel input:focus-visible{outline:3px solid #ffdea1;outline-offset:3px}
+#pv-gizmo-companion:has(.pvg-recording-panel:not([hidden])) .pvg-speech{display:none}
+@media(max-width:700px){
+ #pv-gizmo-companion{bottom:calc(165px + env(safe-area-inset-bottom))}
+ #pv-gizmo-companion .pvg-recording-panel{bottom:calc(100% + 10px)}
+}
+
+/* Subtle body-language cues for Gizmo's curious and affectionate moments. */
+#pv-gizmo-companion.pvg-curious .pvg-art{animation:pvg-curious .85s ease-in-out 1}
+#pv-gizmo-companion.pvg-pleased .pvg-art{animation:pvg-pleased .8s ease-in-out 1}
+@keyframes pvg-curious{35%{transform:rotate(-9deg)}70%{transform:rotate(8deg)}}
+@keyframes pvg-pleased{40%{transform:translateY(-5px) scale(1.07)}75%{transform:rotate(-5deg)}}
+@media(prefers-reduced-motion:reduce){#pv-gizmo-companion.pvg-curious .pvg-art,#pv-gizmo-companion.pvg-pleased .pvg-art{animation:none!important}}
