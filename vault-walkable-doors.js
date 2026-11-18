@@ -22,7 +22,7 @@ function lock(i,proceed){if(active)return;active=true;
  dialog.querySelector('.pv156-submit').addEventListener('click',()=>{if(digits.join('')!==codes[i]){dialog.querySelector('.pv156-status').textContent='The brass lock refuses that combination. Try again.';return;}mark(i);dialog.close();proceed();});
  dialog.addEventListener('close',()=>{dialog.remove();active=false;});document.body.append(dialog);dialog.showModal();}
 function gate(i,proceed){if(!completed(i))return;if(unlocked(i)){proceed();return;}lock(i,proceed);}
-// Existing physical doors already invoke their original puzzle-completion dialogs.
+// Phase 19.2: the castle map requests the SAME lock used by physical doors.\ndocument.addEventListener('pv192:door-request',e=>{\n const detail=e.detail;if(!detail||!Number.isInteger(detail.destination)||typeof detail.proceed!=='function')return;\n const i=detail.destination-2;if(i<0||i>2)return;\n detail.handled=true;gate(i,detail.proceed);\n});\n// Existing physical doors already invoke their original puzzle-completion dialogs.
 // Intercept only the successful onward link; never replace the puzzle interaction.
 document.addEventListener('click',e=>{
  const a=e.target.closest?.('#panel a[href]');if(!a||chapter<0||chapter>2)return;
