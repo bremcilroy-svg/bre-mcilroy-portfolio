@@ -5,5 +5,7 @@
 #pv-castle-whisper button{border:0;background:transparent;color:#d3bdf4;text-decoration:underline;cursor:pointer;font:inherit;padding:3px}
 #pv-castle-whisper.pv-whisper-pulse p{animation:pv-whisper-in 1s ease}
 @keyframes pv-whisper-in{from{opacity:.3}to{opacity:1}}
-@media(max-width:700px){#pv-castle-whisper{top:auto;bottom:155px;right:8px;max-width:145px;padding:6px 8px;font-size:10px}#pv-castle-whisper p{font-size:10px}}
+@media(max-width:700px){#pv-castle-whisper{top:64px;bottom:auto;right:8px;max-width:145px;padding:6px 8px;font-size:10px}#pv-castle-whisper p{font-size:10px}}
 @media(prefers-reduced-motion:reduce){#pv-castle-whisper *{animation:none!important}}
+
+body:has(dialog[open]) #pv-castle-whisper{opacity:0;pointer-events:none}
