@@ -19,6 +19,18 @@ if(page==='poetry-vault-entrance.html'){
  if(!await enter.count()||!await how.count())errors.push('entrance controls missing');
  if(await how.count()&&await how.isDisabled())errors.push('How to Play never enabled');
  if(await tab.locator('#continue-game').isEnabled())errors.push('Fresh profile incorrectly offers Continue Game');
+ try{
+  await how.click();
+  await tab.locator('#entrance-panel[open]').waitFor({state:'visible',timeout:3000});
+  if(!await tab.locator('#entrance-panel-content').getByText('Phone & tablet').count())errors.push('Touch controls guide missing');
+  if(!await tab.locator('#entrance-panel-content').getByText('Computer').count())errors.push('Keyboard controls guide missing');
+  await tab.locator('#entrance-close').click();
+  if(await tab.locator('#entrance-panel').evaluate(el=>el.open))errors.push('How to Play panel did not close');
+  await tab.locator('#enter-vault').click();
+  await tab.waitForURL(/poetry-vault\.html/, {timeout:10000});
+  if(!await tab.locator('#start').count())errors.push('Enter the Vault did not reach Heart Chamber');
+ }catch(e){errors.push('Entrance navigation or guide failed: '+e.message.slice(0,180))}
+
 }
 if(page==='poetry-vault.html'){
  if(!await tab.locator('#start').count())errors.push('Heart Chamber start missing');
