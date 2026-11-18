@@ -8,7 +8,7 @@ const codes=['1231','0702','0215'];
 const names=['The Shattered Mirror','The Midnight Labyrinth','The Door to Tomorrow'];
 const here=location.pathname.split('/').pop(),chapter=pages.indexOf(here);
 let stats;try{({societyStats:stats}=await import('./vault-society.js'));}catch(e){console.warn('Door lock unavailable',e);return;}
-const completed=i=>{try{return stats().journey.completed[i]===true;}catch{return false;}};
+const completed=i=>{try{const j=stats().journey;return j.completed.slice(0,i+1).length===i+1&&j.completed.slice(0,i+1).every(x=>x===true);}catch{return false;}};
 const unlocked=i=>{try{return sessionStorage.getItem('pv156-door-'+(i+2))==='yes';}catch{return false;}};
 const mark=i=>{try{sessionStorage.setItem('pv156-door-'+(i+2),'yes');}catch{}};
 let active=false;
@@ -36,16 +36,6 @@ document.addEventListener('click',e=>{
  if(!completed(chapter)){e.preventDefault();e.stopImmediatePropagation();return;}
  e.preventDefault();e.stopImmediatePropagation();gate(chapter,()=>cinematic(a.href));
 },true);
-// The Castle Passage navigation must honor the same combinations.
-document.addEventListener('click',e=>{
- const b=e.target.closest?.('#pv155-bridge .pv155-route');if(!b||b.disabled)return;
- // The Phase 19.2 map and passage buttons use the shared lock event above.
- if(b.closest('#pv155-bridge'))return;
- const title=b.textContent||'';const destination=names.findIndex(n=>title.includes(n));if(destination<0)return;
- if(!completed(destination)){e.preventDefault();e.stopImmediatePropagation();return;}
- if(unlocked(destination))return; // Original Castle Passage animation handles this.
- e.preventDefault();e.stopImmediatePropagation();gate(destination,()=>cinematic(destinations[destination]));
-},true);
-// Highlight existing exit links without touching puzzle data.
+// Castle Passage and castle-map buttons request this lock via pv192:door-request.\n// Do not intercept their clicks a second time: the bridge owns navigation.\n// Highlight existing exit links without touching puzzle data.
 const panel=document.getElementById('panel');if(panel&&chapter>=0&&chapter<3){const decorate=()=>{panel.querySelectorAll('a[href]').forEach(a=>{try{if(new URL(a.href,location.href).pathname.split('/').pop()===destinations[chapter]&&completed(chapter))a.classList.add('pv156-door-link');}catch{}});};new MutationObserver(decorate).observe(panel,{childList:true,subtree:true});decorate();}
 })();
