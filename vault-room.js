@@ -1,5 +1,5 @@
 import {SECRETS} from './vault-rewards.js?v=20261112-cinematic';
-import {createRoomCinematics} from './vault-cinematics.js?v=20261112-cinematic';
+import {createRoomMotion} from './vault-motion.js?v=20261112-cinematic';
 const academyDecor=installAcademyGreatHall(scene,THREE);import {createRoomMotion} from './vault-motion.js?v=20261112-cinematic';
 import * as THREE from './vault-three.module.js';
 import {installAcademyGreatHall} from './vault-academy-3d.js?v=1';
@@ -120,6 +120,7 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   function movable(x,z){return Math.abs(x)<5.55&&Math.abs(z)<6.5&&!colliders.some(b=>Math.abs(x-b.x)<b.w&&Math.abs(z-b.z)<b.d);}
   const secret=SECRETS[0],bookmark=target('secret',secret.x,secret.y,secret.z,.6,.45,.6);
   box(.16,.012,.43,0,0,0,materials.gold,bookmark);box(.06,.015,.36,0,.012,0,materials.paper,bookmark);
+  const academyDecor=installAcademyGreatHall(scene,THREE);
   const motion=createRoomMotion({canvas,camera,container,movable,interactables,map,onTarget,onInspect,onStep:()=>document.dispatchEvent(new CustomEvent('vault-step'))});
   function resized(){const rect=container.getBoundingClientRect();renderer.setSize(rect.width,rect.height,false);camera.aspect=rect.width/rect.height;camera.updateProjectionMatrix();}
   new ResizeObserver(resized).observe(container);resized();
