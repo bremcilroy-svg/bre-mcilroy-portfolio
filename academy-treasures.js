@@ -17,7 +17,13 @@ export const ITEMS=[
 {id:'aca-hoodie',name:'Academy Amethyst Hoodie',icon:'💜',rarity:'Common',slot:'body',chapter:0,chest:'merch',bonusOf:'rose-ribbon'},
 {id:'aca-scarf',name:'Crescent Academy Scarf',icon:'🧣',rarity:'Rare',slot:'neck',chapter:1,chest:'merch',bonusOf:'mirror-circlet'},
 {id:'aca-cap',name:'Silver Owl Academy Cap',icon:'🧢',rarity:'Common',slot:'head',chapter:2,chest:'merch',bonusOf:'owl-feather'},
-{id:'aca-jacket',name:'Royal Academy Letterman Jacket',icon:'🧥',rarity:'Epic',slot:'body',chapter:3,chest:'merch',bonusOf:'royal-cape'}
+{id:'aca-jacket',name:'Royal Academy Letterman Jacket',icon:'🧥',rarity:'Epic',slot:'body',chapter:3,chest:'merch',bonusOf:'royal-cape'},
+{id:'aca-backpack',name:'Crescent Academy Backpack',icon:'🎒',rarity:'Common',slot:'back',chapter:0,chest:'merch',bonusOf:'rose-ribbon'},
+{id:'aca-notebook',name:'Enchanted Academy Notebook',icon:'📓',rarity:'Common',slot:'keepsake',chapter:1,chest:'merch',bonusOf:'silver-pin'},
+{id:'aca-owl-pendant',name:'Silver Snow Owl Pendant',icon:'🦉',rarity:'Rare',slot:'neck',chapter:2,chest:'merch',bonusOf:'moon-wings'},
+{id:'aca-royal-boots',name:'Crimson Royal Academy Boots',icon:'🥾',rarity:'Rare',slot:'feet',chapter:3,chest:'merch',bonusOf:'dawn-charm'},
+{id:'gizmo-crown',name:'Gizmo’s Tiny Silver Crown',icon:'👑',rarity:'Epic',slot:'companion',chapter:4,chest:'merch',bonusOf:'owl-brooch'},
+{id:'gizmo-collar',name:'Gizmo’s Amethyst Collar',icon:'💎',rarity:'Legendary',slot:'companion',chapter:5,chest:'merch',bonusOf:'amethyst-armor'}
 ];
 export const BADGES=[
 {id:'first-treasure',name:'Treasure Hunter',icon:'🗝',test:(s,owned)=>owned.length>=1},
@@ -26,7 +32,7 @@ export const BADGES=[
 {id:'chest-master',name:'Royal Chest Collector',icon:'💎',test:(s,owned)=>ITEMS.filter(x=>x.chapter<4&&x.chest!=='merch').every(x=>owned.includes(x.id))},
 {id:'fifth-door',name:'Amethyst Gatekeeper',icon:'🔮',test:s=>s.society.fifth===true&&s.journey.allComplete&&s.seals.length===4}
 ];
-const ids=ITEMS.map(i=>i.id),slots=['head','neck','back','body'];
+const ids=ITEMS.map(i=>i.id),slots=['head','neck','back','body','feet','companion'];
 export function readTreasures(){let raw={};try{raw=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch{}
  const owned=ids.filter(id=>Array.isArray(raw.owned)&&raw.owned.includes(id));
  // Players who opened these chests before merchandise launched keep their earned bonuses.
