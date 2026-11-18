@@ -10,5 +10,5 @@ export function getOwnerAuth(){if(promise)return promise;promise=(async()=>{
  // Revoke a previously checked privilege before rechecking a backgrounded session.
  document.addEventListener('visibilitychange',()=>{if(document.hidden)access.revoke('Owner access will be rechecked when you return.');});
  setInterval(recheck,60000);await access.refresh();
- return {access,async sendLink(){return client.auth.signInWithOtp({email:OWNER_EMAIL,options:{shouldCreateUser:false,emailRedirectTo:OWNER_REDIRECT}});},async signOut(){access.revoke('Signing out…');const result=await client.auth.signOut({scope:'local'});if(result.error){access.revoke('Could not finish sign-out. Please retry.');return false;}access.revoke('Signed out on this device.');return true;}};
+ return {client,access,async sendLink(){return client.auth.signInWithOtp({email:OWNER_EMAIL,options:{shouldCreateUser:false,emailRedirectTo:OWNER_REDIRECT}});},async signOut(){access.revoke('Signing out…');const result=await client.auth.signOut({scope:'local'});if(result.error){access.revoke('Could not finish sign-out. Please retry.');return false;}access.revoke('Signed out on this device.');return true;}};
  })().catch(error=>{promise=null;throw error;});return promise;}
