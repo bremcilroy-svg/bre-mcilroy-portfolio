@@ -19,7 +19,7 @@ if(page==='poetry-vault-entrance.html'){
 }
 if(page==='poetry-vault.html'){
  if(!await tab.locator('#start').count())errors.push('Heart Chamber start missing');
- if(await tab.locator('#start').isDisabled())errors.push('Heart Chamber start never enabled');
+ try{await tab.locator('#start').waitFor({state:'visible',timeout:10000});await tab.waitForFunction(()=>!document.querySelector('#start')?.disabled,{timeout:10000})}catch{errors.push('Heart Chamber start never enabled')}
 }
 if(['poetry-vault-mirror.html','poetry-vault-labyrinth.html','poetry-vault-dawn.html'].includes(page)){
  if(!await tab.locator('#start').count())errors.push('chapter start missing');
