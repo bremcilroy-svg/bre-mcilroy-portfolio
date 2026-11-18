@@ -23,7 +23,8 @@ if(page==='poetry-vault.html'){
 }
 if(['poetry-vault-mirror.html','poetry-vault-labyrinth.html','poetry-vault-dawn.html'].includes(page)){
  if(!await tab.locator('#start').count())errors.push('chapter start missing');
- if(await tab.locator('#start').isEnabled())errors.push('Fresh profile bypassed previous chapter gate');
+ if(await tab.locator('#start').isVisible())errors.push('Fresh profile exposed locked chapter start');
+ if(!await tab.locator('.welcome-actions a[href]').count())errors.push('Locked chapter has no return route');
 }
 if(page==='poetry-vault-fifth-door.html'){
  if(await tab.locator('#game').isVisible())errors.push('Fresh profile bypassed Fifth Door gate');
