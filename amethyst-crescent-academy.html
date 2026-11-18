@@ -41,6 +41,19 @@ main{min-height:100svh;display:flex;flex-direction:column}.landscape{position:re
 footer{padding:25px;text-align:center;font:12px system-ui,sans-serif;color:#bbb0d0}
 @media(max-width:650px){.landscape{height:67svh;min-height:470px}.castle{width:120vw;max-width:none;height:63%;margin-bottom:13%}.caption{bottom:9px}.moon{right:12%;top:15%}header .crest{font-size:11px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important}}
+/* Academy atmosphere: restrained, reduced-motion-aware ambience */
+.landscape{background:radial-gradient(ellipse at 50% 28%,#80649b 0%,#40325f 35%,#17162f 80%);}
+.moon{box-shadow:0 0 70px 22px #b1a6ff70,0 0 140px 45px #9a83de30}
+.castle{filter:drop-shadow(0 12px 18px #080612bb) drop-shadow(0 0 25px #aa83db25)}
+.castle .window{animation:academy-glimmer 5.5s ease-in-out infinite alternate}
+.stars{animation:academy-starlight 11s ease-in-out infinite alternate}
+.landscape::before{content:"";position:absolute;z-index:1;left:-10%;right:-10%;bottom:5%;height:22%;pointer-events:none;background:linear-gradient(0deg,#e7e9ff34,transparent);filter:blur(20px)}
+.landscape::after{content:"";position:absolute;z-index:2;inset:0;pointer-events:none;background-image:radial-gradient(circle,#f4f6ffbb 1.5px,transparent 2px),radial-gradient(circle,#e2ddff99 1px,transparent 2px);background-size:107px 131px,151px 179px;background-position:12px 30px,65px 81px;opacity:.4;animation:academy-snow 22s linear infinite}
+.scene-hotspot{z-index:5}.scene-guide{z-index:5}.caption{z-index:5}
+@keyframes academy-glimmer{from{fill:#a88bd4;filter:drop-shadow(0 0 3px #aa8fea)}to{fill:#e2c9ff;filter:drop-shadow(0 0 13px #d5b3ff)}}
+@keyframes academy-starlight{from{opacity:.48}to{opacity:.9}}
+@keyframes academy-snow{from{background-position:12px 30px,65px 81px}to{background-position:12px 330px,65px 441px}}
+@media(prefers-reduced-motion:reduce){.castle .window,.stars,.landscape::after{animation:none!important}}
 </style></head>
 <body><a class="skip" href="#explore">Skip to academy exploration</a>
 <header><a href="writing.html">← Bre McIlroy / Writing</a><span class="crest">☾ ACA · EST. IN STORIES ☽</span></header>
