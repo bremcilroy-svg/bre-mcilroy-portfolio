@@ -59,3 +59,21 @@ const gizmo=document.querySelector('#gizmo'),gizmoSays=document.querySelector('#
 const gizmoLines=['Prrr... Welcome to the library.','The best stories are the ones you make yourself.','A little curiosity opens every door.','Gizmo is guarding the unfinished chapters.','A nap on a manuscript counts as editing, right?'];
 let gizmoClicks=0;
 gizmo?.addEventListener('click',()=>{if(!allowed)return;gizmoClicks++;gizmo.classList.remove('gizmo-petted');void gizmo.offsetWidth;gizmo.classList.add('gizmo-petted');gizmoSays.textContent=gizmoLines[(gizmoClicks-1)%gizmoLines.length];});
+
+
+// Royal Castle integration: install the existing clock assets without HTML edits.
+// Runs only on the Author's Study page after its original access logic is initialized.
+(function connectOwlkeeperClock() {
+  if (!document.getElementById('room')) return;
+  if (!document.querySelector('link[href*="vault-owlkeeper-clock.css"]')) {
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = './vault-owlkeeper-clock.css?v=2';
+    document.head.appendChild(stylesheet);
+  }
+  if (!document.querySelector('script[src*="vault-owlkeeper-clock.js"]')) {
+    const script = document.createElement('script');
+    script.src = './vault-owlkeeper-clock.js?v=2';
+    document.body.appendChild(script);
+  }
+})();

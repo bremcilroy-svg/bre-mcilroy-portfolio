@@ -4,7 +4,7 @@ import {createRoomCinematics} from './vault-cinematics.js?v=20261112-cinematic';
 import {createRoomMotion} from './vault-motion.js?v=20261112-cinematic';
 import * as THREE from './vault-three.module.js';
 
-import {installAcademyGreatHall} from './vault-academy-3d.js?v=3c1';
+import {installAcademyGreatHall} from './vault-academy-3d.js?v=3d1';
 
 import {createCanvasRenderer} from './vault-canvas.js?v=20261112-cinematic';
 
