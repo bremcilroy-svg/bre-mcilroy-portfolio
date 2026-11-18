@@ -4,6 +4,8 @@
 const path=location.pathname.split('/').pop();
 const routes=['poetry-vault-entrance.html','poetry-vault.html','poetry-vault-mirror.html','poetry-vault-labyrinth.html','poetry-vault-dawn.html','poetry-vault-society.html','poetry-vault-fifth-door.html','poetry-vault-author-room.html'];
 const titles=['Vault Entrance','Heart Chamber','Shattered Mirror','Midnight Labyrinth','Door to Tomorrow','Keepers’ Hall','Fifth Door','Author’s Study'];
+const motifs=['❄️','❤️','🪞','🌙','🌅','🦉','🔮','👑'];
+const whispers=['The snow owls guard the threshold.','Every letter carries a heartbeat.','Reflections hold their secrets.','The moon lights the hidden path.','A new dawn waits beyond the door.','The Keepers remember every story.','Four seals protect this passage.','The author keeps the final key.'];
 const index=routes.indexOf(path);if(index<0)return;
 let stats;
 try{const mod=await import('./vault-society.js');stats=mod.societyStats;}catch(e){console.warn('Journey guide unavailable',e);return;}
@@ -31,10 +33,12 @@ function render(){const s=stats();root.querySelector('.pv155-location').textCont
  for(let i=0;i<routes.length;i++){
   const ok=eligible(i,s),b=document.createElement('button');b.type='button';b.className='pv155-route pv192-map-door';b.disabled=!ok||i===index;
   if(i===index)b.setAttribute('aria-current','page');
-  b.textContent=(i===index?'◆ You are here · ':'◇ ')+titles[i]+(ok?'':' · Locked');
+  b.textContent=motifs[i]+' '+(i===index?'You are here · ':'')+titles[i]+(ok?'':' · Locked');
+  b.setAttribute('aria-label',titles[i]+(i===index?', current chamber':ok?', open passage':', locked'));
   b.title=ok?'Travel through the castle':'Complete the earlier chapters to unlock this passage';
   b.addEventListener('click',()=>go(i));castleMap.append(b);
  }
+ const whisper=document.createElement('p');whisper.className='pv192-whisper';whisper.textContent='✦ '+whispers[index];castleMap.append(whisper);
  const note=document.createElement('p');note.textContent='The five fantasy realms remain in development. Existing chapter locks and saved puzzles are preserved.';note.className='pv192-map-note';castleMap.append(note);
  const options=[];
  if(index>0)options.push(index-1);
