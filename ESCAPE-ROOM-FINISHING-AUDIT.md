@@ -15,7 +15,7 @@ Development branch: `phase-19-2-connected-castle`. Do not merge to main without 
 
 - Fifth Door now reloads its saved puzzle state when the page is restored from browser history / page cache, and malformed storage resets the in-memory puzzle state to a safe initial state instead of retaining stale progress. No chapter or gate requirements changed.
 
-## Follow-up work before calling the escape rooms finished
+## Phase 2: Sequential door gate repair\n\n- Castle map and Castle Passage now require **all** preceding chapters to be completed for entry into Mirror, Labyrinth, and Dawn, not just the immediately preceding chapter. This prevents a later chapter's old save from bypassing a reset earlier chapter.\n- Physical door locks now check the same full prerequisite chain.\n- Removed unreachable duplicate Castle Passage click interception; shared `pv192:door-request` remains the single passage-lock integration.\n- No chapter saves or lock codes were changed. Browser testing remains pending.\n\n## Follow-up work before calling the escape rooms finished
 
 1. **Chapter playthroughs:** Verify Heart → Mirror → Labyrinth → Dawn with fresh saves and with partially completed saves; inspect puzzle interactions and actual completion writes.
 2. **Door transitions:** Test each physical exit and castle-map passage on desktop and mobile, including incorrect lock codes, already-unlocked session doors, and resetting a chapter. The Castle Passage click handler in `vault-walkable-doors.js` currently contains an early return that makes its subsequent fallback logic unreachable; verify the separate shared door-request integration before changing it.
