@@ -26,6 +26,7 @@ main .content{max-width:1020px;margin:auto;padding:34px 20px 55px;text-align:cen
 .note{font:13px/1.6 system-ui,sans-serif;color:#bdb1cc}
 footer{text-align:center;padding:25px;font:12px system-ui,sans-serif;color:#bdb1cc}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.headmaster{display:grid;grid-template-columns:90px 1fr;gap:18px;align-items:center;text-align:left;border:1px solid #c8afe6;border-radius:20px;background:linear-gradient(125deg,#3b254e,#1b142b);padding:22px;margin:0 auto 24px;max-width:780px;box-shadow:0 0 26px #ae85e333}.headmaster-icon{font-size:52px;text-align:center}.headmaster h2{font-size:23px;margin:0 0 8px}.headmaster p{line-height:1.6;margin:0 0 12px;color:#e6dbf2}.headmaster button{background:#64417e;color:white;border:1px solid #d8bfff;border-radius:30px;padding:12px 17px;font:600 14px system-ui,sans-serif;cursor:pointer}.headmaster button:focus-visible{outline:3px solid #b8e1ff;outline-offset:3px}.headmaster small{display:block;color:#c5b5d6;margin-top:8px}@media(max-width:520px){.headmaster{grid-template-columns:1fr;text-align:center}}
 </style></head><body>
 <a class="skip" href="#lobby">Skip to lobby</a>
 <header><a href="amethyst-crescent-academy.html">← Academy Grounds</a><span>☾ AMETHYST CRESCENT ACADEMY ☽</span></header>
@@ -33,6 +34,7 @@ footer{text-align:center;padding:25px;font:12px system-ui,sans-serif;color:#bdb1
 <div class="window left" aria-hidden="true"></div><div class="window right" aria-hidden="true"></div><div class="door" aria-hidden="true"></div><div class="chandelier" aria-hidden="true"></div><div class="stairs" aria-hidden="true"></div><div class="floor" aria-hidden="true"></div>
 <div class="hall-title"><h1>The Grand Crescent Hall</h1><p>Every adventure begins with a welcome.</p></div></section>
 <section class="content" id="lobby"><p class="lead">The silver gates open into the academy's royal lobby. Beneath amethyst chandeliers, a quiet guardian watches the staircase, and the first story waits behind the doors of the Poetry Vault.</p>
+<section class="headmaster" aria-labelledby="headmaster-title"><div class="headmaster-icon" aria-hidden="true">👑🌈</div><div><h2 id="headmaster-title">A Welcome from Headmaster Breezy</h2><p id="headmaster-line" aria-live="polite">“Welcome to Amethyst Crescent Academy. I'm Headmaster Breezy, keeper of these halls and guardian of the stories within them.”</p><button type="button" id="headmaster-next">Continue the Welcome →</button><small>Headmaster Breezy's portrait and voice will be added after the character presentation is finalized.</small></div></section>
 <div class="features">
 <article class="feature">🐈<h2>Gizmo's Welcome</h2><p>Gizmo awaits your adventure. His existing interactive companion experience begins in the Poetry Vault.</p></article>
 <article class="feature">🦉<h2>Owl Guardians</h2><p>Snowy owls with icy-blue eyes keep watch over the royal halls.</p></article>
@@ -41,4 +43,11 @@ footer{text-align:center;padding:25px;font:12px system-ui,sans-serif;color:#bdb1
 </div>
 <div class="actions"><a href="poetry-vault-entrance.html">Enter the Poetry Vault →</a><a class="secondary" href="amethyst-crescent-academy.html">Explore the Grounds</a></div>
 <p class="note">The lobby has no puzzle gate. Existing chapter locks, birthday access, and saved progress remain unchanged. The grand hall is an introductory scene, not yet a walkable 3D space.</p>
-</section></main><footer>Amethyst Crescent Academy · A fantasy world by Bre McIlroy</footer></body></html>
+</section></main><script>
+(()=>{'use strict';const lines=[
+'“Welcome to Amethyst Crescent Academy. I’m Headmaster Breezy, keeper of these halls and guardian of the stories within them.”',
+'“Every room holds a secret. Every secret holds a piece of something greater.”',
+'“Gizmo will accompany you on your journey. Look carefully, and let the stories guide you.”',
+'“Should you reach my study, I have something special waiting for you. Your story begins now.”'
+];let i=0;const line=document.getElementById('headmaster-line'),button=document.getElementById('headmaster-next');button.addEventListener('click',()=>{i=(i+1)%lines.length;line.textContent=lines[i];button.textContent=i===lines.length-1?'Hear the Welcome Again ↺':'Continue the Welcome →';});})();
+</script><footer>Amethyst Crescent Academy · A fantasy world by Bre McIlroy</footer></body></html>
