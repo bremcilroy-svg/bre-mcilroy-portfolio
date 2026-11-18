@@ -18,29 +18,46 @@ function init(){
  const room=document.querySelector('#room');
  const isAllowed=()=>!author||Boolean(room&&!room.hidden);
  const wrap=document.createElement('aside');wrap.id='pv-gizmo-companion';wrap.setAttribute('aria-label','Gizmo walking companion');
- wrap.innerHTML=`<button type="button" class="pvg-cat" aria-label="Pet Gizmo" title="Pet Gizmo"><span class="pvg-art" aria-hidden="true">🐈</span><span class="pvg-shadow" aria-hidden="true"></span></button><p class="pvg-speech" role="status" aria-live="polite" hidden></p><button class="pvg-rest" type="button" aria-pressed="false">🐾 Rest</button><button class="pvg-sound" type="button" aria-pressed="false" title="Toggle recorded cat sounds">🔇 Cat sounds</button>`;
+ wrap.innerHTML=`<button type="button" class="pvg-cat" aria-label="Pet Gizmo" title="Pet Gizmo"><span class="pvg-art" aria-hidden="true">🐈</span><span class="pvg-shadow" aria-hidden="true"></span></button><p class="pvg-speech" role="status" aria-live="polite" hidden></p><button class="pvg-rest" type="button" aria-pressed="false">🐾 Rest</button><button class="pvg-sound" type="button" aria-pressed="false" title="Toggle recorded cat sounds">🔇 Cat sounds</button><button class="pvg-recordings" type="button" aria-expanded="false" aria-controls="pvg-recording-panel">🎵 Recordings</button><div class="pvg-recording-panel" id="pvg-recording-panel" hidden><label>Meow audio <input class="pvg-meow-file" type="file" accept="audio/*"></label><label>Purr audio <input class="pvg-purr-file" type="file" accept="audio/*"></label><small>Use your own recordings. Files stay on your device and work for this page visit only.</small></div>`;
  document.body.append(wrap);
- const cat=wrap.querySelector('.pvg-cat'),art=wrap.querySelector('.pvg-art'),speech=wrap.querySelector('.pvg-speech'),rest=wrap.querySelector('.pvg-rest'),sound=wrap.querySelector('.pvg-sound');
+ const cat=wrap.querySelector('.pvg-cat'),art=wrap.querySelector('.pvg-art'),speech=wrap.querySelector('.pvg-speech'),rest=wrap.querySelector('.pvg-rest'),sound=wrap.querySelector('.pvg-sound'),recordings=wrap.querySelector('.pvg-recordings'),recordingPanel=wrap.querySelector('.pvg-recording-panel');
  const guide=document.querySelector('#gizmo-guide .gg-character svg');
  if(guide){const clone=guide.cloneNode(true);clone.setAttribute('aria-hidden','true');art.replaceChildren(clone)}
  let resting=false,hideSpeech,catSounds=false,lastSound=0;
  // Use recorded cat sounds only. No synthesized meows or robotic speech.
  // These audio files must be added before sounds can play.
  const sounds={meow:'audio/gizmo-meow.mp3',purr:'audio/gizmo-purr.mp3'};
- const clips={};
+ const clips={},recordedUrls={};
+ recordings.addEventListener('click',()=>{
+   recordingPanel.hidden=!recordingPanel.hidden;
+   recordings.setAttribute('aria-expanded',String(!recordingPanel.hidden));
+ });
+ for(const kind of ['meow','purr']){
+   wrap.querySelector('.pvg-'+kind+'-file').addEventListener('change',e=>{
+     const file=e.target.files?.[0];
+     if(!file)return;
+     if(!file.type.startsWith('audio/')){talk('Please choose an audio recording.');return;}
+     if(recordedUrls[kind])URL.revokeObjectURL(recordedUrls[kind]);
+     recordedUrls[kind]=URL.createObjectURL(file);
+     if(clips[kind]){clips[kind].pause();delete clips[kind];}
+     talk(kind==='meow'?'Meow recording ready! 🐾':'Purr recording ready! 💜');
+   });
+ }
+ window.addEventListener('pagehide',()=>{Object.values(recordedUrls).forEach(url=>URL.revokeObjectURL(url));});
+
  function playCatSound(kind){
    if(!catSounds||!isAllowed()||document.hidden||Date.now()-lastSound<4500)return;
-   const src=sounds[kind];if(!src)return;
+   const src=recordedUrls[kind]||sounds[kind];if(!src)return;
    const audio=clips[kind]||(clips[kind]=new Audio(src));
    audio.volume=kind==='purr'?.3:.42;
    audio.currentTime=0;
    lastSound=Date.now();
-   audio.play().catch(()=>{catSounds=false;sound.setAttribute('aria-pressed','false');sound.textContent='🔇 Cat sounds';talk('Cat recordings are not available yet. Gizmo’s captions still work.');});
+   audio.play().catch(()=>{talk('No playable '+kind+' recording is available yet. Add one under Recordings.');});
  }
  sound.addEventListener('click',()=>{
    catSounds=!catSounds;sound.setAttribute('aria-pressed',String(catSounds));
    sound.textContent=catSounds?'🔊 Cat sounds':'🔇 Cat sounds';
-   if(catSounds)playCatSound('meow');
+   if(catSounds){lastSound=0;playCatSound('meow');}
  });
 
  // Keep Gizmo's rest/follow preference across castle chapters in this tab.
