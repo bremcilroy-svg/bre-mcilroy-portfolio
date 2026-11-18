@@ -18,12 +18,31 @@ function init(){
  const room=document.querySelector('#room');
  const isAllowed=()=>!author||Boolean(room&&!room.hidden);
  const wrap=document.createElement('aside');wrap.id='pv-gizmo-companion';wrap.setAttribute('aria-label','Gizmo walking companion');
- wrap.innerHTML=`<button type="button" class="pvg-cat" aria-label="Pet Gizmo" title="Pet Gizmo"><span class="pvg-art" aria-hidden="true">🐈</span><span class="pvg-shadow" aria-hidden="true"></span></button><p class="pvg-speech" role="status" aria-live="polite" hidden></p><button class="pvg-rest" type="button" aria-pressed="false">🐾 Rest</button>`;
+ wrap.innerHTML=`<button type="button" class="pvg-cat" aria-label="Pet Gizmo" title="Pet Gizmo"><span class="pvg-art" aria-hidden="true">🐈</span><span class="pvg-shadow" aria-hidden="true"></span></button><p class="pvg-speech" role="status" aria-live="polite" hidden></p><button class="pvg-rest" type="button" aria-pressed="false">🐾 Rest</button><button class="pvg-sound" type="button" aria-pressed="false" title="Toggle recorded cat sounds">🔇 Cat sounds</button>`;
  document.body.append(wrap);
- const cat=wrap.querySelector('.pvg-cat'),art=wrap.querySelector('.pvg-art'),speech=wrap.querySelector('.pvg-speech'),rest=wrap.querySelector('.pvg-rest');
+ const cat=wrap.querySelector('.pvg-cat'),art=wrap.querySelector('.pvg-art'),speech=wrap.querySelector('.pvg-speech'),rest=wrap.querySelector('.pvg-rest'),sound=wrap.querySelector('.pvg-sound');
  const guide=document.querySelector('#gizmo-guide .gg-character svg');
  if(guide){const clone=guide.cloneNode(true);clone.setAttribute('aria-hidden','true');art.replaceChildren(clone)}
- let resting=false,hideSpeech;
+ let resting=false,hideSpeech,catSounds=false,lastSound=0;
+ // Use recorded cat sounds only. No synthesized meows or robotic speech.
+ // These audio files must be added before sounds can play.
+ const sounds={meow:'audio/gizmo-meow.mp3',purr:'audio/gizmo-purr.mp3'};
+ const clips={};
+ function playCatSound(kind){
+   if(!catSounds||!isAllowed()||document.hidden||Date.now()-lastSound<4500)return;
+   const src=sounds[kind];if(!src)return;
+   const audio=clips[kind]||(clips[kind]=new Audio(src));
+   audio.volume=kind==='purr'?.3:.42;
+   audio.currentTime=0;
+   lastSound=Date.now();
+   audio.play().catch(()=>{catSounds=false;sound.setAttribute('aria-pressed','false');sound.textContent='🔇 Cat sounds';talk('Cat recordings are not available yet. Gizmo’s captions still work.');});
+ }
+ sound.addEventListener('click',()=>{
+   catSounds=!catSounds;sound.setAttribute('aria-pressed',String(catSounds));
+   sound.textContent=catSounds?'🔊 Cat sounds':'🔇 Cat sounds';
+   if(catSounds)playCatSound('meow');
+ });
+
  // Keep Gizmo's rest/follow preference across castle chapters in this tab.
  const restKey='pv192-gizmo-rest';
  try{resting=sessionStorage.getItem(restKey)==='yes'}catch{};
@@ -42,8 +61,8 @@ function init(){
   'poetry-vault-fifth-door.html':'One more door, then home.',
   'poetry-vault-author-room.html':'We made it to my favorite room!'
  };
- cat.addEventListener('click',()=>{if(!isAllowed())return;cat.classList.remove('pvg-pet');void cat.offsetWidth;cat.classList.add('pvg-pet');talk('Purrr! Gizmo loves you too. 💜')});
- rest.addEventListener('click',()=>{resting=!resting;try{sessionStorage.setItem(restKey,resting?'yes':'no')}catch{};wrap.classList.toggle('pvg-resting',resting);rest.setAttribute('aria-pressed',String(resting));rest.textContent=resting?'🐾 Follow':'🐾 Rest';talk(resting?'Gizmo curls up for a little rest.':'Gizmo is following again!')});
+ cat.addEventListener('click',()=>{if(!isAllowed())return;cat.classList.remove('pvg-pet');void cat.offsetWidth;cat.classList.add('pvg-pet');talk('Purrr! Gizmo loves you too. 💜');playCatSound('purr')});
+ rest.addEventListener('click',()=>{resting=!resting;try{sessionStorage.setItem(restKey,resting?'yes':'no')}catch{};wrap.classList.toggle('pvg-resting',resting);rest.setAttribute('aria-pressed',String(resting));rest.textContent=resting?'🐾 Follow':'🐾 Rest';talk(resting?'Gizmo curls up for a little rest.':'Gizmo is following again!');if(!resting)playCatSound('meow')});
  // Companion pads left and right in response to actual visitor activity, but
  // never intercepts the room's pointer controls or changes game state.
  let target=0,position=0,lastMove=0,raf=0;
