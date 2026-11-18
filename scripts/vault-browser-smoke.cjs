@@ -6,7 +6,7 @@ const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg'
 const server=http.createServer((req,res)=>{let name;try{name=decodeURIComponent(new URL(req.url,'http://localhost').pathname).replace(/^\/+/, '')}catch{res.writeHead(400).end();return}if(!name)name='index.html';const full=path.resolve(name);if(!full.startsWith(process.cwd()+path.sep)){res.writeHead(403).end();return}fs.readFile(full,(err,data)=>{if(err){res.writeHead(404).end('Not found');return}res.writeHead(200,{'Content-Type':mime[path.extname(full)]||'application/octet-stream'}).end(data)})});
 (async()=>{await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const base='http://127.0.0.1:'+server.address().port+'/';let browser,failures=0;
 try{browser=await chromium.launch({headless:true});for(const page of pages){const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});const tab=await context.newPage();const errors=[];tab.on('pageerror',e=>errors.push(e.message));
-tab.on('response',response=>{const url=response.url();if(url.startsWith(base)&&response.status()>=400&&/\\.(?:js|css|html)(?:\\?|$)/.test(url))errors.push('Missing page asset '+response.status()+' '+url.slice(base.length))});
+tab.on('response',response=>{const url=response.url();if(url.startsWith(base)&&response.status()>=400&&/\.(?:js|css|html)(?:\?|$)/.test(url))errors.push('Missing page asset '+response.status()+' '+url.slice(base.length))});
 const response=await tab.goto(base+page,{waitUntil:'domcontentloaded'});
 await tab.waitForTimeout(2300);
 if(response.status()!==200)errors.push('HTTP '+response.status());
