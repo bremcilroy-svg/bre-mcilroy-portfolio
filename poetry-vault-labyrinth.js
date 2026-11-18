@@ -1,3 +1,4 @@
+import {readJourney} from './vault-journey.js';
 import {societyHint,societyComplete,societyInscribe,societyBegin,societyReset} from './vault-society.js?v=20261112-phase7fix';
 import {createVaultRewards,certificateSVG,SECRETS} from './vault-rewards.js?v=20261112-cinematic';
 import {createVaultSound} from './vault-sound.js?v=20261112-cinematic';
@@ -18,7 +19,7 @@ const objects={
 };
 let state=normalizeLabyrinthState(null),previous=normalizeMirrorState(null),storageWorks=true,started=false,room=null,current=null,hintLevel=0,lastStage='';
 try{state=normalizeLabyrinthState(JSON.parse(localStorage.getItem(LABYRINTH_SAVE_KEY)||'null'));previous=normalizeMirrorState(JSON.parse(localStorage.getItem(MIRROR_SAVE_KEY)||'null'));}catch{storageWorks=false;}
-const hasGear=previous.completed;
+const hasGear=readJourney(key=>localStorage.getItem(key)).completed.slice(0,2).every(x=>x===true);
 societyBegin(3,hasGear&&!state.noteRead&&!state.gearInstalled&&!state.clockSet&&state.found.length===0&&!state.unlocked&&!state.completed);
 const opening='The gear turns, and another passage opens. Here, the night has forgotten how to end. A caretaker left a clock, a note, and four scattered pages. Find the still hour. Set the archive in order. Even the longest night leaves a path toward morning.';
 let lastNarration=opening;
