@@ -16,3 +16,9 @@ jobs:
           node-version: '22'
       - name: Verify JavaScript and local page assets
         run: node scripts/vault-release-smoke.cjs
+      - name: Install headless browser
+        run: |
+          npm install --no-save playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Check all Vault pages in an isolated mobile browser
+        run: node scripts/vault-browser-smoke.cjs
