@@ -2,9 +2,9 @@
 import {societyStats} from './vault-society.js';
 const sigils=[
  {id:'heart',icon:'♥',title:'Heart Sigil',room:'Heart Chamber',hint:'Love begins the story.'},
- {id:'mirror',icon:'◈',title:'Reflection Sigil',room:'Shattered Mirror',hint:'Look again to see what matters.'},
+ {id:'mirror',icon:'🪞',title:'Reflection Sigil',room:'Shattered Mirror',hint:'Look again to see what matters.'},
  {id:'labyrinth',icon:'☾',title:'Moon Sigil',room:'Midnight Labyrinth',hint:'Even night has a path.'},
- {id:'dawn',icon:'✺',title:'Dawn Sigil',room:'Door to Tomorrow',hint:'A new day can begin.'}
+ {id:'dawn',icon:'🌅',title:'Dawn Sigil',room:'Door to Tomorrow',hint:'A new day can begin.'}
 ];
 function mount(){
  const host=document.querySelector('main');if(!host||document.getElementById('aca-sigil-ledger'))return;
