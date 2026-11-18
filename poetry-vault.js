@@ -1,4 +1,4 @@
-import {societyHint,societyComplete,societyInscribe,societyBegin,societyReset} from import('./vault-room.js?v=academy3b')
+import {societyHint,societyComplete,societyInscribe,societyBegin,societyReset} from './vault-society.js?v=20261112-phase7fix';
 import {createVaultRewards,certificateSVG,SECRETS} from './vault-rewards.js?v=20261112-cinematic';
 import {createVaultSound} from './vault-sound.js?v=20261112-cinematic';
 import {chapterEffect} from './vault-cinematics.js?v=20261112-cinematic';
