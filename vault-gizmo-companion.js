@@ -24,6 +24,12 @@ function init(){
  const guide=document.querySelector('#gizmo-guide .gg-character svg');
  if(guide){const clone=guide.cloneNode(true);clone.setAttribute('aria-hidden','true');art.replaceChildren(clone)}
  let resting=false,hideSpeech;
+ // Keep Gizmo's rest/follow preference across castle chapters in this tab.
+ const restKey='pv192-gizmo-rest';
+ try{resting=sessionStorage.getItem(restKey)==='yes'}catch{};
+ wrap.classList.toggle('pvg-resting',resting);
+ rest.setAttribute('aria-pressed',String(resting));
+ rest.textContent=resting?'🐾 Follow':'🐾 Rest';
  function talk(s){speech.textContent=s;speech.hidden=false;clearTimeout(hideSpeech);hideSpeech=setTimeout(()=>speech.hidden=true,3500)}
  function setVisibility(){wrap.hidden=!isAllowed();}
  const messages={
@@ -37,7 +43,7 @@ function init(){
   'poetry-vault-author-room.html':'We made it to my favorite room!'
  };
  cat.addEventListener('click',()=>{if(!isAllowed())return;cat.classList.remove('pvg-pet');void cat.offsetWidth;cat.classList.add('pvg-pet');talk('Purrr! Gizmo loves you too. 💜')});
- rest.addEventListener('click',()=>{resting=!resting;wrap.classList.toggle('pvg-resting',resting);rest.setAttribute('aria-pressed',String(resting));rest.textContent=resting?'🐾 Follow':'🐾 Rest';talk(resting?'Gizmo curls up for a little rest.':'Gizmo is following again!')});
+ rest.addEventListener('click',()=>{resting=!resting;try{sessionStorage.setItem(restKey,resting?'yes':'no')}catch{};wrap.classList.toggle('pvg-resting',resting);rest.setAttribute('aria-pressed',String(resting));rest.textContent=resting?'🐾 Follow':'🐾 Rest';talk(resting?'Gizmo curls up for a little rest.':'Gizmo is following again!')});
  // Companion pads left and right in response to actual visitor activity, but
  // never intercepts the room's pointer controls or changes game state.
  let target=0,position=0,lastMove=0,raf=0;
