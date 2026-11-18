@@ -12,7 +12,7 @@ function init(){
  const room=document.getElementById('room');if(!room||document.getElementById('aca-grand-crescent'))return;
  const section=document.createElement('section');section.id='aca-grand-crescent';section.className='aca-grand-crescent';
  section.setAttribute('aria-labelledby','aca-crescent-title');
- section.innerHTML='<p class="aca-crescent-kicker">AMETHYST CRESCENT ACADEMY · THE GRAND MYSTERY</p><h2 id="aca-crescent-title">The Grand Crescent Mechanism</h2><p>Four symbols, four chapters, one story. Place the sigils in the order their story unfolded.</p><p class="aca-crescent-status" role="status" aria-live="polite"></p><div class="aca-crescent-slots" aria-label="Crescent sequence"></div><div class="aca-crescent-choices" role="group" aria-label="Choose a sigil"></div><div class="aca-crescent-actions"><button type="button" class="aca-crescent-undo">Undo last</button><button type="button" class="aca-crescent-reset">Start over</button><button type="button" class="aca-crescent-hint">Hint</button></div><p class="aca-crescent-result" role="status" aria-live="polite"></p><p class="aca-crescent-note">An optional epilogue puzzle. It does not change existing access, birthday locks, Bre Pass, or chapter saves.</p>';
+ section.innerHTML='<p class="aca-crescent-kicker">AMETHYST CRESCENT ACADEMY · THE GRAND MYSTERY</p><h2 id="aca-crescent-title">The Grand Crescent Mechanism</h2><p>Four symbols, four chapters, one story. Place the sigils in the order their story unfolded.</p><p class="aca-crescent-status" role="status" aria-live="polite"></p><div class="aca-crescent-art" aria-hidden="true"><span class="aca-crescent-moon"></span><span class="aca-crescent-gem">◆</span><span class="aca-crescent-star star-one">✦</span><span class="aca-crescent-star star-two">✧</span><span class="aca-crescent-star star-three">✦</span></div><div class="aca-crescent-slots" aria-label="Crescent sequence"></div><div class="aca-crescent-choices" role="group" aria-label="Choose a sigil"></div><div class="aca-crescent-actions"><button type="button" class="aca-crescent-undo">Undo last</button><button type="button" class="aca-crescent-reset">Start over</button><button type="button" class="aca-crescent-hint">Hint</button></div><p class="aca-crescent-result" role="status" aria-live="polite"></p><p class="aca-crescent-note">An optional epilogue puzzle. It does not change existing access, birthday locks, Bre Pass, or chapter saves.</p>';
  const epilogue=document.getElementById('aca-headmaster-epilogue');
  if(epilogue)room.insertBefore(section,epilogue);else room.append(section);
  const status=section.querySelector('.aca-crescent-status'),slots=section.querySelector('.aca-crescent-slots'),choices=section.querySelector('.aca-crescent-choices'),result=section.querySelector('.aca-crescent-result');
@@ -23,11 +23,12 @@ function init(){
  }
  function render(){
   const allowed=eligible();section.hidden=!allowed;if(!allowed)return;
+  section.classList.toggle('is-complete',finished);
   const stats=societyStats(),available=sigils.filter((s,i)=>stats.journey?.completed?.[i]===true);
   status.textContent=available.length+' of 4 chapter sigils revealed';
   slots.replaceChildren();choices.replaceChildren();
   for(let i=0;i<4;i++){
-   const cell=document.createElement('div');cell.className='aca-crescent-slot';
+   const cell=document.createElement('div');cell.className='aca-crescent-slot'+(selected[i]?' is-filled':'');
    cell.textContent=selected[i]?selected[i].icon+' '+selected[i].name:'✧ '+(i+1);
    cell.setAttribute('aria-label','Position '+(i+1)+': '+(selected[i]?.name||'empty'));
    slots.append(cell);
@@ -42,15 +43,15 @@ function init(){
  }
  function check(){
   if(selected.map(s=>s.id).join(',')===sigils.map(s=>s.id).join(',')){
-   finished=true;result.textContent='✦ The crescent glows. Love, reflection, night, and sunrise have become one story. Headmaster Breezy welcomes you, Storykeeper.';
+   finished=true;section.classList.add('is-complete');result.textContent='✦ The crescent glows. Love, reflection, night, and sunrise have become one story. Headmaster Breezy welcomes you, Storykeeper.';
    try{localStorage.setItem(key,JSON.stringify({completed:true}))}catch{}
   }else{
    result.textContent='The crescent flickers. The story is not in order yet. Try again.';
-   selected=[]; // Never lock a visitor out for a wrong attempt.
+   selected=[];section.classList.remove('is-complete'); // Never lock a visitor out for a wrong attempt.
   }
  }
  section.querySelector('.aca-crescent-undo').addEventListener('click',()=>{if(!eligible())return;selected.pop();result.textContent='';render()});
- section.querySelector('.aca-crescent-reset').addEventListener('click',()=>{if(!eligible())return;selected=[];finished=false;result.textContent='';render()});
+ section.querySelector('.aca-crescent-reset').addEventListener('click',()=>{if(!eligible())return;selected=[];finished=false;section.classList.remove('is-complete');try{localStorage.removeItem(key)}catch{};result.textContent='';render()});
  section.querySelector('.aca-crescent-hint').addEventListener('click',()=>{if(!eligible())return;result.textContent=sigils[hintIndex++%sigils.length].clue});
  try{finished=JSON.parse(localStorage.getItem(key)||'{}').completed===true}catch{}
  if(finished){selected=[...sigils];result.textContent='✦ The crescent remembers your completed story. You may reset to play again.'}
