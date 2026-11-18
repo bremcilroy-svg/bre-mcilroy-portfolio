@@ -21,6 +21,13 @@ main{min-height:100svh;display:flex;flex-direction:column}.landscape{position:re
 .content{padding:clamp(22px,5vw,55px);max-width:1050px;margin:auto;width:100%;text-align:center}.content h2{font-size:clamp(22px,3vw,34px);margin:0 0 10px}.intro{line-height:1.6;color:#ddd4ef;max-width:700px;margin:0 auto 24px}
 .places{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:13px;text-align:left}.place{border:1px solid #79699c;border-radius:15px;background:#211933;padding:18px;min-height:125px}.place strong{display:block;margin:8px 0}.place p{font:13px/1.5 system-ui,sans-serif;color:#c6bcd9;margin:0}
 .actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:25px 0}.actions a{display:inline-block;padding:14px 21px;border:1px solid #c8b7e9;border-radius:30px;background:#493369;text-decoration:none;font:600 14px system-ui,sans-serif;min-height:48px}.actions a.secondary{background:#211933}
+.scene-hotspot{position:absolute;z-index:4;display:flex;align-items:center;justify-content:center;width:clamp(40px,5vw,55px);height:clamp(40px,5vw,55px);border-radius:50%;border:2px solid #e5d8ff;background:#302045e8;color:#fff;font-size:22px;box-shadow:0 0 0 5px #9e84d344,0 0 20px #c7a7ff77;cursor:pointer;transition:transform .18s ease}
+.scene-hotspot:hover,.scene-hotspot:focus-visible{transform:scale(1.12);outline:3px solid #b7dcff;outline-offset:4px}
+.scene-hotspot[aria-pressed="true"]{background:#66448c;border-color:#b7dcff}
+.scene-hotspot.owl{left:18%;top:27%}.scene-hotspot.lake{left:22%;bottom:19%}.scene-hotspot.garden{right:20%;bottom:20%}.scene-hotspot.observatory{right:32%;top:20%}.scene-hotspot.gates{left:50%;bottom:24%;transform:translateX(-50%)}
+.scene-hotspot.gates:hover,.scene-hotspot.gates:focus-visible{transform:translateX(-50%) scale(1.12)}
+.scene-guide{position:absolute;z-index:4;top:77px;left:50%;transform:translateX(-50%);width:max-content;max-width:90%;padding:8px 14px;background:#140e29d9;border:1px solid #baa8e3;border-radius:30px;font:600 12px system-ui,sans-serif;color:#f3eaff}
+@media(max-width:650px){.scene-hotspot.owl{left:9%;top:31%}.scene-hotspot.lake{left:12%;bottom:22%}.scene-hotspot.garden{right:10%;bottom:23%}.scene-hotspot.observatory{right:21%;top:30%}.scene-hotspot.gates{bottom:29%}.scene-guide{top:66px;font-size:11px}}
 .grounds-map{margin:24px auto;padding:20px;border:1px solid #a896ce;border-radius:20px;background:radial-gradient(ellipse at 50% 40%,#382450,#17152e 75%);max-width:800px}
 .grounds-map h3{margin:0 0 12px}.grounds-map p{color:#ded2f0;line-height:1.5}
 .grounds-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
@@ -52,6 +59,12 @@ footer{padding:25px;text-align:center;font:12px system-ui,sans-serif;color:#bbb0
 <path class="door" d="M411 610V517Q475 425 539 517V610Z"/><path d="M475 478V610" stroke="#a8a2c4" stroke-width="4"/><circle cx="462" cy="550" r="5" fill="#d7c2ff"/><circle cx="488" cy="550" r="5" fill="#d7c2ff"/>
 <path d="M475 -40V-67" stroke="#d7d7ec" stroke-width="4"/><path d="M475 -67l54 13-54 14" fill="#ad83da"/>
 </svg></div><div class="foreground" aria-hidden="true"></div>
+<p class="scene-guide">✦ Select a glowing landmark to explore ✦</p>
+<button class="scene-hotspot owl" type="button" data-scene-landmark="owl" aria-label="Explore Snow Owl Watchtower" aria-pressed="false">🦉</button>
+<button class="scene-hotspot lake" type="button" data-scene-landmark="lake" aria-label="Explore Crescent Lake" aria-pressed="false">❄️</button>
+<button class="scene-hotspot garden" type="button" data-scene-landmark="garden" aria-label="Explore Royal Gardens" aria-pressed="false">🌹</button>
+<button class="scene-hotspot observatory" type="button" data-scene-landmark="observatory" aria-label="Explore Celestial Observatory" aria-pressed="false">🌙</button>
+<button class="scene-hotspot gates" type="button" data-scene-landmark="gates" aria-label="Explore Silver Crown Gates" aria-pressed="false">👑</button>
 <div class="caption"><h1>Amethyst Crescent Academy</h1><p>Where Every Story Holds a Little Magic</p></div></section>
 <section class="content" id="explore"><h2>Welcome to the Academy Grounds</h2>
 <p class="intro">Beyond the moonlit towers lie secret libraries, royal halls, snowy-owl guardians, and five enchanted realms. The grounds are the beginning of a larger world still being built.</p>
@@ -85,11 +98,18 @@ const stories={
  observatory:['🌙 Celestial Observatory','The tallest tower studies the moon and stars. Beyond its windows wait the mysteries of the planned celestial realm.'],
  gates:['👑 Silver Crown Gates','The great silver gates lead to the Poetry Vault, the academy’s first playable adventure. Enter when you are ready.']
 };
-const buttons=document.querySelectorAll('[data-landmark]'),panel=document.getElementById('grounds-detail');
-buttons.forEach(button=>button.addEventListener('click',()=>{
- const story=stories[button.dataset.landmark];if(!story)return;
- buttons.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+const buttons=document.querySelectorAll('[data-landmark]'),sceneButtons=document.querySelectorAll('[data-scene-landmark]'),panel=document.getElementById('grounds-detail');
+function selectLandmark(key,scroll){
+ const story=stories[key];if(!story)return;
+ buttons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.landmark===key)));
+ sceneButtons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.sceneLandmark===key)));
  panel.querySelector('h4').textContent=story[0];panel.querySelector('p').textContent=story[1];
+ if(scroll)document.getElementById('grounds-map-heading').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
+}
+buttons.forEach(button=>button.addEventListener('click',()=>{
+ selectLandmark(button.dataset.landmark,false);
 }));
+sceneButtons.forEach(button=>button.addEventListener('click',()=>selectLandmark(button.dataset.sceneLandmark,true)));
+selectLandmark('owl',false);
 })();
 </script><footer>Amethyst Crescent Academy · An original fantasy world by Bre McIlroy</footer></body></html>
