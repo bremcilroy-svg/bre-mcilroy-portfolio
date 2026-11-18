@@ -36,6 +36,8 @@ document.addEventListener('click',e=>{
  if(!completed(chapter)){e.preventDefault();e.stopImmediatePropagation();return;}
  e.preventDefault();e.stopImmediatePropagation();gate(chapter,()=>cinematic(a.href));
 },true);
-// Castle Passage and castle-map buttons request this lock via pv192:door-request.\n// Do not intercept their clicks a second time: the bridge owns navigation.\n// Highlight existing exit links without touching puzzle data.
+// Castle Passage and castle-map buttons request this lock via pv192:door-request.
+// Do not intercept their clicks a second time: the bridge owns navigation.
+// Highlight existing exit links without touching puzzle data.
 const panel=document.getElementById('panel');if(panel&&chapter>=0&&chapter<3){const decorate=()=>{panel.querySelectorAll('a[href]').forEach(a=>{try{if(new URL(a.href,location.href).pathname.split('/').pop()===destinations[chapter]&&completed(chapter))a.classList.add('pv156-door-link');}catch{}});};new MutationObserver(decorate).observe(panel,{childList:true,subtree:true});decorate();}
 })();
