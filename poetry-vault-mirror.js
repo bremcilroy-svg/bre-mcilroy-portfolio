@@ -1,3 +1,4 @@
+import {readJourney} from './vault-journey.js';
 import {societyHint,societyComplete,societyInscribe,societyBegin,societyReset} from './vault-society.js?v=20261112-phase7fix';
 import {createVaultRewards,certificateSVG,SECRETS} from './vault-rewards.js?v=20261112-cinematic';
 import {createVaultSound} from './vault-sound.js?v=20261112-cinematic';
@@ -20,7 +21,7 @@ const objects={
 };
 let state=normalizeMirrorState(null),heart=normalizeHeartState(null),storageWorks=true,started=false,room=null,current=null,hintLevel=0,lastStage='';
 try{state=normalizeMirrorState(JSON.parse(localStorage.getItem(MIRROR_SAVE_KEY)||'null'));heart=normalizeHeartState(JSON.parse(localStorage.getItem(HEART_SAVE_KEY)||'null'));}catch{storageWorks=false;}
-const hasKey=heart.completed;
+const hasKey=readJourney(key=>localStorage.getItem(key)).completed.slice(0,1).every(x=>x===true);
 societyBegin(2,hasKey&&state.found.length===0&&!state.restored&&!state.unlocked&&!state.completed);
 const opening='The silver key turns. Beyond the first chamber, a hall of mirrors keeps what the heart could not. Four fragments are missing. Restore the silver borders, then read what the glass returns. Some reflections hold a word. Others hold a story.';
 let lastNarration=opening;
