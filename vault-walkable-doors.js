@@ -8,7 +8,7 @@ const codes=['1231','0702','0215'];
 const names=['The Shattered Mirror','The Midnight Labyrinth','The Door to Tomorrow'];
 const here=location.pathname.split('/').pop(),chapter=pages.indexOf(here);
 let stats;try{({societyStats:stats}=await import('./vault-society.js'));}catch(e){console.warn('Door lock unavailable',e);return;}
-const completed=i=>{try{return stats().journey.completed[i]===true;}catch{return false;}};
+const completed=i=>{try{const j=stats().journey;return j.completed.slice(0,i+1).length===i+1&&j.completed.slice(0,i+1).every(x=>x===true);}catch{return false;}};
 const unlocked=i=>{try{return sessionStorage.getItem('pv156-door-'+(i+2))==='yes';}catch{return false;}};
 const mark=i=>{try{sessionStorage.setItem('pv156-door-'+(i+2),'yes');}catch{}};
 let active=false;
@@ -22,6 +22,12 @@ function lock(i,proceed){if(active)return;active=true;
  dialog.querySelector('.pv156-submit').addEventListener('click',()=>{if(digits.join('')!==codes[i]){dialog.querySelector('.pv156-status').textContent='The brass lock refuses that combination. Try again.';return;}mark(i);dialog.close();proceed();});
  dialog.addEventListener('close',()=>{dialog.remove();active=false;});document.body.append(dialog);dialog.showModal();}
 function gate(i,proceed){if(!completed(i))return;if(unlocked(i)){proceed();return;}lock(i,proceed);}
+// Phase 19.2: the castle map requests the SAME lock used by physical doors.
+document.addEventListener('pv192:door-request',e=>{
+ const detail=e.detail;if(!detail||!Number.isInteger(detail.destination)||typeof detail.proceed!=='function')return;
+ const i=detail.destination-2;if(i<0||i>2)return;
+ detail.handled=true;gate(i,detail.proceed);
+});
 // Existing physical doors already invoke their original puzzle-completion dialogs.
 // Intercept only the successful onward link; never replace the puzzle interaction.
 document.addEventListener('click',e=>{
@@ -30,14 +36,8 @@ document.addEventListener('click',e=>{
  if(!completed(chapter)){e.preventDefault();e.stopImmediatePropagation();return;}
  e.preventDefault();e.stopImmediatePropagation();gate(chapter,()=>cinematic(a.href));
 },true);
-// The Castle Passage navigation must honor the same combinations.
-document.addEventListener('click',e=>{
- const b=e.target.closest?.('#pv155-bridge .pv155-route');if(!b||b.disabled)return;
- const title=b.textContent||'';const destination=names.findIndex(n=>title.includes(n));if(destination<0)return;
- if(!completed(destination)){e.preventDefault();e.stopImmediatePropagation();return;}
- if(unlocked(destination))return; // Original Castle Passage animation handles this.
- e.preventDefault();e.stopImmediatePropagation();gate(destination,()=>cinematic(destinations[destination]));
-},true);
+// Castle Passage and castle-map buttons request this lock via pv192:door-request.
+// Do not intercept their clicks a second time: the bridge owns navigation.
 // Highlight existing exit links without touching puzzle data.
 const panel=document.getElementById('panel');if(panel&&chapter>=0&&chapter<3){const decorate=()=>{panel.querySelectorAll('a[href]').forEach(a=>{try{if(new URL(a.href,location.href).pathname.split('/').pop()===destinations[chapter]&&completed(chapter))a.classList.add('pv156-door-link');}catch{}});};new MutationObserver(decorate).observe(panel,{childList:true,subtree:true});decorate();}
 })();
