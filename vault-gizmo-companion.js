@@ -49,7 +49,18 @@ function init(){
  let target=0,position=0,lastMove=0,raf=0;
  function moveToward(x){if(resting||!isAllowed())return;target=Math.max(-46,Math.min(46,x));wrap.classList.add('pvg-walking');clearTimeout(lastMove);lastMove=setTimeout(()=>wrap.classList.remove('pvg-walking'),750);if(!raf)raf=requestAnimationFrame(animate)}
  function animate(){raf=0;position+=(target-position)*.17;wrap.style.setProperty('--pvg-offset',position+'px');wrap.classList.toggle('pvg-facing-left',target<position-2);if(Math.abs(target-position)>.6)raf=requestAnimationFrame(animate)}
- document.addEventListener('click',e=>{if(e.target.closest('#pv-gizmo-companion'))return;if(e.target.closest('button,[role="button"],a,.pv12-viewport,#scene,.ai6-stage'))moveToward((Math.random()-.5)*85)},{passive:true});
+ // Make Gizmo's movement intentional in every chapter, rather than random jumps.
+ // On touch, mouse, or keyboard exploration he pads toward the visitor's direction.
+ document.addEventListener('pointerdown',e=>{
+  if(e.target.closest('#pv-gizmo-companion'))return;
+  if(e.target.closest('dialog,[role="dialog"],input,textarea,select'))return;
+  if(!e.target.closest('#scene,.pv12-viewport,.ai6-stage,[data-move]'))return;
+  const control=e.target.closest('[data-move]');
+  const dir=control?.dataset.move;
+  if(dir==='left'||dir==='turnLeft')moveToward(-38);
+  else if(dir==='right'||dir==='turnRight')moveToward(38);
+  else moveToward(e.clientX<innerWidth/2?-24:24);
+ },{passive:true});
  document.addEventListener('keydown',e=>{if(['ArrowLeft','a','A'].includes(e.key))moveToward(-38);if(['ArrowRight','d','D'].includes(e.key))moveToward(38)},{passive:true});
  if(room){new MutationObserver(setVisibility).observe(room,{attributes:true,attributeFilter:['hidden']})}
  new MutationObserver(setVisibility).observe(document.body,{attributes:true,attributeFilter:['class']});
