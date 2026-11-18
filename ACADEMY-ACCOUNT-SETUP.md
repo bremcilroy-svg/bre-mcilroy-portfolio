@@ -11,3 +11,14 @@ Status: source code committed; **not activated**. The owner must configure Supab
 7. Guest users can continue playing without an account. The live `main` branch remains unchanged until approved.
 
 Security: never accept a client-supplied user ID for authorization; the database policy compares it to `auth.uid()`. Public keys are expected in frontend code, private keys are not.
+
+## Verified core save keys
+
+The cloud snapshot now explicitly includes the original chapter keys from `vault-state.js`, `vault-mirror-state.js`, `vault-labyrinth-state.js`, and `vault-dawn-state.js`:
+
+- `bre-poetry-vault-heart-v1`
+- `bre-poetry-vault-mirror-v1`
+- `bre-poetry-vault-labyrinth-v1`
+- `bre-poetry-vault-dawn-v1`
+
+These complement existing society, bookmark, fifth-door, house, character, inventory, and secret chest keys. Backups are manual; never claim automatic cross-device syncing. Before activating the service, test a completed chapter, a partially completed chapter, a secret chest, and an enrollment record with two separate user accounts.
