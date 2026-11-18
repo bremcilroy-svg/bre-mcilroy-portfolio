@@ -17,8 +17,7 @@ whisper.append(symbol,label,text,toggle);document.body.append(whisper);
 let index=0,enabled=true;
 toggle.addEventListener('click',()=>{enabled=!enabled;toggle.setAttribute('aria-pressed',String(enabled));toggle.textContent=enabled?'Hide whispers':'Show whispers';text.hidden=!enabled;if(enabled)text.textContent=lines[index]});
 const tick=()=>{if(!enabled||document.hidden||document.querySelector('dialog[open]')||document.getElementById('welcome')?.hidden===false)return;index=(index+1)%lines.length;text.textContent=lines[index];whisper.classList.remove('pv-whisper-pulse');void whisper.offsetWidth;whisper.classList.add('pv-whisper-pulse')};
-const interval=setInterval(tick,24000);
-window.addEventListener('pagehide',()=>clearInterval(interval),{once:true});
+setInterval(tick,24000);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
 })();
