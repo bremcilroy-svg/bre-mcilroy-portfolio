@@ -1,5 +1,6 @@
 /* Royal rewards: cosmetic collectibles only. Original chapter gates are authoritative. */
 import {societyStats} from './vault-society.js';
+import {solved} from './academy-secret-trials.js';
 export const KEY='aca-royal-treasures-v1';
 export const ITEMS=[
 {id:'rose-ribbon',name:'Crimson Rose Ribbon',icon:'🎀',rarity:'Common',slot:'head',chapter:0,chest:'easy'},
@@ -29,7 +30,7 @@ export function readTreasures(){let raw={};try{raw=JSON.parse(localStorage.getIt
 export function saveTreasures(state){try{localStorage.setItem(KEY,JSON.stringify(state));window.dispatchEvent(new Event('aca:treasures-changed'));return true}catch{return false}}
 export function statsSafe(){try{return societyStats()}catch{return null}}
 export function canEarn(item,s){if(!s)return false;
- if(item.chapter<4){if(item.chest==='easy')return true;return s.journey.completed[item.chapter]===true&&s.seals.includes(['heart','mirror','labyrinth','dawn'][item.chapter]);}
+ if(item.chapter<4){if(item.chest==='easy')return true;return s.journey.completed[item.chapter]===true&&s.seals.includes(['heart','mirror','labyrinth','dawn'][item.chapter])&&solved(item.chapter);}
  if(item.chapter===4)return s.journey.allComplete&&s.seals.length===4;
  if(item.chapter===5)return s.society.fifth===true&&s.journey.allComplete&&s.seals.length===4;
  return false; // Finale reward reserved until verified author completion is integrated.
