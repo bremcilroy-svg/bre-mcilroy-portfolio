@@ -1,6 +1,5 @@
 import {SECRETS} from './vault-rewards.js?v=20261112-cinematic';
 import {createRoomMotion} from './vault-motion.js?v=20261112-cinematic';
-const academyDecor=installAcademyGreatHall(scene,THREE);import {createRoomMotion} from './vault-motion.js?v=20261112-cinematic';
 import * as THREE from './vault-three.module.js';
 import {installAcademyGreatHall} from './vault-academy-3d.js?v=1';
 import {createCanvasRenderer} from './vault-canvas.js?v=20261112-cinematic';
