@@ -14,6 +14,6 @@ for(const file of chapters){
  if(!html.includes('</html>'))fail(file+' has no closing html tag');
 }
 const js=fs.readdirSync('.').filter(x=>x.endsWith('.js'));
-for(const file of js){const run=cp.spawnSync(process.execPath,['--check',file],{encoding:'utf8'});if(run.status!==0)fail(file+' syntax: '+(run.stderr||run.error||'unknown error'));else checked++}
+for(const file of js){const source=fs.readFileSync(file,'utf8');const run=cp.spawnSync(process.execPath,['--input-type=module','--check'],{encoding:'utf8',input:source});if(run.status!==0)fail(file+' syntax: '+(run.stderr||run.error||'unknown error'));else checked++}
 console.log('Smoke checks: '+checked+' checks, '+failures+' failures');
 if(failures)process.exitCode=1;
