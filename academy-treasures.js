@@ -29,6 +29,8 @@ export const BADGES=[
 const ids=ITEMS.map(i=>i.id),slots=['head','neck','back','body'];
 export function readTreasures(){let raw={};try{raw=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch{}
  const owned=ids.filter(id=>Array.isArray(raw.owned)&&raw.owned.includes(id));
+ // Players who opened these chests before merchandise launched keep their earned bonuses.
+ for(const bonus of ITEMS.filter(x=>x.bonusOf)){if(owned.includes(bonus.bonusOf)&&!owned.includes(bonus.id))owned.push(bonus.id)}
  const equipped={};for(const slot of slots){const id=raw.equipped?.[slot];if(owned.includes(id)&&ITEMS.some(x=>x.id===id&&x.slot===slot))equipped[slot]=id}
  return {owned,equipped};}
 export function saveTreasures(state){try{localStorage.setItem(KEY,JSON.stringify(state));window.dispatchEvent(new Event('aca:treasures-changed'));return true}catch{return false}}
