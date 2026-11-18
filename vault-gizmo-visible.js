@@ -9,7 +9,11 @@ function mount(){
  img.src='vault-gizmo-original.svg?v=2';
  img.alt='';img.decoding='async';img.width=78;img.height=88;
  img.className='pvg-original-img';
- img.addEventListener('error',()=>{img.remove();host.classList.remove('pvg-visible-original')});
+ img.addEventListener('error',()=>{
+   img.remove();host.classList.remove('pvg-visible-original');
+   // A missing standalone asset must not leave Gizmo invisible.
+   if(!art.querySelector('svg')){const fallback=document.createElement('span');fallback.textContent='🐈';fallback.setAttribute('aria-hidden','true');art.append(fallback);}
+ });
  art.replaceChildren(img);
  host.classList.add('pvg-visible-original');
  // Remove old horizontal translation so he cannot wander off-screen.
