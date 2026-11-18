@@ -6,7 +6,8 @@ function render(){const state=readTreasures(),stats=statsSafe();let name='Academ
  const preview=$('#equipped-preview');preview.replaceChildren();
  for(const slot of ['head','neck','back','body','feet','companion']){const item=ITEMS.find(i=>i.id===state.equipped[slot]),box=document.createElement('div');box.className='equipped-slot';const label=document.createElement('strong');label.textContent=slot.toUpperCase();const value=document.createElement('span');value.textContent=item?item.icon+' '+item.name:'Empty';box.append(label,value);preview.append(box)}
  const grid=$('#inventory-grid');grid.replaceChildren();
- for(const item of ITEMS){const owned=state.owned.includes(item.id),eligible=canEarn(item,stats),equipped=state.equipped[item.slot]===item.id;
+ const merchHeading=document.createElement('h3');merchHeading.textContent='Academy Merchandise · Earned in treasure chests';merchHeading.className='aca-merch-heading';grid.before(merchHeading);document.querySelectorAll('.aca-merch-heading').forEach((el,i)=>{if(i>0)el.remove()});
+ for(const item of [...ITEMS].sort((a,b)=>(b.chest==='merch')-(a.chest==='merch'))){const owned=state.owned.includes(item.id),eligible=canEarn(item,stats),equipped=state.equipped[item.slot]===item.id;
  const card=document.createElement('article');card.className='treasure-card '+(owned?'owned':'locked');
  const icon=document.createElement('div');icon.className='treasure-icon';icon.textContent=owned?item.icon:'🔒';
  const title=document.createElement('h3');title.textContent=owned?item.name:'Undiscovered treasure';
