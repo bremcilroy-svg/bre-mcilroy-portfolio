@@ -19,7 +19,7 @@ const overlay=document.createElement('div');overlay.id='pv155-transition';overla
 let travelling=false;
 function eligible(i,s){
  if(i<=1)return true;
- if(i>=2&&i<=4)return s.journey.completed[i-2]===true;
+ if(i>=2&&i<=4)return s.journey.completed.slice(0,i-1).every(x=>x===true);
  if(i===5)return s.journey.allComplete;
  if(i===6)return s.journey.allComplete&&s.seals.length===4;
  return s.journey.allComplete&&s.seals.length===4&&s.society.fifth===true;
