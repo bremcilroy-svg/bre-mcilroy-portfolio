@@ -50,7 +50,7 @@ function init(){
  }
  window.addEventListener('pagehide',()=>{
    // Blob URLs are page-session assets. Release them without leaving stale
-   references that a back/forward-cache restoration might try to play.
+   // references that a back/forward-cache restoration might try to play.
    for(const kind of ['meow','purr']){
      if(recordedUrls[kind]){
        if(clips[kind]){clips[kind].pause();delete clips[kind];}
