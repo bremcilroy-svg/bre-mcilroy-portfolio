@@ -1,61 +1,45 @@
-/* Phase 3C: Enchanted Academy Hall. Visual additions only: no colliders, puzzle state or save edits. */
+/* Royal Castle Phase 3D. Decorative meshes only; original puzzles/colliders remain unchanged. */
 export function installAcademyGreatHall(scene, THREE) {
-  if (scene.userData.academyGreatHall) return scene.userData.academyGreatHall;
-  const group = new THREE.Group(); group.name = 'Academy Phase 3C'; scene.add(group);
-  const mat = (color, extra={}) => new THREE.MeshStandardMaterial({color, roughness:.72, ...extra});
-  const stone=mat(0x33283e), lilac=mat(0x6a4a82), gold=mat(0xcaa66e,{metalness:.55,roughness:.4}), moon=mat(0xc2b5de,{metalness:.2}), dark=mat(0x211b31);
-  const glow=mat(0xffe6b8,{emissive:0xffbd78,emissiveIntensity:1.8});
-  const mesh=(geo,m,x,y,z)=>{const o=new THREE.Mesh(geo,m);o.position.set(x,y,z);group.add(o);return o;};
-  const beam=(w,h,d,x,y,z,m=stone)=>mesh(new THREE.BoxGeometry(w,h,d),m,x,y,z);
-  // High architectural details stay outside the walkable volume.
-  for(const x of [-5.38,5.38]){
-    for(const z of [-5.2,-2.5,.2,2.9,5.3]){
-      beam(.34,2.25,.45,x,3.05,z,stone);
-      beam(.44,.12,.54,x,4.22,z,gold);
-      beam(.44,.12,.54,x,1.91,z,gold);
-    }
-    beam(.16,.12,12.1,x,4.38,0,gold);
+  if(scene.userData.academyGreatHall) return scene.userData.academyGreatHall;
+  const group=new THREE.Group();group.name='Royal Enchanted Academy';scene.add(group);
+  const mat=(c,extra={})=>new THREE.MeshStandardMaterial({color:c,roughness:.62,...extra});
+  const stone=mat(0x42354f),silver=mat(0xc3c8d7,{metalness:.72,roughness:.3}),purple=mat(0x502365),ruby=mat(0x8f2344),ice=mat(0x9bdfff,{emissive:0x3d9dc8,emissiveIntensity:.65}),white=mat(0xf1f5fc),dark=mat(0x15101f),eyes=mat(0x49c8ff,{emissive:0x1a8dc7,emissiveIntensity:1.5});
+  const add=(g,m,x,y,z,parent=group)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);parent.add(o);return o};
+  const beam=(w,h,d,x,y,z,m=stone,parent=group)=>add(new THREE.BoxGeometry(w,h,d),m,x,y,z,parent);
+  // Wall arches, ribbed vault, silver capitals; all above head height or close to walls.
+  for(const x of [-5.52,5.52]) for(const z of [-5.5,-2.5,.5,3.5,5.5]){
+    beam(.35,2.2,.46,x,3.1,z);beam(.48,.15,.6,x,4.28,z,silver);beam(.48,.14,.6,x,1.95,z,silver);
   }
-  for(const z of [-5.2,-2.5,.2,2.9,5.3]){
-    const crown=beam(10.7,.12,.14,0,4.48,z,gold);
-    for(const x of [-4.1,-2.05,0,2.05,4.1]){
-      const rib=beam(.09,.1,1.5,x,4.48,z+.72,lilac); rib.rotation.z=(x/4.1)*.06;
-    }
+  for(const z of [-5.5,-2.5,.5,3.5,5.5]){
+    beam(10.9,.12,.13,0,4.44,z,silver);
+    for(const x of [-4.2,-2.1,0,2.1,4.2]){const r=beam(.09,.11,1.5,x,4.43,z+.7,purple);r.rotation.z=x*.012;}
   }
-  // Side-wall pointed-arch motifs, made from narrow beams rather than heavy curved geometry.
-  for(const x of [-5.22,5.22]) for(const z of [-4.1,-.4,3.3]){
-    beam(.11,1.22,.11,x,2.88,z-1.05,gold);
-    beam(.11,1.22,.11,x,2.88,z+1.05,gold);
-    for(const sign of [-1,1]){
-      const tip=beam(.11,.1,1.53,x,3.76,z+sign*.52,gold);
-      tip.rotation.x=sign*.48;
-    }
-    beam(.04,1.15,1.75,x,2.87,z,dark);
-    beam(.055,.05,1.65,x,3.53,z,moon);
+  for(const x of [-5.7,5.7])for(const z of [-4.5,-.7,3.1]){
+    beam(.08,1.2,.1,x,2.8,z-1.1,silver);beam(.08,1.2,.1,x,2.8,z+1.1,silver);
+    for(const s of [-1,1]){const p=beam(.09,.1,1.55,x,3.69,z+s*.54,silver);p.rotation.x=s*.46;}
+    beam(.035,1.04,1.75,x,2.77,z,stone);
+    const glass=beam(.04,.75,1.3,x,2.92,z,ice);glass.material=ice;
   }
-  // Academy banners above the rear wall, without hiding the existing puzzle props.
-  const houses=[['✧',0x61427f],['♜',0x833e4f],['☾',0x2f5967],['❀',0x665284]];
-  houses.forEach(([symbol,color],i)=>{
-    const x=-4.35+i*2.9;
-    beam(1.06,1.24,.045,x,3.19,-6.77,mat(color));
-    beam(1.18,.065,.11,x,3.86,-6.72,gold);
-    const c=document.createElement('canvas');c.width=c.height=128;
-    const ctx=c.getContext('2d');ctx.fillStyle='#f7e5c7';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='bold 77px Georgia';ctx.fillText(symbol,64,65);
-    const texture=new THREE.CanvasTexture(c);texture.colorSpace=THREE.SRGBColorSpace;
-    mesh(new THREE.PlaneGeometry(.67,.67),new THREE.MeshBasicMaterial({map:texture,transparent:true,side:THREE.DoubleSide}),x,3.24,-6.725);
+  // Four heraldic banners on the far wall.
+  const sigils=['✧','♜','☾','❀'];const banners=[purple,ruby,purple,ruby];
+  sigils.forEach((s,i)=>{const x=-4.35+i*2.9;beam(1.08,1.28,.045,x,3.13,-6.75,banners[i]);beam(1.24,.07,.1,x,3.84,-6.7,silver);
+    const c=document.createElement('canvas');c.width=c.height=128;const ctx=c.getContext('2d');ctx.fillStyle='#e4e9f5';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='bold 78px Georgia';ctx.fillText(s,64,66);
+    const tx=new THREE.CanvasTexture(c);tx.colorSpace=THREE.SRGBColorSpace;add(new THREE.PlaneGeometry(.68,.68),new THREE.MeshBasicMaterial({map:tx,transparent:true,side:THREE.DoubleSide}),x,3.15,-6.69);
   });
-  // Moonmere crescent above the exit door. Door collider and interaction untouched.
-  const crest=mesh(new THREE.TorusGeometry(.36,.055,8,32,Math.PI*1.65),moon,0,3.82,6.58);
-  crest.rotation.y=Math.PI;crest.rotation.z=.38;
-  beam(1.25,.045,.06,0,4.3,6.58,gold);
-  // Lightweight floating lights and spell sparks; no physics, collision, or shadow maps.
-  const orbs=[];
-  const points=[[-4.5,3.75,-4],[-3,3.95,-1],[3,3.75,-3.6],[4.4,3.9,1.7],[-4.2,3.7,3.4],[1.2,4.05,2.5],[0,4.05,-4.5]];
-  points.forEach(([x,y,z],i)=>{
-    const orb=mesh(new THREE.SphereGeometry(.065,8,6),glow,x,y,z);
-    orbs.push({orb,y,phase:i*1.23});
-  });
-  const light=new THREE.PointLight(0xb79aff,.8,12,2);light.position.set(0,3.7,0);group.add(light);
-  const tick=(time)=>{const t=time/1000;for(const {orb,y,phase} of orbs){orb.position.y=y+Math.sin(t*.7+phase)*.075;orb.scale.setScalar(.88+.14*Math.sin(t*1.8+phase));}};
+  // Silver crown over original door, not a new door or collider.
+  beam(1.65,.06,.08,0,4.08,6.66,silver);for(let i=-2;i<=2;i++){const tip=add(new THREE.ConeGeometry(.11,.35,5),silver,i*.33,4.28,6.66);tip.rotation.z=Math.PI;}
+  const owls=[];
+  function owl(x,y,z,scale=1,phase=0){const root=new THREE.Group();root.position.set(x,y,z);root.scale.setScalar(scale);group.add(root);
+    add(new THREE.SphereGeometry(.21,10,8),white,0,.12,0,root);add(new THREE.SphereGeometry(.17,10,8),white,0,.39,.01,root);
+    for(const s of [-1,1]){add(new THREE.SphereGeometry(.056,8,6),eyes,s*.09,.41,.145,root);const wing=add(new THREE.SphereGeometry(.09,8,6),white,s*.19,.15,0,root);wing.scale.set(.55,1.65,.85);}
+    const beak=add(new THREE.ConeGeometry(.047,.095,5),silver,0,.32,.17,root);beak.rotation.x=Math.PI/2;
+    for(const s of [-1,1]){const ear=add(new THREE.ConeGeometry(.065,.15,5),white,s*.115,.56,0,root);ear.rotation.z=s*.3;}
+    owls.push({root,phase,base:y});
+  }
+  // High perches keep the owls away from the player and interactive objects.
+  [[-5.05,3.68,-4.7,.85],[5.05,3.68,-2.5,.8],[-5.05,3.68,.5,.85],[5.05,3.68,3.6,.85],[-3.9,4.0,6.35,.6],[3.9,4.0,6.35,.6],[-3.8,4.02,-6.3,.65],[3.8,4.02,-6.3,.65]].forEach((v,i)=>owl(...v,i*.85));
+  const orbs=[];[[-4.5,3.8,-4],[-3,4,-1],[3,3.8,-3.6],[4.4,3.9,1.7],[-4.2,3.7,3.4],[1.2,4,2.5]].forEach(([x,y,z],i)=>{const o=add(new THREE.SphereGeometry(.065,8,6),ice,x,y,z);orbs.push({o,y,phase:i*1.2})});
+  const light=new THREE.PointLight(0x9cbeff,.75,12,2);light.position.set(0,3.9,0);group.add(light);
+  const tick=(ms)=>{const t=ms/1000;for(const v of orbs){v.o.position.y=v.y+Math.sin(t*.75+v.phase)*.075;}for(const o of owls){o.root.rotation.y=Math.sin(t*.4+o.phase)*.16;o.root.position.y=o.base+Math.sin(t*.6+o.phase)*.018;}};
   const controller={tick};scene.userData.academyGreatHall=controller;return controller;
 }
