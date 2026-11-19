@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owl Observatory · Amethyst Crescent Academy</title>
+<link rel="stylesheet" href="academy-first-day.css?v=1">
+<script type="module" src="academy-first-day.js?v=1"></script>
+<style>
+:root { color-scheme: dark; }
+body { margin: 0; min-height: 100svh; background: radial-gradient(at 50% 10%, #35314c, #121220 70%); color: #f3edf7; font: 1rem/1.55 Georgia, serif; }
+main { max-width: 44rem; margin: auto; padding: clamp(1rem, 6vw, 3.5rem); }
+h1 { font-size: clamp(2.25rem, 8vw, 4.2rem); font-weight: 400; line-height: 1.05; margin: .5rem 0; }
+.eyebrow { color: #c5dcf9; text-transform: uppercase; letter-spacing: .12em; font: 650 .75rem system-ui; }
+a { color: #ead1ff; }
+nav { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem; }
+</style>
+</head>
+<body>
+<main id="first-day-observatory">
+<p class="eyebrow">Amethyst Crescent Academy · First class</p>
+<h1>The Owl Observatory</h1>
+<p>Climb to the telescope and trace the owl in the night sky.</p>
+<section id="observatory-gate"><p>Check in with your student key card at the Royal Great Hall.</p><a href="academy-royal-great-hall.html">Go to the Royal Great Hall</a></section>
+<button type="button" id="open-telescope" aria-expanded="false" aria-controls="telescope-view" hidden>Look through the telescope</button>
+<section id="telescope-view" hidden aria-labelledby="telescope-title">
+<h2 id="telescope-title">Trace the owl constellation</h2>
+<p>Start where the owl grips its perch. Follow the silver wing, then finish at the eye. Leave the Lantern out.</p>
+<div class="telescope-sky" role="group" aria-label="Constellation stars">
+<button type="button" data-star="Owl’s Eye" aria-pressed="false"><span aria-hidden="true">✦</span>Owl’s Eye</button>
+<button type="button" data-star="Lantern" aria-pressed="false"><span aria-hidden="true">✧</span>Lantern</button>
+<button type="button" data-star="Silver Wing" aria-pressed="false"><span aria-hidden="true">✦</span>Silver Wing</button>
+<button type="button" data-star="Talons" aria-pressed="false"><span aria-hidden="true">✦</span>Talons</button>
+</div>
+<p id="constellation-selection" aria-live="polite"></p>
+<div class="constellation-actions"><button type="button" id="submit-constellation">Trace constellation</button><button type="button" id="clear-constellation">Clear stars</button></div>
+<p id="constellation-feedback" role="status"></p>
+</section>
+<section class="constellation-badge" id="constellation-badge" hidden><strong>Owl Observatory badge earned</strong><p><a href="poetry-vault-author-room.html">View your student key card in the Author’s Study</a></p></section>
+<nav aria-label="Academy navigation"><a href="academy-classrooms.html">Classroom Wing</a><a href="academy-royal-great-hall.html">Royal Great Hall</a></nav>
+</main>
+</body>
+</html>
