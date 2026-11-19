@@ -129,3 +129,27 @@ test('original chamber progress normalizes and survives a cross-chapter reload',
   await page.goto(base+'poetry-vault-fifth-door.html');
   await expect(page.locator('#game')).toBeVisible({timeout:15000});
 });
+
+test('all four original chamber puzzle rules reject incorrect solutions and accept correct ones',async({page})=>{
+ await page.goto(base+'poetry-vault-entrance.html');
+ const result=await page.evaluate(async()=>{
+  const [heart,mirror,labyrinth,dawn]=await Promise.all([
+   import('./vault-state.js'),import('./vault-mirror-state.js'),import('./vault-labyrinth-state.js'),import('./vault-dawn-state.js')
+  ]);
+  const h=heart.normalizeState({found:heart.LETTERS,drawerOpen:true,diaryOpen:true,completed:true});
+  const m=mirror.normalizeMirrorState({found:mirror.FRAGMENTS,slots:mirror.MIRROR_LAYOUT,turns:{thorn:0,tear:0,veil:0,ember:0},restored:true,unlocked:true,completed:true});
+  const l=labyrinth.normalizeLabyrinthState({noteRead:true,gearInstalled:true,hour:3,minute:0,clockSet:true,found:labyrinth.PAGE_IDS,slots:labyrinth.LEDGER_ORDER,unlocked:true,completed:true});
+  const d=dawn.normalizeDawnState({emblemPlaced:true,panels:dawn.PANEL_IDS,turns:{star:0,moon:0,horizon:0,sun:0},lightAligned:true,found:dawn.PAGE_IDS,book:dawn.BOOK_ORDER,unlocked:true,completed:true});
+  return {
+   heart:h.completed&&heart.canOpenDrawer(h,'3142')&&!heart.canOpenDrawer(h,'0000')&&heart.canOpenDiary(h,heart.DIARY_ORDER)&&!heart.canOpenDiary(h,[...heart.DIARY_ORDER].reverse()),
+   mirror:m.completed&&mirror.isRestored(m.found,m.slots,m.turns)&&mirror.canAnswerReflection(m,'echo')&&!mirror.canAnswerReflection(m,'shadow'),
+   labyrinth:l.completed&&labyrinth.canSetClock(l)&&labyrinth.canOpenLedger(l)&&!labyrinth.canSetClock({...l,hour:4})&&!labyrinth.isMazePassable(-2,3.1),
+   dawn:d.completed&&dawn.panels.every((id,i)=>id===dawn.PANEL_IDS[i])&&dawn.canOpenBook(d)&&!dawn.canOpenBook({...d,book:[...d.book].reverse()}),
+   invalidHeart:heart.normalizeState({completed:true}).completed,
+   invalidMirror:mirror.normalizeMirrorState({completed:true}).completed,
+   invalidLabyrinth:labyrinth.normalizeLabyrinthState({completed:true}).completed,
+   invalidDawn:dawn.normalizeDawnState({completed:true}).completed
+  };
+ });
+ expect(result).toEqual({heart:true,mirror:true,labyrinth:true,dawn:true,invalidHeart:false,invalidMirror:false,invalidLabyrinth:false,invalidDawn:false});
+});
