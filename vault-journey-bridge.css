@@ -53,3 +53,7 @@ body.pv13-inside #pv155-bridge{display:none!important}
 #pv155-bridge .pv192-whisper{font:italic 13px/1.5 Georgia,serif;color:#b9dafa;text-align:center;margin:12px 4px}
 #pv155-bridge .pv192-map-door:not(:disabled):hover{background:#51365f;border-color:#c7ddff}
 #pv155-bridge .pv192-map-door[aria-current="page"]{box-shadow:inset 3px 0 #a8d9ff}
+
+/* Explain locked doors without requiring hover (mobile and keyboard friendly). */
+#pv155-bridge .pv192-lock-reason{display:block;font:12px/1.4 system-ui,sans-serif;color:#dfcfe8;margin-top:5px;white-space:normal}
+#pv155-bridge .pv192-progress{margin:12px 0;padding:10px;border-top:1px solid #8c769f;border-bottom:1px solid #8c769f;text-align:center;color:#e9dbf5;font:600 12px/1.5 system-ui,sans-serif}
