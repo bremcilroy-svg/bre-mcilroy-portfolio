@@ -1,0 +1,61 @@
+.sky { min-height: max(100svh, 640px); }
+.sky .castle { bottom: clamp(42px, 8svh, 95px); width: min(106vw, 900px, 103svh); }
+.sky .path { display: none; }
+.sky .actions { transition: opacity .24s; }
+.sky.is-delivering .actions { opacity: 0; pointer-events: none; }
+#academy-gate { background: linear-gradient(135deg, #233855, #425477); border-color: #c4ecff; }
+#academy-gate:hover { background: #496784; }
+.academy-pawprints { fill: #3c4a64; }
+.academy-gate-leaf { transform-box: fill-box; transform-origin: left center; }
+#academy-mail-glow, #academy-flying-envelope { opacity: 0; }
+#academy-flying-envelope { filter: drop-shadow(0 0 8px #a1deff); }
+.is-delivering .academy-gate-leaf { animation: gate-swing .55s ease-out .7s both; }
+.is-delivering .academy-gate-right { animation-delay: .76s; }
+@keyframes gate-swing { to { transform: scaleX(.09) skewY(-7deg); } }
+.is-delivering .academy-pawprints use { animation: paw-ignite .42s ease-out var(--step) both; }
+@keyframes paw-ignite {
+  to { fill: #d8f7ff; filter: drop-shadow(0 0 6px #58cfff) drop-shadow(0 0 3px #c5f7ff); }
+}
+.is-delivering #academy-flying-envelope { animation: envelope-flight 2.45s linear both; }
+@keyframes envelope-flight {
+  0% { opacity: 0; transform: translate(449px, 681px) rotate(-11deg) scale(.94); }
+  9% { opacity: 1; transform: translate(438px, 653px) rotate(9deg) scale(.91); }
+  28% { opacity: 1; transform: translate(460px, 609px) rotate(-7deg) scale(.78); }
+  47% { opacity: 1; transform: translate(450px, 568px) rotate(5deg) scale(.66); }
+  67% { opacity: 1; transform: translate(450px, 515px) rotate(-8deg) scale(.53); }
+  85% { opacity: 1; transform: translate(451px, 457px) rotate(1deg) scale(.43); }
+  94% { opacity: 1; transform: translate(450px, 429px) scale(.34,.18); }
+  100% { opacity: 0; transform: translate(450px, 429px) scale(.17,0); }
+}
+.is-delivering #academy-mail-glow { animation: mail-slot-flash .46s ease-out 2.18s both; }
+@keyframes mail-slot-flash { 0%, 100% { opacity: 0; } 35% { opacity: 1; filter: drop-shadow(0 0 8px #b4efff); } }
+.academy-gate-status { position: fixed; top: auto; left: 50%; bottom: 16px; transform: translateX(-50%); width: max-content; max-width: 90vw; margin: 0; color: #e2f5ff; text-shadow: 0 2px 6px #071323; z-index: 5; }
+
+#academy-letter { box-sizing: border-box; width: min(94vw, 580px); max-height: 94dvh; padding: 18px; border: 0; color: #2d2639; background: transparent; overflow: auto; }
+#academy-letter::backdrop { background: #070d1ccc; backdrop-filter: blur(4px); }
+.academy-letter-paper { position: relative; z-index: 1; padding: clamp(20px, 5vw, 40px); border: 1px solid #b2a095; border-radius: 3px; background: radial-gradient(ellipse at 32% 15%, #f9f4ed, #e8d9ca); box-shadow: 0 16px 34px #070a18a8; line-height: 1.5; transform-origin: 50% 88%; }
+.academy-letter-heading { margin: 0; padding-right: 25px; font: 700 .68rem system-ui; text-transform: uppercase; letter-spacing: .17em; color: #624761; }
+.academy-letter-paper h2 { margin: .35rem 0 1rem; font-size: clamp(1.65rem, 5vw, 2.45rem); line-height: 1.12; }
+.academy-letter-paper p { margin-block: .75rem; }
+.academy-letter-signature { font-style: italic; }
+#academy-letter-close, #academy-letter-send { min-height: 44px; cursor: pointer; }
+#academy-letter-close { position: absolute; top: 8px; right: 8px; width: 44px; border: 0; background: transparent; color: #422d44; font-size: 1.5rem; }
+#academy-letter-send { border: 1px solid #694359; background: #563850; color: #fff2ff; border-radius: 4px; padding: .5rem 1rem; font: 600 .88rem system-ui; }
+.academy-letter-envelope { position: absolute; z-index: 2; left: 10%; bottom: 10px; width: 80%; height: 36%; border: 1px solid #b7a59b; border-radius: 4px; opacity: 0; pointer-events: none; background: linear-gradient(151deg, transparent 49%, #ac9a96 50%, transparent 51%), linear-gradient(209deg, transparent 49%, #ac9a96 50%, transparent 51%), #dfd6d0; }
+#academy-letter[open] .academy-letter-paper { animation: letter-unfold .48s ease-out both; }
+#academy-letter.is-sealing .academy-letter-paper { animation: letter-fold .52s ease-in both; }
+#academy-letter.is-sealing .academy-letter-envelope { animation: envelope-return .52s .07s ease-out both; }
+@keyframes letter-unfold { from { transform: translateY(18%) scale(.82,.17); opacity: .2; } to { transform: none; opacity: 1; } }
+@keyframes letter-fold { to { transform: translateY(31%) scale(.77,.13); opacity: 0; } }
+@keyframes envelope-return { to { opacity: 1; } }
+@media (max-width: 600px) {
+  .sky .castle { width: 130vw; bottom: 12svh; }
+  #academy-letter { padding: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #academy-letter[open] .academy-letter-paper, #academy-letter.is-sealing .academy-letter-envelope,
+  .is-delivering .academy-gate-leaf, .is-delivering .academy-pawprints use, .is-delivering #academy-flying-envelope,
+  .is-delivering #academy-mail-glow { animation: none; }
+  .is-delivering .academy-gate-leaf { transform: scaleX(.09); }
+  .is-delivering .academy-pawprints { fill: #d8f7ff; }
+}
