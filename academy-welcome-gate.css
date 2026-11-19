@@ -458,3 +458,23 @@
  #academy-letter .academy-letter-paper p{margin:.65rem 0;font-size:clamp(.95rem,3.7vw,1.06rem);line-height:1.48}
  #academy-letter .academy-letter-signature strong{font-size:2.1rem}
 }
+
+
+/* Royal Headmaster's title, with room for the handwritten signature. */
+.academy-headmaster-title {
+ display:block;
+ margin-top:10px;
+ font-family:Georgia,'Times New Roman',serif;
+ font-style:normal;
+ font-size:clamp(.76rem,2.7vw,.92rem);
+ font-weight:700;
+ text-transform:uppercase;
+ letter-spacing:.22em;
+ color:#425a77;
+}
+.academy-letter-signature strong {margin-top:1px!important}
+.academy-perimeter-gate {filter:drop-shadow(0 5px 4px #091b34a8)}
+@media(max-width:600px){
+ .academy-letter-signoff{align-items:flex-end}
+ .academy-headmaster-title{font-size:.75rem;letter-spacing:.16em}
+}
