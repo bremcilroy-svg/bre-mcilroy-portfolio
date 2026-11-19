@@ -2,7 +2,7 @@ const CARD_KEY = 'amethyst-crescent-student-pass-v1';
 const HOUSES = {
   amethyst: ['Amethyst', 'the snow owl'],
   emberheart: ['Emberheart', 'the ember dragon'],
-  frostveil: ['Frostveil', 'the frost wolf'],
+  frostveil: ['Frosttopaz', 'the frost wolf'],
   silverthorn: ['Silverthorn', 'the silver stag']
 };
 
