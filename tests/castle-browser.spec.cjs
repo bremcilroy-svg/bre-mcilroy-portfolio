@@ -27,3 +27,27 @@ for(const chapter of ['poetry-vault.html','poetry-vault-mirror.html','poetry-vau
     expect(errors,'JavaScript errors in '+chapter).toEqual([]);
   });
 }
+
+// Use a fresh browser context for each test: never manufacture puzzle completion or change real player saves.
+test('new visitor cannot skip directly to the Fifth Door through castle passage',async({page})=>{
+  await page.goto(base+'poetry-vault-entrance.html');
+  const passage=page.locator('#pv155-bridge');
+  await expect(passage).toBeVisible({timeout:15000});
+  await passage.locator('.pv155-open').click();
+  await passage.locator('.pv192-map-toggle').click();
+  const fifth=passage.getByRole('button',{name:/Fifth Door, locked/});
+  await expect(fifth).toBeDisabled();
+  await expect(passage.locator('.pv192-progress')).toContainText('Seals found: 0 / 4');
+  await expect(passage.getByRole('button',{name:/Author’s Study, locked/})).toBeDisabled();
+});
+
+test('castle passage closes with Escape without navigating or changing saves',async({page})=>{
+  await page.goto(base+'poetry-vault-entrance.html');
+  const passage=page.locator('#pv155-bridge');
+  await expect(passage).toBeVisible({timeout:15000});
+  await passage.locator('.pv155-open').click();
+  await expect(passage.locator('.pv155-panel')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(passage.locator('.pv155-panel')).toBeHidden();
+  await expect(page).toHaveURL(/poetry-vault-entrance\\.html/);
+});
