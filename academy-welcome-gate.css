@@ -29,7 +29,7 @@
 }
 .is-delivering #academy-mail-glow { animation: mail-slot-flash .46s ease-out 2.18s both; }
 @keyframes mail-slot-flash { 0%, 100% { opacity: 0; } 35% { opacity: 1; filter: drop-shadow(0 0 8px #b4efff); } }
-.academy-gate-status { position: fixed; top: auto; left: 50%; bottom: 16px; transform: translateX(-50%); width: max-content; max-width: 90vw; margin: 0; color: #e2f5ff; text-shadow: 0 2px 6px #071323; z-index: 5; }
+.academy-gate-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 #academy-letter { box-sizing: border-box; width: min(94vw, 580px); max-height: 94dvh; padding: 18px; border: 0; color: #2d2639; background: transparent; overflow: auto; }
 #academy-letter::backdrop { background: #070d1ccc; backdrop-filter: blur(4px); }
@@ -88,15 +88,6 @@
   color: #664233;
   font: 700 .69rem Georgia, serif;
 }
-.academy-letter-salutation { font-style: italic; }
-.academy-letter-opening::first-letter {
-  float: left;
-  color: #772d45;
-  font-size: 3em;
-  font-weight: bold;
-  line-height: .85;
-  padding: .04em .09em 0 0;
-}
 .academy-letter-signoff { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .academy-wax-seal {
   display: grid;
@@ -115,7 +106,7 @@
 
 /* The approach photo and animated gate share one coordinate system. */
 .sky {
-  background: #172331 url('academy-castle-approach.webp') center bottom / cover no-repeat;
+  background: #172331 url('academy-castle-turrets.webp') center bottom / cover no-repeat;
 }
 .sky .castle {
   width: max(100vw, 150svh);
@@ -139,3 +130,60 @@
 }
 
 @media (max-width:600px) { .sky .castle image { mask-image: linear-gradient(transparent, #000 10%, #000 90%, transparent); } }
+
+.sky .top h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4.8vw, 4.5rem);
+  letter-spacing: -.026em;
+  color: #f5f4ff;
+}
+.sky .top h1 span { color: #d1efff; }
+.academy-letter-paper h2 { text-align: center; margin-top: .7rem; }
+.academy-school-crest {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 5px;
+  width: 64px;
+  height: 72px;
+  margin: 0 auto;
+  color: #d4edff;
+  background: linear-gradient(140deg, #8e659c, #31234e 55%, #1c253e);
+  box-shadow: inset 0 0 0 2px #b4d6eb, inset 0 0 0 5px #b4d6eb44;
+  clip-path: polygon(0 0,100% 0,100% 65%,50% 100%,0 65%);
+}
+.academy-crest-moon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  box-shadow: inset 7px -3px #d4edff;
+  transform: rotate(-18deg);
+}
+.academy-crest-stars { font-size: 9px; letter-spacing: 1px; }
+.academy-letter-signature strong {
+  font: italic 700 clamp(1.75rem, 5vw, 2.5rem) 'Segoe Script', 'Brush Script MT', cursive;
+  color: #64344c;
+}
+@media (max-width: 600px) {
+  .sky { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-height: 100svh; }
+  .sky .top { grid-row: 1; padding: clamp(24px, 5svh, 48px) 18px 0; }
+  .sky .top h1 { font-size: clamp(2rem, 9vw, 3.3rem); }
+  .sky .top h1 span { display: block; }
+  .sky .castle {
+    grid-row: 2;
+    position: relative;
+    place-self: center;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    width: 104vw;
+  }
+  .sky .actions {
+    grid-row: 3;
+    position: relative;
+    bottom: auto;
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+  }
+  .academy-letter-paper { font-size: clamp(.95rem, 4vw, 1rem); padding: 20px 23px; }
+  .academy-school-crest { width: 52px; height: 60px; }
+}
