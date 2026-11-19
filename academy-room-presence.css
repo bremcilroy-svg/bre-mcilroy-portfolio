@@ -1,0 +1,16 @@
+/* Cinematic atmosphere over the existing real first-person 3D chamber. */
+.aca-room-presence[hidden],.aca-presence-approach[hidden]{display:none!important}
+.aca-room-presence{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden}
+.aca-presence-ambience{position:absolute;inset:0;overflow:hidden;opacity:.65}
+.aca-presence-ambience i{position:absolute;width:4px;height:4px;border-radius:50%;background:#e6d9ff;box-shadow:0 0 13px 4px #c9b2ff88;left:var(--x);top:var(--y);animation:aca-dust 10s ease-in-out infinite alternate;animation-delay:var(--delay)}
+.aca-presence-ambience i:nth-child(1){--x:13%;--y:22%;--delay:-2s}.aca-presence-ambience i:nth-child(2){--x:78%;--y:31%;--delay:-7s}.aca-presence-ambience i:nth-child(3){--x:36%;--y:64%;--delay:-4s}.aca-presence-ambience i:nth-child(4){--x:67%;--y:76%;--delay:-8s}.aca-presence-ambience i:nth-child(5){--x:88%;--y:58%;--delay:-3s}.aca-presence-ambience i:nth-child(6){--x:22%;--y:84%;--delay:-6s}
+@keyframes aca-dust{from{transform:translate3d(0,12px,0);opacity:.2}to{transform:translate3d(15px,-26px,0);opacity:.9}}
+.aca-presence-indicator{position:absolute;top:clamp(75px,12vh,125px);left:50%;transform:translateX(-50%);max-width:min(420px,85vw);display:flex;align-items:center;gap:8px;padding:7px 13px;border:1px solid #d9c5ed77;border-radius:18px;background:#170e24b9;color:#f8eaff;font:12px/1.35 Georgia,serif;text-align:center;box-shadow:0 4px 15px #0005}
+.aca-presence-symbol{font-size:19px;color:#e7d0ff}.aca-near-object .aca-presence-indicator{border-color:#f1d9ab;color:#fff3d8}
+.aca-presence-approach{position:absolute;left:50%;bottom:clamp(115px,20vh,185px);transform:translateX(-50%);pointer-events:auto;max-width:80vw;min-height:44px;padding:9px 17px;border:1px solid #ecd7ae;border-radius:16px;background:#34213cde;color:#fff3d9;font:700 13px system-ui,sans-serif;cursor:pointer;box-shadow:0 0 22px #c3a0d866}
+.aca-presence-approach:focus-visible{outline:3px solid #e5f1ff;outline-offset:3px}
+body.mirror-chapter .aca-presence-ambience i{background:#d6efff;box-shadow:0 0 12px 4px #9cc9ff88}
+body.labyrinth-chapter .aca-presence-ambience i{background:#d9ddff}
+body.dawn-chapter .aca-presence-ambience i{background:#ffe7b9;box-shadow:0 0 12px 4px #ffd89b88}
+@media(max-width:640px){.aca-presence-indicator{top:80px;font-size:11px;max-width:75vw}.aca-presence-approach{bottom:165px}}
+@media(prefers-reduced-motion:reduce){.aca-presence-ambience i{animation:none!important}}

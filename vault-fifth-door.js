@@ -31,7 +31,7 @@ $('#hint').addEventListener('click',()=>{const hints={1:'Read the seal inscripti
 $('#reset').addEventListener('click',()=>{if(!confirm('Restart only the three Fifth Door puzzles? Your original chapters, bookmarks, and society invitation will stay saved.'))return;state=clean(null);save();});
 render();
 
-function refreshFromStorage(){try{state=clean(JSON.parse(localStorage.getItem(KEY)||'null'));}catch{}render();}
-window.addEventListener('pageshow',render);
+function refreshFromStorage(){try{state=clean(JSON.parse(localStorage.getItem(KEY)||'null'));}catch{state=clean(null);}render();}
+window.addEventListener('pageshow',refreshFromStorage);
 window.addEventListener('storage',e=>{if(e.key===KEY||e.key===null)refreshFromStorage();else render();});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)render();});

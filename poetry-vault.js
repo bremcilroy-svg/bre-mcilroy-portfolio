@@ -38,7 +38,7 @@ panel.addEventListener('click',e=>{if(e.target===panel){const r=panel.getBoundin
 function start(){sound.activate();started=true;$('#welcome').hidden=true;$('#play-ui').hidden=false;room?.start();updateHUD();if(!storageWorks)toast('Progress saving is unavailable here. You can still play.');else if(state.found.length)toast('Your journal has been restored.');if(sound.narration)speak(opening);}
 $('#start').addEventListener('click',start);$('#start').disabled=false;
 if(state.found.length){$('#start').firstChild.textContent='Continue the chamber ';$('#resume-note').textContent=`Saved here: ${state.found.length} letters found${state.diaryOpen?', diary unlocked':''}.`;}
-if(state.completed){const next=document.createElement('a');next.className='primary';next.href='poetry-vault-mirror.html';next.textContent='Continue to Chapter II →';$('.welcome-actions').prepend(next);}
+if(state.completed){const next=document.createElement('a');next.className='primary';next.href='#start';next.textContent='Enter the chamber to open the Mirror Door →';next.addEventListener('click',e=>{e.preventDefault();start();showDoor();});$('.welcome-actions').prepend(next);}
 $('#explore').addEventListener('click',showObjects);
 $('#journal').addEventListener('click',()=>showJournal());
 $('#hint').addEventListener('click',showHint);

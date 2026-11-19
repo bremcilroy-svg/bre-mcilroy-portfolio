@@ -1,3 +1,4 @@
+import {readJourney} from './vault-journey.js';
 import {societyHint,societyComplete,societyInscribe,societyBegin,societyReset} from './vault-society.js?v=20261112-phase7fix';
 import {createVaultRewards,certificateSVG,SECRETS} from './vault-rewards.js?v=20261112-cinematic';
 import {createVaultSound} from './vault-sound.js?v=20261112-cinematic';
@@ -9,7 +10,7 @@ const $=s=>document.querySelector(s),panel=$('#panel'),content=$('#panel-content
 const objects={window:{title:'The Dawn Window',where:'In the great frame at the far end of the conservatory'},seed:{title:'The Seed Page',where:'On the left potting bench near the entrance'},rain:{title:'The Rain Page',where:'On the right table near the entrance'},leaf:{title:'The Leaf Page',where:'On the left pedestal beside the far window'},bloom:{title:'The Bloom Page',where:'On the right pedestal beside the far window'},book:{title:'The Final Book',where:'On the reading table in the centre of the room'},door:{title:'The Door to Tomorrow',where:'Behind you, opposite the dawn window'}};
 let state=normalizeDawnState(null),previous=normalizeLabyrinthState(null),storageWorks=true,started=false,room=null,current=null,hintLevel=0,lastStage='';
 try{state=normalizeDawnState(JSON.parse(localStorage.getItem(DAWN_SAVE_KEY)||'null'));previous=normalizeLabyrinthState(JSON.parse(localStorage.getItem(LABYRINTH_SAVE_KEY)||'null'));}catch{storageWorks=false;}
-const hasEmblem=previous.completed;
+const hasEmblem=readJourney(key=>localStorage.getItem(key)).completed.slice(0,3).every(x=>x===true);
 societyBegin(4,hasEmblem&&!state.emblemPlaced&&!state.lightAligned&&state.found.length===0&&!state.unlocked&&!state.completed);
 const opening='You have carried the words through love, through fractured reflections, and through the longest night. Here, the morning waits behind four panes of glass. Bring the sunrise home. Put the last pages in order. Beyond this room, the story is still yours to write.';
 let lastNarration=opening;

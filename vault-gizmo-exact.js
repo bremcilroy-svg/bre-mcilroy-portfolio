@@ -22,7 +22,7 @@ function init(){
   svg.querySelectorAll('*').forEach(node=>{
     for(const a of Array.from(node.attributes))if(a.value.includes('url(#'))node.setAttribute(a.name,a.value.replace(/url\(#([^)]+)\)/g,(_,id)=>`url(#${uid}${id})`));
   });
-  art.replaceChildren(document.importNode(svg,true));
+  // The standalone original SVG is the preferred stable asset. An asynchronous\n  // source fetch must not overwrite it after the visibility script has mounted it.\n  if(art.querySelector('.pvg-original-img'))return;\n  art.replaceChildren(document.importNode(svg,true));
   host.classList.add('pvg-exact-art');
  }).catch(()=>{/* Original companion remains usable if network is offline. */});
 }

@@ -9,3 +9,11 @@ dialog{width:min(650px,calc(100% - 28px));max-height:86svh;overflow:auto;border:
 .menu-pair button svg{width:14px;height:14px;vertical-align:-2px;margin-right:6px;fill:none;stroke:var(--gold);stroke-width:1.4}
 
 .entrance-footer a{color:#f0d29e;padding:5px 0;display:inline-block;text-underline-offset:4px}.entrance-footer a:focus-visible{outline:3px solid #fff5c2;outline-offset:3px}
+
+/* Walkable castle-lobby threshold into the first escape-room chamber. */
+.lobby-vault-door{position:absolute;z-index:4;right:8%;top:48%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;width:clamp(155px,20vw,255px);padding:12px;color:#f8e6c9;text-align:center;text-decoration:none;border-radius:120px 120px 12px 12px;background:linear-gradient(180deg,#2c1b34d9,#100d19eb);border:1px solid #d6b77b8c;box-shadow:0 0 35px #7e52b144, inset 0 0 30px #b7935333;transition:filter .2s,box-shadow .2s}
+.lobby-vault-door-arch{position:relative;display:block;width:100%;aspect-ratio: .76;border-radius:48% 48% 5px 5px;border:7px ridge #ae8c65;background:radial-gradient(circle at 50% 20%,#77538b55,transparent 45%),repeating-linear-gradient(90deg,#201525 0 22%,#4a2944 23% 25%,#201525 26% 50%);box-shadow:inset 0 0 0 2px #e0c48b70,inset 0 0 38px #0d0715}
+.lobby-vault-door-crest{position:absolute;top:17%;left:50%;transform:translateX(-50%);font-size:30px;color:#d5b7ed}.lobby-vault-door-knob{position:absolute;right:13%;top:58%;color:#e4c997;font-size:19px}
+.lobby-vault-door-label{font:20px Georgia,serif}.lobby-vault-door small{font-size:11px;letter-spacing:.06em;color:#d4bfe0}.lobby-vault-door:hover,.lobby-vault-door:focus-visible{filter:brightness(1.2);box-shadow:0 0 35px #b79379aa,0 0 0 3px #e8d4ad;outline:none}
+@media(max-width:850px){.lobby-vault-door{position:relative;top:auto;right:auto;transform:none;margin:25px 0 12px 7%;width:min(230px,80%)}.lobby-vault-door-arch{max-height:180px;aspect-ratio:1}.lobby-vault-door-label{font-size:18px}}
+@media(max-width:480px){.lobby-vault-door{margin:12px auto 22px;width:min(210px,75%);padding:9px}.lobby-vault-door-arch{max-height:140px}.lobby-vault-door-crest{font-size:23px}.lobby-vault-door small{font-size:10px}}
