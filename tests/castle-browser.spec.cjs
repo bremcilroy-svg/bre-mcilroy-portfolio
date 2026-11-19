@@ -97,5 +97,35 @@ test('completed-chapter fixture solves Fifth Door puzzles through actual UI and 
   await expect(page.locator('#step-4')).toHaveClass(/active/);
   await expect(page.getByRole('link',{name:/Enter the Author/})).toBeVisible();
   await page.getByRole('link',{name:/Enter the Author/}).click();
-  await expect(page).toHaveURL(/poetry-vault-author-room\\.html/);
+  await expect(page).toHaveURL(/poetry-vault-author-room\.html/);
+});
+
+test('original chamber progress normalizes and survives a cross-chapter reload',async({page})=>{
+  await page.goto(base+'poetry-vault-entrance.html');
+  const report=await page.evaluate(async()=>{
+    const [{readJourney},{societyStats}]=await Promise.all([import('./vault-journey.js'),import('./vault-society.js')]);
+    const read=()=>readJourney(key=>localStorage.getItem(key));
+    const fresh=read();
+    const stages=[
+      ['bre-poetry-vault-heart-v1',{found:['rose','ribbon','moon','key'],drawerOpen:true,diaryOpen:true,completed:true}],
+      ['bre-poetry-vault-mirror-v1',{found:['thorn','tear','veil','ember'],slots:['tear','ember','thorn','veil'],turns:{thorn:0,tear:0,veil:0,ember:0},restored:true,unlocked:true,completed:true}],
+      ['bre-poetry-vault-labyrinth-v1',{noteRead:true,gearInstalled:true,hour:3,minute:0,clockSet:true,found:['ash','ivy','bell','star'],slots:['ivy','star','bell','ash'],unlocked:true,completed:true}],
+      ['bre-poetry-vault-dawn-v1',{emblemPlaced:true,panels:['star','moon','horizon','sun'],turns:{star:0,moon:0,horizon:0,sun:0},lightAligned:true,found:['bloom','leaf','seed','rain'],book:['seed','rain','leaf','bloom'],unlocked:true,completed:true}]
+    ];
+    const progress=[];
+    for(const [key,state] of stages){localStorage.setItem(key,JSON.stringify(state));progress.push(read().completed.filter(Boolean).length);}
+    const beforeSeals=societyStats().seals.length;
+    localStorage.setItem('bre-poetry-vault-keepsakes-v1',JSON.stringify({secrets:['heart','mirror','labyrinth','dawn']}));
+    return {fresh:fresh.completed.filter(Boolean).length,progress,beforeSeals,afterSeals:societyStats().seals.length};
+  });
+  expect(report).toEqual({fresh:0,progress:[1,2,3,4],beforeSeals:0,afterSeals:4});
+  await page.reload();
+  const after=await page.evaluate(async()=>{
+    const {societyStats}=await import('./vault-society.js');
+    const s=societyStats();
+    return {complete:s.journey.allComplete,seals:s.seals.length};
+  });
+  expect(after).toEqual({complete:true,seals:4});
+  await page.goto(base+'poetry-vault-fifth-door.html');
+  await expect(page.locator('#game')).toBeVisible({timeout:15000});
 });
