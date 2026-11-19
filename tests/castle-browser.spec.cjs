@@ -176,3 +176,23 @@ test('walkable perimeter scene starts facing the gate and offers courtyard passa
  await enter.click();
  await expect(page).toHaveURL(/academy-moonlit-courtyard[.]html/);
 });
+
+test('silver entrance gate opens when approached and closes when leaving',async({page})=>{
+ await page.goto(base+'academy-perimeter-3d.html');
+ await expect(page.locator('#status')).toContainText('ready',{timeout:30000});
+ const read=()=>page.evaluate(()=>{
+  const scene=BABYLON.EngineStore.LastCreatedScene;
+  return [scene.getTransformNodeByName('west silver gate hinge')?.rotation.y,scene.getTransformNodeByName('east silver gate hinge')?.rotation.y];
+ });
+ const start=await read();
+ expect(start.every(v=>typeof v==='number'&&Math.abs(v)<.2)).toBe(true);
+ await page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.activeCamera.position.set(0,1.8,-29));
+ await expect(page.locator('#enter')).toBeVisible({timeout:5000});
+ await expect.poll(async()=>Math.abs((await read())[0]),{timeout:5000}).toBeGreaterThan(.7);
+ const open=await read();
+ expect(open[0]).toBeLessThan(-.7);
+ expect(open[1]).toBeGreaterThan(.7);
+ await page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.activeCamera.position.set(0,1.8,-23));
+ await expect(page.locator('#enter')).toBeHidden();
+ await expect.poll(async()=>Math.abs((await read())[0]),{timeout:5000}).toBeLessThan(.2);
+});
