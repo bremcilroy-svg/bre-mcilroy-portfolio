@@ -7,7 +7,7 @@ on:
 jobs:
   browser-smoke:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 45
     permissions:
       contents: read
     steps:
@@ -17,8 +17,8 @@ jobs:
           node-version: '22'
       - name: Install browser test runner
         run: npm install --no-save @playwright/test
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Install Chromium and WebKit
+        run: npx playwright install --with-deps chromium webkit
       - name: Start local website
         run: python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/castle-server.log 2>&1 &
       - name: Wait for local website
@@ -32,8 +32,8 @@ jobs:
           done
           cat /tmp/castle-server.log
           exit 1
-      - name: Run desktop and mobile smoke tests
-        run: npx playwright test tests/castle-browser.spec.cjs --workers=1 --reporter=line,html
+      - name: Run desktop, Android, iPhone and tablet gameplay tests
+        run: npx playwright test tests/castle-browser.spec.cjs --workers=1
         env:
           PLAYWRIGHT_HTML_OPEN: never
       - name: Upload browser test report on failure
