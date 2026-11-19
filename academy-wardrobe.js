@@ -9,7 +9,7 @@ const characterKey = 'amethyst-crescent-character-v1';
 const houses = {
   amethyst: 'Amethyst',
   emberheart: 'Emberheart',
-  frostveil: 'Frostveil',
+  frostveil: 'Frosttopaz',
   silverthorn: 'Silverthorn'
 };
 
