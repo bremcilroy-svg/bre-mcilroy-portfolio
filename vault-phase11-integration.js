@@ -22,6 +22,20 @@ for(const [href,name,description] of routes){
  if(path===href){a.setAttribute('aria-current','page');a.classList.add('pv11-current')}
  list.append(a);
 }
+// Legacy journey map must not offer shortcuts around the chapter/seal gates.
+// Keep links visible as a map, but disable gated destinations until earned.
+import('./vault-society.js').then(({societyStats})=>{
+ const refresh=()=>{const stats=societyStats();for(const a of list.querySelectorAll('a.pv11-route')){
+  const dest=a.getAttribute('href');let allowed=true;
+  if(dest==='poetry-vault-society.html')allowed=stats.journey.allComplete;
+  if(dest==='poetry-vault-fifth-door.html')allowed=stats.journey.allComplete&&stats.seals.length===4;
+  if(dest==='poetry-vault-author-room.html')allowed=stats.journey.allComplete&&stats.seals.length===4&&stats.society.fifth===true;
+  a.dataset.locked=String(!allowed);a.setAttribute('aria-disabled',String(!allowed));
+  a.title=allowed?'':'Complete the earlier chambers and required seals first';
+  a.style.opacity=allowed?'':'0.5';
+ }};refresh();toggle.addEventListener('click',refresh);
+ list.addEventListener('click',e=>{const a=e.target.closest('a.pv11-route');if(!a)return;refresh();if(a.dataset.locked==='true'){e.preventDefault();e.stopPropagation();}},true);
+}).catch(()=>{for(const a of list.querySelectorAll('a.pv11-route')){if(/poetry-vault-(society|fifth-door|author-room)\.html/.test(a.getAttribute('href'))){a.dataset.locked='true';a.setAttribute('aria-disabled','true');a.style.opacity='0.5';}}list.addEventListener('click',e=>{const a=e.target.closest('a[data-locked="true"]');if(a)e.preventDefault();},true);});
 const close=css('button','pv11-close','Close map ×');close.type='button';close.addEventListener('click',()=>{list.hidden=true;toggle.setAttribute('aria-expanded','false')});
 list.append(close);nav.append(toggle,list);
 toggle.addEventListener('click',()=>{list.hidden=!list.hidden;toggle.setAttribute('aria-expanded',String(!list.hidden))});
