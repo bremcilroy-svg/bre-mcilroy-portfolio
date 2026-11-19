@@ -27,7 +27,7 @@ function eligible(i,s){
  return s.journey.allComplete&&s.seals.length===4&&s.society.fifth===true;
 }
 function go(i){if(travelling||i===index)return;let s;try{s=stats()}catch(e){console.warn('Cannot read puzzle progress',e);return;}if(!eligible(i,s)){render();return;}
- const travel=()=>{if(travelling)return;travelling=true;const gizmo=document.querySelector('#pv-gizmo-companion .pvg-speech');if(gizmo){gizmo.textContent='🐾 Gizmo is coming with you to '+titles[i]+'!';gizmo.hidden=false;}overlay.querySelector('p').textContent='✦ '+titles[i]+' awaits… ✦';overlay.hidden=false;overlay.classList.remove('pv155-animate');void overlay.offsetWidth;overlay.classList.add('pv155-animate');setTimeout(()=>{location.assign(routes[i]);},650);};
+ const travel=()=>{if(travelling)return;travelling=true;const gizmo=document.querySelector('#pv-gizmo-companion .pvg-speech');if(gizmo){gizmo.textContent='🐾 Gizmo is coming with you to '+titles[i]+'!';gizmo.hidden=false;}overlay.querySelector('p').textContent='✦ '+titles[i]+' awaits… ✦';overlay.hidden=false;overlay.classList.remove('pv155-animate');if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){void overlay.offsetWidth;overlay.classList.add('pv155-animate');}setTimeout(()=>{location.assign(routes[i]);},window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:650);};
  if(i>=2&&i<=4){const request=new CustomEvent('pv192:door-request',{detail:{destination:i,proceed:travel,handled:false}});document.dispatchEvent(request);if(!request.detail.handled){console.warn('Castle lock unavailable; passage remains closed.');return;}return;}
  travel();}
 function render(){let s;try{s=stats()}catch(e){console.warn('Cannot read puzzle progress',e);s={journey:{completed:[],allComplete:false,storageAvailable:false},seals:[],society:{fifth:false}};}root.querySelector('.pv155-location').textContent='You are in: '+titles[index];links.replaceChildren();castleMap.replaceChildren();
@@ -40,7 +40,7 @@ function render(){let s;try{s=stats()}catch(e){console.warn('Cannot read puzzle 
   b.title=ok?'Travel through the castle':'Complete the earlier chapters to unlock this passage';
   b.addEventListener('click',()=>go(i));castleMap.append(b);
  }
- const whisper=document.createElement('p');whisper.className='pv192-whisper';whisper.textContent='✦ '+whispers[index];castleMap.append(whisper);
+ const progress=document.createElement('p');progress.className='pv192-progress';const finished=s.journey.completed.filter(Boolean).length;progress.textContent='Chambers completed: '+finished+' / 4 · Seals found: '+s.seals.length+' / 4';castleMap.append(progress);const whisper=document.createElement('p');whisper.className='pv192-whisper';whisper.textContent='✦ '+whispers[index];castleMap.append(whisper);
  const note=document.createElement('p');note.textContent=s.journey.storageAvailable?'The five fantasy realms remain in development. Existing chapter locks and saved puzzles are preserved.':'Saved progress is unavailable in this browser. Later chapter doors remain locked until progress can be verified.';note.className='pv192-map-note';castleMap.append(note);
  const options=[];
  if(index>0)options.push(index-1);
