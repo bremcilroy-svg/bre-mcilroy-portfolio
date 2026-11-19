@@ -5,7 +5,7 @@
 .sky.gates-opening:after{content:"";position:absolute;inset:0;z-index:9;background:#100e25;opacity:0;animation:academyFade 850ms ease-in forwards;pointer-events:none}@keyframes academyFade{to{opacity:1}}.sky.gates-opening .castle{animation:academyApproach 850ms ease-in forwards}@keyframes academyApproach{to{transform:translateX(-50%) scale(1.4);filter:blur(2px)}}@media(prefers-reduced-motion:reduce){.sky.gates-opening:after,.sky.gates-opening .castle{animation:none}}
 .snow-paw-trail{position:absolute;z-index:2;pointer-events:none;left:50%;transform:translateX(-50%);bottom:5%;width:min(54vw,450px);height:clamp(110px,24vh,240px);overflow:visible;filter:drop-shadow(0 1px 1px #edf7ff88)}@media(max-width:600px){.snow-paw-trail{bottom:12%;width:68vw;height:20vh;opacity:.86}}@media(max-height:560px){.snow-paw-trail{height:20vh;bottom:12%}}
 .academy-flag{transform-box:fill-box;transform-origin:left center;animation:house-flag-wave 3.6s ease-in-out infinite;filter:drop-shadow(2px 3px 2px #17112366)}.academy-house-flags>g:nth-of-type(2) .academy-flag{animation-delay:-1.2s}.academy-house-flags>g:nth-of-type(3) .academy-flag{animation-delay:-2.1s}.academy-house-flags>g:nth-of-type(4) .academy-flag{animation-delay:-.7s}@keyframes house-flag-wave{0%,100%{transform:skewY(-2deg) scaleX(.96)}50%{transform:skewY(3deg) scaleX(1.02)}}@media(prefers-reduced-motion:reduce){.academy-flag{animation:none}}.owl{width:clamp(54px,7vw,100px);font-size:initial}.owl-art{display:block;width:100%;height:auto;filter:drop-shadow(0 5px 8px #10162a)}.castle{filter:drop-shadow(0 18px 24px #080b21) drop-shadow(0 0 12px #c9b9f02b)}.academy-flag{filter:drop-shadow(3px 4px 2px #11102088)}.sky:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#0a0e2155,transparent 28%,transparent 72%,#0a0e2155),radial-gradient(ellipse at 50% 72%,transparent 35%,#090e2166 100%)}@media(max-width:600px){.owl{width:62px}}</style><link rel="stylesheet" href="academy-vault-transition.css?v=1"><script defer src="academy-vault-transition.js?v=1"></script><link rel="stylesheet" href="academy-welcome-gate.css?v=6">
-<script type="module" src="academy-welcome-gate.js?v=1"></script></head><body><main class="sky">
+<script type="module" src="academy-welcome-gate.js?v=1"></script><link rel="stylesheet" href="academy-game-smooth.css?v=1"></head><body><main class="sky">
 <svg class="castle" viewBox="0 0 900 600" role="img" aria-label="An ice-blue glass and limestone castle with pointed towers, flags with stars in all four house colours along the path, and a silver gate">
 <image href="academy-castle-united-flags.webp" width="900" height="600"/>
 <defs>
@@ -63,4 +63,4 @@
   </article>
 </dialog>
 <p id="academy-gate-status" class="academy-gate-status" role="status" aria-live="polite"></p>
-</body></html>
+<script defer src="academy-game-smooth.js?v=1"></script></body></html>
