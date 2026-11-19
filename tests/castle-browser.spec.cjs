@@ -51,3 +51,25 @@ test('castle passage closes with Escape without navigating or changing saves',as
   await expect(passage.locator('.pv155-panel')).toBeHidden();
   await expect(page).toHaveURL(/poetry-vault-entrance\.html/);
 });
+
+test('fresh-player Fifth Door stays gated after reload',async({page})=>{
+  await page.goto(base+'poetry-vault-fifth-door.html');
+  await expect(page.locator('#gate')).toBeVisible();
+  await expect(page.locator('#game')).toBeHidden();
+  await page.reload();
+  await expect(page.locator('#gate')).toBeVisible();
+  await expect(page.locator('#game')).toBeHidden();
+});
+
+test('fresh-player chapter locks survive reload without losing castle passage',async({page})=>{
+  await page.goto(base+'poetry-vault-entrance.html');
+  for(let attempt=0;attempt<2;attempt++){
+    const passage=page.locator('#pv155-bridge');
+    await expect(passage).toBeVisible({timeout:15000});
+    await passage.locator('.pv155-open').click();
+    await passage.locator('.pv192-map-toggle').click();
+    await expect(passage.getByRole('button',{name:/Fifth Door, locked/})).toBeDisabled();
+    await expect(passage.getByRole('button',{name:/Author’s Study, locked/})).toBeDisabled();
+    if(attempt===0)await page.reload();
+  }
+});
