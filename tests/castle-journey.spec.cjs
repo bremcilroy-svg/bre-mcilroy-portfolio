@@ -14,6 +14,7 @@ test('Fifth Door puzzle sequence and Author Study navigation retain completion a
  });
  await page.goto(base+'poetry-vault-fifth-door.html');
  await expect(page.locator('#game')).toBeVisible({timeout:15000});
+ await expect(page.locator('#step-1')).toHaveClass(/active/);
  for(const id of ['heart','mirror','labyrinth','dawn'])await page.locator('[data-seal="'+id+'"]').click();
  await expect(page.locator('#step-2')).toHaveClass(/active/);
  for(const [dial,count] of [[0,1],[1,3],[2,2]])for(let n=0;n<count;n++)await page.locator('[data-dial="'+dial+'"]').click();
@@ -21,7 +22,9 @@ test('Fifth Door puzzle sequence and Author Study navigation retain completion a
  await expect(page.locator('#step-3')).toHaveClass(/active/);
  for(const word of ['LISTEN','REMEMBER','RELEASE','BEGIN'])await page.locator('[data-word="'+word+'"]').click();
  await expect(page.locator('#step-4')).toHaveClass(/active/);
+ await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('bre-poetry-vault-fifth-v1')||'null')?.stage),{timeout:10000}).toBe(4);
  await page.reload();
+ await expect(page.locator('#game')).toBeVisible();
  await expect(page.locator('#step-4')).toHaveClass(/active/);
  await page.getByRole('link',{name:/Enter the Author/}).click();
  await expect(page).toHaveURL(/poetry-vault-author-room[.]html/);
