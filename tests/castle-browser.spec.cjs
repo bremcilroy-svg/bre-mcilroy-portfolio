@@ -73,3 +73,29 @@ test('fresh-player chapter locks survive reload without losing castle passage',a
     if(attempt===0)await page.reload();
   }
 });
+
+test('completed-chapter fixture solves Fifth Door puzzles through actual UI and reaches Author Study',async({page})=>{
+  // Synthetic browser-only save states are normalized by the same game code as real saves.
+  await page.addInitScript(()=>{
+    const fixture={
+      'bre-poetry-vault-heart-v1':{found:['rose','ribbon','moon','key'],drawerOpen:true,diaryOpen:true,completed:true},
+      'bre-poetry-vault-mirror-v1':{found:['thorn','tear','veil','ember'],slots:['tear','ember','thorn','veil'],turns:{thorn:0,tear:0,veil:0,ember:0},restored:true,unlocked:true,completed:true},
+      'bre-poetry-vault-labyrinth-v1':{noteRead:true,gearInstalled:true,hour:3,minute:0,clockSet:true,found:['ash','ivy','bell','star'],slots:['ivy','star','bell','ash'],unlocked:true,completed:true},
+      'bre-poetry-vault-dawn-v1':{emblemPlaced:true,panels:['star','moon','horizon','sun'],turns:{star:0,moon:0,horizon:0,sun:0},lightAligned:true,found:['bloom','leaf','seed','rain'],book:['seed','rain','leaf','bloom'],unlocked:true,completed:true},
+      'bre-poetry-vault-keepsakes-v1':{secrets:['heart','mirror','labyrinth','dawn']}
+    };
+    for(const [key,value] of Object.entries(fixture))if(localStorage.getItem(key)===null)localStorage.setItem(key,JSON.stringify(value));
+  });
+  await page.goto(base+'poetry-vault-fifth-door.html');
+  await expect(page.locator('#game')).toBeVisible({timeout:15000});
+  for(const seal of ['heart','mirror','labyrinth','dawn'])await page.locator('[data-seal="'+seal+'"]').click();
+  await expect(page.locator('#step-2')).toHaveClass(/active/);
+  for(const [dial,turns] of [[0,1],[1,3],[2,2]])for(let i=0;i<turns;i++)await page.locator('[data-dial="'+dial+'"]').click();
+  await page.locator('#align').click();
+  await expect(page.locator('#step-3')).toHaveClass(/active/);
+  for(const word of ['LISTEN','REMEMBER','RELEASE','BEGIN'])await page.locator('[data-word="'+word+'"]').click();
+  await expect(page.locator('#step-4')).toHaveClass(/active/);
+  await expect(page.getByRole('link',{name:/Enter the Author/})).toBeVisible();
+  await page.getByRole('link',{name:/Enter the Author/}).click();
+  await expect(page).toHaveURL(/poetry-vault-author-room\\.html/);
+});
