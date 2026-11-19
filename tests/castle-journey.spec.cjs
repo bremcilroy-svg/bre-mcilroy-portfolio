@@ -1,6 +1,8 @@
 const {test,expect}=require('@playwright/test');
 const base='http://127.0.0.1:8765/';
-test('Fifth Door puzzle sequence and Author Study navigation retain completion after reload',async({page},testInfo)=>{\n const browserErrors=[];page.on('pageerror',e=>browserErrors.push(e.message));\n const checkpoint=async(label)=>{const details=await page.evaluate(()=>({url:location.pathname,gate:document.querySelector('#gate')?.textContent?.slice(0,220),gameHidden:document.querySelector('#game')?.hidden,active:[1,2,3,4].filter(i=>document.querySelector('#step-'+i)?.classList.contains('active')),fifth:localStorage.getItem('bre-poetry-vault-fifth-v1')}));await testInfo.attach('fifth-door-'+label,{body:JSON.stringify({...details,browserErrors},null,2),contentType:'application/json'});};
+test('Fifth Door puzzle sequence and Author Study navigation retain completion after reload',async({page},testInfo)=>{
+ const browserErrors=[];page.on('pageerror',e=>browserErrors.push(e.message));
+ const checkpoint=async(label)=>{const details=await page.evaluate(()=>({url:location.pathname,gate:document.querySelector('#gate')?.textContent?.slice(0,220),gameHidden:document.querySelector('#game')?.hidden,active:[1,2,3,4].filter(i=>document.querySelector('#step-'+i)?.classList.contains('active')),fifth:localStorage.getItem('bre-poetry-vault-fifth-v1')}));await testInfo.attach('fifth-door-'+label,{body:JSON.stringify({...details,browserErrors},null,2),contentType:'application/json'});};
  await page.goto(base+'poetry-vault-entrance.html');
  await page.evaluate(()=>{
   const states={
@@ -13,17 +15,22 @@ test('Fifth Door puzzle sequence and Author Study navigation retain completion a
   for(const [key,value] of Object.entries(states))localStorage.setItem(key,JSON.stringify(value));
  });
  await page.goto(base+'poetry-vault-fifth-door.html');
- await checkpoint('initial');\n await expect(page.locator('#game')).toBeVisible({timeout:15000});
+ await checkpoint('initial');
+ await expect(page.locator('#game')).toBeVisible({timeout:15000});
  await expect(page.locator('#step-1')).toHaveClass(/active/);
  for(const id of ['heart','mirror','labyrinth','dawn'])await page.locator('[data-seal="'+id+'"]').click();
- await checkpoint('seals');\n await expect(page.locator('#step-2')).toHaveClass(/active/);
+ await checkpoint('seals');
+ await expect(page.locator('#step-2')).toHaveClass(/active/);
  for(const [dial,count] of [[0,1],[1,3],[2,2]])for(let n=0;n<count;n++)await page.locator('[data-dial="'+dial+'"]').click();
  await page.locator('#align').click();
- await checkpoint('constellation');\n await expect(page.locator('#step-3')).toHaveClass(/active/);
+ await checkpoint('constellation');
+ await expect(page.locator('#step-3')).toHaveClass(/active/);
  for(const word of ['LISTEN','REMEMBER','RELEASE','BEGIN'])await page.locator('[data-word="'+word+'"]').click();
- await checkpoint('epilogue');\n await expect(page.locator('#step-4')).toHaveClass(/active/);
+ await checkpoint('epilogue');
+ await expect(page.locator('#step-4')).toHaveClass(/active/);
  await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('bre-poetry-vault-fifth-v1')||'null')?.stage),{timeout:10000}).toBe(4);
- await page.reload();\n await checkpoint('after-reload');
+ await page.reload();
+ await checkpoint('after-reload');
  await expect(page.locator('#game')).toBeVisible();
  await expect(page.locator('#step-4')).toHaveClass(/active/);
  await page.getByRole('link',{name:/Enter the Author/}).click();
