@@ -187,3 +187,40 @@
   .academy-letter-paper { font-size: clamp(.95rem, 4vw, 1rem); padding: 20px 23px; }
   .academy-school-crest { width: 52px; height: 60px; }
 }
+
+/* A silver-engraved invitation on pearl stock. */
+.academy-letter-paper {
+  color-scheme: light;
+  color: #25344c;
+  background: radial-gradient(ellipse at 50% 10%, #fff 0%, #f1f5fa 62%, #e2eaf3 100%);
+  border-color: #899db8;
+  box-shadow: 0 16px 34px #070a18a8;
+}
+.academy-letter-paper::before { border-color: #859bb8; }
+.academy-letter-paper h2,
+.academy-letter-signature strong { color: #35324e; }
+#academy-letter-close { color: #35324e; }
+.academy-school-crest {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  background: none;
+  box-shadow: none;
+  clip-path: none;
+}
+.academy-school-crest svg { width: 49px; height: 56px; align-self: end; }
+.academy-crest-moon {
+  position: absolute;
+  top: 0;
+  left: 3px;
+  width: 56px;
+  height: 56px;
+  box-shadow: inset 7px -3px #a3b7d3;
+}
+.academy-wax-seal {
+  color: #dbeaf8;
+  background: radial-gradient(circle at 34% 28%, #7895b8, #435a84 63%, #293553);
+  box-shadow: 2px 5px 7px #16264050, inset 0 0 0 4px #536c96, inset 0 0 0 6px #9db6cf;
+}
+.academy-wax-seal svg { width: 30px; height: 30px; fill: currentColor; }
+#academy-letter-send { color: #fff; background: #364d72; border-color: #293853; }
