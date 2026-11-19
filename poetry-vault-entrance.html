@@ -22,7 +22,7 @@
 <script type="module" src="vault-journey-bridge.js?v=155"></script>
 <link rel="stylesheet" href="vault-gizmo-welcome.css?v=1">
 <script defer src="vault-gizmo-welcome.js?v=1"></script>
-<script defer src="vault-gizmo-welcome-fix.js?v=1"></script></head>
+<script defer src="vault-gizmo-welcome-fix.js?v=1"></script><link rel="stylesheet" href="vault-castle-lobby.css?v=1"><script defer src="vault-castle-lobby.js?v=1"></script></head>
 <body>
 <a class="skip-link" href="#vault-menu">Skip to the game menu</a>
 <div class="entrance-art" aria-hidden="true"></div><div class="entrance-shade" aria-hidden="true"></div>
@@ -49,6 +49,17 @@
 <a class="lobby-vault-door" href="poetry-vault.html" aria-label="Open the castle lobby door to the Heart Chamber"><span class="lobby-vault-door-arch" aria-hidden="true"><span class="lobby-vault-door-crest">✦</span><span class="lobby-vault-door-knob">◆</span></span><span class="lobby-vault-door-label">The Heart Chamber <span aria-hidden="true">→</span></span><small>Open the escape-room door</small></a>
 <div class="door-caption" aria-hidden="true"><span class="caption-line"></span><p>A story in four chambers</p><span>Love. Reflection. Midnight. Morning.</span></div>
 </main>
+<section id="castle-lobby-explore" aria-labelledby="castle-lobby-heading" data-view="1">
+<h2 id="castle-lobby-heading">Explore the Castle Lobby</h2>
+<p class="lobby-intro">Turn to discover the grand entrance, Poetry Vault door, and snow owl alcove.</p>
+<div id="castle-lobby-scene" tabindex="0" role="group" aria-label="Explore the castle lobby with left and right arrows"><div class="lobby-arch" aria-hidden="true"><span>✦</span></div></div>
+<h3 id="castle-lobby-name">The Poetry Vault Door</h3>
+<p id="castle-lobby-description">An ancient silver-trimmed door glows with icy blue light.</p>
+<div class="lobby-controls"><button type="button" id="castle-lobby-left" aria-label="Turn left in the castle lobby">← Turn left</button><button type="button" id="castle-lobby-center">Face the Vault</button><button type="button" id="castle-lobby-right" aria-label="Turn right in the castle lobby">Turn right →</button></div>
+<p id="castle-lobby-detail" aria-live="polite">The door leads into the first escape room.</p>
+<button type="button" id="castle-lobby-open">✦ Open the Poetry Vault Door</button>
+<p class="lobby-access">Swipe left or right, use arrow keys, or tap the controls. The Academy passage stays closed until it is ready.</p>
+</section>
 <footer class="entrance-footer"><p>Original poetry by <strong>Bre McIlroy</strong></p><p><a href="poetry-vault-launch.html">Watch trailer &amp; see poster</a> · <a href="poetry-vault-feedback.html">Feedback &amp; guestbook</a></p><p>Progress saves in this browser.</p><p><a href="poetry-vault-owner-login.html">Owner Login →</a></p></footer>
 <dialog id="entrance-panel" aria-labelledby="entrance-panel-title"><div class="dialog-top"><p class="eyebrow" id="entrance-panel-kicker">The Poetry Vault</p><button id="entrance-close" aria-label="Close panel">×</button></div><h2 id="entrance-panel-title"></h2><div id="entrance-panel-content"></div></dialog>
 <div class="entrance-toast" id="entrance-toast" role="status"></div>
