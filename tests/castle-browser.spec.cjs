@@ -49,5 +49,5 @@ test('castle passage closes with Escape without navigating or changing saves',as
   await expect(passage.locator('.pv155-panel')).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(passage.locator('.pv155-panel')).toBeHidden();
-  await expect(page).toHaveURL(/poetry-vault-entrance\\.html/);
+  await expect(page).toHaveURL(/poetry-vault-entrance\.html/);
 });
