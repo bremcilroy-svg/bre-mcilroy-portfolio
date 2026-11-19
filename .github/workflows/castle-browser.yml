@@ -33,7 +33,9 @@ jobs:
           cat /tmp/castle-server.log
           exit 1
       - name: Run desktop, Android, iPhone and tablet gameplay tests
-        run: npx playwright test tests/castle-browser.spec.cjs tests/castle-journey.spec.cjs --workers=1 --reporter=line,json
+        run: |
+          mkdir -p test-results
+          npx playwright test tests/castle-browser.spec.cjs tests/castle-journey.spec.cjs --workers=1 --reporter=line,json
         env:
           PLAYWRIGHT_JSON_OUTPUT_NAME: test-results/castle-results.json
           PLAYWRIGHT_HTML_OPEN: never
