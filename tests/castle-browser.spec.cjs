@@ -14,3 +14,16 @@ test('3D keyboard portal interaction opens the correct house',async({page})=>{aw
 test('touch movement advances the player and stops on release',async({page})=>{await page.setViewportSize({width:390,height:844});await page.goto(base+'academy-royal-3d.html');await expect(page.locator('#status')).toContainText('ready',{timeout:30000});const before=await page.evaluate(()=>{const p=BABYLON.EngineStore.LastCreatedScene.activeCamera.position;return {x:p.x,z:p.z}});const button=page.locator('[data-move="forward"]');const bounds=await button.boundingBox();expect(bounds).not.toBeNull();await page.mouse.move(bounds.x+bounds.width/2,bounds.y+bounds.height/2);await page.mouse.down();await page.waitForTimeout(500);await page.mouse.up();const after=await page.evaluate(()=>{const p=BABYLON.EngineStore.LastCreatedScene.activeCamera.position;return {x:p.x,z:p.z}});expect(Math.hypot(after.x-before.x,after.z-before.z)).toBeGreaterThan(.1)});
 
 test('3D castle walls block the player from walking outside',async({page})=>{await page.goto(base+'academy-royal-3d.html');await expect(page.locator('#status')).toContainText('ready',{timeout:30000});await page.evaluate(()=>{const scene=BABYLON.EngineStore.LastCreatedScene;const camera=scene.activeCamera;camera.position.set(0,1.75,10);camera.rotation.set(0,0,0)});await page.locator('#renderCanvas').click({position:{x:30,y:30}});await page.keyboard.down('w');await page.waitForTimeout(1600);await page.keyboard.up('w');const position=await page.evaluate(()=>{const p=BABYLON.EngineStore.LastCreatedScene.activeCamera.position;return {x:p.x,z:p.z}});expect(position.z).toBeLessThan(11.8);expect(position.z).toBeGreaterThan(10)});
+
+// Full chapter-route coverage is a prerequisite to a puzzle-solving playthrough.
+for(const chapter of ['poetry-vault.html','poetry-vault-mirror.html','poetry-vault-labyrinth.html','poetry-vault-dawn.html','poetry-vault-society.html','poetry-vault-fifth-door.html','poetry-vault-author-room.html']){
+  test('Poetry Vault chapter loads without a JavaScript crash: '+chapter,async({page})=>{
+    const errors=[];
+    page.on('pageerror',error=>errors.push(error.message));
+    const response=await page.goto(base+chapter,{waitUntil:'domcontentloaded'});
+    expect(response?.status(),chapter+' should exist').toBe(200);
+    await expect(page.locator('body')).toBeVisible();
+    await page.waitForTimeout(750);
+    expect(errors,'JavaScript errors in '+chapter).toEqual([]);
+  });
+}
