@@ -385,3 +385,76 @@
   .academy-wax-seal { width: 60px; }
   .academy-letter-paper { padding: 19px 21px; }
 }
+
+
+/* Mobile layout correction: the castle SVG precedes the heading in the DOM,
+   so explicitly order the hero and controls and keep the entire CTA visible. */
+@media(max-width:600px){
+ .sky{
+   display:flex!important;
+   flex-direction:column!important;
+   justify-content:space-between!important;
+   min-height:100svh!important;
+   min-height:100dvh!important;
+   height:auto!important;
+   overflow:visible!important;
+   background:#071329!important;
+ }
+ .sky .top{
+   order:0!important;
+   flex:0 0 auto!important;
+   position:relative!important;
+   padding:clamp(20px,4svh,36px) 16px 10px!important;
+   background:none!important;
+ }
+ .sky .top h1{font-size:clamp(2rem,8vw,3.1rem)!important;line-height:1.08!important}
+ .sky .castle{
+   order:1!important;
+   display:block!important;
+   flex:0 0 auto!important;
+   position:relative!important;
+   width:100vw!important;
+   height:auto!important;
+   max-height:min(50svh,430px)!important;
+   aspect-ratio:900/600!important;
+   align-self:center!important;
+   margin:0!important;
+   left:auto!important;
+   bottom:auto!important;
+   transform:none!important;
+   overflow:hidden!important;
+ }
+ .sky .actions{
+   order:2!important;
+   display:flex!important;
+   position:relative!important;
+   flex:0 0 auto!important;
+   padding:12px 16px max(28px,env(safe-area-inset-bottom))!important;
+   margin:0!important;
+   gap:10px!important;
+   background:none!important;
+   opacity:1;
+ }
+ .sky .actions .gate{min-height:52px!important}
+ .sky .actions .back{display:block!important}
+ .sky .moon,.sky .stars,.sky .snow,.sky .mountains,.sky .ground,.sky .owl,.sky .snow-paw-trail{pointer-events:none}
+}
+@media(max-width:600px) and (max-height:740px){
+ .sky .top{padding-top:12px!important}
+ .sky .top h1{font-size:clamp(1.8rem,7.2vw,2.5rem)!important}
+ .sky .castle{max-height:38svh!important}
+ .sky .actions{gap:7px!important}
+}
+#academy-letter{max-height:calc(100dvh - 28px)!important;overflow-y:auto!important;overscroll-behavior:contain}
+#academy-letter .academy-letter-paper{overflow:visible}
+#academy-letter .academy-letter-signoff{margin-bottom:18px}
+#academy-letter #academy-letter-send{position:relative;z-index:3;min-height:48px}
+@media(max-width:600px){
+ #academy-letter{max-height:calc(100dvh - 20px)!important;scrollbar-width:thin}
+ #academy-letter .academy-school-crest{width:70px;height:78px}
+ #academy-letter .academy-school-crest svg{width:70px;height:78px}
+ #academy-letter .academy-letter-paper{padding:18px 20px 22px}
+ #academy-letter .academy-letter-paper h2{margin:.3rem 0 .7rem;font-size:clamp(1.5rem,6.5vw,2rem)}
+ #academy-letter .academy-letter-paper p{margin:.65rem 0;font-size:clamp(.95rem,3.7vw,1.06rem);line-height:1.48}
+ #academy-letter .academy-letter-signature strong{font-size:2.1rem}
+}
