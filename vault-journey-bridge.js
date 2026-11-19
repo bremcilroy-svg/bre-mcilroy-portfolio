@@ -56,8 +56,14 @@ function render(){let s;try{s=stats()}catch(e){console.warn('Cannot read puzzle 
  }
 }
 window.addEventListener('pageshow',()=>{if(!panel.hidden)render();});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!panel.hidden)render();});
+// Puzzle saves happen in this tab, where the storage event does not fire.
+// Refresh only while the visitor has the passage open; never write puzzle state.
+let refreshTimer=null;
+function syncPassage(){if(refreshTimer!==null){clearInterval(refreshTimer);refreshTimer=null;}if(!panel.hidden){refreshTimer=setInterval(()=>{if(!document.hidden)render();},2000);}}
+window.addEventListener('pagehide',()=>{if(refreshTimer!==null){clearInterval(refreshTimer);refreshTimer=null;}});
 window.addEventListener('storage',e=>{if(e.key&&e.key.startsWith('bre-poetry-vault')&&!panel.hidden)render();});
-toggle.addEventListener('click',()=>{const show=panel.hidden;panel.hidden=!show;toggle.setAttribute('aria-expanded',String(show));if(show)render();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden){panel.hidden=true;toggle.setAttribute('aria-expanded','false');toggle.focus();}});
+toggle.addEventListener('click',()=>{const show=panel.hidden;panel.hidden=!show;toggle.setAttribute('aria-expanded',String(show));if(show)render();syncPassage();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden){panel.hidden=true;toggle.setAttribute('aria-expanded','false');toggle.focus();syncPassage();}});
 render();
 })();
