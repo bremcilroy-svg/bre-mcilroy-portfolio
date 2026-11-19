@@ -140,6 +140,8 @@ function init(){
   else moveToward(e.clientX<innerWidth/2?-24:24);
  },{passive:true});
  document.addEventListener('click',e=>{if(e.target.closest('#pv-gizmo-companion,dialog,[role="dialog"]'))return;if(e.target.closest('[data-clue],[data-inspect],[data-hotspot],.hotspot'))react('room');},{passive:true});
+ // Gizmo reacts to the real castle passage, without revealing answers or changing saves.
+ document.addEventListener('click',e=>{const passage=e.target.closest('#pv155-bridge .pv192-map-toggle,#pv155-bridge .pv155-open');if(passage&&!resting&&isAllowed()&&!document.hidden){talk('I know these castle corridors. I’ll follow your lead! 🐾');}},{passive:true});
  document.addEventListener('keydown',e=>{if(['ArrowLeft','a','A'].includes(e.key))moveToward(-38);if(['ArrowRight','d','D'].includes(e.key))moveToward(38)},{passive:true});
  if(room){new MutationObserver(setVisibility).observe(room,{attributes:true,attributeFilter:['hidden']})}
  new MutationObserver(setVisibility).observe(document.body,{attributes:true,attributeFilter:['class']});
