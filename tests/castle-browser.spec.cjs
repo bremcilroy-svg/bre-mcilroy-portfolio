@@ -196,3 +196,18 @@ test('silver entrance gate opens when approached and closes when leaving',async(
  await expect(page.locator('#enter')).toBeHidden();
  await expect.poll(async()=>Math.abs((await read())[0]),{timeout:5000}).toBeLessThan(.2);
 });
+
+test('Royal Chamber offers its Four Houses fallback when WebGL initialization fails', async ({page}) => {
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.route('https://cdn.babylonjs.com/babylon.js', route => route.fulfill({
+    contentType: 'application/javascript',
+    body: 'window.BABYLON = { Engine: class { constructor() { throw new Error("WebGL not supported"); } } };'
+  }));
+  await page.goto(base + 'academy-royal-3d.html');
+  await expect(page.locator('#status')).toContainText('3D graphics are unavailable');
+  await expect(page.locator('#touch')).toBeHidden();
+  await page.getByRole('link', {name: 'Explore the Four Houses'}).click();
+  await expect(page).toHaveURL(/academy-four-houses[.]html/);
+  expect(errors).toEqual([]);
+});
