@@ -27,10 +27,21 @@ function eligible(i,s){
  return s.journey.allComplete&&s.seals.length===4&&s.society.fifth===true;
 }
 function lockReason(i,s){if(!s.journey.storageAvailable)return 'Saved progress is unavailable in this browser';if(i>=2&&i<=4)return 'Complete '+titles[i-1]+' to open this door';if(i===5)return 'Complete all four puzzle chambers';if(i===6)return s.journey.allComplete?'Collect all four chamber seals':'Complete all four chambers and collect their seals';if(i===7)return s.society.fifth?'Complete the required chambers and seals':'Complete the Fifth Door after earning all four seals';return 'Finish the preceding chapter';}
-function go(i){if(travelling||i===index)return;let s;try{s=stats()}catch(e){console.warn('Cannot read puzzle progress',e);return;}if(!eligible(i,s)){render();return;}
- const travel=()=>{if(travelling)return;travelling=true;const gizmo=document.querySelector('#pv-gizmo-companion .pvg-speech');if(gizmo){gizmo.textContent='🐾 Gizmo is coming with you to '+titles[i]+'!';gizmo.hidden=false;}overlay.querySelector('p').textContent='✦ '+titles[i]+' awaits… ✦';overlay.hidden=false;overlay.classList.remove('pv155-animate');if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){void overlay.offsetWidth;overlay.classList.add('pv155-animate');}setTimeout(()=>{location.assign(routes[i]);},window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:650);};
- if(i>=2&&i<=4){const request=new CustomEvent('pv192:door-request',{detail:{destination:i,proceed:travel,handled:false}});document.dispatchEvent(request);if(!request.detail.handled){console.warn('Castle lock unavailable; passage remains closed.');return;}return;}
- travel();}
+function go(i){
+ if(travelling||i===index)return;
+ let progress;
+ try{progress=stats();}catch(e){console.warn('Cannot read puzzle progress',e);return;}
+ if(!eligible(i,progress)){render();return;}
+ travelling=true;
+ const gizmo=document.querySelector('#pv-gizmo-companion .pvg-speech');
+ if(gizmo){gizmo.textContent='🐾 Gizmo is coming with you to '+titles[i]+'!';gizmo.hidden=false;}
+ const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ overlay.querySelector('p').textContent='✦ '+titles[i]+' awaits… ✦';
+ overlay.hidden=false;
+ if(!reducedMotion)overlay.classList.add('pv155-animate');
+ const destination=routes[i]+(i>=1&&i<=4?'?resume=1':'');
+ setTimeout(()=>location.assign(destination),reducedMotion?0:650);
+}
 function render(){let s;try{s=stats()}catch(e){console.warn('Cannot read puzzle progress',e);s={journey:{completed:[],allComplete:false,storageAvailable:false},seals:[],society:{fifth:false}};}root.querySelector('.pv155-location').textContent='You are in: '+titles[index];links.replaceChildren();castleMap.replaceChildren();
  const heading=document.createElement('p');heading.textContent='✦ THE LIVING CASTLE ✦';heading.className='pv192-map-heading';castleMap.append(heading);
  for(let i=0;i<routes.length;i++){
