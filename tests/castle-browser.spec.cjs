@@ -153,3 +153,26 @@ test('all four original chamber puzzle rules reject incorrect solutions and acce
  });
  expect(result).toEqual({heart:true,mirror:true,labyrinth:true,dawn:true,invalidHeart:false,invalidMirror:false,invalidLabyrinth:false,invalidDawn:false});
 });
+
+test('walkable perimeter scene starts facing the gate and offers courtyard passage',async({page})=>{
+ await page.goto(base+'academy-perimeter-3d.html');
+ await expect(page.locator('#status')).toContainText('ready',{timeout:30000});
+ const scene=await page.evaluate(()=>{
+  const s=BABYLON.EngineStore.LastCreatedScene;
+  const camera=s.activeCamera;
+  return {forward:camera.getDirection(BABYLON.Axis.Z).z,
+   north:s.getMeshByName('north perimeter privacy wall')?.checkCollisions,
+   southLeft:s.getMeshByName('south perimeter left privacy wall')?.checkCollisions,
+   southRight:s.getMeshByName('south perimeter right privacy wall')?.checkCollisions,
+   east:s.getMeshByName('east perimeter privacy wall')?.checkCollisions,
+   west:s.getMeshByName('west perimeter privacy wall')?.checkCollisions};
+ });
+ expect(scene.forward).toBeLessThan(-.9);
+ for(const side of ['north','southLeft','southRight','east','west'])expect(scene[side]).toBe(true);
+ const enter=page.locator('#enter');
+ await expect(enter).toBeHidden();
+ await page.evaluate(()=>{const s=BABYLON.EngineStore.LastCreatedScene;s.activeCamera.position.set(0,1.8,-29)});
+ await expect(enter).toBeVisible({timeout:5000});
+ await enter.click();
+ await expect(page).toHaveURL(/academy-moonlit-courtyard[.]html/);
+});
