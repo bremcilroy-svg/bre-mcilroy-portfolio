@@ -88,7 +88,7 @@ function targetChanged(id){current=id;const b=$('#interact');b.disabled=!id;b.te
 function fallback(){document.body.classList.add('fallback');$('#scene-status').textContent='3D is unavailable here. Explore objects gives access to the whole chapter.';}
 updateHUD();
 
-import('./vault-room.js?v=library-1')
+import('./vault-room.js?v=stone-1')
   .then(({ createRoom }) => {
     try {
       room = createRoom($('#scene'), {

@@ -21,11 +21,11 @@
   0% { opacity: 0; transform: translate(449px, 681px) rotate(-11deg) scale(.94); }
   9% { opacity: 1; transform: translate(438px, 653px) rotate(9deg) scale(.91); }
   28% { opacity: 1; transform: translate(460px, 609px) rotate(-7deg) scale(.78); }
-  47% { opacity: 1; transform: translate(450px, 568px) rotate(5deg) scale(.66); }
-  67% { opacity: 1; transform: translate(450px, 515px) rotate(-8deg) scale(.53); }
-  85% { opacity: 1; transform: translate(451px, 457px) rotate(1deg) scale(.43); }
-  94% { opacity: 1; transform: translate(450px, 429px) scale(.34,.18); }
-  100% { opacity: 0; transform: translate(450px, 429px) scale(.17,0); }
+  47% { opacity: 1; transform: translate(450px, 583px) rotate(5deg) scale(.66); }
+  67% { opacity: 1; transform: translate(450px, 546px) rotate(-8deg) scale(.53); }
+  85% { opacity: 1; transform: translate(451px, 513px) rotate(1deg) scale(.43); }
+  94% { opacity: 1; transform: translate(450px, 489px) scale(.34,.18); }
+  100% { opacity: 0; transform: translate(450px, 489px) scale(.17,0); }
 }
 .is-delivering #academy-mail-glow { animation: mail-slot-flash .46s ease-out 2.18s both; }
 @keyframes mail-slot-flash { 0%, 100% { opacity: 0; } 35% { opacity: 1; filter: drop-shadow(0 0 8px #b4efff); } }
@@ -112,3 +112,30 @@
   transform: rotate(-12deg);
 }
 #academy-letter-send { background: #642b40; border-color: #542539; }
+
+/* The approach photo and animated gate share one coordinate system. */
+.sky {
+  background: #172331 url('academy-castle-approach.webp') center bottom / cover no-repeat;
+}
+.sky .castle {
+  width: max(100vw, 150svh);
+  max-width: none;
+  bottom: 0;
+  filter: none;
+}
+.sky .top { text-shadow: 0 3px 14px #060b16, 0 1px 3px #060b16; }
+.sky .top h1 { font-size: clamp(2rem, 4.5vw, 3.6rem); }
+.academy-pawprints { fill: #dce8f7; }
+.academy-pawprints use { opacity: .34; }
+.is-delivering .academy-pawprints use { opacity: 1; }
+@media (max-width: 600px) {
+  .sky {
+    background:
+      linear-gradient(180deg, #152235 0%, #23364b 29%, transparent 59%, #15202bfd 100%),
+      #182736;
+  }
+  .sky .castle { width: 110vw; bottom: 17svh; }
+  .sky .top h1 { font-size: clamp(2rem, 8vw, 3rem); }
+}
+
+@media (max-width:600px) { .sky .castle image { mask-image: linear-gradient(transparent, #000 10%, #000 90%, transparent); } }

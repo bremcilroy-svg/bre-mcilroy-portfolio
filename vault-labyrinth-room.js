@@ -32,8 +32,8 @@ export function createLabyrinthRoom(container, {onTarget, onInspect, onReady, on
   materials.wood=phong(0x69432b);materials.wall=phong(0x762d3d);materials.floor=phong(0x77533c);
   materials.paper=phong(0xe2d0a4);materials.gold=phong(0xb89a59,{metalness:.7,roughness:.33});
   materials.darkwood=phong(0x2e1b17);materials.black=phong(0x171317);materials.cream=phong(0xd6c6a3);
-  materials.rug=phong(0x5b1729);materials.red=phong(0x74283f);materials.glass=phong(0x8193a4,{metalness:.3,roughness:.25,emissive:0x354d69,emissiveIntensity:.32});
-  new THREE.TextureLoader().load('./vault-materials.jpg', image=>{
+  materials.rug=phong(0x5b1729);materials.red=phong(0x74283f);materials.glass=phong(0x9dc5e3,{metalness:.35,roughness:.16,emissive:0x45688c,emissiveIntensity:.42});
+  new THREE.TextureLoader().load('./vault-castle-materials.webp', image=>{
     const img=image.image, size=img.width/2;
     for (const [name,x,y,rx,ry] of [['wood',0,0,1,2],['wall',1,0,3,1.4],['floor',0,1,5,6],['paper',1,1,1,1]]){
       const c=document.createElement('canvas');c.width=c.height=512;
