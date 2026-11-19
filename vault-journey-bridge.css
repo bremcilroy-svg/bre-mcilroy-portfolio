@@ -57,3 +57,10 @@ body.pv13-inside #pv155-bridge{display:none!important}
 /* Explain locked doors without requiring hover (mobile and keyboard friendly). */
 #pv155-bridge .pv192-lock-reason{display:block;font:12px/1.4 system-ui,sans-serif;color:#dfcfe8;margin-top:5px;white-space:normal}
 #pv155-bridge .pv192-progress{margin:12px 0;padding:10px;border-top:1px solid #8c769f;border-bottom:1px solid #8c769f;text-align:center;color:#e9dbf5;font:600 12px/1.5 system-ui,sans-serif}
+
+/* Story objective inside the living castle map, not a puzzle shortcut. */
+#pv155-bridge .pv193-next-step{padding:12px;margin:12px 0;border:1px solid #b8a0d0;border-radius:10px;background:linear-gradient(145deg,#43294f,#22203d);color:#f5eaff}
+#pv155-bridge .pv193-next-step strong{display:block;color:#d9eaff;font:700 14px Georgia,serif}
+#pv155-bridge .pv193-next-step p{font:13px/1.55 system-ui,sans-serif;margin:7px 0 9px}
+#pv155-bridge .pv193-next-action{width:100%;min-height:44px;border-color:#c6c8e8;background:#4e3464;color:#fff}
+#pv155-bridge .pv193-next-action:focus-visible{outline:3px solid #a9e6ff;outline-offset:2px}
