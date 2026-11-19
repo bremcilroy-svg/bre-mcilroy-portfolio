@@ -14,7 +14,7 @@
     <div class="pv8-title"><p class="eyebrow">PHASE VIII · A SECRET IN THE STUDY</p><h2>The Secret of the Heart</h2><p>Gizmo has led you home. But another keeper holds a secret.</p></div>
     <div class="pv8-layout">
       <button type="button" id="pv8-portrait" class="pv8-portrait" aria-label="Inspect Moose's portrait and heart necklace">
-        <img src="vault-moose-0919-portrait.png" alt="Moose in a jeweled Victorian portrait frame, wearing a purple heart necklace engraved with 0919" loading="lazy">
+        <img src="vault-moose-0919-portrait.webp" alt="Moose in a jeweled Victorian portrait frame, wearing a purple heart necklace engraved with 0919" loading="lazy">
         <span>🫎 Inspect the portrait</span>
       </button>
       <div class="pv8-scroll"><p class="eyebrow">A riddle left beside the journal</p>
@@ -36,7 +36,7 @@
         <button type="button" id="pv8-open-unlocked" hidden>✦ Open the Author's Journal →</button>
       </div>
     </div>
-    <dialog id="pv8-detail" aria-labelledby="pv8-detail-title"><div class="pv8-detail-body"><button type="button" id="pv8-detail-close" class="pv8-close">Close ×</button><h3 id="pv8-detail-title">Moose's Portrait</h3><img src="vault-moose-0919-portrait.png" alt="Close-up of Moose's purple heart necklace engraved 0919"><p>Gizmo purrs: “Some hearts carry the answers.”</p></div></dialog>`;
+    <dialog id="pv8-detail" aria-labelledby="pv8-detail-title"><div class="pv8-detail-body"><button type="button" id="pv8-detail-close" class="pv8-close">Close ×</button><h3 id="pv8-detail-title">Moose's Portrait</h3><img src="vault-moose-0919-portrait.webp" alt="Close-up of Moose's purple heart necklace engraved 0919"><p>Gizmo purrs: “Some hearts carry the answers.”</p></div></dialog>`;
   const invitation=room.querySelector('.journal-invitation');
   const section=invitation?.closest('section');
   if(section)section.before(portrait);else room.append(portrait);
@@ -83,7 +83,7 @@
     const wall=document.createElement('button');
     wall.id='pv8-wall-portrait';wall.type='button';wall.className='pv8-wall-portrait';
     wall.setAttribute('aria-label','Inspect the moose portrait on the wall');
-    wall.innerHTML='<img src="vault-moose-0919-portrait.png" alt=""><span>MOOSE PORTRAIT</span>';
+    wall.innerHTML='<img src="vault-moose-0919-portrait.webp" alt=""><span>MOOSE PORTRAIT</span>';
     wall.addEventListener('click',()=>{if(room.hidden)return;portrait.scrollIntoView({behavior:reduced()?'auto':'smooth',block:'start'});detail.showModal()});
     scene.append(wall);
   }

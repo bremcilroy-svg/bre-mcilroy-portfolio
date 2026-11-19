@@ -209,7 +209,7 @@ const photos=[
  ['pv10-turtle.jpg','Turtle guardian',5.65,2.4,3.4,1.4,1.05,-Math.PI/2,7]
 ];
 for(const [src,label,x,y,z,w,h,rot,i] of photos)framed(src,label,x,y,z,w,h,rot,'photo:'+i,true);
-framed('vault-moose-0919-portrait.png','Moose and the secret heart',3.6,2.5,-5.65,1.1,1.38,0,'moose');
+framed('vault-moose-0919-portrait.webp','Moose and the secret heart',3.6,2.5,-5.65,1.1,1.38,0,'moose');
 // Cat corner, original Gizmo button remains functional.
 objectLabel('GIZMO 🐾',-3.7,1.15,5.66,Math.PI,'gizmo',1.45,.5);
 const hud=panel.querySelector('#pv12-hud');

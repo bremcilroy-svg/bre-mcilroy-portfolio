@@ -1,5 +1,5 @@
 /* Royal Great Hall: keep the architecture visible while making the reception usable on phones. */
-body.academy-scene-hall main{justify-content:flex-start;gap:clamp(12px,2vw,22px);padding:clamp(16px,4vw,32px) 14px 34px;overflow:visible}
+body.academy-scene-hall main{justify-content:flex-start;gap:clamp(12px,2vw,22px);padding:clamp(16px,4vw,32px) 14px 34px;overflow:clip}
 body.academy-scene-hall main>.heading{width:min(100%,680px);margin:0 auto;padding:clamp(15px,3vw,24px);background:#15172bcf;backdrop-filter:blur(5px)}
 body.academy-scene-hall .heading h1{font-size:clamp(2rem,7vw,3.5rem);line-height:1.1}
 body.academy-scene-hall .discoveries{margin:0 auto;width:min(100%,680px);gap:10px}
