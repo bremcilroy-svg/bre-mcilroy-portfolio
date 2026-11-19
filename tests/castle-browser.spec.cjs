@@ -144,7 +144,7 @@ test('all four original chamber puzzle rules reject incorrect solutions and acce
    heart:h.completed&&heart.canOpenDrawer(h,'3142')&&!heart.canOpenDrawer(h,'0000')&&heart.canOpenDiary(h,heart.DIARY_ORDER)&&!heart.canOpenDiary(h,[...heart.DIARY_ORDER].reverse()),
    mirror:m.completed&&mirror.isRestored(m.found,m.slots,m.turns)&&mirror.canAnswerReflection(m,'echo')&&!mirror.canAnswerReflection(m,'shadow'),
    labyrinth:l.completed&&labyrinth.canSetClock(l)&&labyrinth.canOpenLedger(l)&&!labyrinth.canSetClock({...l,hour:4})&&!labyrinth.isMazePassable(-2,3.1),
-   dawn:d.completed&&dawn.panels.every((id,i)=>id===dawn.PANEL_IDS[i])&&dawn.canOpenBook(d)&&!dawn.canOpenBook({...d,book:[...d.book].reverse()}),
+   dawn:d.completed&&dawn.panelsAligned(d)&&!dawn.panelsAligned({...d,turns:{...d.turns,star:1}})&&dawn.canOpenBook(d)&&!dawn.canOpenBook({...d,book:[...d.book].reverse()}),
    invalidHeart:heart.normalizeState({completed:true}).completed,
    invalidMirror:mirror.normalizeMirrorState({completed:true}).completed,
    invalidLabyrinth:labyrinth.normalizeLabyrinthState({completed:true}).completed,
