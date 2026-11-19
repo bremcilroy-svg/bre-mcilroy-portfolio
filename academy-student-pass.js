@@ -2,7 +2,7 @@ const passKey = 'amethyst-crescent-student-pass-v1';
 const houses = {
   amethyst: 'Amethyst',
   emberheart: 'Emberheart',
-  frostveil: 'Frostveil',
+  frostveil: 'Frosttopaz',
   silverthorn: 'Silverthorn'
 };
 
