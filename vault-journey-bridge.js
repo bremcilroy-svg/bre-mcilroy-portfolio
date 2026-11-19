@@ -14,6 +14,7 @@ root.innerHTML='<button type="button" class="pv155-open" aria-expanded="false">�
 document.body.append(root);
 const toggle=root.querySelector('.pv155-open'),panel=root.querySelector('.pv155-panel'),links=root.querySelector('.pv155-links');
 const mapToggle=root.querySelector('.pv192-map-toggle'),castleMap=root.querySelector('.pv192-map');
+const castleReturn=document.createElement('a');castleReturn.href='academy-royal-great-hall.html';castleReturn.className='pv155-route';castleReturn.textContent='♛ Return to the Royal Great Hall';castleReturn.setAttribute('aria-label','Return to the Academy Royal Great Hall');root.querySelector('.pv155-panel').append(castleReturn);
 mapToggle.addEventListener('click',()=>{const showing=castleMap.hidden;castleMap.hidden=!showing;mapToggle.setAttribute('aria-expanded',String(showing));if(showing)render();});
 const overlay=document.createElement('div');overlay.id='pv155-transition';overlay.hidden=true;overlay.innerHTML='<div class="pv155-door left"></div><div class="pv155-door right"></div><span class="pv192-owl pv192-owl-left" aria-hidden="true">🦉</span><span class="pv192-owl pv192-owl-right" aria-hidden="true">🦉</span><p>Beyond the next door…</p>';document.body.append(overlay);
 let travelling=false;
