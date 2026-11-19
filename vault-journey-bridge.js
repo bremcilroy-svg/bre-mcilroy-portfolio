@@ -20,16 +20,17 @@ const overlay=document.createElement('div');overlay.id='pv155-transition';overla
 let travelling=false;window.addEventListener('pageshow',()=>{travelling=false;overlay.hidden=true;overlay.classList.remove('pv155-animate')});
 function eligible(i,s){
  if(i<=1)return true;
+ if(!s||!s.journey||!s.journey.storageAvailable)return false;
  if(i>=2&&i<=4)return s.journey.completed.slice(0,i-1).every(x=>x===true);
  if(i===5)return s.journey.allComplete;
  if(i===6)return s.journey.allComplete&&s.seals.length===4;
  return s.journey.allComplete&&s.seals.length===4&&s.society.fifth===true;
 }
-function go(i){if(travelling||i===index)return;const s=stats();if(!eligible(i,s)){render();return;}
+function go(i){if(travelling||i===index)return;let s;try{s=stats()}catch(e){console.warn('Cannot read puzzle progress',e);return;}if(!eligible(i,s)){render();return;}
  const travel=()=>{if(travelling)return;travelling=true;const gizmo=document.querySelector('#pv-gizmo-companion .pvg-speech');if(gizmo){gizmo.textContent='🐾 Gizmo is coming with you to '+titles[i]+'!';gizmo.hidden=false;}overlay.querySelector('p').textContent='✦ '+titles[i]+' awaits… ✦';overlay.hidden=false;overlay.classList.remove('pv155-animate');void overlay.offsetWidth;overlay.classList.add('pv155-animate');setTimeout(()=>{location.assign(routes[i]);},650);};
  if(i>=2&&i<=4){const request=new CustomEvent('pv192:door-request',{detail:{destination:i,proceed:travel,handled:false}});document.dispatchEvent(request);if(!request.detail.handled){console.warn('Castle lock unavailable; passage remains closed.');return;}return;}
  travel();}
-function render(){const s=stats();root.querySelector('.pv155-location').textContent='You are in: '+titles[index];links.replaceChildren();castleMap.replaceChildren();
+function render(){let s;try{s=stats()}catch(e){console.warn('Cannot read puzzle progress',e);s={journey:{completed:[],allComplete:false,storageAvailable:false},seals:[],society:{fifth:false}};}root.querySelector('.pv155-location').textContent='You are in: '+titles[index];links.replaceChildren();castleMap.replaceChildren();
  const heading=document.createElement('p');heading.textContent='✦ THE LIVING CASTLE ✦';heading.className='pv192-map-heading';castleMap.append(heading);
  for(let i=0;i<routes.length;i++){
   const ok=eligible(i,s),b=document.createElement('button');b.type='button';b.className='pv155-route pv192-map-door';b.disabled=!ok||i===index;
@@ -40,13 +41,13 @@ function render(){const s=stats();root.querySelector('.pv155-location').textCont
   b.addEventListener('click',()=>go(i));castleMap.append(b);
  }
  const whisper=document.createElement('p');whisper.className='pv192-whisper';whisper.textContent='✦ '+whispers[index];castleMap.append(whisper);
- const note=document.createElement('p');note.textContent='The five fantasy realms remain in development. Existing chapter locks and saved puzzles are preserved.';note.className='pv192-map-note';castleMap.append(note);
+ const note=document.createElement('p');note.textContent=s.journey.storageAvailable?'The five fantasy realms remain in development. Existing chapter locks and saved puzzles are preserved.':'Saved progress is unavailable in this browser. Later chapter doors remain locked until progress can be verified.';note.className='pv192-map-note';castleMap.append(note);
  const options=[];
  if(index>0)options.push(index-1);
  if(index<routes.length-1)options.push(index+1);
  if(index>1)options.push(0);
  for(const i of [...new Set(options)]){
-  const ok=eligible(i,s),button=document.createElement('button');button.type='button';button.className='pv155-route';button.disabled=!ok;
+  const ok=eligible(i,s),button=document.createElement('button');button.type='button';button.className='pv155-route';button.disabled=!ok||i===index;
   button.textContent=(i<index?'← ':'Open door → ')+titles[i]+(ok?'':' · Locked');
   if(!ok)button.title=i===6?'Finish all four chambers and earn four seals':i===7?'Complete the Fifth Door first':'Complete the preceding chamber first';
   button.addEventListener('click',()=>go(i));links.append(button);
