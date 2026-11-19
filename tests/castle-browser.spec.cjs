@@ -11,7 +11,37 @@ for(const [house,slug] of [['Amethyst','amethyst'],['Emberheart','emberheart'],[
 test('Poetry Vault entrance remains accessible without modifying existing save keys',async({page})=>{await page.goto(base+'poetry-vault-entrance.html');await page.evaluate(()=>localStorage.setItem('castle-test-preserved-save','original-value'));await page.reload();expect(await page.evaluate(()=>localStorage.getItem('castle-test-preserved-save'))).toBe('original-value');await expect(page.locator('a[href="poetry-vault.html"]').first()).toHaveCount(1)});
 
 test('3D keyboard portal interaction opens the correct house',async({page})=>{await page.goto(base+'academy-royal-3d.html');await expect(page.locator('#status')).toContainText('ready',{timeout:30000});await page.evaluate(()=>{const scene=BABYLON.EngineStore.LastCreatedScene;scene.activeCamera.position.set(-10.9,1.75,-2)});await expect(page.getByRole('button',{name:/Enter Amethyst/})).toBeVisible();await page.keyboard.press('e');await expect(page).toHaveURL(/academy-house-amethyst\.html/)});
-test('touch movement advances the player and stops on release',async({page})=>{await page.setViewportSize({width:390,height:844});await page.goto(base+'academy-royal-3d.html');await expect(page.locator('#status')).toContainText('ready',{timeout:30000});const position=()=>page.evaluate(()=>{const p=BABYLON.EngineStore.LastCreatedScene.activeCamera.position;return {x:p.x,z:p.z}});const before=await position();const button=page.locator('[data-move="forward"]');await expect(button).toBeVisible();const bounds=await button.boundingBox();expect(bounds).not.toBeNull();await page.mouse.move(bounds.x+bounds.width/2,bounds.y+bounds.height/2);await page.mouse.down();try{await expect.poll(async()=>{const p=await position();return Math.hypot(p.x-before.x,p.z-before.z)},{timeout:10000,intervals:[200,400,600]}).toBeGreaterThan(.1)}finally{await page.mouse.up()}await page.waitForTimeout(250);const stopped=await position();await page.waitForTimeout(500);const after=await position();expect(Math.hypot(after.x-stopped.x,after.z-stopped.z)).toBeLessThan(.08)});
+test('touch movement advances the player and stops on release',async({page},testInfo)=>{
+ await page.setViewportSize({width:390,height:844});
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(base+'academy-royal-3d.html');
+ await expect(page.locator('#status')).toContainText('ready',{timeout:30000});
+ const inspect=()=>page.evaluate(()=>{
+  const scene=BABYLON.EngineStore.LastCreatedScene,camera=scene?.activeCamera;
+  return {position:camera?{x:camera.position.x,y:camera.position.y,z:camera.position.z}:null,
+   cameraCollision:camera?.checkCollisions,sceneCollision:scene?.collisionsEnabled,
+   button:document.querySelector('[data-move="forward"]')?.getBoundingClientRect().toJSON(),
+   status:document.querySelector('#status')?.textContent};
+ });
+ const before=await inspect(),button=page.locator('[data-move="forward"]');
+ await expect(button).toBeVisible();
+ const bounds=await button.boundingBox();expect(bounds).not.toBeNull();
+ await page.mouse.move(bounds.x+bounds.width/2,bounds.y+bounds.height/2);
+ await page.mouse.down();
+ let moving;
+ try{
+  await page.waitForTimeout(1000);
+  moving=await inspect();
+ }finally{await page.mouse.up()}
+ await page.waitForTimeout(250);
+ const stopped=await inspect();
+ await page.waitForTimeout(500);
+ const after=await inspect();
+ await testInfo.attach('movement-diagnostics',{body:JSON.stringify({before,moving,stopped,after,errors},null,2),contentType:'application/json'});
+ const distance=(a,b)=>Math.hypot(a.position.x-b.position.x,a.position.z-b.position.z);
+ expect(distance(before,moving),'Holding the forward control should move the camera').toBeGreaterThan(.1);
+ expect(distance(stopped,after),'Releasing the control should stop movement').toBeLessThan(.08);
+});
 
 test('3D castle walls block the player from walking outside',async({page})=>{await page.goto(base+'academy-royal-3d.html');await expect(page.locator('#status')).toContainText('ready',{timeout:30000});await page.evaluate(()=>{const scene=BABYLON.EngineStore.LastCreatedScene;const camera=scene.activeCamera;camera.position.set(0,1.75,10);camera.rotation.set(0,0,0)});await page.locator('#renderCanvas').focus();await page.keyboard.down('w');await page.waitForTimeout(1600);await page.keyboard.up('w');const position=await page.evaluate(()=>{const p=BABYLON.EngineStore.LastCreatedScene.activeCamera.position;return {x:p.x,z:p.z}});expect(position.z).toBeLessThan(11.8);expect(position.z).toBeGreaterThan(10)});
 
