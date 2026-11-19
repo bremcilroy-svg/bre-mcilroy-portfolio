@@ -6,4 +6,23 @@ for(const x of [-8,-4,0,4,8]){ornament('palace lancet window recess',2.5,5,.23,x
 for(const x of [-9.7,9.7]){ornament('palace corner stone pilaster',.75,12,.85,x,6,7,shadowStone);ornament('palace silver pilaster capital',1.2,.5,1.2,x,11.6,7,silver)}
 ornament('palace ornate roof cornice',21,.5,14,0,12.2,14,silver);
 for(const [name,x,z] of [['Amethyst',-20,17],['Emberheart',20,17],['Silverthorn',-20,-3],['Frosttopaz',20,-3]]){for(const y of [4,9]){ornament(name+' gothic window recess',2.5,3.5,.25,x,y,z-4.25,shadowStone);ornament(name+' stained glass lancet',1.75,2.8,.3,x,y,z-4.4,glass);ornament(name+' silver tracery',.13,2.8,.34,x,y,z-4.58,mullion);ornament(name+' stone sill',2.8,.22,.55,x,y-1.65,z-4.45,silver)}ornament(name+' tower silver cornice',9,.45,9,x,14,z,silver);for(const dx of [-3.5,3.5])ornament(name+' tower corner buttress',.55,12,.6,x+dx,7,z-4.25,shadowStone)}
+/* Grand palace arrival: symmetrical ceremonial steps, balcony, and silver colonnade.
+   Keep the central approach clear for mobile walking and preserve all portals. */
+const stairStone=m('royal stair marble','#d4dce9'),balconyRail=m('balcony polished silver','#dfe8f2');
+for(const side of [-1,1]){const sx=side*7.5;
+ for(let i=0;i<5;i++){const depth=1.1;const step=ornament('grand royal staircase step',5.8,.22,depth,sx,.14+i*.24,2.0+i*.95,stairStone);step.isPickable=false}
+ ornament('staircase outer marble balustrade',.35,1.15,5.8,side*10.7,1.25,4.2,balconyRail);
+ for(let j=0;j<4;j++){const z=2.5+j*1.45;const pedestal=ornament('staircase silver baluster',.25,1.1,.25,side*10.7,1.45,z,silver);pedestal.isPickable=false}
+ const pillar=B.MeshBuilder.CreateCylinder('grand entrance marble column',{diameter:.9,height:8,tessellation:12},scene);pillar.position.set(side*8.7,4.2,6.3);pillar.material=stairStone;
+ ornament('grand entrance column capital',1.45,.5,1.45,side*8.7,8.35,6.3,silver);
+ ornament('royal balcony wing platform',5,.4,2.3,side*6.8,9.2,5.9,stairStone);
+ for(let i=0;i<5;i++)ornament('royal balcony silver spindle',.15,1.15,.16,side*(4.6+i*1.1),10,4.72,balconyRail);
+ ornament('balcony top silver handrail',5.6,.16,.18,side*6.8,10.6,4.72,balconyRail);
+ const lantern=B.MeshBuilder.CreateSphere('balcony ice crystal lantern',{diameter:.7,segments:12},scene);lantern.position.set(side*8.7,9.1,5.1);lantern.material=glass;
+}
+ornament('grand entrance silver lintel',19,.65,1.4,0,9.15,6.3,silver);
+ornament('royal front entrance dark stone portal',4.7,6.8,.24,0,3.4,7.1,shadowStone);
+ornament('royal front entrance icy glass door',3.7,5.8,.3,0,3.05,6.87,darkGlass);
+ornament('royal entrance door silver divider',.18,5.8,.32,0,3.05,6.67,balconyRail);
+for(const side of [-1,1])ornament('royal entrance door handle',.14,.7,.35,side*.4,2.7,6.43,silver);
 const path=box('silver stone approach',6,.05,48,0,.03,-9,stone,false);path.isPickable=false;const button=document.querySelector('#enter');button.addEventListener('click',()=>location.href='academy-moonlit-courtyard.html');let active=new Set();document.querySelectorAll('[data-move]').forEach(b=>{const dir=b.dataset.move;b.addEventListener('pointerdown',e=>{e.preventDefault();active.add(dir);try{if(e.isTrusted)b.setPointerCapture(e.pointerId)}catch{}});for(const event of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(event,()=>active.delete(dir))});scene.onBeforeRenderObservable.add(()=>{const distance=Math.hypot(camera.position.x,camera.position.z+32);button.hidden=distance>9;const target=distance<12?1.05:0;for(const leaf of gateLeaves){const angle=leaf.side*target;leaf.hinge.rotation.y+=(angle-leaf.hinge.rotation.y)*Math.min(.13,engine.getDeltaTime()/150)}const forward=camera.getDirection(B.Axis.Z),right=camera.getDirection(B.Axis.X);forward.y=0;right.y=0;forward.normalize();right.normalize();const move=B.Vector3.Zero();if(active.has('forward'))move.addInPlace(forward);if(active.has('back'))move.subtractInPlace(forward);if(active.has('left'))move.subtractInPlace(right);if(active.has('right'))move.addInPlace(right);if(move.lengthSquared()){move.normalize().scaleInPlace(3.3*Math.min(engine.getDeltaTime()/1000,.05));camera.moveWithCollisions(move)}});window.addEventListener('resize',()=>engine.resize());window.addEventListener('blur',()=>active.clear());document.addEventListener('visibilitychange',()=>{if(document.hidden)active.clear()});engine.runRenderLoop(()=>{if(!document.hidden)scene.render()});status.textContent='Enclosed royal grounds ready'}catch(e){status.textContent='3D grounds unavailable. Use the courtyard link above.';console.error(e)}})();
