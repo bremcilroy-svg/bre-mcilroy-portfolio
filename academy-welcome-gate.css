@@ -313,3 +313,75 @@
   .academy-school-crest { width: 66px; height: 66px; }
   .academy-school-crest svg { width: 43px; height: 48px; }
 }
+
+
+/* Formal royal charter: engraved silverwork, realistic owl relief and ink. */
+.academy-letter-paper {
+  border: 1px solid #9ba9b8;
+  background:
+    radial-gradient(ellipse at 23% 12%, #ffffff 0%, transparent 56%),
+    repeating-linear-gradient(94deg, #b7c5d00a 0 1px, transparent 1px 5px),
+    linear-gradient(132deg, #d8e2eb 0%, #fffefa 17%, #f7f5ee 55%, #dce6ee 100%);
+  box-shadow: inset 0 0 28px #6b829327, inset 0 0 0 5px #ffffff65, 0 20px 55px #02091bcc;
+}
+.academy-letter-paper::before {
+  inset: 10px;
+  border: 3px double #8298b1a8;
+  box-shadow: inset 0 0 0 5px #e6eef480;
+}
+.academy-school-crest {
+  width: 118px;
+  height: 128px;
+  margin: 0 auto 8px;
+  filter: drop-shadow(1px 4px 3px #36465a40);
+}
+.academy-school-crest .academy-crest-moon { display: none; }
+.academy-school-crest svg { display: block; width: 112px; height: 126px; align-self: center; }
+.academy-letter-signature {
+  font-family: Georgia,serif;
+  font-style: italic;
+  color: #394760;
+}
+.academy-letter-signature strong {
+  display: inline-block;
+  position: relative;
+  margin: 7px 0 2px;
+  font-family: 'Segoe Script','URW Chancery L','Apple Chancery','Brush Script MT',cursive;
+  font-size: clamp(2.1rem, 6vw, 3.2rem);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -.065em;
+  line-height: 1.4;
+  color: #253c62;
+  text-shadow: .3px .4px #57719450;
+  transform: rotate(-5deg);
+}
+.academy-letter-signature strong::after {
+  content: '';
+  display: block;
+  width: 125%;
+  height: 13px;
+  margin-top: -14px;
+  border-bottom: 2px solid #36577c;
+  border-radius: 0 0 80% 25%;
+  transform: rotate(-4deg);
+  opacity: .85;
+}
+.academy-wax-seal {
+  width: 69px;
+  border-radius: 48% 52% 46% 54%;
+  background:
+    radial-gradient(circle at 32% 25%,#b9d1e9 0%,transparent 38%),
+    repeating-radial-gradient(circle at 55% 48%,#526d9410 0 2px,#253b5a13 3px 5px),
+    radial-gradient(circle at 38% 30%,#8ba9c7,#496b91 57%,#203955);
+  box-shadow: 2px 6px 9px #1b2b415e,inset 0 0 0 3px #38587b,inset 0 0 0 6px #9db9d5,inset 0 0 0 9px #294669;
+  transform: rotate(-9deg);
+}
+.academy-wax-seal svg { filter: drop-shadow(1px 2px 1px #162a49); }
+@media(max-width:600px){
+  .academy-school-crest { width: 98px; height: 102px; margin-bottom: 4px; }
+  .academy-school-crest svg { width: 92px; height: 104px; }
+  .academy-letter-signature strong { font-size: clamp(2rem, 9vw, 2.7rem); }
+  .academy-wax-seal { width: 60px; }
+  .academy-letter-paper { padding: 19px 21px; }
+}
