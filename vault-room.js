@@ -4,8 +4,6 @@ import {createRoomCinematics} from './vault-cinematics.js?v=20261112-cinematic';
 import {createRoomMotion} from './vault-motion.js?v=20261112-cinematic';
 import * as THREE from './vault-three.module.js';
 
-import {installAcademyGreatHall} from './vault-academy-3d.js?v=3d1';
-
 import {createCanvasRenderer} from './vault-canvas.js?v=20261112-cinematic';
 
 // A self-contained room: local textures and no external network dependencies.
@@ -51,25 +49,50 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   function cylinder(r1,r2,h,x,y,z,mat,parent=scene){const mesh=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,renderer.isCompatibility?8:16),mat);mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;parent.add(mesh);return mesh;}
   function sphere(r,x,y,z,mat,parent=scene){const mesh=new THREE.Mesh(new THREE.SphereGeometry(r,renderer.isCompatibility?8:12,renderer.isCompatibility?6:8),mat);mesh.position.set(x,y,z);parent.add(mesh);return mesh;}
   function collide(x,z,w,d){colliders.push({x,z,w:w/2+.24,d:d/2+.24});}
-  const hemi=new THREE.HemisphereLight(0xb8b1d1,0x4d2417,1.1);scene.add(hemi);
+  const hemi=new THREE.HemisphereLight(0xe7dcee,0x6e432c,1.55);scene.add(hemi);
   const moon=new THREE.DirectionalLight(0x9fbcff,2.3);moon.position.set(-6,6,3);scene.add(moon);
   function lamp(x,y,z,color=0xffb86a,intensity=3,range=9){const light=new THREE.PointLight(color,intensity,range,1.6);light.position.set(x,y,z);scene.add(light);return light;}
-  const keylight=lamp(0,3.8,-1,0xffc18a,22,14);keylight.castShadow=true;keylight.shadow.mapSize.set(1024,1024);keylight.shadow.bias=-.001;
+  const keylight=lamp(0,3.8,-1,0xffd5a5,32,16);keylight.castShadow=true;keylight.shadow.mapSize.set(1024,1024);keylight.shadow.bias=-.001;
   box(12,.2,14,0,-.1,0,materials.floor,scene,false);
   box(12,.18,14,0,4.6,0,materials.darkwood,scene,false);
   box(12,4.6,.2,0,2.3,-7,materials.wall,scene,false);box(12,4.6,.2,0,2.3,7,materials.wall,scene,false);
   box(.2,4.6,14,-6,2.3,0,materials.wall,scene,false);box(.2,4.6,14,6,2.3,0,materials.wall,scene,false);
+  // The ceiling follows the room's long axis and frames the central chandelier.
+  for(const x of [-4.7,-2.4,0,2.4,4.7]){
+    box(.15,.16,13.7,x,4.43,0,materials.wood);
+  }
+  for(const z of [-5.5,-2.8,0,2.8,5.5]){
+    box(11.7,.2,.18,0,4.41,z,materials.wood);
+  }
   // Walnut wainscoting, gilded rails, and recessed wall panels.
   for(const z of [-6.86,6.86]){box(11.8,1.05,.1,0,.53,z,materials.wood);for(const y of [.12,1.07,4.23,4.4])box(11.9,.045,.16,0,y,z,materials.gold);for(let x=-5.5;x<6;x+=1.1)box(.035,.85,.14,x,.54,z,materials.gold);}
   for(const x of [-5.86,5.86]){box(.1,1.05,13.8,x,.53,0,materials.wood);for(const y of [.12,1.07,4.23,4.4])box(.16,.045,13.9,x,y,0,materials.gold);for(let z=-6.5;z<7;z+=1.1)box(.14,.85,.035,x,.54,z,materials.gold);}
   for(const mesh of scene.children)if(mesh.isMesh)mesh.renderOrder=-20;
   scene.children.find(m=>m.isMesh).renderOrder=-30;
   const rugStart=scene.children.length;
-  // Woven ruby carpet with fine gold edging.
-  box(5.4,.025,7.6,0,.025,-.4,materials.rug);
-  for(const x of [-2.58,2.58])box(.045,.009,7.3,x,.043,-.4,materials.gold);
-  for(const z of [-4.05,3.25])box(5.2,.009,.045,0,.043,z,materials.gold);
-  for(let x=-2.3;x<2.5;x+=.45)for(let z=-3.8;z<3.3;z+=.6){const m=box(.035,.008,.16,x,.046,z,materials.red);m.rotation.y=.65;}
+  // A woven runner establishes a clear path from the entry to the desk.
+  const textile=document.createElement('canvas');
+  textile.width=512;textile.height=768;
+  const weave=textile.getContext('2d');
+  weave.fillStyle='#492329';weave.fillRect(0,0,512,768);
+  for(let y=0;y<768;y+=2){
+    weave.fillStyle=y%6===0?'#ffffff0d':'#00000018';
+    weave.fillRect(0,y,512,1);
+  }
+  for(const [inset,width,color] of [[12,3,'#aa8556'],[19,12,'#653d33'],[30,2,'#b58c5b'],[43,2,'#8f654b']]){
+    weave.strokeStyle=color;weave.lineWidth=width;
+    weave.strokeRect(inset,inset,512-2*inset,768-2*inset);
+  }
+  for(let y=92;y<720;y+=73)for(let x=78;x<470;x+=71){
+    weave.save();weave.translate(x,y);weave.rotate(Math.PI/4);
+    weave.strokeStyle='#a67357';weave.lineWidth=1.4;
+    weave.strokeRect(-13,-13,26,26);weave.strokeRect(-7,-7,14,14);
+    weave.restore();
+  }
+  const carpet=new THREE.CanvasTexture(textile);
+  carpet.colorSpace=THREE.SRGBColorSpace;
+  materials.rug.map=carpet;materials.rug.color.set(0xffffff);
+  box(4.55,.025,9,0,.025,.65,materials.rug);
   for(const mesh of scene.children.slice(rugStart))if(mesh.isMesh)mesh.renderOrder=-10;
   // Tall bookcases, each filled with uneven leather-bound books.
   const spineColors=[0x543340,0x3b493f,0x73502d,0x2b3a4e,0x61352a,0x817352];
@@ -81,7 +104,20 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   for(const x of [-1.35,1.35])box(.35,1.65,.95,x,.95,-6.35,stone);
   box(3.2,.22,1.18,0,1.9,-6.3,stone);box(2.3,.19,.9,0,1.65,-6.42,stone);
   const ember=phong(0x883117,{emissive:0xe95a14,emissiveIntensity:2});for(let i=0;i<7;i++){const l=cylinder(.08,.08,.9,-.5+i*.16,.35,-6.07,materials.darkwood);l.rotation.z=.9;l.rotation.y=i*.7;sphere(.08,-.6+i*.2,.3,-6.03,ember);}
-  const firelight=lamp(0,.65,-5.95,0xff732b,6,7);
+  const firelight=lamp(0,.65,-5.95,0xff8839,11,8);
+  const flameMaterial=phong(0xf6ad4d,{emissive:0xff640f,emissiveIntensity:2.4});
+  const hearthFlames=[];
+  for(let i=0;i<7;i++){
+    const flame=sphere(.105,(i-3)*.22,.43,-6.03+(i%2)*.12,flameMaterial);
+    flame.scale.set(.8,1.8+(i%3)*.4,.65);
+    flame.rotation.z=(i-3)*.09;
+    hearthFlames.push(flame);
+  }
+  for(const x of [-1.52,1.52]){
+    box(.48,.13,1.02,x,1.66,-6.32,stone);
+    box(.48,.12,1.02,x,.31,-6.32,stone);
+  }
+  box(3.38,.07,1.25,0,2.05,-6.3,stone);
   for(let x=-.9;x<=.9;x+=.3)box(.025,.5,.04,x,.5,-5.84,materials.black);
   collide(0,-6.3,3.2,1.4);
   const flames=[];
@@ -90,8 +126,32 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   // Oval portrait and an ornate gilded mantel mirror.
   const mirror=new THREE.Mesh(new THREE.CircleGeometry(.74,48),materials.glass);mirror.position.set(0,3.05,-6.84);mirror.scale.y=1.18;scene.add(mirror);
   const rim=new THREE.Mesh(new THREE.TorusGeometry(.8,.055,8,64),materials.gold);rim.position.set(0,3.05,-6.81);rim.scale.y=1.18;scene.add(rim);
-  // Moonlit arched window with curtains on the west wall.
-  box(.1,2.45,2.6,-5.76,2.65,2,materials.glass);for(const z of [.65,2,3.35])box(.15,2.7,.08,-5.66,2.65,z,materials.gold);for(const y of [1.35,2.65,3.95])box(.15,.07,2.9,-5.66,y,2,materials.gold);
+  // The window sits deep in the wall, with moonlight beyond the leaded panes.
+  const night=document.createElement('canvas');
+  night.width=384;night.height=384;
+  const view=night.getContext('2d');
+  const sky=view.createLinearGradient(0,0,0,384);
+  sky.addColorStop(0,'#172337');sky.addColorStop(1,'#557083');
+  view.fillStyle=sky;view.fillRect(0,0,384,384);
+  const glow=view.createRadialGradient(120,102,12,120,102,85);
+  glow.addColorStop(0,'#e9eef5aa');glow.addColorStop(1,'#a7c3dd00');
+  view.fillStyle=glow;view.fillRect(0,0,384,384);
+  view.fillStyle='#e0e5ea';view.beginPath();view.arc(120,102,25,0,Math.PI*2);view.fill();
+  for(const [base,color] of [[255,'#314959'],[306,'#233747'],[347,'#192935']]){
+    view.fillStyle=color;view.beginPath();view.moveTo(0,384);
+    for(let x=0;x<=384;x+=8) view.lineTo(x,base+18*Math.sin(x*.018+base)+7*Math.cos(x*.071));
+    view.lineTo(384,384);view.fill();
+  }
+  const nightTexture=new THREE.CanvasTexture(night);
+  nightTexture.colorSpace=THREE.SRGBColorSpace;
+  const windowView=new THREE.Mesh(new THREE.PlaneGeometry(2.52,2.48),new THREE.MeshBasicMaterial({map:nightTexture}));
+  windowView.rotation.y=Math.PI/2;windowView.position.set(-5.78,2.65,2);
+  scene.add(windowView);
+  for(const z of [.69,3.31])box(.25,2.8,.16,-5.68,2.65,z,materials.darkwood);
+  for(const z of [1.55,2.45])box(.1,2.52,.045,-5.69,2.65,z,materials.gold);
+  for(const y of [1.34,3.96])box(.32,.13,2.8,-5.65,y,2,materials.wood);
+  for(const y of [2.15,3.14])box(.1,.045,2.6,-5.69,y,2,materials.gold);
+  lamp(-5.1,2.6,2,0x9fcfff,8,8);
   const curtain=phong(0x492131,{roughness:1});for(const z of [.28,3.73])for(let i=0;i<5;i++){const c=cylinder(.16,.16,3.25,-5.47+i*.018,2.25,z+(i-2)*.11,curtain);c.scale.x=.7;}
   box(1.15,.18,3.2,-5.08,.61,2,materials.wood);box(.9,.18,2.9,-5.05,.78,2,materials.red);for(const z of [.6,3.4])box(.13,.6,.13,-5.04,.3,z,materials.wood);collide(-5.05,2,1.35,3.3);
   // Writing desk, chair, blotter, quill, lamp, and a locked heart diary.
@@ -101,6 +161,14 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   box(.8,.15,.72,0,.6,-3.85,materials.wood);box(.8,.8,.12,0,1.02,-4.16,materials.wood);for(const x of [-.32,.32])for(const z of [-3.58,-4.1])box(.09,.57,.09,x,.28,z,materials.wood);collide(0,-3.85,1,1);
   candle(-1.13,1.24,-2.55,.31);cylinder(.07,.08,.14,1.12,1.29,-2.6,materials.black);const quill=box(.025,.5,.012,1.16,1.6,-2.6,materials.cream);quill.rotation.z=-.35;
   for(let i=0;i<3;i++)box(.48,.018,.59,.88+i*.03,1.24+i*.018,-2.06,materials.paper);
+  // Raised edge and paired drawer fronts give the desk usable proportions.
+  for(const x of [-1.02,1.02]){
+    box(.55,.28,.12,x,.94,-1.73,materials.darkwood);
+    box(.48,.21,.04,x,.94,-1.66,materials.wood);
+    sphere(.037,x,.96,-1.625,materials.gold);
+  }
+  for(const x of [-1.59,1.59])box(.055,.065,1.54,x,1.24,deskZ,materials.darkwood);
+  box(3.21,.065,.055,0,1.24,deskZ-.73,materials.darkwood);
   // Side table with the rose letter and a velvet chair.
   cylinder(.68,.68,.12,-3.8,.95,-2.4,materials.wood);cylinder(.12,.22,.85,-3.8,.48,-2.4,materials.wood);collide(-3.8,-2.4,1.5,1.5);
   box(1,.2,1,-3.9,.55,-.7,materials.red);box(1,1.2,.17,-3.9,1.05,-1.14,materials.red);for(const x of [-4.3,-3.5])for(const z of [-1.05,-.35])box(.09,.45,.09,x,.23,z,materials.wood);collide(-3.9,-.7,1.2,1.3);
@@ -123,14 +191,13 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   function movable(x,z){return Math.abs(x)<5.55&&Math.abs(z)<6.5&&!colliders.some(b=>Math.abs(x-b.x)<b.w&&Math.abs(z-b.z)<b.d);}
   const secret=SECRETS[0],bookmark=target('secret',secret.x,secret.y,secret.z,.6,.45,.6);
   box(.16,.012,.43,0,0,0,materials.gold,bookmark);box(.06,.015,.36,0,.012,0,materials.paper,bookmark);
-  const academyDecor=installAcademyGreatHall(scene,THREE);
   const motion=createRoomMotion({canvas,camera,container,movable,interactables,map,onTarget,onInspect,onStep:()=>document.dispatchEvent(new CustomEvent('vault-step'))});
   function resized(){const rect=container.getBoundingClientRect();renderer.setSize(rect.width,rect.height,false);camera.aspect=rect.width/rect.height;camera.updateProjectionMatrix();}
   new ResizeObserver(resized).observe(container);resized();
   let lastPausedRender=-Infinity;
   function frame(now){requestAnimationFrame(frame);motion.tick(now);cinema.tick(now);if(document.hidden)return;
     if(motion.paused&&!cinema.active&&now-lastPausedRender<350)return;lastPausedRender=now;
-    const t=now/1000;flames.forEach((f,i)=>{f.scale.y=1.8+Math.sin(t*5+i)*.15;});firelight.intensity=6+Math.sin(t*11)*.3;academyDecor?.tick(now);renderer.render(scene,camera,cinema.active);
+    const t=now/1000;flames.forEach((f,i)=>{f.scale.y=1.8+Math.sin(t*5+i)*.15;});hearthFlames.forEach((f,i)=>{f.scale.y=1.8+(i%3)*.4+Math.sin(t*8+i)*.3;});firelight.intensity=11+Math.sin(t*11)*.6;renderer.render(scene,camera,cinema.active);
   }
   requestAnimationFrame(frame);onReady(renderer.isCompatibility);
   return {openDoor,openBook,...motion,collected(id){const g=map.get(id);if(g){g.visible=false;const i=interactables.findIndex(m=>m.userData.id===id);if(i>=0)interactables.splice(i,1);}}};
