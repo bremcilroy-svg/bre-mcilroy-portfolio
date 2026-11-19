@@ -33,9 +33,30 @@ jobs:
           cat /tmp/castle-server.log
           exit 1
       - name: Run desktop, Android, iPhone and tablet gameplay tests
-        run: npx playwright test tests/castle-browser.spec.cjs tests/castle-journey.spec.cjs --workers=1
-        env:
-          PLAYWRIGHT_HTML_OPEN: never
+        run: npx playwright test tests/castle-browser.spec.cjs tests/castle-journey.spec.cjs --workers=1 --reporter=line,json\n        env:\n          PLAYWRIGHT_JSON_OUTPUT_NAME: test-results/castle-results.json\n          PLAYWRIGHT_HTML_OPEN: never
+      - name: Print failed test diagnostics
+        if: failure()
+        run: |
+          python3 - <<'PY'
+          import json, pathlib
+          path=pathlib.Path('test-results/castle-results.json')
+          if not path.exists():
+              print('JSON test results were not generated')
+          else:
+              data=json.loads(path.read_text())
+              def walk(suites):
+                  for suite in suites:
+                      for spec in suite.get('specs',[]):
+                          for test in spec.get('tests',[]):
+                              if test.get('status') not in ('unexpected','flaky'):
+                                  continue
+                              print('FAILED:',test.get('projectName'),spec.get('title'))
+                              for result in test.get('results',[]):
+                                  for error in result.get('errors',[]):
+                                      print((error.get('message') or str(error))[:3500])
+                      walk(suite.get('suites',[]))
+              walk(data.get('suites',[]))
+          PY
       - name: Upload browser test report on failure
         if: failure()
         uses: actions/upload-artifact@v4
