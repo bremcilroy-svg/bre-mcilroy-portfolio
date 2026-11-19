@@ -106,7 +106,7 @@
 
 /* The approach photo and animated gate share one coordinate system. */
 .sky {
-  background: #172331 url('academy-castle-turrets.webp') center bottom / cover no-repeat;
+  background: #172331 url('academy-castle-united-flags.webp') center bottom / cover no-repeat;
 }
 .sky .castle {
   width: max(100vw, 150svh);
