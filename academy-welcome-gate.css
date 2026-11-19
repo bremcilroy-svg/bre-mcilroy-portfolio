@@ -59,3 +59,56 @@
   .is-delivering .academy-gate-leaf { transform: scaleX(.09); }
   .is-delivering .academy-pawprints { fill: #d8f7ff; }
 }
+
+/* The charter is legible on small screens, with ornament outside the text. */
+.academy-letter-paper {
+  padding: clamp(23px, 6vw, 45px);
+  border: 1px solid #98734b;
+  border-radius: 4px 3px 6px 2px;
+  color: #332218;
+  background:
+    radial-gradient(ellipse at 51% 29%, #fff5d15c, transparent 66%),
+    repeating-linear-gradient(0deg, #784a2211 0, transparent 1px 4px),
+    linear-gradient(112deg, #c7a06d, #f5e1ad 12%, #f6e7ba 42%, #edd7a1 79%, #c6a06d);
+  box-shadow: inset 0 0 22px #6c3c2d70, 0 16px 34px #070a18a8;
+}
+.academy-letter-paper::before {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border: 3px double #86633d9c;
+  pointer-events: none;
+}
+.academy-letter-paper h2 {
+  color: #562a39;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  font-weight: 700;
+}
+.academy-letter-heading {
+  color: #664233;
+  font: 700 .69rem Georgia, serif;
+}
+.academy-letter-salutation { font-style: italic; }
+.academy-letter-opening::first-letter {
+  float: left;
+  color: #772d45;
+  font-size: 3em;
+  font-weight: bold;
+  line-height: .85;
+  padding: .04em .09em 0 0;
+}
+.academy-letter-signoff { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.academy-wax-seal {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 56px;
+  aspect-ratio: 1;
+  border-radius: 45% 52% 47% 50%;
+  background: radial-gradient(circle at 34% 28%, #9d4764, #722b45 63%, #4a162b);
+  color: #e79aab;
+  box-shadow: 2px 5px 7px #492b2260, inset 0 0 0 4px #742b47, inset 0 0 0 6px #b7677c;
+  font: bold 29px Georgia, serif;
+  transform: rotate(-12deg);
+}
+#academy-letter-send { background: #642b40; border-color: #542539; }
