@@ -107,9 +107,10 @@
 <script defer src="vault-castle-gallery.js?v=171"></script>
 <link rel="stylesheet" href="vault-realm-portals.css?v=180">
 <script defer src="vault-realm-portals.js?v=180"></script>
-<link rel="stylesheet" href="academy-vault-transition.css?v=1"><script defer src="academy-vault-transition.js?v=2"></script><link rel="stylesheet" href="academy-wardrobe.css?v=1">
+<link rel="stylesheet" href="academy-vault-transition.css?v=1"><script defer src="academy-vault-transition.js?v=2"></script><link rel="stylesheet" href="academy-wardrobe.css?v=2">
 <script defer src="academy-house-heraldry.js?v=3"></script>
 <script type="module" src="academy-wardrobe.js?v=1"></script>
+<script type="module" src="academy-student-pass.js?v=1"></script>
 </head>
 
   
@@ -120,11 +121,12 @@
 <section class="section-wrap academy-orientation" aria-labelledby="academy-welcome">
 <p class="eyebrow">Amethyst Crescent Academy</p>
 <h2 id="academy-welcome">Welcome to the Academy</h2>
-<p>You’ve passed the Library of Forgotten Words entrance trial. Collect your uniform here in the Author’s Study, then head to the Academy to meet your house.</p>
+<p>You’ve passed the Library of Forgotten Words entrance trial. Collect your uniform here in the Author’s Study, then claim your student key card to open the campus doors.</p>
 <div class="wardrobe-entry">
 <span class="wardrobe-chest" aria-hidden="true"></span>
 <div><h2>The Uniform Chest</h2><p id="uniform-summary" aria-live="polite"></p><button class="button" id="open-uniform-chest" type="button">Open the uniform chest</button></div>
 </div>
+<p><button class="button" type="button" id="open-student-pass">Open your student key card</button></p>
 <p class="wardrobe-links"><a href="academy-royal-great-hall.html">Visit the Royal Great Hall</a><a href="academy-enchanted-east-wing.html">Explore the East Wing</a><a href="academy-four-houses.html">Meet the four houses</a></p>
 </section>
 <section class="gizmo-corner section-wrap" aria-label="Gizmo the library guardian"><button type="button" id="gizmo" aria-label="Pet Gizmo, the library cat"><span class="gizmo-cat" aria-hidden="true"><span class="gizmo-ears"></span><span class="gizmo-face"><span class="gizmo-eyes"><i></i><i></i></span><span class="gizmo-nose"></span></span><span class="gizmo-chest"></span><span class="gizmo-paws">◖ ◗</span><span class="gizmo-tail"></span></span></button><div><p class="eyebrow">The keeper of secrets</p><h2>Gizmo, Guardian of Forgotten Words</h2><p id="gizmo-says" role="status">Tap Gizmo to say hello. He might have something to tell you.</p></div></section><section class="living-library section-wrap" aria-labelledby="living-title"><div class="living-heading"><p class="eyebrow">PHASE III · THE LIVING LIBRARY</p><h2 id="living-title">The library has secrets of its own.</h2><p>Listen for a whisper, examine the locked drawer, and let Gizmo help you discover the hidden word.</p></div><div class="living-controls"><button type="button" id="living-lantern" aria-pressed="false">✧ Light the reading lantern</button><button type="button" id="living-whisper">♫ Listen at the bookshelf</button><button type="button" id="living-drawer">⚿ Inspect the locked drawer</button><button type="button" id="living-gizmo-walk">🐾 Call Gizmo over</button></div><div class="living-scene" id="living-scene"><div class="living-window" aria-hidden="true">☾</div><div class="living-books" aria-hidden="true"><span>✦</span><span>✧</span><span>❦</span><span>✧</span><span>✦</span></div><div class="living-drawer" aria-hidden="true">⚿</div><div class="living-cat" id="living-cat" aria-hidden="true">🐈</div></div><p id="living-message" role="status" aria-live="polite">The library is waiting. Choose an object to begin.</p><div class="living-puzzle" id="living-puzzle" hidden><label for="living-answer">What single word opens the drawer?</label><div class="living-answer-row"><input id="living-answer" type="text" maxlength="24" autocomplete="off" spellcheck="false" placeholder="The secret word"><button type="button" id="living-unlock">Unlock drawer</button></div><p id="living-puzzle-status" role="status"></p></div><div id="living-reward" class="living-reward" hidden><strong>✦ The Keeper's Secret ✦</strong><p>“Not every locked thing is meant to stay closed. Some stories wait for the right voice.”</p><button type="button" id="living-reset">Explore the secret again</button></div></section><section class="desk section-wrap" aria-labelledby="desk-title"><div class="section-heading"><div><p class="eyebrow">On the writing desk</p><h2 id="desk-title">A little closer to the author.</h2></div><p>Open each object. Take your time.</p></div><div class="desk-items"><button data-discover="letter"><span class="object-number">01 / THE AUTHOR</span><strong>Meet the Author</strong><span class="discovery-status">Read her story ↗</span></button><button data-discover="books"><span class="object-number">02 / A JOURNAL</span><strong>Stories still taking shape</strong><span class="discovery-status">Turn the page ↗</span></button><button data-discover="music"><span class="object-number">03 / A MUSIC BOX</span><strong>Words that become songs</strong><span class="discovery-status">Lift the lid ↗</span></button><button data-discover="photography"><span class="object-number">04 / A CAMERA</span><strong>Another way of seeing</strong><span class="discovery-status">Look closer ↗</span></button></div></section>
@@ -144,6 +146,35 @@
 </div>
 <p id="wardrobe-status" role="status" aria-live="polite"></p>
 <nav class="wardrobe-links" aria-label="After receiving your uniform"><a href="academy-character-creator.html">Create or edit your character</a><a id="wardrobe-common-room" href="academy-house-amethyst.html">Visit this house’s common room</a></nav>
+</dialog>
+<dialog id="student-pass" aria-labelledby="student-pass-title">
+<div class="wardrobe-header"><h2 id="student-pass-title">Student Key Card</h2><button type="button" id="student-pass-close">Close</button></div>
+<div class="student-card">
+<img id="student-card-photo" class="student-card-photo" alt="Your student ID photo" hidden>
+<span id="student-photo-placeholder" class="student-card-photo">Student photo</span>
+<div><span class="eyebrow">Amethyst Crescent Academy</span><strong id="student-card-name">Your name</strong><p id="student-card-house">House pending</p></div>
+<span class="wardrobe-crest" data-house="amethyst" data-card-crest="amethyst" hidden><span class="house-art-slot"></span></span><span class="wardrobe-crest" data-house="emberheart" data-card-crest="emberheart" hidden><span class="house-art-slot"></span></span><span class="wardrobe-crest" data-house="frostveil" data-card-crest="frostveil" hidden><span class="house-art-slot"></span></span><span class="wardrobe-crest" data-house="silverthorn" data-card-crest="silverthorn" hidden><span class="house-art-slot"></span></span>
+</div>
+<form>
+<label for="student-name">Name on your card</label><input id="student-name" name="studentName" maxlength="40" required autocomplete="name">
+<label for="student-photo">Add or replace your photo</label><input id="student-photo" name="studentPhoto" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="student-photo-help">
+<small id="student-photo-help">Optional. Your photo is saved in this browser and stays on this device.</small>
+<button class="button" type="submit">Issue my key card</button>
+</form>
+<p id="student-pass-status" role="status"></p>
+<section id="student-doors" hidden aria-labelledby="student-doors-title">
+<h3 id="student-doors-title">Campus doors</h3>
+<nav class="wardrobe-links" aria-label="Student key card doors">
+<a href="academy-royal-great-hall.html">Royal Great Hall</a>
+<a href="academy-classrooms.html">Classroom Wing</a>
+<a href="academy-four-houses.html">Four Houses Hall</a>
+<a href="academy-house-amethyst.html" id="student-house-door">My house common room</a>
+<a href="academy-royal-inventory.html">Royal Inventory</a>
+<a href="academy-enchanted-east-wing.html">Enchanted East Wing</a>
+<a href="academy-enchanted-library.html">Enchanted Library</a>
+<a href="academy-moonlit-courtyard.html">Moonlit Courtyard</a>
+</nav>
+</section>
 </dialog>
 <dialog id="discovery-dialog" aria-labelledby="dialog-title"><button id="close-dialog" aria-label="Close discovery" class="close">×</button><p id="dialog-eyebrow" class="eyebrow"></p><h2 id="dialog-title"></h2><div id="dialog-content"></div></dialog>
 <link rel="stylesheet" href="academy-grand-crescent.css?v=1">

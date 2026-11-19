@@ -97,3 +97,58 @@
 @media (max-width: 520px) {
   .wardrobe-entry { grid-template-columns: 1fr; padding: 1rem; }
 }
+
+#student-pass {
+  color: #f5ece7;
+  background: #211923;
+  border: 1px solid #a88463;
+  padding: clamp(1rem, 3vw, 2rem);
+  width: min(640px, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+  box-sizing: border-box;
+}
+#student-pass::backdrop { background: #100b13d9; }
+.student-card {
+  --card: #56356d;
+  display: grid;
+  grid-template-columns: clamp(65px, 19vw, 110px) 1fr;
+  gap: .9rem;
+  align-items: center;
+  padding: 1rem;
+  margin: 1rem 0;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 2px solid #ecd3a6;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--card), #201923);
+}
+#student-pass[data-palette="emberheart"] .student-card { --card: #77263d; }
+#student-pass[data-palette="frostveil"] .student-card { --card: #315b75; }
+#student-pass[data-palette="silverthorn"] .student-card { --card: #625b73; }
+.student-card-photo {
+  aspect-ratio: 1;
+  width: 100%;
+  object-fit: cover;
+  border: 1px solid #ecd3a6;
+  border-radius: 5px;
+  background: #302839;
+}
+#student-photo-placeholder { font-size: .7rem; padding: .25rem; box-sizing: border-box; }
+.student-card strong { display: block; overflow-wrap: anywhere; padding-right: 1.8rem; font-size: 1.45rem; }
+.student-card p { margin: .3rem 0 0; }
+.student-card .wardrobe-crest { top: auto; bottom: 8px; left: auto; right: 8px; width: 34px; height: 38px; }
+#student-pass form { display: grid; gap: .45rem; }
+#student-pass form[hidden], #student-doors[hidden] { display: none; }
+#student-pass input, #student-pass-close {
+  min-height: 44px;
+  background: #322630;
+  border: 1px solid #a88463;
+  color: inherit;
+  padding: .5rem;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+#student-pass form button { justify-self: start; margin-top: .45rem; }
+#student-doors { border-top: 1px solid #a88463; padding-top: 1rem; }
