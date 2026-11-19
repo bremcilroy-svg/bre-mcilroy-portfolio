@@ -1,0 +1,23 @@
+/* Shared heraldic artwork and architectural styling for four Academy house rooms */
+body[data-house]{--house:#c59aff;--house-deep:#56347b;--house-glow:#ab76e6}
+body[data-house="emberheart"]{--house:#ff9eac;--house-deep:#702b40;--house-glow:#f07083}
+body[data-house="frostveil"]{--house:#a6e7ff;--house-deep:#285b78;--house-glow:#75d3ff}
+body[data-house="silverthorn"]{--house:#e4dfff;--house-deep:#64567e;--house-glow:#d0b4f5}
+body[data-house] main{background:radial-gradient(ellipse at 50% 8%,var(--house-deep),#191428 52%,#0d1021 100%);position:relative;isolation:isolate}
+body[data-house] main:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 31px,#dce9f208 32px 34px),repeating-linear-gradient(90deg,transparent 0 110px,#dce9f208 111px 113px);mask-image:linear-gradient(#000 0%,#0007 65%,transparent)}
+body[data-house] header,body[data-house] section{border:2px ridge var(--house);background:linear-gradient(135deg,#2b2237ed,#14121ff5);box-shadow:inset 0 0 22px #ffffff0b,0 12px 28px #05081177}
+body[data-house] header{background:radial-gradient(ellipse at 50% 0%,var(--house-deep),#191324 77%);border-radius:100px 100px 18px 18px}
+body[data-house] .crest{width:clamp(100px,18vw,155px);height:clamp(110px,19vw,160px);display:grid;place-items:center;margin:10px auto;border:5px ridge #d4d9e7;border-radius:48% 48% 38% 38%;background:radial-gradient(circle,var(--house-deep),#141121);box-shadow:0 0 28px var(--house-glow)55,inset 0 0 20px #0008}
+.house-art{width:100%;height:100%;display:block;filter:drop-shadow(0 3px 3px #050915a8)}
+.creature .house-art{width:64px;height:72px;max-width:100%;margin:0 auto 5px}
+body[data-house] .creature{background:linear-gradient(145deg,#3d354c,#181726);border:2px ridge var(--house);min-height:125px;box-shadow:inset 0 0 14px #ffffff10}
+body[data-house] .creature[aria-pressed=true]{background:var(--house-deep)}
+body[data-house] .house-atmosphere{border-color:var(--house);background:radial-gradient(ellipse at 50% 10%,var(--house-deep),#151321 80%)}
+body[data-house] .atmosphere-scene{height:210px;border:9px ridge #aeb9cc;border-radius:110px 110px 15px 15px;background:radial-gradient(ellipse at 50% 90%,var(--house-glow)55,transparent 55%),repeating-linear-gradient(90deg,#1c1a2a 0 25px,#2b2939 26px 29px);box-shadow:inset 0 0 40px #080913,0 0 18px var(--house-glow)44}
+body[data-house] .atmosphere-scene .rune:nth-child(2){height:135px;width:135px;max-width:45%;display:block;filter:drop-shadow(0 0 12px var(--house-glow))}
+body[data-house] .atmosphere-scene .rune:nth-child(2) .house-art{height:100%}
+body[data-house] .furnishing{border:3px ridge #b7b4c8;background:linear-gradient(145deg,var(--house-deep),#211b2c);box-shadow:inset 0 0 22px #0008,0 8px 14px #05071388}
+body[data-house] .furnishing-symbol{font-size:44px;color:#e8edf6;text-shadow:0 0 12px var(--house-glow)}
+body[data-house] nav a{background:var(--house-deep);border:2px solid var(--house)}
+@media(max-width:560px){body[data-house] .creatures{grid-template-columns:repeat(2,minmax(0,1fr))}body[data-house] .creature{min-height:115px}}
+@media(prefers-reduced-motion:reduce){body[data-house] .atmosphere-scene *{animation:none!important}}
