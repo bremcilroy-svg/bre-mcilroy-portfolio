@@ -26,6 +26,7 @@ function eligible(i,s){
  if(i===6)return s.journey.allComplete&&s.seals.length===4;
  return s.journey.allComplete&&s.seals.length===4&&s.society.fifth===true;
 }
+function lockReason(i,s){if(!s.journey.storageAvailable)return 'Saved progress is unavailable in this browser';if(i>=2&&i<=4)return 'Complete '+titles[i-1]+' to open this door';if(i===5)return 'Complete all four puzzle chambers';if(i===6)return s.journey.allComplete?'Collect all four chamber seals':'Complete all four chambers and collect their seals';if(i===7)return s.society.fifth?'Complete the required chambers and seals':'Complete the Fifth Door after earning all four seals';return 'Finish the preceding chapter';}
 function go(i){if(travelling||i===index)return;let s;try{s=stats()}catch(e){console.warn('Cannot read puzzle progress',e);return;}if(!eligible(i,s)){render();return;}
  const travel=()=>{if(travelling)return;travelling=true;const gizmo=document.querySelector('#pv-gizmo-companion .pvg-speech');if(gizmo){gizmo.textContent='🐾 Gizmo is coming with you to '+titles[i]+'!';gizmo.hidden=false;}overlay.querySelector('p').textContent='✦ '+titles[i]+' awaits… ✦';overlay.hidden=false;overlay.classList.remove('pv155-animate');if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){void overlay.offsetWidth;overlay.classList.add('pv155-animate');}setTimeout(()=>{location.assign(routes[i]);},window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:650);};
  if(i>=2&&i<=4){const request=new CustomEvent('pv192:door-request',{detail:{destination:i,proceed:travel,handled:false}});document.dispatchEvent(request);if(!request.detail.handled){console.warn('Castle lock unavailable; passage remains closed.');return;}return;}
@@ -35,9 +36,9 @@ function render(){let s;try{s=stats()}catch(e){console.warn('Cannot read puzzle 
  for(let i=0;i<routes.length;i++){
   const ok=eligible(i,s),b=document.createElement('button');b.type='button';b.className='pv155-route pv192-map-door';b.disabled=!ok||i===index;
   if(i===index)b.setAttribute('aria-current','page');
-  b.textContent=motifs[i]+' '+(i===index?'You are here · ':'')+titles[i]+(ok?'':' · Locked');
+  b.textContent=motifs[i]+' '+(i===index?'You are here · ':'')+titles[i]+(ok?'':' · Locked');if(!ok){const explanation=document.createElement('small');explanation.className='pv192-lock-reason';explanation.textContent=lockReason(i,s);b.append(explanation);}
   b.setAttribute('aria-label',titles[i]+(i===index?', current chamber':ok?', open passage':', locked'));
-  b.title=ok?'Travel through the castle':'Complete the earlier chapters to unlock this passage';
+  b.title=ok?'Travel through the castle':lockReason(i,s);
   b.addEventListener('click',()=>go(i));castleMap.append(b);
  }
  const progress=document.createElement('p');progress.className='pv192-progress';const finished=s.journey.completed.filter(Boolean).length;progress.textContent='Chambers completed: '+finished+' / 4 · Seals found: '+s.seals.length+' / 4';castleMap.append(progress);const whisper=document.createElement('p');whisper.className='pv192-whisper';whisper.textContent='✦ '+whispers[index];castleMap.append(whisper);
@@ -49,7 +50,7 @@ function render(){let s;try{s=stats()}catch(e){console.warn('Cannot read puzzle 
  for(const i of [...new Set(options)]){
   const ok=eligible(i,s),button=document.createElement('button');button.type='button';button.className='pv155-route';button.disabled=!ok||i===index;
   button.textContent=(i<index?'← ':'Open door → ')+titles[i]+(ok?'':' · Locked');
-  if(!ok)button.title=i===6?'Finish all four chambers and earn four seals':i===7?'Complete the Fifth Door first':'Complete the preceding chamber first';
+  if(!ok)button.title=lockReason(i,s);
   button.addEventListener('click',()=>go(i));links.append(button);
  }
 }
