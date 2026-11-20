@@ -319,11 +319,17 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   const motion=createRoomMotion({canvas,camera,container,movable,interactables,map,onTarget,onInspect,onStep:()=>document.dispatchEvent(new CustomEvent('vault-step'))});
   // Support browsers without ResizeObserver and avoid a zero-height canvas
   // during page transitions or temporary layout changes.
+  let lastWidth=0,lastHeight=0;
   function resized(){
     const rect=container.getBoundingClientRect();
     if(rect.width<=0||rect.height<=0)return;
-    renderer.setSize(rect.width,rect.height,false);
-    camera.aspect=rect.width/rect.height;
+    // ResizeObserver can fire repeatedly during mobile browser chrome transitions.
+    // Avoid reallocating the drawing buffer and projection for unchanged dimensions.
+    const width=Math.round(rect.width),height=Math.round(rect.height);
+    if(width===lastWidth&&height===lastHeight)return;
+    lastWidth=width;lastHeight=height;
+    renderer.setSize(width,height,false);
+    camera.aspect=width/height;
     camera.updateProjectionMatrix();
   }
   if(typeof ResizeObserver==='function')new ResizeObserver(resized).observe(container);
