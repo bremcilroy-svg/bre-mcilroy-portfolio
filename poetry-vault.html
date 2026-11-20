@@ -63,6 +63,10 @@ box-shadow:inset 0 0 85px #09091a80}
 border-bottom:3px solid #d3c6ec7a;background:linear-gradient(#c6e6ff17,#5e437c18 55%,transparent);
 box-shadow:0 7px 25px #a7d8ff24}
 #vault .masthead,#vault .welcome,#vault #play-ui{position:relative;z-index:2}
+/* Give bottom-anchored room controls the space below the masthead. */
+#vault:has(#play-ui:not([hidden])){display:flex;flex-direction:column;min-height:0}
+#vault #play-ui{flex:1;pointer-events:none}
+#vault #play-ui button{pointer-events:auto}
 #vault .welcome .chapter-label{letter-spacing:.17em;color:#e5c9ff}
 #vault .welcome .room-caption{filter:drop-shadow(0 0 12px #bca4ef55)}
 @media(max-width:700px){#vault::after{width:85vw;height:19px}#vault::before{box-shadow:inset 0 0 32px #09091a55}}

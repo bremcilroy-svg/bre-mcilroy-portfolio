@@ -241,3 +241,31 @@ test('Royal Chamber offers its Four Houses fallback when WebGL initialization fa
   await expect(page).toHaveURL(/academy-four-houses[.]html/);
   expect(errors).toEqual([]);
 });
+
+test('Heart Chamber controls fit the viewport and move the player', async ({page}, testInfo) => {
+  await page.goto(base + 'poetry-vault.html');
+  await page.locator('#start').click();
+  const canvas = page.locator('#room-canvas');
+  const position = () => canvas.evaluate(element => JSON.parse(element.dataset.cameraPosition)[1]);
+  const before = await position();
+  const controls = ['#explore', '#journal', '#hint', '#help'];
+  if (testInfo.project.use.hasTouch) controls.push('[data-move="forward"]', '[data-move="turnRight"]');
+  for (const selector of controls) {
+    const control = page.locator(selector);
+    await expect(control).toBeVisible();
+    expect(await control.evaluate(element => {
+      const {left, top, width, height} = element.getBoundingClientRect();
+      return element.contains(document.elementFromPoint(left + width / 2, top + height / 2));
+    }), selector + ' should be within reach').toBe(true);
+  }
+  if (testInfo.project.use.hasTouch) {
+    await page.locator('[data-move="forward"]').tap();
+    const yaw = () => canvas.evaluate(element => Number(element.dataset.yaw));
+    const initialYaw = await yaw();
+    await page.locator('[data-move="turnRight"]').tap();
+    await expect.poll(yaw).toBeLessThan(initialYaw - .04);
+  } else {
+    await canvas.press('w');
+  }
+  await expect.poll(position).toBeLessThan(before - .06);
+});
