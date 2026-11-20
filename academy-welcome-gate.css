@@ -737,3 +737,31 @@
  #academy-letter .academy-letter-paper:after{inset:9px}
  #academy-letter .academy-letter-paper h2{font-size:clamp(1.95rem,7.4vw,2.6rem)!important}
 }
+
+
+/* Cinematic reveal: reflected moonlight travels across both gate leaves
+   before they part. All decoration is CSS; existing gameplay stays intact. */
+.sky .castle .academy-gate-leaf{
+ transition:filter .35s ease;
+}
+.sky .castle .academy-gate-leaf::after{content:none}
+.sky.is-delivering .castle .academy-perimeter-gate{
+ filter:drop-shadow(0 8px 9px #030819d9) drop-shadow(0 0 10px #d6d2ffb8);
+}
+.sky.is-delivering .castle .academy-perimeter-gate circle{
+ animation:academy-gem-awaken 1.15s ease-in-out 1 both;
+}
+@keyframes academy-gem-awaken{
+ 0%,100%{opacity:1;filter:drop-shadow(0 0 7px #b885ff)}
+ 45%{opacity:1;filter:drop-shadow(0 0 24px #f4d8ff)}
+}
+.sky.is-delivering .castle #academy-pawprints{
+ animation:academy-paw-reveal 1.35s ease-in 1.05s both;
+}
+@keyframes academy-paw-reveal{
+ from{opacity:0}to{opacity:1}
+}
+@media(prefers-reduced-motion:reduce){
+ .sky.is-delivering .castle .academy-perimeter-gate circle,
+ .sky.is-delivering .castle #academy-pawprints{animation:none!important}
+}
