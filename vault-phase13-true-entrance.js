@@ -8,19 +8,19 @@ function mount(){
  door.id='pv13-door';
  door.innerHTML=`<div class="pv13-arch"><span class="pv13-crest" aria-hidden="true">✦</span><p class="pv13-eyebrow">Beyond the Fifth Door</p><h2>The Author's Study</h2><p>Every story leaves a door open. Step inside the room, discover the portraits, and follow Gizmo's secrets.</p><button id="pv13-enter" type="button">Open the Study Door <span aria-hidden="true">→</span></button><p class="pv13-small">Explore the study in 3D. Your original discoveries and puzzles remain available.</p></div>`;
  room.prepend(door);
- const panel=immersive.querySelector('#pv12-experience');
- let ready=false;
+ let ready=false,fallback=false;
  const enter=door.querySelector('#pv13-enter');
  const setReady=()=>{
   const p=immersive.querySelector('#pv12-experience');
   ready=!!p&&!p.hidden&&!!p.querySelector('canvas');
-  if(enter.disabled===ready)enter.disabled=!ready;
-  const label=ready?'Open the Study Door →':'Preparing the study…';
+  fallback=p?.dataset.unavailable==='true';
+  enter.disabled=!(ready||fallback);
+  const label=ready?'Open the Study Door →':fallback?'Explore the original Study →':'Preparing the study…';
   if(enter.textContent!==label)enter.textContent=label;
  };
  setReady();
  const obs=new MutationObserver(setReady);
- obs.observe(immersive,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden']});
+ obs.observe(immersive,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden','data-unavailable']});
  const exit=document.createElement('button');
  exit.type='button';exit.id='pv13-exit';exit.textContent='← Leave the Study';
  exit.setAttribute('aria-label','Leave the 3D study and return to the Author’s Room');
@@ -34,11 +34,14 @@ function mount(){
  function enterRoom(){
   setReady();
   if(room.hidden){return;}
-  if(!ready){
-   const old=immersive.querySelector('.ai6-stage');
-   old?.scrollIntoView({behavior:'smooth'});
+  if(fallback){
+   const heading=immersive.querySelector('.ai6-heading');
+   heading?.setAttribute('tabindex','-1');
+   heading?.focus({preventScroll:true});
+   immersive.scrollIntoView({block:'start'});
    return;
   }
+  if(!ready)return;
   const p=immersive.querySelector('#pv12-experience');
   if(!p.contains(exit))p.prepend(exit);
   document.body.classList.add('pv13-inside');

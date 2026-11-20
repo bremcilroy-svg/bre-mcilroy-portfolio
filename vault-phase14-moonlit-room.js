@@ -18,7 +18,7 @@ const heading=immersive.querySelector('.ai6-heading');
 heading?.insertAdjacentElement('afterend',panel);
 let THREE;
 try{THREE=await import('https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js');}
-catch(e){console.warn('3D study unavailable; keeping original room.',e);return;}
+catch(e){panel.dataset.unavailable='true';console.warn('3D study unavailable; keeping original room.',e);return;}
 const viewport=panel.querySelector('.pv12-viewport');
 let renderer;
 try{
@@ -27,7 +27,7 @@ renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.6));
 renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.setSize(640,420,false);
 viewport.prepend(renderer.domElement);
-}catch(e){console.warn('WebGL unavailable; keeping original room.',e);return;}
+}catch(e){panel.dataset.unavailable='true';console.warn('WebGL unavailable; keeping original room.',e);return;}
 const scene=new THREE.Scene();scene.background=new THREE.Color('#1c1220');scene.fog=new THREE.Fog('#1c1220',8,22);
 const camera=new THREE.PerspectiveCamera(70,1,.07,40);
 const state={x:0,z:3.7,yaw:0};
@@ -303,8 +303,26 @@ const resize=()=>{
 const observer=new ResizeObserver(resize);observer.observe(viewport);
 look();panel.hidden=false;immersive.classList.add('pv12-ready');
 resize();
-let running=true;
-const animate=()=>{if(!running)return;requestAnimationFrame(animate);if(!document.hidden&&!room.hidden){const t=performance.now()*.001;for(const f of fireflies)f.mesh.position.y=f.base+Math.sin(t*.8+f.phase)*.12;renderer.render(scene,camera);}};
-animate();
+let frameId;
+function animate(now){
+ const t=now*.001;
+ for(const f of fireflies)f.mesh.position.y=f.base+Math.sin(t*.8+f.phase)*.12;
+ renderer.render(scene,camera);
+ frameId=requestAnimationFrame(animate);
+}
+let inView=false;
+function syncRendering(){
+ const active=inView&&!document.hidden&&!room.hidden;
+ if(active&&frameId===undefined)frameId=requestAnimationFrame(animate);
+ if(!active&&frameId!==undefined){
+  cancelAnimationFrame(frameId);
+  frameId=undefined;
+ }
+}
+new IntersectionObserver(([entry])=>{
+ inView=entry.isIntersecting;
+ syncRendering();
+}).observe(viewport);
+document.addEventListener('visibilitychange',syncRendering);
 hud.textContent='Welcome to the moonlit study. Turn left for memories, right for guardians, or forward for Moose.';
 })();
