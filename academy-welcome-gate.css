@@ -552,3 +552,77 @@
   margin-bottom:10px!important;
  }
 }
+
+
+/* Royal entrance revision: taller, full-span silver iron gates, clearly visible
+   against the photographic castle on desktop and portrait phones. */
+.sky .castle .academy-perimeter-gate {opacity:1;filter:drop-shadow(0 5px 6px #061126f0) drop-shadow(0 0 3px #d7f1ff90)}
+.sky .castle .academy-perimeter-gate .academy-gate-leaf {stroke-linejoin:round}
+@media(max-width:600px){
+ .sky .castle {max-height:min(56svh,500px)!important;min-height:0!important}
+ .sky .castle .academy-perimeter-gate {opacity:1}
+}
+/* A handwritten royal invitation, with readable text on every device. */
+#academy-letter .academy-letter-paper{
+ background:
+  radial-gradient(ellipse at 52% 0%,#ffffffd9,transparent 66%),
+  linear-gradient(130deg,#f5f5f5 0%,#fffcf4 43%,#e5eaf3 100%)!important;
+ color:#292d46!important;
+ border:2px solid #b7c6d8!important;
+ box-shadow:inset 0 0 0 5px #f8f9fc,inset 0 0 0 7px #a8bbd0,0 18px 48px #02091ca8!important;
+}
+#academy-letter .academy-letter-paper h2{
+ font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif!important;
+ font-style:italic;
+ font-weight:500!important;
+ letter-spacing:-.035em;
+ color:#3b315e!important;
+ text-align:center;
+ text-wrap:balance;
+}
+#academy-letter .academy-royal-kicker{
+ text-align:center;
+ font-family:Georgia,serif!important;
+ font-size:clamp(.63rem,2.2vw,.79rem)!important;
+ font-weight:700;
+ letter-spacing:.14em;
+ text-transform:uppercase;
+ color:#65527c!important;
+ margin:6px 0 12px!important;
+}
+#academy-letter .academy-letter-paper>p:not(.academy-royal-kicker){
+ font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif!important;
+ font-size:clamp(1.04rem,3.6vw,1.2rem)!important;
+ line-height:1.62!important;
+ letter-spacing:.006em;
+}
+#academy-letter .academy-letter-opening::first-letter{
+ font-size:1.8em;
+ color:#78599b;
+ font-weight:700;
+}
+#academy-letter .academy-headmaster-title{
+ font-family:Georgia,serif!important;
+ color:#544071!important;
+ letter-spacing:.16em!important;
+}
+#academy-letter .academy-letter-signature strong{
+ color:#3a315f!important;
+ font-family:'Brush Script MT','Segoe Script','Apple Chancery',cursive!important;
+}
+#academy-letter #academy-letter-send{
+ background:linear-gradient(135deg,#343b62,#62467c)!important;
+ border:1px solid #a4b6d5!important;
+ border-radius:7px!important;
+ box-shadow:inset 0 1px #ffffff45,0 4px 12px #1e234744!important;
+ font-family:Georgia,serif!important;
+ font-size:1.05rem!important;
+ letter-spacing:.025em;
+}
+@media(max-width:600px){
+ #academy-letter .academy-letter-paper>p:not(.academy-royal-kicker){
+  font-size:clamp(.98rem,3.7vw,1.1rem)!important;
+  line-height:1.5!important;
+ }
+ #academy-letter .academy-royal-kicker{letter-spacing:.09em}
+}
