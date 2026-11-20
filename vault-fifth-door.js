@@ -28,11 +28,14 @@ function render(){refreshEligibility();if(!eligible){$('#gate').hidden=false;$('
  try{
   const key='amethyst-academy-fountain-memories-v1',milestone='fifth-door-unwritten-chapter';
   const raw=JSON.parse(localStorage.getItem(key)||'[]');
-  const memories=Array.isArray(raw)?raw.filter(m=>m&&typeof m.title==='string').slice(-30):[];
+  const memories=Array.isArray(raw)?raw.filter(m=>m&&typeof m.title==='string'):[];
   if(!memories.some(m=>m.milestone===milestone)){
+   while(memories.length>=30){const ordinary=memories.findIndex(m=>!m.milestone);if(ordinary<0)break;memories.splice(ordinary,1);}
+   if(memories.length<30){
    memories.push({id:'milestone-'+milestone,title:'The Fifth Door — The Unwritten Chapter',path:'poetry-vault-fifth-door.html',date:new Date().toISOString(),note:'The four seals, memory constellation, and unwritten book revealed the epilogue.',milestone});
-   localStorage.setItem(key,JSON.stringify(memories.slice(-30)));
+   localStorage.setItem(key,JSON.stringify(memories));
    try{sessionStorage.setItem('amethyst-fountain-new-milestone',milestone)}catch(e){}
+   }
   }
  }catch(e){/* The fountain must never block the Fifth Door epilogue. */}
 root.innerHTML=`<p class="eyebrow">The cinematic epilogue · The Keeper's Legacy</p><h2 id="puzzle-title" tabindex="-1">The Book Opens</h2><div class="epilogue"><p>Some stories are written in ink.</p><p>Others are written in everything we survive.</p><p>You've found the words the library kept. What comes next cannot be found on a shelf.</p><p><strong>The next chapter belongs to you.</strong></p></div><p>Welcome, Keeper of Forgotten Words. Your name stays on your device and is only used to make your certificate.</p><label for="keeper-name">Your Keeper name (optional)</label><input id="keeper-name" class="keeper-name" maxlength="48" placeholder="Library Wanderer" autocomplete="off"><div class="final-actions"><a class="button" href="poetry-vault-author-room.html">Enter the Author’s Hidden Room →</a><button id="certificate">Download Keeper certificate</button><a href="poetry-vault-society.html">Return to the Keepers' Hall →</a><a href="poetry-vault-feedback.html">Leave a spoiler-free message →</a></div>`;$('#certificate').addEventListener('click',downloadCertificate);}
