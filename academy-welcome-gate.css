@@ -505,3 +505,27 @@
  .is-delivering .academy-perimeter-gate .academy-gate-left,
  .is-delivering .academy-perimeter-gate .academy-gate-right { animation:none; }
 }
+
+
+/* Approved photorealistic crest: the legacy illustration remains a fallback
+   until the image asset is added to the repository. */
+.academy-school-crest:has(.academy-crest-realistic:not([hidden])) svg {display:none}
+.academy-school-crest .academy-crest-realistic {
+ display:block;
+ width:100%;
+ height:100%;
+ object-fit:contain;
+ filter:drop-shadow(0 4px 5px #17243c40);
+}
+.academy-school-crest .academy-crest-realistic[hidden] {display:none}
+.academy-school-crest:has(.academy-crest-realistic:not([hidden])) {
+ width:clamp(124px,25vw,174px);
+ height:clamp(124px,25vw,174px);
+}
+@media(max-width:600px){
+ #academy-letter .academy-school-crest:has(.academy-crest-realistic:not([hidden])) {
+  width:112px;
+  height:112px;
+  margin:0 auto 6px;
+ }
+}
