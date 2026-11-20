@@ -52,7 +52,22 @@
 }
 </style><link rel="stylesheet" href="vault-gizmo-controls.css?v=1">
 <script type="module" src="vault-gizmo-controls.js?v=1"></script><link rel="stylesheet" href="vault-room-controls.css?v=1">
-<script type="module" src="vault-room-controls.js?v=1"></script><link rel="stylesheet" href="academy-game-smooth.css?v=1"></head>
+<script type="module" src="vault-room-controls.js?v=1"></script><link rel="stylesheet" href="academy-game-smooth.css?v=1"><style id="academy-heart-chamber-royal-atmosphere">
+/* Royal architectural frame, without covering the interactive 3D scene. */
+#vault{background-color:#120e20}
+#vault::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+background:radial-gradient(ellipse at 50% 3%,#d5eaff27,transparent 45%),
+linear-gradient(90deg,#15102777,transparent 14%,transparent 86%,#15102777);
+box-shadow:inset 0 0 85px #09091a80}
+#vault::after{content:"";position:fixed;left:50%;top:0;transform:translateX(-50%);width:min(75vw,700px);height:clamp(18px,4vw,46px);pointer-events:none;z-index:1;border-radius:0 0 55% 55%;
+border-bottom:3px solid #d3c6ec7a;background:linear-gradient(#c6e6ff17,#5e437c18 55%,transparent);
+box-shadow:0 7px 25px #a7d8ff24}
+#vault .masthead,#vault .welcome,#vault #play-ui{position:relative;z-index:2}
+#vault .welcome .chapter-label{letter-spacing:.17em;color:#e5c9ff}
+#vault .welcome .room-caption{filter:drop-shadow(0 0 12px #bca4ef55)}
+@media(max-width:700px){#vault::after{width:85vw;height:19px}#vault::before{box-shadow:inset 0 0 32px #09091a55}}
+@media(prefers-reduced-motion:reduce){#vault::before,#vault::after{animation:none;transition:none}}
+</style></head>
 <body>
 <main id="vault">
 <div id="scene" aria-label="First-person view of a Victorian library"></div>
