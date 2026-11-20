@@ -29,6 +29,8 @@ if(milestoneTitle){try{
  if(!memories.some(m=>m.milestone===here)){
   memories.push({id:"milestone-"+here,title:milestoneTitle,path:here,date:new Date().toISOString(),note:"",milestone:here});
   localStorage.setItem(memoryKey,JSON.stringify(memories.slice(-30)));
+  try{sessionStorage.setItem("amethyst-fountain-new-milestone",here)}catch(e){}
+  document.dispatchEvent(new CustomEvent("academy-fountain-milestone",{detail:{path:here,title:milestoneTitle}}));
  }
 }catch(e){/* Private browsing or unavailable storage: gameplay continues. */}}
 
