@@ -44,12 +44,15 @@ function mount(){
    try{
     const key='amethyst-academy-fountain-memories-v1';
     const raw=JSON.parse(localStorage.getItem(key)||'[]');
-    const memories=Array.isArray(raw)?raw.filter(m=>m&&typeof m.title==='string').slice(-30):[];
+    const memories=Array.isArray(raw)?raw.filter(m=>m&&typeof m.title==='string'):[];
     const milestone='birthday-lock-solved';
     if(!memories.some(m=>m.milestone===milestone)){
-     memories.push({id:'milestone-'+milestone,title:'The Birthday Lock — Unsealed',path:'poetry-vault-author-room.html',date:new Date().toISOString(),note:'The birthday wheels aligned, and the Author’s Study door opened.',milestone});
-     localStorage.setItem(key,JSON.stringify(memories.slice(-30)));
+     while(memories.length>=30){const ordinary=memories.findIndex(m=>!m.milestone);if(ordinary<0)break;memories.splice(ordinary,1);}
+   if(memories.length<30){
+   memories.push({id:'milestone-'+milestone,title:'The Birthday Lock — Unsealed',path:'poetry-vault-author-room.html',date:new Date().toISOString(),note:'The birthday wheels aligned, and the Author’s Study door opened.',milestone});
+     localStorage.setItem(key,JSON.stringify(memories));
      try{sessionStorage.setItem('amethyst-fountain-new-milestone',milestone)}catch(e){}
+   }
     }
    }catch(e){/* Never prevent the door opening when storage is unavailable. */}
 
