@@ -339,7 +339,7 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   function frame(now){requestAnimationFrame(frame);motion.tick(now);const wasAnimating=cinema.active;cinema.tick(now);
     if(wasAnimating||cinema.active)renderer.shadowMap.needsUpdate=true;
     if(document.hidden)return;
-    if(motion.paused&&!cinema.active&&now-lastPausedRender<350)return;lastPausedRender=now;
+    if(motion.paused&&!cinema.active&&now-lastPausedRender<1000)return;lastPausedRender=now;
     const t=now/1000;flames.forEach((f,i)=>{f.scale.y=1.8+Math.sin(t*5+i)*.15;});hearthFlames.forEach((f,i)=>{f.scale.y=1.8+(i%3)*.4+Math.sin(t*8+i)*.3;});firelight.intensity=11+Math.sin(t*11)*.6;renderer.render(scene,camera,cinema.active);
   }
   requestAnimationFrame(frame);onReady(renderer.isCompatibility);
