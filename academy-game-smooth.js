@@ -30,11 +30,12 @@ if(milestoneTitle){try{
  const memories=Array.isArray(raw)?raw.filter(m=>m&&typeof m.title==="string"):[];
  if(!memories.some(m=>m.milestone===here)){
   while(memories.length>=30){const oldestOrdinary=memories.findIndex(m=>!m.milestone);if(oldestOrdinary<0)break;memories.splice(oldestOrdinary,1);}
-  if(memories.length>=30)return;
+  if(memories.length<30){
   memories.push({id:"milestone-"+here,title:milestoneTitle,path:here,date:new Date().toISOString(),note:"",milestone:here});
   localStorage.setItem(memoryKey,JSON.stringify(memories));
   try{sessionStorage.setItem("amethyst-fountain-new-milestone",here)}catch(e){}
   document.dispatchEvent(new CustomEvent("academy-fountain-milestone",{detail:{path:here,title:milestoneTitle}}));
+  }
  }
 }catch(e){/* Private browsing or unavailable storage: gameplay continues. */}}
 
