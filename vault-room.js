@@ -57,6 +57,23 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   box(12,.18,14,0,4.6,0,materials.darkwood,scene,false);
   box(12,4.6,.2,0,2.3,-7,materials.wall,scene,false);box(12,4.6,.2,0,2.3,7,materials.wall,scene,false);
   box(.2,4.6,14,-6,2.3,0,materials.wall,scene,false);box(.2,4.6,14,6,2.3,0,materials.wall,scene,false);
+  // Royal stone pilasters and silver tracery enrich the chamber without blocking
+  // the walkable floor, letter locations, or existing interaction raycasts.
+  const royalStone=phong(0x89879e,{metalness:.16,roughness:.68});
+  const royalSilver=phong(0xb4c7dc,{metalness:.68,roughness:.28});
+  const royalAmethyst=phong(0x72528d,{metalness:.22,roughness:.48});
+  for(const x of [-5.73,5.73])for(const z of [-5.55,-2.75,.15,4.95]){
+    box(.22,3.72,.25,x,2.18,z,royalStone);
+    box(.36,.17,.42,x,4.09,z,royalSilver);
+    box(.36,.17,.42,x,.36,z,royalSilver);
+    box(.12,.95,.29,x,2.95,z,royalAmethyst);
+  }
+  // Silver crescent medallions above the fireplace and entrance doorway.
+  for(const z of [-6.84,6.84]){
+    const crest=new THREE.Mesh(new THREE.TorusGeometry(.31,.035,6,24,Math.PI*1.65),royalSilver);
+    crest.position.set(0,3.88,z);crest.rotation.z=.45;scene.add(crest);
+    sphere(.085,.35,3.91,z,royalAmethyst);
+  }
   // The ceiling follows the room's long axis and frames the central chandelier.
   for(const x of [-4.7,-2.4,0,2.4,4.7]){
     box(.15,.16,13.7,x,4.43,0,materials.wood);
@@ -175,6 +192,14 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   // Chandelier: dark brass arms and a crown of warm candlelight.
   cylinder(.035,.035,.75,0,4.16,-.5,materials.gold);const chandelier=new THREE.Mesh(new THREE.TorusGeometry(.72,.045,8,32),materials.gold);chandelier.rotation.x=Math.PI/2;chandelier.position.set(0,3.72,-.5);scene.add(chandelier);
   for(let i=0;i<6;i++){const a=i*Math.PI/3;candle(Math.sin(a)*.72,3.72,-.5+Math.cos(a)*.72,.18);}
+  // Icy crystal pendants on the existing chandelier, kept lightweight for mobile.
+  const crystal=phong(0xc3e7f6,{metalness:.2,roughness:.14,transparent:true,opacity:.83,emissive:0x3a6688,emissiveIntensity:.22});
+  for(let i=0;i<8;i++){
+    const angle=i*Math.PI/4;
+    const drop=new THREE.Mesh(new THREE.OctahedronGeometry(.075,0),crystal);
+    drop.position.set(Math.sin(angle)*.7,3.48,-.5+Math.cos(angle)*.7);
+    drop.scale.y=2.15;scene.add(drop);
+  }
   const doorStart=scene.children.length;
   // Exit door and framed plaque.
   box(1.7,3,.16,0,1.5,6.76,materials.wood);for(const x of [-.92,.92])box(.14,3.2,.23,x,1.6,6.62,materials.gold);box(1.98,.14,.23,0,3.2,6.62,materials.gold);for(const y of [.75,2.15]){box(1.32,1.1,.06,0,y,6.64,materials.darkwood);for(const x of [-.65,.65])box(.025,1.08,.015,x,y,6.6,materials.gold);}sphere(.07,-.6,1.35,6.48,materials.gold);
