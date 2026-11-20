@@ -12,7 +12,8 @@ export function createRoomMotion({canvas,camera,container,movable,interactables,
  const instructions={KeyW:'forward',ArrowUp:'forward',KeyS:'back',ArrowDown:'back',KeyA:'left',KeyD:'right',ArrowLeft:'turnLeft',ArrowRight:'turnRight'};
  function release(){held.clear();taps.clear();for(const pointers of movementPointers)pointers.clear();drag=null;last=performance.now();}
  function press(id){if(!active||paused||!id)return;held.add(id);taps.set(id,Math.max(taps.get(id)||0,.11));}
- window.addEventListener('keydown',e=>{canvas.dataset.lastInput=e.code;if(!active||paused||e.target.closest('dialog,input,select,textarea,button,a'))return;const id=instructions[e.code];if(id){e.preventDefault();if(!e.repeat)press(id);}if(e.code==='KeyE'&&targetId&&map.get(targetId)?.visible&&clearSight(targetId)){e.preventDefault();onInspect(targetId);}});
+ function canInspectTarget(id){const object=id&&map.get(id);return !!(active&&!paused&&object?.visible&&camera.position.distanceTo(object.position)<3.4&&clearSight(id));}
+ window.addEventListener('keydown',e=>{canvas.dataset.lastInput=e.code;if(!active||paused||e.target.closest('dialog,input,select,textarea,button,a'))return;const id=instructions[e.code];if(id){e.preventDefault();if(!e.repeat)press(id);}if(e.code==='KeyE'&&canInspectTarget(targetId)){e.preventDefault();onInspect(targetId);}});
  window.addEventListener('keyup',e=>held.delete(instructions[e.code]));window.addEventListener('blur',release);window.addEventListener('pagehide',release);document.addEventListener('visibilitychange',release);
  canvas.style.touchAction='none';
  canvas.addEventListener('pointerdown',e=>{if(!active||paused||drag)return;if(e.pointerType==='mouse'&&e.button!==0)return;canvas.focus({preventScroll:true});drag={id:e.pointerId,x:e.clientX,y:e.clientY,sx:e.clientX,sy:e.clientY,moved:false};canvas.setPointerCapture(e.pointerId);});
@@ -32,5 +33,5 @@ export function createRoomMotion({canvas,camera,container,movable,interactables,
   if(!current){let best=2.1;for(const [id,g]of map){if(!g.visible)continue;const d=camera.position.distanceTo(g.position);if(d<best&&clearSight(id)){current=id;best=d;}}}if(current!==targetId){targetId=current;onTarget(current);}
  }return dt;
  }
- return{tick,start(){active=true;paused=false;release();canvas.focus({preventScroll:true});},pause(value){paused=value;release();if(value){targetId=null;onTarget(null);}else canvas.focus({preventScroll:true});},inspect(){if(active&&!paused&&targetId&&map.get(targetId)?.visible&&clearSight(targetId))onInspect(targetId);},getPosition(){return{x:camera.position.x,z:camera.position.z};},get paused(){return paused;}};
+ return{tick,start(){active=true;paused=false;release();canvas.focus({preventScroll:true});},pause(value){paused=value;release();if(value){targetId=null;onTarget(null);}else canvas.focus({preventScroll:true});},inspect(){if(canInspectTarget(targetId))onInspect(targetId);},getPosition(){return{x:camera.position.x,z:camera.position.z};},get paused(){return paused;}};
 }
