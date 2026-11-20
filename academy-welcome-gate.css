@@ -478,3 +478,30 @@
  .academy-letter-signoff{align-items:flex-end}
  .academy-headmaster-title{font-size:.75rem;letter-spacing:.16em}
 }
+
+
+/* Full courtyard gates: keep both leaves at their authored SVG dimensions.
+   Earlier fill-box transforms shifted the right leaf away from its hinge. */
+.academy-perimeter-gate { pointer-events:none; filter:drop-shadow(0 8px 7px #061327b8); }
+.academy-perimeter-gate .academy-gate-leaf {
+ transform-box:view-box;
+ transform-origin:26px 520px;
+ will-change:transform;
+}
+.academy-perimeter-gate .academy-gate-right { transform-origin:874px 520px; }
+.is-delivering .academy-perimeter-gate .academy-gate-left {
+ animation:academy-open-left 1.05s cubic-bezier(.2,.7,.3,1) .7s both;
+}
+.is-delivering .academy-perimeter-gate .academy-gate-right {
+ animation:academy-open-right 1.05s cubic-bezier(.2,.7,.3,1) .7s both;
+}
+@keyframes academy-open-left {
+ to { transform:translateX(-380px) scaleX(.13); opacity:.72; }
+}
+@keyframes academy-open-right {
+ to { transform:translateX(380px) scaleX(.13); opacity:.72; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .is-delivering .academy-perimeter-gate .academy-gate-left,
+ .is-delivering .academy-perimeter-gate .academy-gate-right { animation:none; }
+}
