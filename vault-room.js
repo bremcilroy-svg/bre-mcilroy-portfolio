@@ -335,12 +335,17 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   if(typeof ResizeObserver==='function')new ResizeObserver(resized).observe(container);
   else window.addEventListener('resize',resized,{passive:true});
   resized();
-  let lastPausedRender=-Infinity;
+  let lastPausedRender=-Infinity,lastFlameUpdate=-Infinity;
   function frame(now){requestAnimationFrame(frame);motion.tick(now);const wasAnimating=cinema.active;cinema.tick(now);
     if(wasAnimating||cinema.active)renderer.shadowMap.needsUpdate=true;
     if(document.hidden)return;
     if(motion.paused&&!cinema.active&&now-lastPausedRender<1000)return;lastPausedRender=now;
-    const t=now/1000;flames.forEach((f,i)=>{f.scale.y=1.8+Math.sin(t*5+i)*.15;});hearthFlames.forEach((f,i)=>{f.scale.y=1.8+(i%3)*.4+Math.sin(t*8+i)*.3;});firelight.intensity=11+Math.sin(t*11)*.6;renderer.render(scene,camera,cinema.active);
+    if(now-lastFlameUpdate>=33){
+      // Decorative firelight needs at most ~30 updates/sec; camera and gameplay still render normally.
+      lastFlameUpdate=now;
+      const t=now/1000;flames.forEach((f,i)=>{f.scale.y=1.8+Math.sin(t*5+i)*.15;});hearthFlames.forEach((f,i)=>{f.scale.y=1.8+(i%3)*.4+Math.sin(t*8+i)*.3;});firelight.intensity=11+Math.sin(t*11)*.6;
+    }
+    renderer.render(scene,camera,cinema.active);
   }
   requestAnimationFrame(frame);onReady(renderer.isCompatibility);
   return {openDoor,openBook,...motion,collected(id){const g=map.get(id);if(g){g.visible=false;renderer.shadowMap.needsUpdate=true;const i=interactables.findIndex(m=>m.userData.id===id);if(i>=0)interactables.splice(i,1);}}};
