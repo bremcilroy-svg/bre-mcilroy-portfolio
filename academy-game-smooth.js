@@ -7,6 +7,8 @@ saveMoment.addEventListener("click",()=>{
   const room=(document.querySelector("h1")?.textContent||document.title||"Academy Adventure").trim().slice(0,90);
   const memories=JSON.parse(localStorage.getItem(memoryKey)||"[]");
   const safe=Array.isArray(memories)?memories.filter(m=>m&&typeof m.title==="string"):[];
+  // Legacy collections can contain more than 30 stored memories. Never trim them just to save a new moment.
+  if(safe.length>30){saveMoment.textContent="Legacy memories protected — manage memories at the fountain";return;}
   // Preserve earned milestone crystals when the 30-memory gallery fills.
   while(safe.length>=30){const oldestOrdinary=safe.findIndex(m=>!m.milestone);if(oldestOrdinary<0){saveMoment.textContent="Fountain full: all 30 memories are milestones";return;}safe.splice(oldestOrdinary,1);}
   safe.push({id:Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,7),title:room,path:location.pathname.split("/").pop()||"amethyst-crescent-academy.html",date:new Date().toISOString(),note:""});
@@ -28,7 +30,7 @@ const milestoneTitle=firstVisitMilestones[here];
 if(milestoneTitle){try{
  const raw=JSON.parse(localStorage.getItem(memoryKey)||"[]");
  const memories=Array.isArray(raw)?raw.filter(m=>m&&typeof m.title==="string"):[];
- if(!memories.some(m=>m.milestone===here)){
+ if(!memories.some(m=>m.milestone===here)&&memories.length<=30){
   while(memories.length>=30){const oldestOrdinary=memories.findIndex(m=>!m.milestone);if(oldestOrdinary<0)break;memories.splice(oldestOrdinary,1);}
   if(memories.length<30){
   memories.push({id:"milestone-"+here,title:milestoneTitle,path:here,date:new Date().toISOString(),note:"",milestone:here});
