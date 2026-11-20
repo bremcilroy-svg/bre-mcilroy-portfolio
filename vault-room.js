@@ -19,8 +19,10 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   const gl=probe.getContext('webgl2',{antialias:true});
   if(gl){renderer=new THREE.WebGLRenderer({canvas:probe,context:gl,antialias:true,powerPreference:'high-performance'});}
   else renderer=createCanvasRenderer(THREE);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.4));
-  renderer.shadowMap.enabled=true;
+  // Cap rendering cost on small touch screens while retaining desktop detail.
+  const compactDisplay=window.matchMedia('(max-width: 700px), (pointer: coarse)').matches;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, compactDisplay ? 1.15 : 1.4));
+  renderer.shadowMap.enabled=!renderer.isCompatibility;
   renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure=1.4;
@@ -57,7 +59,7 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   const hemi=new THREE.HemisphereLight(0xd8e9ff,0x57405d,1.35);scene.add(hemi);
   const moon=new THREE.DirectionalLight(0xb6d8ff,2.15);moon.position.set(-6,6,3);scene.add(moon);
   function lamp(x,y,z,color=0xffb86a,intensity=3,range=9){const light=new THREE.PointLight(color,intensity,range,1.6);light.position.set(x,y,z);scene.add(light);return light;}
-  const keylight=lamp(0,3.8,-1,0xffe2bd,26,15);keylight.castShadow=true;keylight.shadow.mapSize.set(1024,1024);keylight.shadow.bias=-.001;
+  const keylight=lamp(0,3.8,-1,0xffe2bd,26,15);keylight.castShadow=true;keylight.shadow.mapSize.set(compactDisplay ? 512 : 1024,compactDisplay ? 512 : 1024);keylight.shadow.bias=-.001;
   box(12,.2,14,0,-.1,0,materials.floor,scene,false);
   box(12,.18,14,0,4.6,0,materials.darkwood,scene,false);
   box(12,4.6,.2,0,2.3,-7,materials.wall,scene,false);box(12,4.6,.2,0,2.3,7,materials.wall,scene,false);
