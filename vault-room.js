@@ -194,6 +194,26 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   // Side table with the rose letter and a velvet chair.
   cylinder(.68,.68,.12,-3.8,.95,-2.4,materials.wood);cylinder(.12,.22,.85,-3.8,.48,-2.4,materials.wood);collide(-3.8,-2.4,1.5,1.5);
   box(1,.2,1,-3.9,.55,-.7,materials.red);box(1,1.2,.17,-3.9,1.05,-1.14,materials.red);for(const x of [-4.3,-3.5])for(const z of [-1.05,-.35])box(.09,.45,.09,x,.23,z,materials.wood);collide(-3.9,-.7,1.2,1.3);
+  // Fine royal furniture detailing, placed on existing furniture only.
+  // No new colliders or interactable targets: original letters remain accessible.
+  const inlay=phong(0xb9cbdc,{metalness:.76,roughness:.24});
+  const velvetTrim=phong(0x9a6b91,{roughness:.91});
+  // Silver filigree around the writing desk's front and edge.
+  for(const x of [-1.47,1.47])box(.028,.24,.04,x,.91,-1.64,inlay);
+  for(const y of [.77,1.04])box(3.02,.022,.045,0,y,-1.635,inlay);
+  for(const x of [-1.12,1.12])sphere(.045,x,.9,-1.602,inlay);
+  // Carved apron and silver rim on the rose-letter side table.
+  cylinder(.71,.71,.035,-3.8,1.025,-2.4,inlay);
+  cylinder(.52,.52,.06,-3.8,.855,-2.4,materials.darkwood);
+  // Upholstered chair edging and a crest on its back.
+  for(const x of [-4.36,-3.44]){
+    box(.045,.14,.86,x,.61,-.7,inlay);
+    box(.05,1.05,.05,x,1.08,-1.14,materials.wood);
+  }
+  box(.84,.04,.05,-3.9,1.64,-1.14,inlay);
+  box(.76,.05,.05,-3.9,1.48,-1.04,velvetTrim);
+  // Small royal amethyst jewel on the chair crest.
+  sphere(.075,-3.9,1.59,-1.04,royalAmethyst);
   // Chandelier: dark brass arms and a crown of warm candlelight.
   cylinder(.035,.035,.75,0,4.16,-.5,materials.gold);const chandelier=new THREE.Mesh(new THREE.TorusGeometry(.72,.045,8,32),materials.gold);chandelier.rotation.x=Math.PI/2;chandelier.position.set(0,3.72,-.5);scene.add(chandelier);
   for(let i=0;i<6;i++){const a=i*Math.PI/3;candle(Math.sin(a)*.72,3.72,-.5+Math.cos(a)*.72,.18);}
