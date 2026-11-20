@@ -155,11 +155,14 @@ if (observatory) {
       try {
         const key='amethyst-academy-fountain-memories-v1', milestone='observatory-owl-constellation';
         const raw=JSON.parse(localStorage.getItem(key)||'[]');
-        const memories=Array.isArray(raw)?raw.filter(m=>m&&typeof m.title==='string').slice(-30):[];
+        const memories=Array.isArray(raw)?raw.filter(m=>m&&typeof m.title==='string'):[];
         if(!memories.some(m=>m.milestone===milestone)){
-          memories.push({id:'milestone-'+milestone,title:'Owl Observatory — Constellation Solved',path:'academy-owl-observatory.html',date:new Date().toISOString(),note:'The owl constellation was traced and the Observatory badge earned.',milestone});
-          localStorage.setItem(key,JSON.stringify(memories.slice(-30)));
+          while(memories.length>=30){const ordinary=memories.findIndex(m=>!m.milestone);if(ordinary<0)break;memories.splice(ordinary,1);}
+   if(memories.length<30){
+   memories.push({id:'milestone-'+milestone,title:'Owl Observatory — Constellation Solved',path:'academy-owl-observatory.html',date:new Date().toISOString(),note:'The owl constellation was traced and the Observatory badge earned.',milestone});
+          localStorage.setItem(key,JSON.stringify(memories));
           try{sessionStorage.setItem('amethyst-fountain-new-milestone',milestone)}catch(e){}
+   }
         }
       }catch(e){/* Optional memory must not interrupt the Observatory. */}
       sky.classList.add('constellation-solved');
