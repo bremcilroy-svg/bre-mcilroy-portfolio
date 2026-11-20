@@ -8,7 +8,7 @@ export function advancePosition(position,yaw,forward,side,seconds,movable){
 }
 export function createRoomMotion({canvas,camera,container,movable,interactables,map,onTarget,onInspect,clearSight=()=>true,onStep=()=>{}}){
  let active=false,paused=true,yaw=0,pitch=-.025,last=performance.now(),lastTarget=-Infinity,targetId=null,drag=null,stepDistance=0;
- const held=new Set(),taps=new Map(),movementPointers=new Set(),ray=new THREE.Raycaster(),center=new THREE.Vector2();
+ const held=new Set(),taps=new Map(),movementPointers=new Set(),ray=new THREE.Raycaster(),center=new THREE.Vector2(),targetHits=[];
  const instructions={KeyW:'forward',ArrowUp:'forward',KeyS:'back',ArrowDown:'back',KeyA:'left',KeyD:'right',ArrowLeft:'turnLeft',ArrowRight:'turnRight'};
  function release(){held.clear();taps.clear();for(const pointers of movementPointers)pointers.clear();drag=null;last=performance.now();}
  function press(id){if(!active||paused||!id)return;held.add(id);taps.set(id,Math.max(taps.get(id)||0,.11));}
@@ -28,7 +28,7 @@ export function createRoomMotion({canvas,camera,container,movable,interactables,
  }
  camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0);camera.position.y=1.67;camera.updateMatrixWorld();
  canvas.dataset.cameraPosition=JSON.stringify([camera.position.x,camera.position.z]);canvas.dataset.paused=String(paused);canvas.dataset.yaw=String(yaw);
- if(active&&!paused&&now-lastTarget>90){lastTarget=now;if(targetId&&!map.get(targetId)?.visible){targetId=null;onTarget(null);}ray.setFromCamera(center,camera);const hit=ray.intersectObjects(interactables)[0];let current=hit&&hit.distance<3.4&&map.get(hit.object.userData.id)?.visible&&clearSight(hit.object.userData.id)?hit.object.userData.id:null;
+ if(active&&!paused&&now-lastTarget>90){lastTarget=now;if(targetId&&!map.get(targetId)?.visible){targetId=null;onTarget(null);}ray.setFromCamera(center,camera);targetHits.length=0;ray.intersectObjects(interactables,false,targetHits);const hit=targetHits[0];let current=hit&&hit.distance<3.4&&map.get(hit.object.userData.id)?.visible&&clearSight(hit.object.userData.id)?hit.object.userData.id:null;
   if(!current){let best=2.1;for(const [id,g]of map){if(!g.visible)continue;const d=camera.position.distanceTo(g.position);if(d<best&&clearSight(id)){current=id;best=d;}}}if(current!==targetId){targetId=current;onTarget(current);}
  }return dt;
  }
