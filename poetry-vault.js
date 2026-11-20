@@ -83,12 +83,15 @@ function showDoor(){if(!state.diaryOpen){openPanel('A door waiting for a key.','
 try{
  const key='amethyst-academy-fountain-memories-v1';
  const raw=JSON.parse(localStorage.getItem(key)||'[]');
- const memories=Array.isArray(raw)?raw.filter(m=>m&&typeof m.title==='string').slice(-30):[];
+ const memories=Array.isArray(raw)?raw.filter(m=>m&&typeof m.title==='string'):[];
  const milestone='chapter-heart-chamber-complete';
  if(!memories.some(m=>m.milestone===milestone)){
-  memories.push({id:'milestone-'+milestone,title:'The Heart Chamber — Chapter Complete',path:'poetry-vault-entrance.html',date:new Date().toISOString(),note:'Four letters discovered, the diary opened, and the silver mirror key found.',milestone});
-  localStorage.setItem(key,JSON.stringify(memories.slice(-30)));
+  while(memories.length>=30){const ordinary=memories.findIndex(m=>!m.milestone);if(ordinary<0)break;memories.splice(ordinary,1);}
+   if(memories.length<30){
+   memories.push({id:'milestone-'+milestone,title:'The Heart Chamber — Chapter Complete',path:'poetry-vault-entrance.html',date:new Date().toISOString(),note:'Four letters discovered, the diary opened, and the silver mirror key found.',milestone});
+  localStorage.setItem(key,JSON.stringify(memories));
   try{sessionStorage.setItem('amethyst-fountain-new-milestone',milestone)}catch(e){}
+   }
  }
 }catch(e){/* Optional keepsake must never interrupt the chapter. */}
 room?.openDoor();sound.effect('door');chapterEffect('door');openPanel('One chamber. Four discoveries.',`<p>You lift the silver mirror key. The Heart Chamber’s story is complete.</p><p>The silver key opens The Shattered Mirror. Carry it into the next chamber when you are ready.</p><ol class="chapter-list"><li><strong>I / The Heart Chamber</strong> — Complete · 4 poems</li><li>II / The Shattered Mirror — Playable now</li><li>III / The Midnight Labyrinth — Playable now</li><li>IV / The Door to Tomorrow — Playable now</li></ol><div class="row-actions"><a class="primary" href="poetry-vault-mirror.html?resume=1">Enter The Shattered Mirror →</a><button id="finish-journal">Revisit the poems</button><a href="writing.html">Return to Writing &amp; Poetry</a></div>`,'Chapter I complete');$('#finish-journal').addEventListener('click',()=>showJournal());speak('The Heart Chamber is complete. Your silver mirror key opens the next chamber: The Shattered Mirror.');}
