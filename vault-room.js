@@ -176,6 +176,40 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   lamp(-5.1,2.6,2,0x9fcfff,8,8);
   const curtain=phong(0x492131,{roughness:1});for(const z of [.28,3.73])for(let i=0;i<5;i++){const c=cylinder(.16,.16,3.25,-5.47+i*.018,2.25,z+(i-2)*.11,curtain);c.scale.x=.7;}
   box(1.15,.18,3.2,-5.08,.61,2,materials.wood);box(.9,.18,2.9,-5.05,.78,2,materials.red);for(const z of [.6,3.4])box(.13,.6,.13,-5.04,.3,z,materials.wood);collide(-5.05,2,1.35,3.3);
+  // Gothic silver detailing: all pieces remain against existing surfaces.
+  // They do not introduce collisions or alter letter/diary interactions.
+  const gothicSilver=phong(0xc1d2e0,{metalness:.73,roughness:.31});
+  const gothicStone=phong(0x9b9caf,{roughness:.77});
+  // Carved marble fireplace pilasters and a shallow crown above the mantel.
+  for(const x of [-1.52,1.52]){
+    box(.17,1.7,.14,x,1.08,-5.88,gothicStone);
+    box(.28,.11,.2,x,1.92,-5.88,gothicSilver);
+    box(.27,.11,.2,x,.28,-5.88,gothicSilver);
+  }
+  box(3.2,.075,.09,0,2.17,-5.85,gothicSilver);
+  for(const x of [-1.15,-.57,0,.57,1.15]){
+    const ornament=new THREE.Mesh(new THREE.OctahedronGeometry(.072,0),gothicSilver);
+    ornament.position.set(x,2.26,-5.85);ornament.scale.y=1.65;scene.add(ornament);
+  }
+  // Gothic lancet-style window crown and silver mullion intersections.
+  for(const z of [1.12,2,2.88]){
+    const point=new THREE.Mesh(new THREE.ConeGeometry(.15,.27,4),gothicSilver);
+    point.rotation.y=Math.PI/4;
+    point.position.set(-5.61,4.04,z);
+    scene.add(point);
+  }
+  for(const y of [2.15,3.14])for(const z of [1.55,2.45])
+    sphere(.055,-5.57,y,z,gothicSilver);
+  // Ornamental crown molding above the existing bookcases.
+  // These positions match the existing five bookcase placements.
+  for(const [x,z,alongZ] of [[-5.48,-3.6,true],[5.48,-3.6,true],[5.48,.4,true],[-3.85,-6.5,false],[3.85,-6.5,false]]){
+    box(alongZ?.16:3.6,.13,alongZ?3.6:.16,x,3.76,z,gothicSilver);
+    for(const offset of [-1.32,0,1.32]){
+      const jewel=new THREE.Mesh(new THREE.OctahedronGeometry(.075,0),royalAmethyst);
+      jewel.position.set(x+(alongZ?0:offset),3.82,z+(alongZ?offset:0));
+      scene.add(jewel);
+    }
+  }
   // Writing desk, chair, blotter, quill, lamp, and a locked heart diary.
   const deskX=0,deskZ=-2.45;box(3.25,.17,1.55,deskX,1.13,deskZ,materials.wood);for(const x of [-1.35,1.35])for(const z of [-3.02,-1.88]){box(.16,1.05,.16,x,.54,z,materials.wood);cylinder(.12,.07,.17,x,.18,z,materials.gold);}
   box(1.55,.35,1.25,0,.85,deskZ,materials.darkwood);box(1.48,.28,.08,0,.86,-1.77,materials.wood);cylinder(.045,.045,.04,0,.86,-1.7,materials.gold).rotation.x=Math.PI/2;
