@@ -626,3 +626,40 @@
  }
  #academy-letter .academy-royal-kicker{letter-spacing:.09em}
 }
+
+
+/* Monumental gate movement: preserve each leaf's actual hinge. The right
+   leaf is mirrored at x=900; generic CSS transforms used to erase that
+   SVG transform, making it disappear rather than open. */
+.sky .castle .academy-perimeter-gate .academy-gate-left{
+ transform-box:view-box!important;
+ transform-origin:0 0!important;
+ transform:translate(0px,0px) scale(1,1);
+}
+.sky .castle .academy-perimeter-gate .academy-gate-right{
+ transform-box:view-box!important;
+ transform-origin:0 0!important;
+ transform:translate(900px,0px) scale(-1,1);
+}
+.sky.is-delivering .castle .academy-perimeter-gate .academy-gate-left{
+ animation:academy-monumental-left 1.3s cubic-bezier(.22,.7,.25,1) .55s both!important;
+}
+.sky.is-delivering .castle .academy-perimeter-gate .academy-gate-right{
+ animation:academy-monumental-right 1.3s cubic-bezier(.22,.7,.25,1) .55s both!important;
+}
+@keyframes academy-monumental-left{
+ from{transform:translate(0px,0px) scale(1,1)}
+ to{transform:translate(0px,0px) scale(.1,1)}
+}
+@keyframes academy-monumental-right{
+ from{transform:translate(900px,0px) scale(-1,1)}
+ to{transform:translate(900px,0px) scale(-.1,1)}
+}
+@media(prefers-reduced-motion:reduce){
+ .sky.is-delivering .castle .academy-perimeter-gate .academy-gate-left{
+  animation:none!important;transform:scale(.1,1)!important;
+ }
+ .sky.is-delivering .castle .academy-perimeter-gate .academy-gate-right{
+  animation:none!important;transform:translate(900px,0px) scale(-.1,1)!important;
+ }
+}
