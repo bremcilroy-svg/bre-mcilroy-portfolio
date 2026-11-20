@@ -269,3 +269,44 @@ test('Heart Chamber controls fit the viewport and move the player', async ({page
   }
   await expect.poll(position).toBeLessThan(before - .06);
 });
+
+test('Heart Chamber scenery batches keep the diary and exit playable', async ({page}) => {
+  test.setTimeout(120000);
+  await page.addInitScript(() => {
+    // Count only this room's instanced WebGL draws. Canvas fallback uses the same puzzles.
+    const gl = window.WebGL2RenderingContext?.prototype;
+    if (!gl) return;
+    const draw = gl.drawElementsInstanced;
+    gl.drawElementsInstanced = function (...args) {
+      if (this.canvas.id === 'room-canvas') this.canvas.dataset.instanced = 'true';
+      return draw.apply(this, args);
+    };
+  });
+  await page.goto(base + 'poetry-vault.html');
+  await page.locator('#start').click();
+  const canvas = page.locator('#room-canvas');
+  await expect(canvas).toBeVisible();
+  if (await canvas.evaluate(element => Boolean(element.getContext('webgl2')))) {
+    await expect(canvas).toHaveAttribute('data-instanced', 'true', {timeout: 30000});
+  }
+
+  await page.locator('#explore').click();
+  for (const letter of ['rose', 'ribbon', 'moon', 'key']) {
+    await page.locator('[data-object="' + letter + '"]').click();
+    await page.locator('#collect').click();
+  }
+  await page.locator('[data-object="diary"]').click();
+  await page.locator('#lock-code').fill('3142');
+  await page.locator('#code-form button').click();
+  for (const symbol of ['moon', 'ribbon', 'rose', 'key']) {
+    await page.locator('[data-symbol="' + symbol + '"]').click();
+  }
+  await page.locator('#unlock-diary').click();
+  await expect(page.locator('#panel-title')).toContainText('The heart remembers');
+  await page.locator('#close-panel').click();
+  await page.locator('#explore').click();
+  await page.locator('[data-object="door"]').click();
+  await page.getByRole('link', {name: /Enter The Shattered Mirror/}).click();
+  await expect(page).toHaveURL(/poetry-vault-mirror\.html\?resume=1/);
+  await expect(page.locator('#objective')).toContainText('Find the four mirror fragments');
+});

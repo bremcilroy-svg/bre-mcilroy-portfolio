@@ -55,7 +55,8 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
     image.dispose();
   },undefined,()=>{});
   const colliders=[], interactables=[], map=new Map();
-  function box(w,h,d,x,y,z,mat,parent=scene,cast=true){const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);mesh.position.set(x,y,z);mesh.castShadow=cast;mesh.receiveShadow=true;parent.add(mesh);return mesh;}
+  const roomBoxes=[], bookcases=new Set();
+  function box(w,h,d,x,y,z,mat,parent=scene,cast=true){const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);mesh.position.set(x,y,z);mesh.castShadow=cast;mesh.receiveShadow=true;parent.add(mesh);roomBoxes.push(mesh);return mesh;}
   function cylinder(r1,r2,h,x,y,z,mat,parent=scene){const mesh=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,renderer.isCompatibility?8:16),mat);mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;parent.add(mesh);return mesh;}
   function sphere(r,x,y,z,mat,parent=scene){const mesh=new THREE.Mesh(new THREE.SphereGeometry(r,renderer.isCompatibility?8:12,renderer.isCompatibility?6:8),mat);mesh.position.set(x,y,z);parent.add(mesh);return mesh;}
   function collide(x,z,w,d){colliders.push({x,z,w:w/2+.24,d:d/2+.24});}
@@ -122,8 +123,8 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   box(4.55,.025,9,0,.025,.65,materials.rug);
   for(const mesh of scene.children.slice(rugStart))if(mesh.isMesh)mesh.renderOrder=-10;
   // Tall bookcases, each filled with uneven leather-bound books.
-  const spineColors=[0x543340,0x3b493f,0x73502d,0x2b3a4e,0x61352a,0x817352];
-  function bookcase(x,z,rotation){const g=new THREE.Group();g.position.set(x,0,z);g.rotation.y=rotation;scene.add(g);box(3.45,3.5,.18,0,1.85,-.27,materials.darkwood,g);for(const sx of [-1.75,1.75])box(.18,3.7,.7,sx,1.85,0,materials.wood,g);for(const y of [.2,.95,1.7,2.45,3.25,3.65]){box(3.6,.12,.75,0,y,0,materials.wood,g);box(3.6,.025,.025,0,y+.07,.39,materials.gold,g);}for(let row=0;row<4;row++){let bx=-1.58;for(let i=0;i<17;i++){const width=.1+((i*7+row*3)%5)*.025,height=.45+((i*3+row)%5)*.043;const mat=phong(spineColors[(row*3+i)%spineColors.length]);box(width,height,.36,bx+width/2,.29+row*.75+height/2,.12,mat,g);for(const yy of [.10,height-.08])box(width*.85,.012,.012,bx+width/2,.29+row*.75+yy,.307,materials.gold,g);bx+=width+.035;if(bx>1.5)break;}}return g;}
+  const spineMaterials=[0x543340,0x3b493f,0x73502d,0x2b3a4e,0x61352a,0x817352].map(color=>phong(color));
+  function bookcase(x,z,rotation){const g=new THREE.Group();g.position.set(x,0,z);g.rotation.y=rotation;scene.add(g);bookcases.add(g);box(3.45,3.5,.18,0,1.85,-.27,materials.darkwood,g);for(const sx of [-1.75,1.75])box(.18,3.7,.7,sx,1.85,0,materials.wood,g);for(const y of [.2,.95,1.7,2.45,3.25,3.65]){box(3.6,.12,.75,0,y,0,materials.wood,g);box(3.6,.025,.025,0,y+.07,.39,materials.gold,g);}for(let row=0;row<4;row++){let bx=-1.58;for(let i=0;i<17;i++){const width=.1+((i*7+row*3)%5)*.025,height=.45+((i*3+row)%5)*.043;const mat=spineMaterials[(row*3+i)%spineMaterials.length];box(width,height,.36,bx+width/2,.29+row*.75+height/2,.12,mat,g);for(const yy of [.10,height-.08])box(width*.85,.012,.012,bx+width/2,.29+row*.75+yy,.307,materials.gold,g);bx+=width+.035;if(bx>1.5)break;}}return g;}
   bookcase(-5.48,-3.6,Math.PI/2);bookcase(5.48,-3.6,-Math.PI/2);bookcase(5.48,.4,-Math.PI/2);bookcase(-3.85,-6.5,0);bookcase(3.85,-6.5,0);
   collide(-5.5,-3.6,1,3.9);collide(5.5,-3.6,1,3.9);collide(5.5,.4,1,3.9);collide(-3.85,-6.5,3.9,1);collide(3.85,-6.5,3.9,1);
   // Fireplace, marble surround, grate, glowing coals, and candles.
@@ -280,6 +281,41 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   function movable(x,z){return Math.abs(x)<5.55&&Math.abs(z)<6.5&&!colliders.some(b=>Math.abs(x-b.x)<b.w&&Math.abs(z-b.z)<b.d);}
   const secret=SECRETS[0],bookmark=target('secret',secret.x,secret.y,secret.z,.6,.45,.6);
   box(.16,.012,.43,0,0,0,materials.gold,bookmark);box(.06,.015,.36,0,.012,0,materials.paper,bookmark);
+  // Instance opaque scenery in small, separately culled batches. Anything
+  // attached to a puzzle or animation stays on its original mesh.
+  if(!renderer.isCompatibility){
+    scene.updateMatrixWorld(true);
+    const batches=new Map();
+    const position=new THREE.Vector3();
+    for(const mesh of roomBoxes){
+      if((mesh.parent!==scene&&!bookcases.has(mesh.parent))||mesh.material.transparent)continue;
+      mesh.getWorldPosition(position);
+      const cellX=Math.floor(position.x/4), cellZ=Math.floor(position.z/4);
+      const key=[mesh.material.id,mesh.castShadow,mesh.renderOrder,cellX,cellZ].join(':');
+      if(!batches.has(key))batches.set(key,[]);
+      batches.get(key).push(mesh);
+    }
+    const geometry=new THREE.BoxGeometry(1,1,1);
+    const matrix=new THREE.Matrix4();
+    const scale=new THREE.Vector3();
+    for(const meshes of batches.values()){
+      if(meshes.length<2)continue;
+      const first=meshes[0];
+      const instances=new THREE.InstancedMesh(geometry,first.material,meshes.length);
+      instances.castShadow=first.castShadow;
+      instances.receiveShadow=first.receiveShadow;
+      instances.renderOrder=first.renderOrder;
+      for(const [index,mesh] of meshes.entries()){
+        const {width,height,depth}=mesh.geometry.parameters;
+        matrix.copy(mesh.matrixWorld).scale(scale.set(width,height,depth));
+        instances.setMatrixAt(index,matrix);
+        mesh.removeFromParent();
+        mesh.geometry.dispose();
+      }
+      instances.computeBoundingSphere();
+      scene.add(instances);
+    }
+  }
   const motion=createRoomMotion({canvas,camera,container,movable,interactables,map,onTarget,onInspect,onStep:()=>document.dispatchEvent(new CustomEvent('vault-step'))});
   // Support browsers without ResizeObserver and avoid a zero-height canvas
   // during page transitions or temporary layout changes.
