@@ -101,7 +101,7 @@ main .title,main .actions,main .royal-flag-gallery{z-index:2}
 </style>
 <script>
 (()=>{"use strict";const key="amethyst-academy-fountain-memories-v1",list=document.getElementById("fountain-memory-list"),count=document.getElementById("fountain-count"),button=document.getElementById("fountain-save-here");
-const read=()=>{try{const a=JSON.parse(localStorage.getItem(key)||"[]");return Array.isArray(a)?a.filter(m=>m&&typeof m.title==="string"&&typeof m.path==="string").slice(-30):[]}catch{return []}};
+const read=()=>{try{const a=JSON.parse(localStorage.getItem(key)||"[]");if(!Array.isArray(a))return [];const valid=a.filter(m=>m&&typeof m.title==="string"&&typeof m.path==="string");while(valid.length>30){const ordinary=valid.findIndex(m=>!m.milestone);valid.splice(ordinary>=0?ordinary:0,1);}return valid}catch{return []}};
 const write=a=>{try{localStorage.setItem(key,JSON.stringify(a));return true}catch{return false}};
 const celebration=document.getElementById("fountain-celebration");
 let pendingMilestone="";try{pendingMilestone=sessionStorage.getItem("amethyst-fountain-new-milestone")||""}catch(e){}
