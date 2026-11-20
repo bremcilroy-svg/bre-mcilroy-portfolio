@@ -67,6 +67,15 @@ box-shadow:0 7px 25px #a7d8ff24}
 #vault:has(#play-ui:not([hidden])){display:flex;flex-direction:column;min-height:0}
 #vault #play-ui{flex:1;pointer-events:none}
 #vault #play-ui button{pointer-events:auto}
+@media(pointer:coarse){
+ #vault #play-ui .touch-controls{bottom:calc(64px + env(safe-area-inset-bottom))}
+ #vault #play-ui .interact-wrap{bottom:calc(164px + env(safe-area-inset-bottom))}
+}
+@media(max-width:800px){
+ #vault #play-ui .tools{bottom:calc(54px + env(safe-area-inset-bottom))}
+ #vault #play-ui .touch-controls{bottom:calc(98px + env(safe-area-inset-bottom))}
+ #vault #play-ui .interact-wrap{bottom:calc(207px + env(safe-area-inset-bottom))}
+}
 #vault .welcome .chapter-label{letter-spacing:.17em;color:#e5c9ff}
 #vault .welcome .room-caption{filter:drop-shadow(0 0 12px #bca4ef55)}
 @media(max-width:700px){#vault::after{width:85vw;height:19px}#vault::before{box-shadow:inset 0 0 32px #09091a55}}
