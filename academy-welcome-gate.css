@@ -765,3 +765,35 @@
  .sky.is-delivering .castle .academy-perimeter-gate circle,
  .sky.is-delivering .castle #academy-pawprints{animation:none!important}
 }
+
+
+/* Phase: atmospheric realism for the existing castle photograph and silver gate.
+   Visual effects stay behind the invitation and do not intercept taps. */
+.sky .castle{isolation:isolate}
+.sky .castle .academy-perimeter-gate{
+ filter:drop-shadow(0 10px 9px #071020e8) drop-shadow(0 1px 1px #ffffffbf);
+}
+.sky .castle .academy-perimeter-gate .academy-gate-leaf{
+ filter:drop-shadow(0 3px 2px #060c18e8) drop-shadow(0 0 1px #f8fdff);
+}
+.sky .castle .academy-perimeter-gate .academy-gate-leaf circle{
+ filter:drop-shadow(0 0 5px #bd8cff) drop-shadow(0 0 13px #ad69f4);
+}
+.sky .castle .academy-perimeter-gate .academy-gate-leaf path{
+ stroke-linejoin:round;
+}
+.sky.is-delivering .castle .academy-perimeter-gate .academy-gate-left{
+ animation:academy-monumental-left 1.65s cubic-bezier(.15,.7,.2,1) .35s both!important;
+}
+.sky.is-delivering .castle .academy-perimeter-gate .academy-gate-right{
+ animation:academy-monumental-right 1.65s cubic-bezier(.15,.7,.2,1) .35s both!important;
+}
+.sky.is-delivering .castle{
+ filter:drop-shadow(0 18px 24px #080b21) drop-shadow(0 0 24px #d2e8ff85);
+}
+@media(prefers-reduced-motion:reduce){
+ .sky.is-delivering .castle .academy-perimeter-gate .academy-gate-left,
+ .sky.is-delivering .castle .academy-perimeter-gate .academy-gate-right{
+  animation:none!important;
+ }
+}
