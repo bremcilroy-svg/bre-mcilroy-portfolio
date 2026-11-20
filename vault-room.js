@@ -276,8 +276,18 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   const secret=SECRETS[0],bookmark=target('secret',secret.x,secret.y,secret.z,.6,.45,.6);
   box(.16,.012,.43,0,0,0,materials.gold,bookmark);box(.06,.015,.36,0,.012,0,materials.paper,bookmark);
   const motion=createRoomMotion({canvas,camera,container,movable,interactables,map,onTarget,onInspect,onStep:()=>document.dispatchEvent(new CustomEvent('vault-step'))});
-  function resized(){const rect=container.getBoundingClientRect();renderer.setSize(rect.width,rect.height,false);camera.aspect=rect.width/rect.height;camera.updateProjectionMatrix();}
-  new ResizeObserver(resized).observe(container);resized();
+  // Support browsers without ResizeObserver and avoid a zero-height canvas
+  // during page transitions or temporary layout changes.
+  function resized(){
+    const rect=container.getBoundingClientRect();
+    if(rect.width<=0||rect.height<=0)return;
+    renderer.setSize(rect.width,rect.height,false);
+    camera.aspect=rect.width/rect.height;
+    camera.updateProjectionMatrix();
+  }
+  if(typeof ResizeObserver==='function')new ResizeObserver(resized).observe(container);
+  else window.addEventListener('resize',resized,{passive:true});
+  resized();
   let lastPausedRender=-Infinity;
   function frame(now){requestAnimationFrame(frame);motion.tick(now);cinema.tick(now);if(document.hidden)return;
     if(motion.paused&&!cinema.active&&now-lastPausedRender<350)return;lastPausedRender=now;
