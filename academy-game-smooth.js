@@ -14,4 +14,22 @@ saveMoment.addEventListener("click",()=>{
  }catch(e){saveMoment.textContent="Memory unavailable in this browser"}
 });
 panel.append(saveMoment);
+// Record only verified first visits to these rooms, never claim a puzzle was solved.
+const firstVisitMilestones={
+ "academy-moonlit-courtyard.html":"First Steps into the Moonlit Courtyard",
+ "academy-royal-great-hall.html":"First Visit to the Royal Great Hall",
+ "academy-four-houses.html":"Discovery of the Four Houses",
+ "academy-royal-gardens.html":"First Visit to the Royal Gardens",
+ "poetry-vault-entrance.html":"Discovery of the Hidden Poetry Vault"
+};
+const milestoneTitle=firstVisitMilestones[here];
+if(milestoneTitle){try{
+ const raw=JSON.parse(localStorage.getItem(memoryKey)||"[]");
+ const memories=Array.isArray(raw)?raw.filter(m=>m&&typeof m.title==="string").slice(-30):[];
+ if(!memories.some(m=>m.milestone===here)){
+  memories.push({id:"milestone-"+here,title:milestoneTitle,path:here,date:new Date().toISOString(),note:"",milestone:here});
+  localStorage.setItem(memoryKey,JSON.stringify(memories.slice(-30)));
+ }
+}catch(e){/* Private browsing or unavailable storage: gameplay continues. */}}
+
 dock.append(toggle,panel);toggle.addEventListener("click",()=>{panel.hidden=!panel.hidden;toggle.setAttribute("aria-expanded",String(!panel.hidden))});document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!panel.hidden){panel.hidden=true;toggle.setAttribute("aria-expanded","false");toggle.focus()}});(document.getElementById("lobby-navigation")||document.body).append(dock)})();
