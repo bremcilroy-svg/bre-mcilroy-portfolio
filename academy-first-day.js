@@ -151,6 +151,17 @@ if (observatory) {
     }
     if (saveStage(card, 'owl-badge', feedback)) {
       feedback.textContent = 'The owl lights up. Your Observatory badge is saved to your student key card.';
+      // The owl crystal is earned only after the correct constellation and saved badge.
+      try {
+        const key='amethyst-academy-fountain-memories-v1', milestone='observatory-owl-constellation';
+        const raw=JSON.parse(localStorage.getItem(key)||'[]');
+        const memories=Array.isArray(raw)?raw.filter(m=>m&&typeof m.title==='string').slice(-30):[];
+        if(!memories.some(m=>m.milestone===milestone)){
+          memories.push({id:'milestone-'+milestone,title:'Owl Observatory — Constellation Solved',path:'academy-owl-observatory.html',date:new Date().toISOString(),note:'The owl constellation was traced and the Observatory badge earned.',milestone});
+          localStorage.setItem(key,JSON.stringify(memories.slice(-30)));
+          try{sessionStorage.setItem('amethyst-fountain-new-milestone',milestone)}catch(e){}
+        }
+      }catch(e){/* Optional memory must not interrupt the Observatory. */}
       sky.classList.add('constellation-solved');
       badge.hidden = false;
     }
