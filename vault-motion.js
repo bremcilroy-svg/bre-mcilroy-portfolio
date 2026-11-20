@@ -12,7 +12,7 @@ export function createRoomMotion({canvas,camera,container,movable,interactables,
  const instructions={KeyW:'forward',ArrowUp:'forward',KeyS:'back',ArrowDown:'back',KeyA:'left',KeyD:'right',ArrowLeft:'turnLeft',ArrowRight:'turnRight'};
  function release(){held.clear();taps.clear();drag=null;last=performance.now();}
  function press(id){if(!active||paused||!id)return;held.add(id);taps.set(id,Math.max(taps.get(id)||0,.11));}
- window.addEventListener('keydown',e=>{canvas.dataset.lastInput=e.code;if(!active||paused||e.target.closest('dialog,input,select,textarea,button,a'))return;const id=instructions[e.code];if(id){e.preventDefault();if(!e.repeat)press(id);}if(e.code==='KeyE'&&targetId){e.preventDefault();onInspect(targetId);}});
+ window.addEventListener('keydown',e=>{canvas.dataset.lastInput=e.code;if(!active||paused||e.target.closest('dialog,input,select,textarea,button,a'))return;const id=instructions[e.code];if(id){e.preventDefault();if(!e.repeat)press(id);}if(e.code==='KeyE'&&targetId&&map.get(targetId)?.visible){e.preventDefault();onInspect(targetId);}});
  window.addEventListener('keyup',e=>held.delete(instructions[e.code]));window.addEventListener('blur',release);document.addEventListener('visibilitychange',release);
  canvas.addEventListener('pointerdown',e=>{if(!active||paused)return;canvas.focus({preventScroll:true});drag={id:e.pointerId,x:e.clientX,y:e.clientY,sx:e.clientX,sy:e.clientY};canvas.setPointerCapture(e.pointerId);});
  canvas.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId||paused)return;yaw-=(e.clientX-drag.x)*.0035;pitch=Math.max(-.85,Math.min(.85,pitch-(e.clientY-drag.y)*.0027));drag.x=e.clientX;drag.y=e.clientY;});
@@ -25,7 +25,7 @@ export function createRoomMotion({canvas,camera,container,movable,interactables,
  }
  camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0);camera.position.y=1.67;camera.updateMatrixWorld();
  canvas.dataset.cameraPosition=JSON.stringify([camera.position.x,camera.position.z]);canvas.dataset.paused=String(paused);canvas.dataset.yaw=String(yaw);
- if(active&&!paused&&now-lastTarget>90){lastTarget=now;ray.setFromCamera(center,camera);const hit=ray.intersectObjects(interactables)[0];let current=hit&&hit.distance<3.4&&clearSight(hit.object.userData.id)?hit.object.userData.id:null;
+ if(active&&!paused&&now-lastTarget>90){lastTarget=now;if(targetId&&!map.get(targetId)?.visible){targetId=null;onTarget(null);}ray.setFromCamera(center,camera);const hit=ray.intersectObjects(interactables)[0];let current=hit&&hit.distance<3.4&&clearSight(hit.object.userData.id)?hit.object.userData.id:null;
   if(!current){let best=2.1;for(const [id,g]of map){if(!g.visible)continue;const d=camera.position.distanceTo(g.position);if(d<best&&clearSight(id)){current=id;best=d;}}}if(current!==targetId){targetId=current;onTarget(current);}
  }return dt;
  }
