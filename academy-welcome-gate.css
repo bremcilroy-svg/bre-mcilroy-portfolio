@@ -663,3 +663,77 @@
   animation:none!important;transform:translate(900px,0px) scale(-.1,1)!important;
  }
 }
+
+
+/* Royal entrance art direction: deeper metal, gem highlights and luminous
+   invitation framing. Keeps the real HTML button and existing gate events. */
+.sky .castle .academy-perimeter-gate{
+ filter:drop-shadow(0 12px 10px #030819db) drop-shadow(0 0 2px #f4f9ffb8);
+}
+.sky .castle .academy-perimeter-gate .academy-gate-leaf{
+ filter:drop-shadow(0 2px 2px #060f25c9);
+}
+.sky .castle .academy-perimeter-gate circle{
+ filter:drop-shadow(0 0 9px #b885ff);
+}
+#academy-letter{
+ background:transparent!important;
+ border:0!important;
+ box-shadow:none!important;
+}
+#academy-letter .academy-letter-paper{
+ position:relative;
+ isolation:isolate;
+ border:3px solid #a889c0!important;
+ border-radius:15px!important;
+ background:
+  radial-gradient(ellipse at 50% 0%,#fffdf8 0%,#f9f1e6 48%,#e6d9e6 100%)!important;
+ box-shadow:inset 0 0 0 5px #fff8ed,inset 0 0 0 7px #b59cc4,0 22px 65px #05071cdd!important;
+}
+#academy-letter .academy-letter-paper:after{
+ content:"";
+ position:absolute;
+ inset:14px;
+ border:1px solid #ad89b8;
+ border-radius:7px;
+ pointer-events:none;
+ z-index:-1;
+}
+#academy-letter .academy-royal-kicker{
+ color:#75518e!important;
+ letter-spacing:.19em;
+}
+#academy-letter .academy-letter-paper h2{
+ font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif!important;
+ font-size:clamp(2.05rem,6vw,3.4rem)!important;
+ font-style:italic;
+ color:#482c71!important;
+ text-shadow:0 1px #ffffff;
+}
+#academy-letter .academy-school-crest:has(.academy-crest-realistic:not([hidden])){
+ width:clamp(118px,25vw,165px);
+ height:clamp(118px,25vw,165px);
+}
+#academy-letter .academy-letter-signature strong{
+ display:block;
+ font-size:clamp(2rem,6vw,3.2rem)!important;
+ color:#352258!important;
+}
+#academy-letter .academy-wax-seal{
+ background:radial-gradient(circle at 30% 25%,#a66bd5,#6b2e96 58%,#3b175c)!important;
+ box-shadow:inset 0 0 0 4px #653184,inset 0 0 0 7px #b18cce,0 5px 12px #33164a7a!important;
+}
+#academy-letter #academy-letter-send{
+ background:linear-gradient(100deg,#30164c,#68328d 52%,#32184f)!important;
+ border:2px solid #c6a5e3!important;
+ box-shadow:inset 0 1px #ffffff55,0 5px 14px #25123766!important;
+}
+#academy-letter #academy-letter-send:focus-visible{
+ outline:3px solid #7b56a5;
+ outline-offset:3px;
+}
+@media(max-width:600px){
+ #academy-letter .academy-letter-paper{padding:22px 22px 26px!important}
+ #academy-letter .academy-letter-paper:after{inset:9px}
+ #academy-letter .academy-letter-paper h2{font-size:clamp(1.95rem,7.4vw,2.6rem)!important}
+}
