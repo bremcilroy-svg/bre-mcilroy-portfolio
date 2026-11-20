@@ -33,7 +33,12 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   materials.wood=phong(0x69432b);materials.wall=phong(0x762d3d);materials.floor=phong(0x77533c);
   materials.paper=phong(0xe2d0a4);materials.gold=phong(0xb89a59,{metalness:.7,roughness:.33});
   materials.darkwood=phong(0x2e1b17);materials.black=phong(0x171317);materials.cream=phong(0xd6c6a3);
-  materials.rug=phong(0x5b1729);materials.red=phong(0x74283f);materials.glass=phong(0x9dc5e3,{metalness:.35,roughness:.16,emissive:0x45688c,emissiveIntensity:.42});
+  materials.rug=phong(0x5b1729);materials.red=phong(0x74283f,{roughness:.92});materials.glass=phong(0x9dc5e3,{metalness:.35,roughness:.16,emissive:0x45688c,emissiveIntensity:.42});
+  // Richer physical finishes without increasing geometry or texture downloads.
+  materials.wood.roughness=.57;materials.darkwood.roughness=.64;
+  materials.wall.roughness=.92;materials.floor.roughness=.73;
+  materials.gold.color.set(0xc3b7c8);materials.gold.metalness=.72;materials.gold.roughness=.29;
+  materials.glass.color.set(0xb8dcf2);materials.glass.emissive.set(0x42698f);
   new THREE.TextureLoader().load('./vault-castle-materials.webp', image=>{
     const img=image.image, size=img.width/2;
     for (const [name,x,y,rx,ry] of [['wood',0,0,1,2],['wall',1,0,3,1.4],['floor',0,1,5,6],['paper',1,1,1,1]]){
@@ -49,10 +54,10 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   function cylinder(r1,r2,h,x,y,z,mat,parent=scene){const mesh=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,renderer.isCompatibility?8:16),mat);mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;parent.add(mesh);return mesh;}
   function sphere(r,x,y,z,mat,parent=scene){const mesh=new THREE.Mesh(new THREE.SphereGeometry(r,renderer.isCompatibility?8:12,renderer.isCompatibility?6:8),mat);mesh.position.set(x,y,z);parent.add(mesh);return mesh;}
   function collide(x,z,w,d){colliders.push({x,z,w:w/2+.24,d:d/2+.24});}
-  const hemi=new THREE.HemisphereLight(0xe7dcee,0x6e432c,1.55);scene.add(hemi);
-  const moon=new THREE.DirectionalLight(0x9fbcff,2.3);moon.position.set(-6,6,3);scene.add(moon);
+  const hemi=new THREE.HemisphereLight(0xd8e9ff,0x57405d,1.35);scene.add(hemi);
+  const moon=new THREE.DirectionalLight(0xb6d8ff,2.15);moon.position.set(-6,6,3);scene.add(moon);
   function lamp(x,y,z,color=0xffb86a,intensity=3,range=9){const light=new THREE.PointLight(color,intensity,range,1.6);light.position.set(x,y,z);scene.add(light);return light;}
-  const keylight=lamp(0,3.8,-1,0xffd5a5,32,16);keylight.castShadow=true;keylight.shadow.mapSize.set(1024,1024);keylight.shadow.bias=-.001;
+  const keylight=lamp(0,3.8,-1,0xffe2bd,26,15);keylight.castShadow=true;keylight.shadow.mapSize.set(1024,1024);keylight.shadow.bias=-.001;
   box(12,.2,14,0,-.1,0,materials.floor,scene,false);
   box(12,.18,14,0,4.6,0,materials.darkwood,scene,false);
   box(12,4.6,.2,0,2.3,-7,materials.wall,scene,false);box(12,4.6,.2,0,2.3,7,materials.wall,scene,false);
