@@ -28,7 +28,7 @@ export function createRoomMotion({canvas,camera,container,movable,interactables,
   for(const [k,v]of taps)taps.set(k,Math.max(0,v-dt));
  }
  camera.rotation.order='YXZ';camera.rotation.set(pitch,yaw,0);camera.position.y=1.67;camera.updateMatrixWorld();
- canvas.dataset.cameraPosition=JSON.stringify([camera.position.x,camera.position.z]);canvas.dataset.paused=String(paused);canvas.dataset.yaw=String(yaw);
+ const positionData=JSON.stringify([camera.position.x,camera.position.z]),pausedData=String(paused),yawData=String(yaw);if(canvas.dataset.cameraPosition!==positionData)canvas.dataset.cameraPosition=positionData;if(canvas.dataset.paused!==pausedData)canvas.dataset.paused=pausedData;if(canvas.dataset.yaw!==yawData)canvas.dataset.yaw=yawData;
  if(active&&!paused&&!document.hidden&&now-lastTarget>90){lastTarget=now;if(targetId&&!map.get(targetId)?.visible){targetId=null;onTarget(null);}ray.setFromCamera(center,camera);targetHits.length=0;ray.intersectObjects(interactables,false,targetHits);const hit=targetHits[0];let current=hit&&hit.distance<3.4&&map.get(hit.object.userData.id)?.visible&&clearSight(hit.object.userData.id)?hit.object.userData.id:null;
   if(!current){let best=2.1;for(const [id,g]of map){if(!g.visible)continue;const d=camera.position.distanceTo(g.position);if(d<best&&clearSight(id)){current=id;best=d;}}}if(current!==targetId){targetId=current;onTarget(current);}
  }return dt;
