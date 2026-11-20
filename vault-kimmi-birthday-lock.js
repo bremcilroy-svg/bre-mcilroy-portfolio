@@ -40,6 +40,19 @@ function mount(){
  function openLock(){
   if(values.join('')==='0913'){
    unlocked=true;lock.classList.add('pvk-unlocked');
+   // The fountain records the birthday puzzle only after the correct code is entered.
+   try{
+    const key='amethyst-academy-fountain-memories-v1';
+    const raw=JSON.parse(localStorage.getItem(key)||'[]');
+    const memories=Array.isArray(raw)?raw.filter(m=>m&&typeof m.title==='string').slice(-30):[];
+    const milestone='birthday-lock-solved';
+    if(!memories.some(m=>m.milestone===milestone)){
+     memories.push({id:'milestone-'+milestone,title:'The Birthday Lock — Unsealed',path:'poetry-vault-author-room.html',date:new Date().toISOString(),note:'The birthday wheels aligned, and the Author’s Study door opened.',milestone});
+     localStorage.setItem(key,JSON.stringify(memories.slice(-30)));
+     try{sessionStorage.setItem('amethyst-fountain-new-milestone',milestone)}catch(e){}
+    }
+   }catch(e){/* Never prevent the door opening when storage is unavailable. */}
+
    status.textContent='✦ Click! Kimmi’s birthday opens the way. The study door is yours.';
    tryButton.textContent='✓ Birthday remembered';
    tryButton.disabled=true;
