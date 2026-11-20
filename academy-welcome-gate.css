@@ -529,3 +529,26 @@
   margin:0 auto 6px;
  }
 }
+
+
+/* Match the approved dark-backed owl artwork to ivory parchment without
+   altering the image file; screen blending removes the black square visually. */
+#academy-letter .academy-crest-realistic:not([hidden]) {
+ mix-blend-mode:screen;
+ filter:drop-shadow(0 2px 2px #42536a35);
+}
+@media(max-width:600px){
+ /* The letter itself must scroll above Android's browser bottom toolbar. */
+ #academy-letter {
+  max-height:calc(100dvh - 104px)!important;
+  overflow-y:auto!important;
+  padding-bottom:16px!important;
+  box-sizing:border-box;
+ }
+ #academy-letter .academy-letter-paper {padding-bottom:26px!important}
+ #academy-letter #academy-letter-send {
+  display:block;
+  width:100%;
+  margin-bottom:10px!important;
+ }
+}
