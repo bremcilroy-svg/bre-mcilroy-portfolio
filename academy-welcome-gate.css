@@ -797,3 +797,32 @@
   animation:none!important;
  }
 }
+
+
+/* Cinematic threshold: light pours through the parted gates and guides
+   the visitor toward the next playable courtyard scene. */
+.sky::after{pointer-events:none}
+.sky.is-delivering::before{
+ content:"";
+ position:absolute;
+ z-index:4;
+ inset:0;
+ pointer-events:none;
+ background:
+  radial-gradient(ellipse 20% 30% at 50% 64%,#fff8e3c9 0%,#b8dcff88 36%,transparent 100%),
+  linear-gradient(90deg,transparent 24%,#c0d8ff18 50%,transparent 76%);
+ opacity:0;
+ animation:academy-threshold-glow 2.45s ease-in-out .25s both;
+}
+@keyframes academy-threshold-glow{
+ 0%,12%{opacity:0}
+ 38%{opacity:.22}
+ 72%{opacity:.75}
+ 100%{opacity:.95}
+}
+.sky.is-delivering .academy-pawprints{
+ filter:drop-shadow(0 0 5px #ffffff) drop-shadow(0 0 12px #83c9ff);
+}
+@media(prefers-reduced-motion:reduce){
+ .sky.is-delivering::before{animation:none;opacity:.4}
+}
