@@ -91,7 +91,7 @@ main .title,main .actions,main .royal-flag-gallery{z-index:2}
 @keyframes fountain-milestone-rise{0%{opacity:0;transform:translateY(80px) scale(.3)}60%{opacity:1;transform:translateY(-20px) scale(1.2)}100%{transform:translateY(0) scale(1)}}
 .fountain-celebration{font:600 14px/1.5 Georgia,serif;text-align:center;color:#f3d6ff;margin:0 auto 12px;max-width:680px}
 @media(prefers-reduced-motion:reduce){.fountain-crystal.new-milestone-crystal{animation:none}}
-.fountain-crystal:nth-child(3n){animation-delay:-1.5s}.fountain-crystal:nth-child(3n + 1){animation-delay:-.8s}
+.fountain-crystal:nth-child(3n):not(.new-milestone-crystal){animation-delay:-1.5s}.fountain-crystal:nth-child(3n + 1):not(.new-milestone-crystal){animation-delay:-.8s}
 .fountain-crystal:hover,.fountain-crystal:focus-visible{filter:brightness(1.4) drop-shadow(0 0 9px #d8a8ff);outline:3px solid #fff;outline-offset:3px}
 .fountain-crystal:focus-visible{clip-path:none;border-radius:10px}
 .fountain-crystal[aria-pressed=true]{filter:brightness(1.5);outline:3px solid #fff;outline-offset:3px;clip-path:none;border-radius:12px}
