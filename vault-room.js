@@ -24,6 +24,9 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, compactDisplay ? 1.15 : 1.4));
   renderer.shadowMap.enabled=!renderer.isCompatibility;
   renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  // Keep the fixed light’s shadow map until an object moves or disappears.
+  renderer.shadowMap.autoUpdate=false;
+  renderer.shadowMap.needsUpdate=true;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure=1.4;
   container.appendChild(renderer.domElement);
@@ -291,10 +294,12 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   else window.addEventListener('resize',resized,{passive:true});
   resized();
   let lastPausedRender=-Infinity;
-  function frame(now){requestAnimationFrame(frame);motion.tick(now);cinema.tick(now);if(document.hidden)return;
+  function frame(now){requestAnimationFrame(frame);motion.tick(now);const wasAnimating=cinema.active;cinema.tick(now);
+    if(wasAnimating||cinema.active)renderer.shadowMap.needsUpdate=true;
+    if(document.hidden)return;
     if(motion.paused&&!cinema.active&&now-lastPausedRender<350)return;lastPausedRender=now;
     const t=now/1000;flames.forEach((f,i)=>{f.scale.y=1.8+Math.sin(t*5+i)*.15;});hearthFlames.forEach((f,i)=>{f.scale.y=1.8+(i%3)*.4+Math.sin(t*8+i)*.3;});firelight.intensity=11+Math.sin(t*11)*.6;renderer.render(scene,camera,cinema.active);
   }
   requestAnimationFrame(frame);onReady(renderer.isCompatibility);
-  return {openDoor,openBook,...motion,collected(id){const g=map.get(id);if(g){g.visible=false;const i=interactables.findIndex(m=>m.userData.id===id);if(i>=0)interactables.splice(i,1);}}};
+  return {openDoor,openBook,...motion,collected(id){const g=map.get(id);if(g){g.visible=false;renderer.shadowMap.needsUpdate=true;const i=interactables.findIndex(m=>m.userData.id===id);if(i>=0)interactables.splice(i,1);}}};
 }
