@@ -1,6 +1,6 @@
 
 import {SECRETS} from './vault-rewards.js?v=20261112-cinematic';
-import {createRoomCinematics} from './vault-cinematics.js?v=20261112-cinematic';
+import {createRoomCinematics, isCastlePassageVisible} from './vault-cinematics.js?v=castle-passage';
 import {createRoomMotion} from './vault-motion.js?v=20261112-cinematic';
 import * as THREE from './vault-three.module.js';
 
@@ -340,7 +340,7 @@ export function createRoom(container, {onTarget, onInspect, onReady, resolutionS
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)lastPausedRender=-Infinity;});
   function frame(now){requestAnimationFrame(frame);motion.tick(now);const wasAnimating=cinema.active;cinema.tick(now);
     if(wasAnimating||cinema.active)renderer.shadowMap.needsUpdate=true;
-    if(document.hidden)return;
+    if(document.hidden||isCastlePassageVisible())return;
     if(motion.paused&&!cinema.active&&now-lastPausedRender<1000)return;lastPausedRender=now;
     if(now-lastFlameUpdate>=33){
       // Decorative firelight needs at most ~30 updates/sec; camera and gameplay still render normally.

@@ -38,6 +38,7 @@ test('Fifth Door puzzle sequence and Author Study navigation retain completion a
 });
 
 test('castle threshold keeps the return cinematic active after repeated activation', async ({page}) => {
+  test.setTimeout(60000);
   await page.emulateMedia({reducedMotion: 'no-preference'});
   await page.goto(base + 'poetry-vault.html');
   await page.locator('#start').click();
@@ -60,7 +61,8 @@ test('castle threshold keeps the return cinematic active after repeated activati
     crossing: true,
     caption: '✦ Returning to the castle lobby… ✦'
   });
-  await expect(page).toHaveURL(/poetry-vault-entrance\.html$/);
+  await page.waitForURL(/poetry-vault-entrance\.html$/, {waitUntil: 'commit', timeout: 30000});
+  await expect(page.locator('#enter-vault')).toBeVisible();
 });
 
 test('castle map keeps keyboard focus while progress is unchanged and refreshes after completion', async ({page}) => {

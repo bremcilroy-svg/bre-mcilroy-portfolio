@@ -1,5 +1,5 @@
 import {SECRETS} from './vault-rewards.js?v=20261112-cinematic';
-import {createRoomCinematics} from './vault-cinematics.js?v=20261112-cinematic';
+import {createRoomCinematics, isCastlePassageVisible} from './vault-cinematics.js?v=castle-passage';
 import {createRoomMotion} from './vault-motion.js?v=20261112-cinematic';
 import * as THREE from './vault-three.module.js';
 import {createCanvasRenderer} from './vault-canvas.js?v=20261112-cinematic';
@@ -105,7 +105,7 @@ export function createDawnRoom(container, {onTarget, onInspect, onReady, onFailu
   function resized(){const rect=container.getBoundingClientRect();renderer.setSize(rect.width,rect.height,false);camera.aspect=rect.width/rect.height;camera.updateProjectionMatrix();}
   new ResizeObserver(resized).observe(container);resized();
   let lastPausedRender=-Infinity;
-  function frame(now){requestAnimationFrame(frame);motion.tick(now);cinema.tick(now);if(document.hidden)return;
+  function frame(now){requestAnimationFrame(frame);motion.tick(now);cinema.tick(now);if(document.hidden||isCastlePassageVisible())return;
     if(motion.paused&&!cinema.active&&now-lastPausedRender<350)return;lastPausedRender=now;
     const t=now/1000;flames.forEach((f,i)=>{f.scale.y=1.8+Math.sin(t*5+i)*.15;});renderer.render(scene,camera,cinema.active);
   }

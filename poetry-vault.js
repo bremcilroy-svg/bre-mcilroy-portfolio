@@ -1,7 +1,7 @@
 import {societyHint,societyComplete,societyInscribe,societyBegin,societyReset} from './vault-society.js?v=20261112-phase7fix';
 import {createVaultRewards,certificateSVG,SECRETS} from './vault-rewards.js?v=20261112-cinematic';
 import {createVaultSound} from './vault-sound.js?v=20261112-cinematic';
-import {chapterEffect} from './vault-cinematics.js?v=20261112-cinematic';
+import {chapterEffect} from './vault-cinematics.js?v=castle-passage';
 import {poems} from './vault-poems.js';
 import {LETTERS,DIARY_ORDER,SAVE_KEY,normalizeState,canOpenDrawer,canOpenDiary} from './vault-state.js';
 const $=s=>document.querySelector(s);
@@ -139,7 +139,7 @@ function targetChanged(id){current=id;const b=$('#interact');b.disabled=!id;b.te
 function fallback(){document.body.classList.add('fallback');$('#scene-status').textContent='3D is unavailable here. Explore objects gives access to the whole chapter.';refreshGraphicsControl();}
 updateHUD();
 
-import('./vault-room.js?v=stone-4')
+import('./vault-room.js?v=castle-passage')
   .then(({ createRoom }) => {
     try {
       room = createRoom($('#scene'), {

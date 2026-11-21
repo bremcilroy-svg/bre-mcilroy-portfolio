@@ -1,6 +1,11 @@
 import * as THREE from './vault-three.module.js';
 // Small transform animations work in both renderers. Reduced-motion settings
 // apply immediately; saved states also restore immediately without replaying.
+// The passage covers the room completely, so wait to submit another scene frame.
+export function isCastlePassageVisible(){
+ return document.getElementById('pv155-transition')?.hidden===false;
+}
+
 export function createRoomCinematics(){
  const jobs=new Map(),reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
  function tween(key,read,write,to,duration=.8,instant=false){const from=read();if(instant||duration<=0||reduced()){jobs.delete(key);write(to);return;}jobs.set(key,{from,to,write,start:performance.now(),duration:duration*1000});}

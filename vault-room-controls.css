@@ -59,3 +59,69 @@ body:has(#vault-room-extras) #pv155-bridge .pv155-panel {
 @media (max-width: 800px), (pointer: coarse) {
   body #aca-room-presence .aca-presence-approach { display: none !important; }
 }
+
+/* Leave room for the Academy map and Gizmo above the movement pads. */
+@media (pointer: coarse), (max-width: 800px) {
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #vault .touch-controls {
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+  body:is(.labyrinth-chapter, .dawn-chapter) #pv-gizmo-companion {
+    left: auto !important;
+    right: max(10px, env(safe-area-inset-right, 0px)) !important;
+    bottom: calc(200px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #vault:has(#play-ui:not([hidden])) {
+    min-height: 0;
+    height: 100dvh;
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #vault #play-ui .tools {
+    top: auto;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    left: 20px;
+    right: 20px;
+    max-width: none;
+    justify-content: center;
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #vault #play-ui .chapter-hud {
+    top: 114px;
+    left: 30%;
+    right: auto;
+    width: min(29vw, 250px);
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #vault #play-ui .interact-wrap {
+    bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #vault #aca-chest-hunt .aca-chest-easy {
+    left: 28%;
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #vault #aca-chest-hunt .aca-chest-secret {
+    right: 30%;
+    top: 52%;
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #pv-gizmo-companion {
+    top: calc(115px + env(safe-area-inset-top, 0px));
+    left: auto !important;
+    right: max(10px, env(safe-area-inset-right, 0px)) !important;
+    bottom: auto !important;
+    width: 92px !important;
+    height: 88px !important;
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #pv-gizmo-companion .pvg-controls {
+    right: calc(100% + 8px);
+    left: auto;
+    bottom: 0;
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #pv-gizmo-companion:has(.pvg-controls) :is(.pvg-recording-panel, .pvg-speech) {
+    top: 100%;
+    bottom: auto !important;
+    left: auto;
+    right: calc(100% + 8px);
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #pv-gizmo-companion .pvg-cat {
+    width: 82px !important;
+    height: 72px !important;
+  }
+}
