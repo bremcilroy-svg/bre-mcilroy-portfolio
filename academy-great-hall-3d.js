@@ -58,7 +58,7 @@ import {
 
   let renderer;
   try {
-    renderer = new WebGLRenderer({ canvas, antialias: quality === 'high', alpha: false, powerPreference: 'low-power' });
+    renderer = new WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'low-power' });
   } catch (error) {
     canvas.remove();
     status.textContent = '3D is unavailable in this browser. The illustrated Great Hall and every existing discovery and passage remain ready.';
