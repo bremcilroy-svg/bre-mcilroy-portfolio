@@ -62,3 +62,26 @@ test('castle threshold keeps the return cinematic active after repeated activati
   });
   await expect(page).toHaveURL(/poetry-vault-entrance\.html$/);
 });
+
+test('castle map keeps keyboard focus while progress is unchanged and refreshes after completion', async ({page}) => {
+  await page.goto(base + 'poetry-vault-entrance.html');
+  await page.locator('.pv155-open').click();
+  await page.locator('.pv192-map-toggle').click();
+  const heart = page.getByRole('button', {name: 'Heart Chamber, open passage'});
+  await heart.focus();
+  const observed = await heart.evaluate(async button => {
+    const list = document.querySelector('.pv192-map');
+    let replacements = 0;
+    const observer = new MutationObserver(records => {replacements += records.length;});
+    observer.observe(list, {childList: true});
+    await new Promise(resolve => setTimeout(resolve, 2300));
+    observer.disconnect();
+    return {focused: document.activeElement === button, replacements};
+  });
+  expect(observed).toEqual({focused: true, replacements: 0});
+
+  await page.evaluate(() => localStorage.setItem('bre-poetry-vault-heart-v1', JSON.stringify({
+    found: ['rose', 'ribbon', 'moon', 'key'], drawerOpen: true, diaryOpen: true, completed: true
+  })));
+  await expect(page.getByRole('button', {name: 'Shattered Mirror, open passage'})).toBeEnabled();
+});

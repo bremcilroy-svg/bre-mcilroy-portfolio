@@ -14,7 +14,7 @@ module.exports = defineConfig({
   reporter: [['line'], ['html', {open: 'never'}]],
   use: {trace: 'retain-on-failure', screenshot: 'only-on-failure'},
   projects: [
-    {name: 'desktop-chromium', use: {...devices['Desktop Chrome'], launchOptions: chromiumLaunch}},
+    {name: 'desktop-chromium', use: {...devices['Desktop Chrome'], viewport: {width: 1280, height: 820}, launchOptions: chromiumLaunch}},
     {name: 'android-chromium', use: {...devices['Pixel 7'], launchOptions: chromiumLaunch}},
     {name: 'iphone-webkit', use: {...devices['iPhone 13']}},
     {name: 'tablet-webkit', use: {...devices['iPad (gen 7) landscape']}}

@@ -42,7 +42,18 @@ function go(i){
  const destination=routes[i]+(i>=1&&i<=4?'?resume=1':'');
  setTimeout(()=>location.assign(destination),reducedMotion?0:650);
 }
-function render(){let s;try{s=stats()}catch(e){console.warn('Cannot read puzzle progress',e);s={journey:{completed:[],allComplete:false,storageAvailable:false},seals:[],society:{fifth:false}};}root.querySelector('.pv155-location').textContent='You are in: '+titles[index];links.replaceChildren();castleMap.replaceChildren();
+function progressSignature({journey,seals,society}){
+ return JSON.stringify([journey.storageAvailable,journey.completed,journey.allComplete,seals,society.fifth]);
+}
+let lastRenderedProgress;
+function render(){
+ let s;
+ try{s=stats()}catch(e){console.warn('Cannot read puzzle progress',e);s={journey:{completed:[],allComplete:false,storageAvailable:false},seals:[],society:{fifth:false}};}
+ const signature=progressSignature(s);
+ // Keep the existing buttons (and keyboard focus) while the unlock state is unchanged.
+ if(signature===lastRenderedProgress)return;
+ lastRenderedProgress=signature;
+ root.querySelector('.pv155-location').textContent='You are in: '+titles[index];links.replaceChildren();castleMap.replaceChildren();
  const heading=document.createElement('p');heading.textContent='✦ THE LIVING CASTLE ✦';heading.className='pv192-map-heading';castleMap.append(heading);
  for(let i=0;i<routes.length;i++){
   const ok=eligible(i,s),b=document.createElement('button');b.type='button';b.className='pv155-route pv192-map-door';b.disabled=!ok||i===index;
