@@ -15,7 +15,8 @@ function init(){
  scene.insertAdjacentElement('afterend',threshold);
  const door=threshold.querySelector('button'),returnDoor=threshold.querySelector('.aca-threshold-return'),toggle=bridge.querySelector('.pv155-open'),panel=bridge.querySelector('.pv155-panel');
  function update(){const active=!play.hidden&&getComputedStyle(play).display!=='none';threshold.hidden=!active}
- returnDoor.addEventListener('click',e=>{if(threshold.hidden)return;e.preventDefault();const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;overlay.querySelector('p').textContent='✦ Returning to the castle lobby… ✦';overlay.hidden=false;overlay.classList.add('aca-crossing');setTimeout(()=>location.assign(returnDoor.href),reduce?0:500);});
+ let returning=false;
+ returnDoor.addEventListener('click',e=>{if(threshold.hidden)return;e.preventDefault();if(returning)return;returning=true;const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;const message=overlay.querySelector('p');if(message)message.textContent='✦ Returning to the castle lobby… ✦';overlay.hidden=false;overlay.classList.add('aca-crossing');setTimeout(()=>location.assign(returnDoor.href),reduce?0:500);});
  door.addEventListener('click',()=>{
   if(threshold.hidden)return;
   if(panel.hidden)toggle.click();
