@@ -32,11 +32,14 @@ function init(){
  corridor.innerHTML='<div class="aca-corridor-ceiling"></div><div class="aca-corridor-left"></div><div class="aca-corridor-right"></div><div class="aca-corridor-floor"></div><div class="aca-corridor-end">✦</div><div class="aca-corridor-light"></div>';
  overlay.prepend(corridor);
  const caption=overlay.querySelector('p');
- const watcher=new MutationObserver(()=>{
-  if(!overlay.hidden&&overlay.classList.contains('pv155-animate')){overlay.classList.add('aca-crossing');if(caption)caption.setAttribute('aria-live','polite')}
-  else overlay.classList.remove('aca-crossing');
- });
+ function syncCrossing(){
+  const crossing=!overlay.hidden&&overlay.classList.contains('pv155-animate');
+  overlay.classList.toggle('aca-crossing',crossing);
+  if(crossing&&caption)caption.setAttribute('aria-live','polite');
+ }
+ const watcher=new MutationObserver(syncCrossing);
  watcher.observe(overlay,{attributes:true,attributeFilter:['hidden','class']});
+ syncCrossing();
  return true;
 }
 function waitForPassage(){
