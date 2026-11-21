@@ -6,6 +6,14 @@ import {poems} from './vault-poems.js';
 import {LETTERS,DIARY_ORDER,SAVE_KEY,normalizeState,canOpenDrawer,canOpenDiary} from './vault-state.js';
 const $=s=>document.querySelector(s);
 const panel=$('#panel'),content=$('#panel-content');
+const graphicsKey='bre-poetry-vault-heart-graphics-v1';
+const graphicsScales={high:1,balanced:.82,performance:.60};
+let graphicsQuality='high';
+try {
+  const saved=localStorage.getItem(graphicsKey);
+  if(Object.hasOwn(graphicsScales,saved))graphicsQuality=saved;
+} catch {}
+
 const symbols={rose:'❀',ribbon:'⋈',moon:'☾',key:'⚿'};
 const names={rose:'Rose',ribbon:'Ribbon',moon:'Moon',key:'Key'};
 const counts={rose:3,ribbon:1,moon:4,key:2};
@@ -98,25 +106,54 @@ room?.openDoor();sound.effect('door');chapterEffect('door');openPanel('One chamb
 const hints={letters:['There are four gold-sealed envelopes: one by the window, one near a chair, one among the books, and one near the fire.','Search the round reading table, the right-hand bookcase, the window seat, and the fireplace mantel. Explore objects can take you to each one.','Open Explore objects and inspect the Rose, Ribbon, Moon, and Key letters. Collect each letter.'],code:['The plate on the desk tells you the order. Each wax seal has a number of small marks.','Rose has 3 marks, Ribbon has 1, Moon has 4, and Key has 2.','Enter 3142 in the writing desk’s lock.'],diary:['The torn page describes ideas. Each letter links one idea to its symbol.','Night is Moon. Bond is Ribbon. Blossom is Rose. Threshold is Key.','Place Moon → Ribbon → Rose → Key, then open the diary.'],door:['The silver mirror key belongs to the door behind your starting point.','Turn around, or choose The Mirror Door from Explore objects.','Inspect The Mirror Door to complete this chapter.'],complete:['The chamber is complete. Inspect The Mirror Door to enter Chapter II, or revisit your poems in the journal.']};
 function showHint(){societyHint(1);const list=hints[stage()];hintLevel=Math.min(hintLevel+1,list.length);openPanel('A whisper in the room.',`<p>${list[hintLevel-1]}</p><p class="fine">Hint ${hintLevel} of ${list.length} · No timer. No penalties.</p>${hintLevel<list.length?'<button class="primary" id="more-hint">A clearer hint →</button>':''}`,'A little guidance');$('#more-hint')?.addEventListener('click',showHint);}
 function showHelp(){openPanel('Take your time.',`<p><strong>Computer:</strong> W / A / S / D to walk. Drag the room to look around. Arrow keys also walk forward/back and turn left/right. Press E, click a nearby letter, or use the inspect button.</p><p><strong>Phone or tablet:</strong> hold the arrow buttons to walk; drag the room to look. The curved arrows turn left and right.</p><p><strong>Explore objects</strong> lets you inspect every object without navigating the 3D room. It works with touch, keyboard, and screen readers.</p><p>Collected letters and unlocked pages stay in your journal. Hints become clearer each time you ask. Solve the desk lock and the diary symbols to reveal the four poems.</p><p>${storageWorks?'Progress saves automatically in this browser.':'Saving is unavailable in this browser; play can continue.'} Sound and narration are optional.</p>`,'Movement & accessibility');}
-function showSettings(){openPanel('Set the atmosphere.',sound.settingsHTML(opening),'Sound & settings');sound.bindSettings(content,{opening,onReset:confirmReset});const b=document.createElement('button');b.id='settings-keepsakes';b.textContent='Keepsakes & discoveries';b.addEventListener('click',showKeepsakes);content.append(b);}
+function refreshGraphicsControl(){
+  const select=$('#heart-graphics-quality');
+  if(!select)return;
+  select.disabled=!room?.setResolutionScale;
+  const status=$('#heart-graphics-status');
+  if(!select.disabled){
+    status.textContent='Balanced and Performance draw fewer pixels.';
+  }else{
+    status.textContent=room||document.body.classList.contains('fallback')
+      ? 'The compatibility view uses its own resolution.'
+      : 'Graphics settings will be available when the room loads.';
+  }
+}
+function showSettings(){
+  openPanel('Set the atmosphere.',`<div class="settings-row"><label for="heart-graphics-quality">Heart Chamber graphics</label><select id="heart-graphics-quality" aria-describedby="heart-graphics-status"><option value="high">High Quality</option><option value="balanced">Balanced</option><option value="performance">Performance</option></select></div><p class="fine" id="heart-graphics-status" role="status"></p>${sound.settingsHTML(opening)}`,'Sound, graphics & settings');
+  const select=$('#heart-graphics-quality');
+  select.value=graphicsQuality;
+  refreshGraphicsControl();
+  select.addEventListener('change',()=>{
+    if(!room?.setResolutionScale||!Object.hasOwn(graphicsScales,select.value))return;
+    graphicsQuality=select.value;
+    room.setResolutionScale(graphicsScales[graphicsQuality]);
+    try{localStorage.setItem(graphicsKey,graphicsQuality);}
+    catch{$('#heart-graphics-status').textContent='Applied for this visit. Your browser could not save the preference.';}
+  });
+  sound.bindSettings(content,{opening,onReset:confirmReset});
+  const b=document.createElement('button');b.id='settings-keepsakes';b.textContent='Keepsakes & discoveries';b.addEventListener('click',showKeepsakes);content.append(b);
+}
 function confirmReset(){openPanel('Begin again?',`<p>This removes only your Heart Chamber puzzle progress from this browser. Its poems will lock again. Your Chapter II progress and the rest of the website are kept.</p><div class="row-actions"><button class="primary" id="confirm-reset">Reset this chapter</button><button id="cancel-reset">Keep my progress</button></div>`,'Reset progress');$('#cancel-reset').addEventListener('click',showSettings);$('#confirm-reset').addEventListener('click',()=>{societyReset(1);state=normalizeState(null);save();window.location.reload();});}
 function targetChanged(id){current=id;const b=$('#interact');b.disabled=!id;b.textContent=id?`Inspect ${objects[id].title.replace(/^The /,'')} · E`:'Approach an object';$('#look-prompt').textContent=id?objects[id].where:'Look around. The letters carry gold seals.';}
-function fallback(){document.body.classList.add('fallback');$('#scene-status').textContent='3D is unavailable here. Explore objects gives access to the whole chapter.';}
+function fallback(){document.body.classList.add('fallback');$('#scene-status').textContent='3D is unavailable here. Explore objects gives access to the whole chapter.';refreshGraphicsControl();}
 updateHUD();
 
-import('./vault-room.js?v=stone-3')
+import('./vault-room.js?v=stone-4')
   .then(({ createRoom }) => {
     try {
       room = createRoom($('#scene'), {
+        resolutionScale: graphicsScales[graphicsQuality],
         onTarget: targetChanged,
         onInspect: inspect,
         onReady: compat => {
           $('#scene-status').textContent = compat
             ? 'Compatibility view · All puzzles available'
             : '';
-        },
-        onFailure: fallback
+        }
       });
+
+      refreshGraphicsControl();
 
       // Restore collected letters and secret discoveries.
       state.found.forEach(id => room.collected(id));

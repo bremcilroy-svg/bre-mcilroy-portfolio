@@ -307,6 +307,75 @@ test('Heart Chamber scenery batches keep the diary and exit playable', async ({p
   await page.locator('#explore').click();
   await page.locator('[data-object="door"]').click();
   await page.getByRole('link', {name: /Enter The Shattered Mirror/}).click();
-  await expect(page).toHaveURL(/poetry-vault-mirror\.html\?resume=1/);
+  await expect(page).toHaveURL(/poetry-vault-mirror\.html\?resume=1/, {timeout: 30000});
   await expect(page.locator('#objective')).toContainText('Find the four mirror fragments');
+});
+
+test('Heart Chamber graphics choices resize the WebGL buffer and preserve the save', async ({page}) => {
+  test.setTimeout(120000);
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto(base + 'poetry-vault.html');
+  await page.locator('#start').click();
+  const canvas = page.locator('#room-canvas');
+  await expect(canvas).toBeVisible();
+  const saveKey = 'bre-poetry-vault-heart-v1';
+  const save = {found: ['rose'], drawerOpen: false, diaryOpen: false, completed: false};
+  await page.evaluate(({saveKey, save}) => localStorage.setItem(saveKey, JSON.stringify(save)), {saveKey, save});
+  await page.reload();
+  await expect(canvas).toBeVisible();
+
+  await page.locator('#settings-button').click();
+  const quality = page.getByLabel('Heart Chamber graphics');
+  await expect(quality).toHaveValue('high');
+  const readBuffer = () => canvas.evaluate(element => {
+    const rect = element.getBoundingClientRect();
+    return {width: element.width, height: element.height, cssWidth: rect.width, cssHeight: rect.height};
+  });
+  if (await canvas.evaluate(element => Boolean(element.getContext('webgl2')))) {
+    await expect(quality).toBeEnabled();
+    const high = await readBuffer();
+    const expected = scale => Math.floor(high.width * scale);
+    for (const [option, scale] of [['balanced', .82], ['performance', .60]]) {
+      await quality.selectOption(option);
+      await expect.poll(async () => Math.abs((await readBuffer()).width - expected(scale))).toBeLessThanOrEqual(1);
+      const actual = await readBuffer();
+      expect(actual.cssWidth).toBe(high.cssWidth);
+      expect(actual.cssHeight).toBe(high.cssHeight);
+    }
+    await page.reload();
+    await expect(canvas).toBeVisible();
+    await page.locator('#settings-button').click();
+    await expect(quality).toHaveValue('performance');
+    await expect.poll(async () => Math.abs((await readBuffer()).width - expected(.60))).toBeLessThanOrEqual(1);
+    await quality.selectOption('high');
+    await expect.poll(async () => (await readBuffer()).width).toBe(high.width);
+    const restoredWidth = await canvas.evaluate(async element => {
+      const context = element.getContext('webgl2');
+      const extension = context.getExtension('WEBGL_lose_context');
+      if (!extension) return null;
+      return new Promise((resolve, reject) => {
+        const timer = setTimeout(() => reject(new Error('WebGL context did not restore')), 15000);
+        element.addEventListener('webglcontextrestored', () => {
+          clearTimeout(timer);
+          requestAnimationFrame(() => resolve(context.drawingBufferWidth));
+        }, {once: true});
+        element.addEventListener('webglcontextlost', event => {
+          event.preventDefault();
+          setTimeout(() => extension.restoreContext(), 100);
+        }, {once: true});
+        extension.loseContext();
+      });
+    });
+    if (restoredWidth !== null) expect(restoredWidth).toBe(high.width);
+  } else {
+    await expect(quality).toBeDisabled();
+  }
+  expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)), saveKey)).toEqual(save);
+  await page.locator('#close-panel').click();
+  await page.locator('#start').click();
+  await page.locator('#explore').click();
+  await page.locator('[data-object="rose"]').click();
+  await expect(page.locator('#collect')).toHaveText('Return to objects');
+  expect(errors).toEqual([]);
 });

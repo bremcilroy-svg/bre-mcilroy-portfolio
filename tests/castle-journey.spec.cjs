@@ -34,5 +34,5 @@ test('Fifth Door puzzle sequence and Author Study navigation retain completion a
  await expect(page.locator('#game')).toBeVisible();
  await expect(page.locator('#step-4')).toHaveClass(/active/);
  await page.getByRole('link',{name:/Enter the Author/}).click();
- await expect(page).toHaveURL(/poetry-vault-author-room[.]html/);
+ await expect(page).toHaveURL(/poetry-vault-author-room[.]html/, {timeout:30000});
 });

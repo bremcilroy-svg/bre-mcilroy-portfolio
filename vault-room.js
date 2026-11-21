@@ -7,7 +7,7 @@ import * as THREE from './vault-three.module.js';
 import {createCanvasRenderer} from './vault-canvas.js?v=20261112-cinematic';
 
 // A self-contained room: local textures and no external network dependencies.
-export function createRoom(container, {onTarget, onInspect, onReady, onFailure}) {
+export function createRoom(container, {onTarget, onInspect, onReady, resolutionScale=1}) {
   const scene = new THREE.Scene();
   const cinema=createRoomCinematics();
   scene.background = new THREE.Color(0x171019);
@@ -21,7 +21,6 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   else renderer=createCanvasRenderer(THREE);
   // Cap rendering cost on small touch screens while retaining desktop detail.
   const compactDisplay=window.matchMedia('(max-width: 700px), (pointer: coarse)').matches;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, compactDisplay ? 1.15 : 1.4));
   renderer.shadowMap.enabled=!renderer.isCompatibility;
   renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   // Keep the fixed light’s shadow map until an object moves or disappears.
@@ -319,16 +318,17 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
   const motion=createRoomMotion({canvas,camera,container,movable,interactables,map,onTarget,onInspect,onStep:()=>document.dispatchEvent(new CustomEvent('vault-step'))});
   // Support browsers without ResizeObserver and avoid a zero-height canvas
   // during page transitions or temporary layout changes.
-  let lastWidth=0,lastHeight=0;
+  let lastWidth=0,lastHeight=0,lastPixelRatio=0;
   function resized(){
     const rect=container.getBoundingClientRect();
     if(rect.width<=0||rect.height<=0)return;
-    // ResizeObserver can fire repeatedly during mobile browser chrome transitions.
-    // Avoid reallocating the drawing buffer and projection for unchanged dimensions.
+    // Avoid reallocating the buffer when mobile browser chrome reports the same size.
     const width=Math.round(rect.width),height=Math.round(rect.height);
-    if(width===lastWidth&&height===lastHeight)return;
-    lastWidth=width;lastHeight=height;
-    renderer.setSize(width,height,false);
+    const pixelRatio=gl?Math.min(window.devicePixelRatio||1,compactDisplay?1.15:1.4)*resolutionScale:1;
+    if(width===lastWidth&&height===lastHeight&&pixelRatio===lastPixelRatio)return;
+    lastWidth=width;lastHeight=height;lastPixelRatio=pixelRatio;
+    if(gl)renderer.setDrawingBufferSize(width,height,pixelRatio);
+    else renderer.setSize(width,height,false);
     camera.aspect=width/height;
     camera.updateProjectionMatrix();
   }
@@ -347,6 +347,16 @@ export function createRoom(container, {onTarget, onInspect, onReady, onFailure})
     }
     renderer.render(scene,camera,cinema.active);
   }
+  if(gl)canvas.addEventListener('webglcontextrestored',()=>{
+    renderer.shadowMap.needsUpdate=true;
+    lastPausedRender=-Infinity;
+  });
   requestAnimationFrame(frame);onReady(renderer.isCompatibility);
-  return {openDoor,openBook,...motion,collected(id){const g=map.get(id);if(g){g.visible=false;renderer.shadowMap.needsUpdate=true;const i=interactables.findIndex(m=>m.userData.id===id);if(i>=0)interactables.splice(i,1);}}};
+  const graphics=gl?{setResolutionScale(scale){
+    if(scale===resolutionScale)return;
+    resolutionScale=scale;
+    resized();
+    lastPausedRender=-Infinity;
+  }}:{};
+  return {openDoor,openBook,...motion,...graphics,collected(id){const g=map.get(id);if(g){g.visible=false;renderer.shadowMap.needsUpdate=true;const i=interactables.findIndex(m=>m.userData.id===id);if(i>=0)interactables.splice(i,1);}}};
 }
