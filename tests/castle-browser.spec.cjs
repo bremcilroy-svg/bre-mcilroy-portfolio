@@ -377,5 +377,18 @@ test('Heart Chamber graphics choices resize the WebGL buffer and preserve the sa
   await page.locator('#explore').click();
   await page.locator('[data-object="rose"]').click();
   await expect(page.locator('#collect')).toHaveText('Return to objects');
+  if (await page.evaluate(() => matchMedia('(pointer: coarse)').matches)) {
+    await page.locator('#close-panel').click();
+    await page.setViewportSize({width: 839, height: 412});
+    const settings = page.locator('#settings-button');
+    const catSound = page.locator('#pv-gizmo-companion .pvg-sound');
+    await expect(catSound).toBeVisible();
+    for (const control of [settings, catSound, page.locator('#explore'), page.locator('[data-move="forward"]')]) {
+      await expect.poll(() => control.evaluate(element => {
+        const {x, y, width, height} = element.getBoundingClientRect();
+        return element.contains(document.elementFromPoint(x + width / 2, y + height / 2));
+      })).toBe(true);
+    }
+  }
   expect(errors).toEqual([]);
 });

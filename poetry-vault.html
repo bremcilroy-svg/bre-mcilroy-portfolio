@@ -115,13 +115,33 @@ box-shadow:0 7px 25px #a7d8ff24}
  #vault .vignette{box-shadow:inset 0 0 55px 10px #0a0c1b66}
  #vault .masthead{background:linear-gradient(#13142ae8,#19132882)}
 }
+@media (orientation: landscape) and (max-height: 500px) {
+ body #pv-gizmo-companion.pvg-display-repaired.pvg-floor-polished {
+   top:calc(76px + env(safe-area-inset-top, 0px));
+   bottom:auto!important;
+   width:116px!important;
+   height:92px!important;
+ }
+ body #pv-gizmo-companion.pvg-floor-polished :is(.pvg-cat, #pvg-real-artwork) {
+   width:116px!important;
+   height:74px!important;
+ }
+ body #pv-gizmo-companion.pvg-floor-polished :is(.pvg-controls, .pvg-recording-panel, .pvg-speech) {
+   right:calc(100% + 8px);
+   bottom:0!important;
+ }
+ body #pv-gizmo-companion.pvg-floor-polished :is(.pvg-recording-panel, .pvg-speech) {
+   top:100%;
+   bottom:auto!important;
+ }
+}
 @media(prefers-contrast:more){#vault .vignette{background:transparent;box-shadow:none}}
 </style></head>
 <body>
 <main id="vault">
 <div id="scene" aria-label="First-person view of a Victorian library"></div>
 <div class="vignette" aria-hidden="true"></div>
-<header class="masthead"><a href="writing.html" class="back">← <span>Bre McIlroy / Writing</span></a><a class="wordmark" href="poetry-vault-entrance.html" aria-label="The Poetry Vault main menu">THE POETRY VAULT</a><button id="settings-button" disabled aria-label="Open sound and narration settings">Sound & settings</button></header>
+<header class="masthead"><a href="writing.html" class="back">← <span>Bre McIlroy / Writing</span></a><a class="wordmark" href="poetry-vault-entrance.html" aria-label="The Poetry Vault main menu">THE POETRY VAULT</a><button id="settings-button" disabled aria-label="Open sound and graphics settings">Sound & settings</button></header>
 <section class="welcome" id="welcome" aria-labelledby="welcome-title">
 <div class="welcome-copy"><p class="eyebrow">The Library of Forgotten Words</p><p class="chapter-label">CHAPTER I <span>—</span> THE HEART CHAMBER</p><h1 id="welcome-title">Some words<br>wait to be<br><em>found.</em></h1><p class="intro">Four sealed letters. A locked diary. A room that remembers.</p><p class="description">Step into a Victorian library and uncover four poems from <i>Love, Pain &amp; The Chaos in My Brain</i> by Bre McIlroy.</p><div class="welcome-actions"><button class="primary" id="start" disabled>Enter the chamber <span>→</span></button></div><p class="fine">Solve the puzzles to unlock the poems · Hints available</p><p id="resume-note" class="fine"></p></div>
 <div class="room-caption"><span class="ornament">✧</span><p>LOVE LEAVES A TRACE.</p><span>Follow the letters.</span></div>
