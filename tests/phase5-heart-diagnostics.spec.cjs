@@ -19,9 +19,13 @@ for (const profile of profiles) {
     const context=await browser.newContext({viewport:{width:profile.width,height:profile.height},reducedMotion:'reduce'});
     const page=await context.newPage();
     const results=[];
+    const errors=[];
+    page.on('pageerror',error=>errors.push(error.message));
+    page.on('response',response=>{if(response.status()>=400 && /\\.(?:js|css)(?:\\?|$)/.test(response.url()))errors.push('Asset HTTP '+response.status()+': '+response.url());});
     try {
       for (const quality of settings) {
         await page.goto(base+'poetry-vault.html',{waitUntil:'domcontentloaded'});
+        if(quality===settings[0])await page.evaluate(()=>localStorage.setItem('phase5-save-sentinel','preserve'));
         await page.evaluate(([storageKey,value])=>localStorage.setItem(storageKey,value),[key,quality]);
         await page.reload({waitUntil:'domcontentloaded'});
         await expect(page.locator('#start')).toBeEnabled({timeout:15000});
@@ -59,12 +63,14 @@ for (const profile of profiles) {
           };
         });
         results.push({quality,...metrics});
+        expect(await page.evaluate(()=>localStorage.getItem('phase5-save-sentinel'))).toBe('preserve');
       }
       await testInfo.attach('heart-chamber-phase5-'+profile.name+'.json',{
-        body:JSON.stringify({profile,browser:testInfo.project.name,results},null,2),
+        body:JSON.stringify({profile,browser:testInfo.project.name,errors,results},null,2),
         contentType:'application/json'
       });
       expect(results).toHaveLength(3);
+      expect(errors,'Browser errors during graphics profiling').toEqual([]);
       for(const result of results){
         expect(result.samples).toBeGreaterThan(20);
         expect(result.documentWidth).toBeLessThanOrEqual(result.viewport.width+12);
