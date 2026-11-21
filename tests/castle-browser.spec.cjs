@@ -395,3 +395,24 @@ test('Heart Chamber graphics choices resize the WebGL buffer and preserve the sa
   }
   expect(errors).toEqual([]);
 });
+
+
+test('Courtyard saving protects more than thirty legacy Fountain memories', async ({page}) => {
+  const key = 'amethyst-academy-fountain-memories-v1';
+  const legacy = JSON.stringify(Array.from({length: 33}, (_, index) => ({
+    id: 'legacy-' + index, title: 'Legacy memory ' + index,
+    path: 'academy-royal-great-hall.html', date: '2026-01-01', note: 'Saved note ' + index,
+    ...(index === 0 ? {milestone: 'earned'} : {})
+  })));
+  await page.addInitScript(({key, legacy}) => {
+    if (localStorage.getItem(key) === null) localStorage.setItem(key, legacy);
+  }, {key, legacy});
+  await page.goto(base + 'academy-moonlit-courtyard.html', {waitUntil: 'domcontentloaded'});
+  await expect(page.locator('.fountain-crystal')).toHaveCount(30);
+  await expect(page.locator('.milestone-crystal')).toHaveCount(1);
+  await page.locator('#fountain-save-here').click();
+  await expect(page.locator('#fountain-count')).toContainText('Legacy memories protected');
+  expect(await page.evaluate(key => localStorage.getItem(key), key)).toBe(legacy);
+  await page.reload({waitUntil: 'domcontentloaded'});
+  expect(await page.evaluate(key => localStorage.getItem(key), key)).toBe(legacy);
+});
