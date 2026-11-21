@@ -1,8 +1,8 @@
 import {
-  BoxGeometry, BufferGeometry, BufferAttribute, CatmullRomCurve3, Color,
+  BoxGeometry, BufferGeometry, BufferAttribute, CanvasTexture, CatmullRomCurve3, Color,
   CylinderGeometry, DirectionalLight, DoubleSide, Fog, Group, HemisphereLight, LineBasicMaterial, LineSegments,
   Mesh, MeshBasicMaterial, MeshStandardMaterial, PerspectiveCamera, PlaneGeometry,
-  PointLight, Raycaster, Scene, SphereGeometry, TorusGeometry, TubeGeometry, Vector2, Vector3,
+  PointLight, Raycaster, Scene, SphereGeometry, SRGBColorSpace, TorusGeometry, TubeGeometry, Vector2, Vector3,
   WebGLRenderer
 } from './vault-three.module.js?v=castle-great-hall-3d';
 
@@ -216,16 +216,33 @@ import {
 
   // Four silk house banners carry their original elements and royal colours.
   const flags = [
-    ['Amethyst', '#563879', '🌪'], ['Emberheart', '#8e2948', '🔥'],
-    ['Frosttopaz', '#205c8b', '🌊'], ['Silverthorn', '#78619b', '🌳']
+    ['Amethyst', 'AIR', '#563879', '🌪'], ['Emberheart', 'FIRE', '#8e2948', '🔥'],
+    ['Frosttopaz', 'WATER', '#205c8b', '🌊'], ['Silverthorn', 'EARTH', '#78619b', '🌳']
   ];
-  flags.forEach(([name, color], i) => {
+  const flagGeometry = new PlaneGeometry(1.7, 1.4);
+  flags.forEach(([name, element, color, emblem], i) => {
     const side = i % 2 ? 1 : -1;
     const z = i < 2 ? 5.7 : -5.8;
     const x = side * 7.95;
-    addBox(name + ' silk flag', x, 4.85, z, .08, 1.4, 1.7,
-      new MeshStandardMaterial({ color, roughness: .82 }), 'tapestry');
-    addBox(name + ' flag pole', x, 5.85, z, .09, .12, 1.9, mats.silver);
+    const cloth = document.createElement('canvas');
+    cloth.width = 384; cloth.height = 320;
+    const paint = cloth.getContext('2d');
+    const sheen = paint.createLinearGradient(0, 0, 384, 0);
+    sheen.addColorStop(0, color); sheen.addColorStop(.45, '#ffffff28'); sheen.addColorStop(1, '#08081788');
+    paint.fillStyle = sheen; paint.fillRect(0, 0, 384, 320);
+    paint.strokeStyle = '#d8e6f3'; paint.lineWidth = 10; paint.strokeRect(8, 8, 368, 304);
+    paint.strokeStyle = '#f7efff'; paint.lineWidth = 2; paint.strokeRect(20, 20, 344, 280);
+    paint.textAlign = 'center'; paint.textBaseline = 'middle';
+    paint.fillStyle = '#f8f1ff'; paint.shadowColor = '#080615'; paint.shadowBlur = 8;
+    paint.font = '68px Georgia, serif'; paint.fillText(emblem, 192, 115);
+    paint.font = 'bold 32px Georgia, serif'; paint.fillText(name, 192, 220);
+    paint.font = 'bold 22px Georgia, serif'; paint.fillText(element, 192, 270);
+    const textile = new CanvasTexture(cloth); textile.colorSpace = SRGBColorSpace;
+    const banner = new Mesh(flagGeometry, new MeshStandardMaterial({ map: textile, roughness: .9, side: DoubleSide }));
+    banner.position.set(x, 4.85, z); banner.rotation.y = side > 0 ? -Math.PI / 2 : Math.PI / 2;
+    banner.name = name + ' silk flag'; banner.userData.discovery = 'tapestry';
+    scene.add(banner); clickable.push(banner);
+    addBox(name + ' flag pole', x, 5.6, z, .09, .12, 1.9, mats.silver);
   });
 
   // The east-wing doorway is a real navigable threshold; the matching HTML links remain.
