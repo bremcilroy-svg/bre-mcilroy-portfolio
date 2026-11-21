@@ -36,3 +36,29 @@ test('Fifth Door puzzle sequence and Author Study navigation retain completion a
  await page.getByRole('link',{name:/Enter the Author/}).click();
  await expect(page).toHaveURL(/poetry-vault-author-room[.]html/, {timeout:30000});
 });
+
+test('castle threshold keeps the return cinematic active after repeated activation', async ({page}) => {
+  await page.emulateMedia({reducedMotion: 'no-preference'});
+  await page.goto(base + 'poetry-vault.html');
+  await page.locator('#start').click();
+  const returnDoor = page.getByRole('link', {name: 'Return through the door to the castle lobby'});
+  await expect(returnDoor).toBeVisible();
+
+  const transition = await returnDoor.evaluate(async link => {
+    link.click();
+    link.click();
+    await Promise.resolve();
+    const overlay = document.getElementById('pv155-transition');
+    return {
+      visible: !overlay.hidden,
+      crossing: overlay.classList.contains('aca-crossing'),
+      caption: overlay.querySelector('p').textContent
+    };
+  });
+  expect(transition).toEqual({
+    visible: true,
+    crossing: true,
+    caption: '✦ Returning to the castle lobby… ✦'
+  });
+  await expect(page).toHaveURL(/poetry-vault-entrance\.html$/);
+});

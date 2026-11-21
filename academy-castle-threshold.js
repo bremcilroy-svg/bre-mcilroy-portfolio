@@ -1,5 +1,5 @@
 /* Castle threshold: in-world corridor attached to the existing guarded passage.
-   Never navigates directly, never changes puzzle saves, and never bypasses locks. */
+   Chapter navigation is guarded by the bridge. The threshold can also return to the lobby. */
 const chapters={
  'poetry-vault.html':'Heart Chamber',
  'poetry-vault-mirror.html':'Shattered Mirror',
@@ -18,10 +18,18 @@ function init(){
  scene.insertAdjacentElement('afterend',threshold);
  const door=threshold.querySelector('button'),returnDoor=threshold.querySelector('.aca-threshold-return'),toggle=bridge.querySelector('.pv155-open'),panel=bridge.querySelector('.pv155-panel');
  function update(){const active=!play.hidden&&getComputedStyle(play).display!=='none';threshold.hidden=!active}
- let returning=false;
- returnDoor.addEventListener('click',e=>{if(threshold.hidden)return;e.preventDefault();if(returning)return;returning=true;const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;const message=overlay.querySelector('p');if(message)message.textContent='✦ Returning to the castle lobby… ✦';overlay.hidden=false;overlay.classList.add('aca-crossing');setTimeout(()=>location.assign(returnDoor.href),reduce?0:500);});
+ returnDoor.addEventListener('click',event=>{
+  event.preventDefault();
+  if(threshold.hidden||!overlay.hidden)return;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const message=overlay.querySelector('p');
+  if(message)message.textContent='✦ Returning to the castle lobby… ✦';
+  overlay.hidden=false;
+  if(!reduce)overlay.classList.add('pv155-animate');
+  setTimeout(()=>location.assign(returnDoor.href),reduce?0:500);
+ });
  door.addEventListener('click',()=>{
-  if(threshold.hidden)return;
+  if(threshold.hidden||!overlay.hidden)return;
   if(panel?.hidden&&toggle)toggle.click();
   const candidates=[...bridge.querySelectorAll('.pv155-links .pv155-route:not(:disabled)')];
   const onward=candidates.find(b=>b.textContent.includes('Open door'));

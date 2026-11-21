@@ -28,7 +28,7 @@ function eligible(i,s){
 }
 function lockReason(i,s){if(!s.journey.storageAvailable)return 'Saved progress is unavailable in this browser';if(i>=2&&i<=4)return 'Complete '+titles[i-1]+' to open this door';if(i===5)return 'Complete all four puzzle chambers';if(i===6)return s.journey.allComplete?'Collect all four chamber seals':'Complete all four chambers and collect their seals';if(i===7)return s.society.fifth?'Complete the required chambers and seals':'Complete the Fifth Door after earning all four seals';return 'Finish the preceding chapter';}
 function go(i){
- if(travelling||i===index)return;
+ if(travelling||!overlay.hidden||i===index)return;
  let progress;
  try{progress=stats();}catch(e){console.warn('Cannot read puzzle progress',e);return;}
  if(!eligible(i,progress)){render();return;}
