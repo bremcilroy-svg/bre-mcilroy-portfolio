@@ -96,9 +96,14 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
     }
     return samples.sort((a, b) => a - b);
   });
+  const runtime = await page.evaluate(() => ({
+    sceneReadyMsSinceNavigation: Number(performance.now().toFixed(1)),
+    jsHeapBytes: performance.memory?.usedJSHeapSize ?? null
+  }));
   const report = {
     browser: testInfo.project.name,
     backend: 'WebGL renderer active; CI Chromium uses SwiftShader software rendering',
+    runtime,
     settings: [starting, balanced, performance],
     frameIntervalMs: {median: intervals[44], p95: intervals[85]},
     note: 'CI/software-rendered timings are observations, not physical-device performance targets.'
