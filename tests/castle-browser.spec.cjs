@@ -248,7 +248,8 @@ test('Heart Chamber controls fit the viewport and move the player', async ({page
   const canvas = page.locator('#room-canvas');
   const position = () => canvas.evaluate(element => JSON.parse(element.dataset.cameraPosition)[1]);
   const before = await position();
-  const controls = ['#explore', '#journal', '#hint', '#help'];
+  const controls = ['#explore', '#journal', '#hint', '#help', '.aca-threshold-door',
+    '.aca-threshold-return', '.pvg-call', '.aca-chest-easy', '.aca-chest-secret'];
   if (testInfo.project.use.hasTouch) controls.push('[data-move="forward"]', '[data-move="turnRight"]');
   for (const selector of controls) {
     const control = page.locator(selector);

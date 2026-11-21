@@ -9,3 +9,8 @@
 #aca-chest-hunt .aca-chest-secret.discovered{opacity:1;color:#e4caff!important;border-color:#c8a5e7!important;background:#38264fdd!important;box-shadow:0 0 18px #c5a4fa88!important}
 #aca-chest-hunt .aca-chest-trial>button{width:100%;text-align:center;background:linear-gradient(120deg,#553469,#36264b)}
 @media(prefers-reduced-motion:reduce){#aca-chest-hunt .aca-chest-secret{transition:none}}
+
+/* Keep the secret chest clear of the cat-sound toggle on portrait phones. */
+@media (orientation: portrait) and (max-width: 450px) {
+ #vault #aca-chest-hunt .aca-chest-secret {left:35%;right:auto;top:42%}
+}
