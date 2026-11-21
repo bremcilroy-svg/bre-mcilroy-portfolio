@@ -277,6 +277,21 @@ test('Heart Chamber controls fit the viewport and move the player', async ({page
     await canvas.press('w');
   }
   await expect.poll(position).toBeLessThan(before - .06);
+  if (testInfo.project.name === 'android-chromium') {
+    const cdp = await page.context().newCDPSession(page);
+    const settings = page.locator('#settings-button');
+    for (const [viewport, insets] of [
+      [{width:390,height:844},{top:40,right:0,left:0,bottom:25}],
+      [{width:664,height:390},{top:0,right:36,left:36,bottom:20}]
+    ]) {
+      await page.setViewportSize(viewport);
+      await cdp.send('Emulation.setSafeAreaInsetsOverride', {insets});
+      await expect.poll(() => settings.evaluate((element,insets) => {
+        const rect=element.getBoundingClientRect();
+        return rect.top>=insets.top && rect.right<=innerWidth-insets.right;
+      },insets)).toBe(true);
+    }
+  }
 });
 
 test('Heart Chamber scenery batches keep the diary and exit playable', async ({page}) => {
