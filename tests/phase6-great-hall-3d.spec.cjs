@@ -27,6 +27,7 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
     await expect(status).toContainText('illustrated Great Hall');
     await expect(page.getByRole('button', {name: 'Visit Gizmo'})).toBeVisible();
     await page.getByRole('button', {name: 'Visit Gizmo'}).click();
+    await expect(page.getByRole('button', {name: 'Visit Gizmo'})).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('#hall-reveal')).toContainText('Gizmo pads quietly');
     expect(errors).toEqual([]);
     return;
@@ -81,6 +82,7 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
   await expect(page.locator('.royal-flag-gallery a')).toHaveCount(4);
   await expect(page.locator('a[href="poetry-vault-entrance.html"]').first()).toBeVisible();
   await page.getByRole('button', {name: 'Visit Gizmo'}).click();
+  await expect(page.getByRole('button', {name: 'Visit Gizmo'})).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('#hall-reveal')).toContainText('Gizmo pads quietly');
 
   const intervals = await page.evaluate(async () => {
@@ -122,6 +124,7 @@ test('Great Hall WebGL failure retains the illustrated room and all links', asyn
   await expect(page.locator('.royal-flag-gallery a')).toHaveCount(4);
   await expect(page.locator('a[href="poetry-vault-entrance.html"]').first()).toBeVisible();
   await page.getByRole('button', {name: 'Visit Gizmo'}).click();
+  await expect(page.getByRole('button', {name: 'Visit Gizmo'})).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('#hall-reveal')).toContainText('Gizmo pads quietly');
   expect(await page.evaluate(key => localStorage.getItem(key), saveKey)).toBeNull();
   expect(errors).toEqual([]);

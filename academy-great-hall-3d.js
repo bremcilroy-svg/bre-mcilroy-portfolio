@@ -41,6 +41,12 @@ import {
     reveal.hidden = false;
     hall.dataset.royalFocus = 'owl';
   });
+  document.querySelector('.discoveries')?.addEventListener('click', event => {
+    const selected = event.target.closest('button[data-discovery]');
+    if (!selected) return;
+    document.querySelectorAll('.discoveries button[data-discovery]').forEach(button =>
+      button.setAttribute('aria-pressed', String(button === selected)));
+  });
   const qualityKey = 'bre-poetry-vault-heart-graphics-v1';
   const scales = { high: 1, balanced: .82, performance: .60 };
   let quality = 'high';
@@ -309,8 +315,7 @@ import {
   };
   function focusDiscovery(id) {
     if (id === 'gizmo') {
-      if (reveal) { reveal.textContent = discoveryText.gizmo; reveal.hidden = false; }
-      hall.dataset.royalFocus = 'owl';
+      discoveryButtons.get('gizmo')?.click();
       return;
     }
     const button = discoveryButtons.get(id);
