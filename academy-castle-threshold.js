@@ -10,6 +10,8 @@ function init(){
  const name=chapters[location.pathname.split('/').pop()];
  const scene=document.getElementById('scene'),play=document.getElementById('play-ui'),bridge=document.getElementById('pv155-bridge'),overlay=document.getElementById('pv155-transition');
  if(!name||!scene||!play||!bridge||!overlay)return false;
+ // Wait for the actual passage controls, not just their asynchronously inserted wrapper.
+ if(!bridge.querySelector('.pv155-open')||!bridge.querySelector('.pv155-panel'))return false;
  if(document.getElementById('aca-threshold'))return true;
  const threshold=document.createElement('div');threshold.id='aca-threshold';threshold.hidden=true;
  threshold.innerHTML='<button type="button" class="aca-threshold-door" aria-label="Approach the castle passage"><span class="aca-threshold-arch" aria-hidden="true"><span class="aca-threshold-crest">✦</span><span class="aca-threshold-seam"></span><span class="aca-threshold-knob">◆</span></span><span class="aca-threshold-caption">Approach the castle door</span></button><a class="aca-threshold-return" href="poetry-vault-entrance.html" aria-label="Return through the door to the castle lobby">↶ Return to lobby</a>';
