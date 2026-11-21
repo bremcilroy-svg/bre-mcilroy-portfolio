@@ -38,7 +38,25 @@ function toast(text){$('#toast').textContent=text;$('#toast').classList.add('vis
 function speak(text){lastNarration=text;sound.speak(text);}
 function stage(){return state.completed?'complete':state.diaryOpen?'door':state.drawerOpen?'diary':state.found.length===4?'code':'letters';}
 function updateHUD(){const s=stage();if(s!==lastStage){hintLevel=0;lastStage=s;}$('#objective').textContent={letters:'Find the four sealed letters.',code:'Open the desk’s four-digit lock.',diary:'Restore the diary’s four symbols.',door:'Take the silver key to the door.',complete:'The Heart Chamber is complete.'}[s];$('#progress').textContent=`${state.found.length} / 4 letters · ${state.diaryOpen?4:0} / 4 poems`;$('#journal-count').textContent=state.diaryOpen?'4':'0';}
-function openPanel(title,html,kicker='The Heart Chamber'){room?.pause(true);$('#panel-title').textContent=title;$('#panel-kicker').textContent=kicker;content.innerHTML=html;if(html.includes('data-poem=')||/complete/i.test(kicker)){const b=document.createElement('button');b.id='keepsake-button';b.className='reward-button';b.textContent='Keepsakes & discoveries →';b.addEventListener('click',showKeepsakes);content.append(b);}if(!panel.open)panel.showModal();content.scrollTop=0;}
+function openPanel(title,html,kicker='The Heart Chamber'){
+ room?.pause(true);
+ const heading=$('#panel-title');
+ const replacedFocus=panel.open&&content.contains(document.activeElement);
+ heading.textContent=title;
+ $('#panel-kicker').textContent=kicker;
+ content.innerHTML=html;
+ if(html.includes('data-poem=')||/complete/i.test(kicker)){
+  const button=document.createElement('button');
+  button.id='keepsake-button';
+  button.className='reward-button';
+  button.textContent='Keepsakes & discoveries →';
+  button.addEventListener('click',showKeepsakes);
+  content.append(button);
+ }
+ if(!panel.open)panel.showModal();
+ else if(replacedFocus)heading.focus({preventScroll:true});
+ content.scrollTop=0;
+}
 function closePanel(){panel.close();}
 panel.addEventListener('close',()=>{room?.pause(!started);sound.stop();});
 $('#close-panel').addEventListener('click',closePanel);

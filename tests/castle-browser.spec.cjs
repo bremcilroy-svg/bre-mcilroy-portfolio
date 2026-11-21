@@ -292,7 +292,11 @@ test('Heart Chamber scenery batches keep the diary and exit playable', async ({p
   }
 
   await page.locator('#explore').click();
-  for (const letter of ['rose', 'ribbon', 'moon', 'key']) {
+  await page.locator('[data-object="rose"]').press('Enter');
+  await expect(page.locator('#panel-title')).toBeFocused();
+  await page.locator('#collect').press('Enter');
+  await expect(page.locator('#panel-title')).toBeFocused();
+  for (const letter of ['ribbon', 'moon', 'key']) {
     await page.locator('[data-object="' + letter + '"]').click();
     await page.locator('#collect').click();
   }
