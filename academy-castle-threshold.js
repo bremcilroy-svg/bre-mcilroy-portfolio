@@ -9,7 +9,8 @@ const chapters={
 function init(){
  const name=chapters[location.pathname.split('/').pop()];
  const scene=document.getElementById('scene'),play=document.getElementById('play-ui'),bridge=document.getElementById('pv155-bridge'),overlay=document.getElementById('pv155-transition');
- if(!name||!scene||!play||!bridge||!overlay||document.getElementById('aca-threshold'))return;
+ if(!name||!scene||!play||!bridge||!overlay)return false;
+ if(document.getElementById('aca-threshold'))return true;
  const threshold=document.createElement('div');threshold.id='aca-threshold';threshold.hidden=true;
  threshold.innerHTML='<button type="button" class="aca-threshold-door" aria-label="Approach the castle passage"><span class="aca-threshold-arch" aria-hidden="true"><span class="aca-threshold-crest">✦</span><span class="aca-threshold-seam"></span><span class="aca-threshold-knob">◆</span></span><span class="aca-threshold-caption">Approach the castle door</span></button><a class="aca-threshold-return" href="poetry-vault-entrance.html" aria-label="Return through the door to the castle lobby">↶ Return to lobby</a>';
  scene.insertAdjacentElement('afterend',threshold);
@@ -36,15 +37,12 @@ function init(){
   else overlay.classList.remove('aca-crossing');
  });
  watcher.observe(overlay,{attributes:true,attributeFilter:['hidden','class']});
+ return true;
 }
 function waitForPassage(){
- if(document.getElementById('pv155-transition')){init();return;}
- // The passage loads its puzzle state asynchronously before inserting the overlay.
- const observer=new MutationObserver(()=>{
-  if(!document.getElementById('pv155-transition'))return;
-  observer.disconnect();
-  init();
- });
- observer.observe(document.body,{childList:true});
+ if(!chapters[location.pathname.split('/').pop()]||init())return;
+ // All passage controls can arrive asynchronously; wait until initialization succeeds.
+ const observer=new MutationObserver(()=>{if(init())observer.disconnect();});
+ observer.observe(document.body,{childList:true,subtree:true});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',waitForPassage,{once:true});else waitForPassage();
