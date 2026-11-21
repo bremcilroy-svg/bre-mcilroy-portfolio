@@ -63,6 +63,8 @@ import {
     canvas.remove();
     status.textContent = '3D is unavailable in this browser. The illustrated Great Hall and every existing discovery and passage remain ready.';
     settings.classList.add('great-hall-3d-unavailable');
+    settings.querySelector('label').hidden = true;
+    qualitySelect.hidden = true;
     viewButton.hidden = true;
     console.info('Great Hall 3D unavailable; retaining the existing room.', error);
     return;
