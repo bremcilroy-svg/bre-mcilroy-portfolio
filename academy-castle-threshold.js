@@ -19,10 +19,11 @@ function init(){
  returnDoor.addEventListener('click',e=>{if(threshold.hidden)return;e.preventDefault();if(returning)return;returning=true;const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;const message=overlay.querySelector('p');if(message)message.textContent='✦ Returning to the castle lobby… ✦';overlay.hidden=false;overlay.classList.add('aca-crossing');setTimeout(()=>location.assign(returnDoor.href),reduce?0:500);});
  door.addEventListener('click',()=>{
   if(threshold.hidden)return;
-  if(panel.hidden)toggle.click();
+  if(panel?.hidden&&toggle)toggle.click();
   const candidates=[...bridge.querySelectorAll('.pv155-links .pv155-route:not(:disabled)')];
   const onward=candidates.find(b=>b.textContent.includes('Open door'));
-  (onward||candidates[0]||toggle).focus({preventScroll:true});
+  const destination=onward||candidates[0]||toggle;
+  if(destination)destination.focus({preventScroll:true});
  });
  new MutationObserver(update).observe(play,{attributes:true,attributeFilter:['hidden','style','class']});update();
  // Enhance the EXISTING transition: the original route and combination lock still control when it opens.
