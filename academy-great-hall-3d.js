@@ -205,7 +205,9 @@ import {
   scene.add(chain);
   const chandelier = new Group();
   chandelier.position.set(0, 4.95, 0);
+  chandelier.userData.discovery = 'chandelier';
   scene.add(chandelier);
+  clickable.push(chandelier);
   for (let i = 0; i < 8; i++) {
     const angle = i / 8 * Math.PI * 2;
     const crystal = new Mesh(sphereGeo, mats.blueGlass);
