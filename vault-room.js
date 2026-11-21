@@ -336,6 +336,8 @@ export function createRoom(container, {onTarget, onInspect, onReady, resolutionS
   else window.addEventListener('resize',resized,{passive:true});
   resized();
   let lastPausedRender=-Infinity,lastFlameUpdate=-Infinity;
+  // Force a fresh frame after returning from a background tab, even if paused.
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)lastPausedRender=-Infinity;});
   function frame(now){requestAnimationFrame(frame);motion.tick(now);const wasAnimating=cinema.active;cinema.tick(now);
     if(wasAnimating||cinema.active)renderer.shadowMap.needsUpdate=true;
     if(document.hidden)return;
