@@ -11,7 +11,7 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
     localStorage.setItem(saveKey, 'phase6-save-sentinel');
     localStorage.setItem(qualityKey, 'high');
   }, {saveKey, qualityKey});
-  await page.setViewportSize(testInfo.project.name.includes('android') ? {width: 412, height: 915} : {width: 1280, height: 820});
+  // Keep each Playwright project's configured device viewport (desktop, Pixel 7, iPhone 13, iPad).
   await page.goto(base + 'academy-royal-great-hall.html');
 
   const status = page.locator('#great-hall-3d-status');
