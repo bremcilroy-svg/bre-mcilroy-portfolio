@@ -380,7 +380,8 @@ test('Heart Chamber graphics choices resize the WebGL buffer and preserve the sa
   if (await page.evaluate(() => matchMedia('(pointer: coarse)').matches)) {
     await page.locator('#close-panel').click();
     const controls = ['#settings-button', '.pvg-sound', '#explore', '#journal', '#hint', '#help',
-      '[data-move="forward"]', '[data-move="turnRight"]', '.aca-chest-easy', '.aca-chest-secret'];
+      '[data-move="forward"]', '[data-move="turnRight"]', '.aca-chest-easy', '.aca-chest-secret',
+      '.aca-threshold-door', '.aca-threshold-return'];
     for (const viewport of [{width: 839, height: 412}, {width: 664, height: 390}]) {
       await page.setViewportSize(viewport);
       for (const selector of controls) {

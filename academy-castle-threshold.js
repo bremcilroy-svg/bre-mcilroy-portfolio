@@ -35,4 +35,14 @@ function init(){
  });
  watcher.observe(overlay,{attributes:true,attributeFilter:['hidden','class']});
 }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+function waitForPassage(){
+ if(document.getElementById('pv155-transition')){init();return;}
+ // The passage loads its puzzle state asynchronously before inserting the overlay.
+ const observer=new MutationObserver(()=>{
+  if(!document.getElementById('pv155-transition'))return;
+  observer.disconnect();
+  init();
+ });
+ observer.observe(document.body,{childList:true});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',waitForPassage,{once:true});else waitForPassage();
