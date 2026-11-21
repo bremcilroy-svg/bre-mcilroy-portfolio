@@ -5,6 +5,7 @@ import {
   PointLight, Raycaster, Scene, SphereGeometry, SRGBColorSpace, TorusGeometry, TubeGeometry, Vector2, Vector3,
   WebGLRenderer
 } from './vault-three.module.js?v=castle-great-hall-3d';
+import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
 
 (() => {
   'use strict';
@@ -109,34 +110,18 @@ import {
     black: new MeshBasicMaterial({ color: '#10131e' })
   };
   const clickable = [];
-  const boxGeo = new BoxGeometry(1, 1, 1);
-  const cylinderGeo = new CylinderGeometry(.42, .52, 1, 12);
-  const sphereGeo = new SphereGeometry(1, 16, 12);
+  const roomKit = createRoyalRoomKit({ BoxGeometry, CylinderGeometry, SphereGeometry, Mesh }, scene);
   const addBox = (name, x, y, z, sx, sy, sz, material, discovery, url) => {
-    const mesh = new Mesh(boxGeo, material);
-    mesh.name = name;
-    mesh.position.set(x, y, z);
-    mesh.scale.set(sx, sy, sz);
+    const mesh = roomKit.box({ name, position: [x, y, z], size: [sx, sy, sz], material });
     mesh.userData.discovery = discovery;
     if (url) mesh.userData.url = url;
-    scene.add(mesh);
     if (discovery || url) clickable.push(mesh);
     return mesh;
   };
-  const addCylinder = (x, y, z, h, material, radius = .34) => {
-    const mesh = new Mesh(cylinderGeo, material);
-    mesh.position.set(x, y, z);
-    mesh.scale.set(radius / .47, h, radius / .47);
-    scene.add(mesh);
-    return mesh;
-  };
-  const addSphere = (parent, x, y, z, sx, sy, sz, material) => {
-    const mesh = new Mesh(sphereGeo, material);
-    mesh.position.set(x, y, z);
-    mesh.scale.set(sx, sy, sz);
-    parent.add(mesh);
-    return mesh;
-  };
+  const addCylinder = (x, y, z, h, material, radius = .34) =>
+    roomKit.cylinder({ position: [x, y, z], height: h, radius, material });
+  const addSphere = (parent, x, y, z, sx, sy, sz, material) =>
+    roomKit.sphere({ position: [x, y, z], size: [sx, sy, sz], material, parent });
 
   // A broad, softly lit stone floor, vaulted ceiling and low-cost grid of silver inlays.
   const floor = new Mesh(new PlaneGeometry(18, 22), mats.stone);
@@ -216,10 +201,7 @@ import {
   clickable.push(chandelier);
   for (let i = 0; i < 8; i++) {
     const angle = i / 8 * Math.PI * 2;
-    const crystal = new Mesh(sphereGeo, mats.blueGlass);
-    crystal.scale.setScalar(.11);
-    crystal.position.set(Math.cos(angle) * 1.45, -.38, Math.sin(angle) * 1.45);
-    chandelier.add(crystal);
+    const crystal = roomKit.sphere({ parent: chandelier, position: [Math.cos(angle) * 1.45, -.38, Math.sin(angle) * 1.45], size: [.11, .11, .11], material: mats.blueGlass });
   }
 
   // Four silk house banners carry their original elements and royal colours.
@@ -259,10 +241,8 @@ import {
   addBox('east wing door silver frame right', 8.53, 2.15, 6.68, .15, 3.9, .18, mats.silver);
   addBox('east wing door silver lintel', 8.53, 4.02, 5.2, .15, .18, 3.05, mats.silver);
   addBox('east wing door inset', 8.43, 2.12, 5.2, .08, 2.9, 2.2, mats.purple, null, 'academy-enchanted-east-wing.html');
-  const doorHandle = new Mesh(new SphereGeometry(.11, 10, 8), mats.gold);
-  doorHandle.position.set(8.34, 1.7, 5.2);
+  const doorHandle = roomKit.sphere({ name: 'East Wing silver door handle', position: [8.34, 1.7, 5.2], size: [.11, .11, .11], material: mats.gold });
   doorHandle.userData.url = 'academy-enchanted-east-wing.html';
-  scene.add(doorHandle);
   clickable.push(doorHandle);
 
   // A small companion model keeps Gizmo present in the walkable room.
