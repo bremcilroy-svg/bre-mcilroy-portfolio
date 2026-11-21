@@ -379,15 +379,18 @@ test('Heart Chamber graphics choices resize the WebGL buffer and preserve the sa
   await expect(page.locator('#collect')).toHaveText('Return to objects');
   if (await page.evaluate(() => matchMedia('(pointer: coarse)').matches)) {
     await page.locator('#close-panel').click();
-    await page.setViewportSize({width: 839, height: 412});
-    const settings = page.locator('#settings-button');
-    const catSound = page.locator('#pv-gizmo-companion .pvg-sound');
-    await expect(catSound).toBeVisible();
-    for (const control of [settings, catSound, page.locator('#explore'), page.locator('[data-move="forward"]')]) {
-      await expect.poll(() => control.evaluate(element => {
-        const {x, y, width, height} = element.getBoundingClientRect();
-        return element.contains(document.elementFromPoint(x + width / 2, y + height / 2));
-      })).toBe(true);
+    const controls = ['#settings-button', '.pvg-sound', '#explore', '#journal', '#hint', '#help',
+      '[data-move="forward"]', '[data-move="turnRight"]', '.aca-chest-easy', '.aca-chest-secret'];
+    for (const viewport of [{width: 839, height: 412}, {width: 664, height: 390}]) {
+      await page.setViewportSize(viewport);
+      for (const selector of controls) {
+        const control = page.locator(selector);
+        await expect(control).toBeVisible();
+        await expect.poll(() => control.evaluate(element => {
+          const {x, y, width, height} = element.getBoundingClientRect();
+          return element.contains(document.elementFromPoint(x + width / 2, y + height / 2));
+        }), selector + ' should be reachable in landscape').toBe(true);
+      }
     }
   }
   expect(errors).toEqual([]);
