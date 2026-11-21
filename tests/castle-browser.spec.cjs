@@ -131,6 +131,7 @@ test('completed-chapter fixture solves Fifth Door puzzles through actual UI and 
 });
 
 test('original chamber progress normalizes and survives a cross-chapter reload',async({page})=>{
+  test.setTimeout(120000);
   await page.goto(base+'poetry-vault-entrance.html');
   const report=await page.evaluate(async()=>{
     const [{readJourney},{societyStats}]=await Promise.all([import('./vault-journey.js'),import('./vault-society.js')]);
@@ -156,6 +157,13 @@ test('original chamber progress normalizes and survives a cross-chapter reload',
     return {complete:s.journey.allComplete,seals:s.seals.length};
   });
   expect(after).toEqual({complete:true,seals:4});
+  for (const [chapter, object] of [['mirror', 'thorn'], ['labyrinth', 'note'], ['dawn', 'window']]) {
+    await page.goto(base + 'poetry-vault-' + chapter + '.html?resume=1', {waitUntil:'domcontentloaded'});
+    if (await page.locator('#start').isVisible()) await page.locator('#start').click();
+    await page.locator('#explore').click();
+    await page.locator('[data-object="' + object + '"]').press('Enter');
+    await expect(page.locator('#panel-title')).toBeFocused();
+  }
   await page.goto(base+'poetry-vault-fifth-door.html');
   await expect(page.locator('#game')).toBeVisible({timeout:15000});
 });
