@@ -1,0 +1,140 @@
+/* Walkable courtyard layer; the original illustrated scene remains the fallback. */
+#moonlit-courtyard-3d-canvas {
+  /* Keep the scene inside the courtyard hero so it cannot cover the Fountain
+     controls and memory cards that live below the hero in document flow. */
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  touch-action: none;
+  cursor: grab;
+  pointer-events: auto;
+}
+#moonlit-courtyard-3d-canvas:active { cursor: grabbing; }
+#moonlit-courtyard-3d-canvas[hidden] { display: none; }
+body.academy-courtyard-3d-active { background: #11182b; }
+body.academy-courtyard-3d-active main { background: transparent !important; overflow: visible; }
+body.academy-courtyard-3d-active main > :not(#moonlit-courtyard-3d-canvas):not(.courtyard-threshold):not(.courtyard-approach):not(.stars):not(.moon):not(.floor):not(.arches):not(.courtyard-masonry):not(.courtyard-house-lights):not(.snow):not(.academy-view-photo) {
+  position: relative;
+  z-index: 4;
+}
+body.academy-courtyard-3d-active main > :is(.courtyard-threshold, .courtyard-approach, .stars, .moon, .floor, .arches, .courtyard-masonry, .courtyard-house-lights, .snow, .academy-owl, .academy-gizmo, .royal-amethyst-fountain, .academy-view-photo, .academy-view-controls) {
+  display: none !important;
+}
+body.academy-courtyard-3d-active main > .royal-flag-gallery {
+  margin-top: 5px;
+  margin-bottom: 6px;
+  max-width: 640px;
+}
+body.academy-courtyard-3d-active main > .royal-flag-gallery .royal-flag {
+  min-height: 94px;
+  padding-bottom: 12px;
+}
+body.academy-courtyard-3d-active main > .actions { margin: 4px auto 6px; }
+.courtyard-3d-controls {
+  position: relative;
+  z-index: 8;
+  width: min(920px, 96%);
+  margin: 10px auto 4px;
+  padding: 10px 12px;
+  border: 1px solid #c7b5dd;
+  border-radius: 16px;
+  background: #171427df;
+  color: #f5efff;
+  box-shadow: 0 8px 24px #08071499, inset 0 1px #ffffff22;
+  backdrop-filter: blur(9px);
+  font: 600 12px/1.4 system-ui, sans-serif;
+}
+.courtyard-3d-settings,
+.courtyard-3d-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.courtyard-3d-controls button,
+.courtyard-3d-controls select {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #dbc9ef;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #432955f2, #202642f2);
+  color: #fff;
+  font: 600 12px/1.25 system-ui, sans-serif;
+  touch-action: manipulation;
+}
+.courtyard-3d-controls button { cursor: pointer; }
+.courtyard-3d-controls button:hover,
+.courtyard-3d-controls button:focus-visible,
+.courtyard-3d-controls select:focus-visible {
+  outline: 3px solid #bceaff;
+  outline-offset: 2px;
+}
+#courtyard-3d-status {
+  max-width: 68ch;
+  min-height: 1.5em;
+  margin: 7px auto;
+  color: #e4eaff;
+  text-align: center;
+  font: 12px/1.45 system-ui, sans-serif;
+}
+.courtyard-3d-actions { gap: 6px; }
+.courtyard-3d-actions button { background: #2b3553ee; }
+.courtyard-3d-unavailable {
+  border-color: #a8c2df;
+  margin-top: 18px;
+}
+.courtyard-3d-unavailable #courtyard-3d-status { color: #f2e4ff; }
+.courtyard-3d-touch {
+  position: fixed;
+  z-index: 10;
+  left: max(12px, env(safe-area-inset-left));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  display: none;
+  grid-template-columns: repeat(3, 48px);
+  grid-template-rows: repeat(2, 48px);
+  gap: 5px;
+  touch-action: none;
+}
+.courtyard-3d-touch:not([hidden]) { display: grid; }
+.courtyard-3d-touch button {
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0;
+  border: 1px solid #d9edff;
+  border-radius: 12px;
+  background: #1b2545eF;
+  color: #fff;
+  box-shadow: 0 3px 12px #050713b8;
+  font: 700 22px/1 system-ui, sans-serif;
+  touch-action: none;
+}
+.courtyard-3d-touch button:nth-child(1) { grid-column: 2; grid-row: 1; }
+.courtyard-3d-touch button:nth-child(2) { grid-column: 1; grid-row: 2; }
+.courtyard-3d-touch button:nth-child(3) { grid-column: 2; grid-row: 2; }
+.courtyard-3d-touch button:nth-child(4) { grid-column: 3; grid-row: 2; }
+.courtyard-3d-touch button:active { background: #694d8c; }
+.courtyard-3d-touch[hidden] { display: none !important; }
+@media (pointer: fine) { .courtyard-3d-touch { display: none !important; } }
+@media (max-width: 600px) {
+  .courtyard-3d-controls { width: calc(100% - 16px); margin-top: 8px; padding: 8px; }
+  .courtyard-3d-settings, .courtyard-3d-actions { gap: 5px; }
+  .courtyard-3d-controls button, .courtyard-3d-controls select { padding: 7px 9px; font-size: 11px; }
+  body.academy-courtyard-3d-active main > .royal-flag-gallery { gap: 4px; }
+  body.academy-courtyard-3d-active main > .royal-flag-gallery .royal-flag { min-height: 82px; }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  .courtyard-3d-controls { width: min(590px, 64vw); margin: 6px 8px 0 auto; padding: 6px; }
+  #courtyard-3d-status { display: none; }
+  body.academy-courtyard-3d-active main > .royal-flag-gallery { max-width: 440px; }
+  .courtyard-3d-touch { transform: scale(.86); transform-origin: bottom left; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #moonlit-courtyard-3d-canvas { scroll-behavior: auto; }
+  .courtyard-3d-controls button { transition: none; }
+}

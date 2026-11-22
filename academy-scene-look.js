@@ -32,7 +32,7 @@ if (view) {
   view.addEventListener('pointerdown', event => {
     // A walkable room owns pointer capture on its canvas; do not let this
     // background-pan listener replace capture on the 3D interaction surface.
-    if (event.target.closest('#great-hall-3d-canvas')) return;
+    if (event.target.closest('#great-hall-3d-canvas, #moonlit-courtyard-3d-canvas')) return;
     if (event.button !== 0 || event.target.closest('a, button, input, label, select, textarea')) return;
     drag = { id: event.pointerId, x: event.clientX, offset };
     view.setPointerCapture(event.pointerId);

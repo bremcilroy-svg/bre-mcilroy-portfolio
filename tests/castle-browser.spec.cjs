@@ -215,6 +215,68 @@ test('walkable perimeter scene starts facing the gate and offers courtyard passa
  await expect(page).toHaveURL(/academy-moonlit-courtyard[.]html/);
 });
 
+test('the royal invitation leads to walkable gates and retains a direct courtyard link',async({page})=>{
+ await page.goto(base+'amethyst-crescent-academy.html');
+ await expect(page.locator('#academy-gate')).toHaveAttribute('href','academy-perimeter-3d.html');
+ await page.goto(base+'academy-perimeter-3d.html');
+ await expect(page.getByRole('link',{name:'Enter Courtyard Directly'})).toHaveAttribute('href','academy-moonlit-courtyard.html');
+});
+
+test('royal perimeter contains four raised house flags and a collision-aware gate',async({page})=>{
+ await page.goto(base+'academy-perimeter-3d.html');
+ await expect(page.locator('#status')).toContainText('ready',{timeout:30000});
+ const result=await page.evaluate(()=>{
+  const scene=BABYLON.EngineStore.LastCreatedScene;
+  return {flags:scene.meshes.filter(m=>m.name.endsWith('embroidered house flag')).length,
+   poles:scene.meshes.filter(m=>m.name.includes('tall silver flagpole')).length,
+   gateBlocker:scene.getMeshByName('closed wrought iron gate collision')?.checkCollisions,
+   mainWall:scene.getMeshByName('palace front collision wall')?.checkCollisions,
+   doorButton:!!document.querySelector('#enter-palace'),
+   doors:scene.getTransformNodeByName('west royal entrance door hinge')&&scene.getTransformNodeByName('east royal entrance door hinge'),houses:['AMETHYST AIR','EMBERHEART FIRE','FROSTVEIL WATER','SILVERTHORN EARTH'].every(name=>scene.meshes.some(m=>m.name===name+' embroidered house flag'))};
+ });
+ expect(result.flags).toBe(4);expect(result.poles).toBe(4);expect(result.gateBlocker).toBe(true);expect(result.mainWall).toBe(true);expect(result.doorButton).toBe(true);expect(result.doors).toBeTruthy();expect(result.houses).toBe(true);
+});
+
+test('the perimeter keeps an illustrated castle fallback when WebGL is unavailable',async({page})=>{
+ await page.route('https://cdn.babylonjs.com/babylon.js',route=>route.fulfill({contentType:'application/javascript',body:''}));
+ await page.goto(base+'academy-perimeter-3d.html');
+ await expect(page.locator('body')).toHaveClass(/no-webgl/);
+ await expect(page.locator('#fallbackScene')).toBeVisible();
+ await expect(page.locator('#touch')).toBeHidden();
+ await expect(page.getByRole('link',{name:'Enter Courtyard Directly'})).toBeVisible();
+});
+
+test('the palace doors animate and lead to the existing Great Hall',async({page})=>{
+ await page.goto(base+'academy-perimeter-3d.html');
+ await expect(page.locator('#status')).toContainText('ready',{timeout:30000});
+ await page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.activeCamera.position.set(0,1.8,2));
+ const button=page.locator('#enter-palace');await expect(button).toBeVisible({timeout:5000});await button.click();
+ await expect.poll(async()=>page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.getMeshByName('closed main entrance collision').checkCollisions),{timeout:5000}).toBe(false);
+ await expect(page.locator('#status')).toContainText('doors open',{timeout:5000});
+ await expect(page).toHaveURL(/academy-royal-great-hall[.]html#royal-reception/,{timeout:10000});
+});
+
+test('players can pass through the opened gates and reach the palace entrance',async({page})=>{
+ await page.goto(base+'academy-perimeter-3d.html');
+ await expect(page.locator('#status')).toContainText('ready',{timeout:30000});
+ const camera=()=>page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.activeCamera.position.z);
+ const beforeTouch=await camera(),forward=page.locator('[data-move="forward"]');
+ await forward.dispatchEvent('pointerdown',{pointerId:73,pointerType:'touch',isPrimary:true,button:0});
+ await page.waitForTimeout(180);
+ await forward.dispatchEvent('pointerup',{pointerId:73,pointerType:'touch',isPrimary:true,button:0});
+ await expect.poll(camera,{timeout:3000}).toBeLessThan(beforeTouch-.08);
+ await page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.activeCamera.position.set(0,1.8,-29));
+ const blocker=()=>page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.getMeshByName('closed wrought iron gate collision').checkCollisions);
+ await expect.poll(blocker,{timeout:6000}).toBe(false);
+ await page.evaluate(()=>{const c=BABYLON.EngineStore.LastCreatedScene.activeCamera;c.position.set(0,1.8,-33);c.cameraDirection.addInPlace(new BABYLON.Vector3(0,0,-2))});
+ await page.waitForTimeout(120);
+ const moved=await page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.activeCamera.position.z);
+ expect(moved).toBeLessThan(-34);
+ await page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.activeCamera.position.set(0,1.8,2));
+ await expect(page.locator('#enter-palace')).toBeVisible({timeout:5000});
+ expect(await page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.getMeshByName('closed main entrance collision').checkCollisions)).toBe(true);
+});
+
 test('silver entrance gate opens when approached and closes when leaving',async({page})=>{
  await page.goto(base+'academy-perimeter-3d.html');
  await expect(page.locator('#status')).toContainText('ready',{timeout:30000});
@@ -230,7 +292,7 @@ test('silver entrance gate opens when approached and closes when leaving',async(
  const open=await read();
  expect(open[0]).toBeLessThan(-.7);
  expect(open[1]).toBeGreaterThan(.7);
- await page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.activeCamera.position.set(0,1.8,-23));
+ await page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.activeCamera.position.set(0,1.8,-18));
  await expect(page.locator('#enter')).toBeHidden();
  await expect.poll(async()=>Math.abs((await read())[0]),{timeout:5000}).toBeLessThan(.2);
 });
