@@ -47,7 +47,9 @@ test('Moonlit Courtyard 3D walk, touch, house details and Fountain memories', as
   expect(starting.geometries).toBeGreaterThan(10);
   expect(starting.canvas.width).toBeGreaterThan(0);
   expect(starting.canvas.height).toBeGreaterThan(0);
-  expect(starting.memoryCrystals).toBe(2);
+  // First courtyard visit is an existing earned keepsake, in addition to the
+  // two isolated seed memories provided above.
+  expect(starting.memoryCrystals).toBe(3);
   expect(starting.motionReduced).toBe(true);
   expect(starting.snow).toBe(false);
 
@@ -122,10 +124,10 @@ test('Moonlit Courtyard 3D walk, touch, house details and Fountain memories', as
   await page.getByRole('button', {name: 'Approach the Fountain'}).click();
   await expect(page.locator('#fountain-save-here')).toBeFocused();
   await page.locator('#fountain-save-here').click();
-  await expect(page.locator('#fountain-count')).toContainText('3 / 30');
-  await expect.poll(() => page.evaluate(() => window.academyMoonlitCourtyard3D.diagnostics().memoryCrystals)).toBe(3);
+  await expect(page.locator('#fountain-count')).toContainText('4 / 30');
+  await expect.poll(() => page.evaluate(() => window.academyMoonlitCourtyard3D.diagnostics().memoryCrystals)).toBe(4);
   const saved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), memoryKey);
-  expect(saved).toHaveLength(3);
+  expect(saved).toHaveLength(4);
   expect(saved.find(memory => memory.id === 'courtyard-test-milestone')).toBeTruthy();
   expect(await page.evaluate(key => localStorage.getItem(key), progressKey)).toBe('existing-puzzle-progress-sentinel');
   const note = page.getByLabel('Memory note for The Moonlit Courtyard');
@@ -160,7 +162,7 @@ test('Moonlit Courtyard 3D walk, touch, house details and Fountain memories', as
   await expect(page.locator('#courtyard-3d-status')).toContainText('Performance detail');
   expect(await page.evaluate(key => localStorage.getItem(key), progressKey)).toBe('existing-puzzle-progress-sentinel');
   const reloaded = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), memoryKey);
-  expect(reloaded).toHaveLength(3);
+  expect(reloaded).toHaveLength(4);
   expect(reloaded.find(memory => memory.title === 'The Moonlit Courtyard')?.note).toBe('Saved during the courtyard 3D regression test.');
   expect(reloaded.find(memory => memory.id === 'courtyard-test-milestone')).toBeTruthy();
   expect(errors).toEqual([]);
@@ -184,9 +186,11 @@ test('Courtyard WebGL fallback keeps the Fountain memory collection working', as
   await expect(page.locator('.royal-flag-gallery a')).toHaveCount(4);
   await expect(page.locator('.academy-gizmo')).toBeVisible();
   await page.locator('#fountain-save-here').click();
-  await expect(page.locator('#fountain-count')).toContainText('2 / 30');
+  // The courtyard's existing first-visit keepsake is added alongside the
+  // seeded memory before the manually saved courtyard memory.
+  await expect(page.locator('#fountain-count')).toContainText('3 / 30');
   const memories = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), memoryKey);
-  expect(memories).toHaveLength(2);
+  expect(memories).toHaveLength(3);
   expect(memories.some(memory => memory.id === 'fallback-memory')).toBe(true);
   expect(await page.evaluate(key => localStorage.getItem(key), progressKey)).toBe('fallback-progress-sentinel');
   expect(errors).toEqual([]);

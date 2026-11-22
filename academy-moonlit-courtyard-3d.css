@@ -1,6 +1,8 @@
 /* Walkable courtyard layer; the original illustrated scene remains the fallback. */
 #moonlit-courtyard-3d-canvas {
-  position: fixed;
+  /* Keep the scene inside the courtyard hero so it cannot cover the Fountain
+     controls and memory cards that live below the hero in document flow. */
+  position: absolute;
   inset: 0;
   z-index: 0;
   display: block;
