@@ -105,7 +105,13 @@ test('Moonlit Courtyard 3D walk, touch, house details and Fountain memories', as
     await page.keyboard.up('w');
   }
   await page.evaluate(() => document.activeElement?.blur());
+  const statusBeforeInspect = await page.locator('#courtyard-3d-status').textContent();
   await page.keyboard.press('e');
+  await expect.poll(() => page.locator('#courtyard-3d-status').textContent()).not.toBe(statusBeforeInspect);
+  await expect(page.locator('#courtyard-3d-status')).not.toContainText('Move closer');
+  // The E key inspects the nearest object, which can be a rose or companion.
+  // Select the corresponding Fountain crystal through its accessible control.
+  await page.locator('#fountain-crystal-pool .fountain-crystal').first().click();
   await expect(page.locator('.fountain-crystal[aria-pressed="true"]')).toHaveCount(1);
 
   await page.getByLabel('Courtyard graphics quality').selectOption('balanced');
