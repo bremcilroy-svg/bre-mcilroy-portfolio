@@ -225,9 +225,9 @@ test('royal perimeter contains four raised house flags and a collision-aware gat
    gateBlocker:scene.getMeshByName('closed wrought iron gate collision')?.checkCollisions,
    mainWall:scene.getMeshByName('palace front collision wall')?.checkCollisions,
    doorButton:!!document.querySelector('#enter-palace'),
-   doors:scene.getTransformNodeByName('west royal entrance door hinge')&&scene.getTransformNodeByName('east royal entrance door hinge')};
+   doors:scene.getTransformNodeByName('west royal entrance door hinge')&&scene.getTransformNodeByName('east royal entrance door hinge'),houses:['AMETHYST AIR','EMBERHEART FIRE','FROSTVEIL WATER','SILVERTHORN EARTH'].every(name=>scene.meshes.some(m=>m.name===name+' embroidered house flag'))};
  });
- expect(result.flags).toBe(4);expect(result.poles).toBe(4);expect(result.gateBlocker).toBe(true);expect(result.mainWall).toBe(true);expect(result.doorButton).toBe(true);expect(result.doors).toBeTruthy();
+ expect(result.flags).toBe(4);expect(result.poles).toBe(4);expect(result.gateBlocker).toBe(true);expect(result.mainWall).toBe(true);expect(result.doorButton).toBe(true);expect(result.doors).toBeTruthy();expect(result.houses).toBe(true);
 });
 
 test('the perimeter keeps an illustrated castle fallback when WebGL is unavailable',async({page})=>{
