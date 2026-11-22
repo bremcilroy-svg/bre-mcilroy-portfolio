@@ -426,9 +426,21 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
     const button = event.target.closest('button[data-walk]');
     if (!button) return;
     event.preventDefault();
-    held.add(button.dataset.walk);
+    const direction = button.dataset.walk;
+    const pressedAt = performance.now();
+    const startX = camera.position.x, startZ = camera.position.z;
+    held.add(direction);
     button.setPointerCapture(event.pointerId);
-    const stop = () => held.delete(button.dataset.walk);
+    const stop = () => {
+      held.delete(direction);
+      // A brief tap can begin and end between rendered frames. Make it a small
+      // deliberate step so touch controls work for tap users as well as holds.
+      if (performance.now() - pressedAt < 180 && Math.hypot(camera.position.x - startX, camera.position.z - startZ) < .025) {
+        held.add(direction);
+        move(.12);
+        held.delete(direction);
+      }
+    };
     button.addEventListener('pointerup', stop, { once: true });
     button.addEventListener('pointercancel', stop, { once: true });
     button.addEventListener('lostpointercapture', stop, { once: true });
