@@ -35,7 +35,7 @@ jobs:
       - name: Run desktop, Android, iPhone and tablet gameplay tests
         run: |
           mkdir -p test-results
-          npx playwright test tests/phase6-2-courtyard-3d.spec.cjs tests/phase6-great-hall-3d.spec.cjs tests/castle-browser.spec.cjs tests/castle-journey.spec.cjs tests/phase5-heart-diagnostics.spec.cjs --workers=1 --reporter=line,json
+          npx playwright test tests/phase7-perspective.spec.cjs tests/phase6-2-courtyard-3d.spec.cjs tests/phase6-great-hall-3d.spec.cjs tests/castle-browser.spec.cjs tests/castle-journey.spec.cjs tests/phase5-heart-diagnostics.spec.cjs --workers=1 --reporter=line,json
         env:
           PLAYWRIGHT_JSON_OUTPUT_NAME: test-results/castle-results.json
           PLAYWRIGHT_HTML_OPEN: never

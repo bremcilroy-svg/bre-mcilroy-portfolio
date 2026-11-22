@@ -5,7 +5,9 @@ import {
   PlaneGeometry, PointLight, Points, PointsMaterial, Raycaster, Scene,
   SphereGeometry, SRGBColorSpace, TorusGeometry, Vector2, Vector3, WebGLRenderer
 } from './vault-three.module.js?v=moonlit-courtyard-3d';
+import * as THREE from './vault-three.module.js?v=moonlit-courtyard-3d';
 import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
+import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspective';
 
 (() => {
   'use strict';
@@ -54,6 +56,7 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
   scene.fog = new Fog('#11182b', 20, 48);
   const camera = new PerspectiveCamera(68, 1, .08, 72);
   camera.position.set(0, 1.68, 10.8);
+  const player = new Vector3(0, 0, 10.8);
   const ambient = new HemisphereLight('#d7eaff', '#211625', 1.55);
   scene.add(ambient);
   const moonlight = new DirectionalLight('#c8e8ff', 2.1);
@@ -336,6 +339,7 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
   const pointer = new Vector2();
   const forward = new Vector3();
   const right = new Vector3();
+  const perspective = createPerspectiveView(THREE, {scene,camera,canvas,getPose:()=>({x:player.x,z:player.z,yaw,pitch})});
   const lastFrame = { time: 0 };
   const maxPixelRatio = () => Math.min(window.devicePixelRatio || 1, 2) * qualityScale[quality];
   function resize() {
@@ -381,17 +385,17 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
     forward.set(-Math.sin(yaw), 0, -Math.cos(yaw));
     right.set(Math.cos(yaw), 0, -Math.sin(yaw));
     const speed = 3.35 * Math.min(dt, .05);
-    const nextX = camera.position.x + (right.x * direction.x + forward.x * direction.z) * speed;
-    const nextZ = camera.position.z + (right.z * direction.x + forward.z * direction.z) * speed;
-    if (insideCourtyard(nextX, camera.position.z)) camera.position.x = nextX;
-    if (insideCourtyard(camera.position.x, nextZ)) camera.position.z = nextZ;
-    if (Math.abs(camera.position.z) > 13.8) {
-      const target = destinations.find(item => item.id === (camera.position.z < 0 ? 'north-gate' : 'south-gate'));
-      if (Math.abs(camera.position.x) < 2.2) navigate(target);
+    const nextX = player.x + (right.x * direction.x + forward.x * direction.z) * speed;
+    const nextZ = player.z + (right.z * direction.x + forward.z * direction.z) * speed;
+    if (insideCourtyard(nextX, player.z)) player.x = nextX;
+    if (insideCourtyard(player.x, nextZ)) player.z = nextZ;
+    if (Math.abs(player.z) > 13.8) {
+      const target = destinations.find(item => item.id === (player.z < 0 ? 'north-gate' : 'south-gate'));
+      if (Math.abs(player.x) < 2.2) navigate(target);
     }
-    if (Math.abs(camera.position.x) > 13.8) {
-      const target = destinations.find(item => item.id === (camera.position.x < 0 ? 'west-gate' : 'east-gate'));
-      if (Math.abs(camera.position.z) < 2.2) navigate(target);
+    if (Math.abs(player.x) > 13.8) {
+      const target = destinations.find(item => item.id === (player.x < 0 ? 'west-gate' : 'east-gate'));
+      if (Math.abs(player.z) < 2.2) navigate(target);
     }
   }
   function scrollToMemories() {
@@ -429,7 +433,7 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
       const interaction = object.userData.interaction;
       if (!interaction) continue;
       const point = new Vector3(); object.getWorldPosition(point);
-      const distance = point.distanceTo(camera.position);
+      const distance = Math.hypot(point.x-player.x, point.z-player.z);
       if (distance <= (interaction.id === 'gate' ? 5.4 : interaction.id === 'memory' ? 4.4 : 4.5) && (!closest || distance < closest.distance)) closest = { interaction, distance };
     }
     if (closest) interact(closest.interaction);
@@ -438,9 +442,15 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
   function inspectAt(event) {
     const rect = canvas.getBoundingClientRect();
     pointer.set((event.clientX - rect.left) / rect.width * 2 - 1, -((event.clientY - rect.top) / rect.height * 2 - 1));
-    camera.rotation.set(pitch, yaw, 0, 'YXZ');
+    perspective.update();
     raycaster.setFromCamera(pointer, camera);
-    const hit = raycaster.intersectObjects(interactables, true).find(item => item.distance <= 9);
+    const hit = raycaster.intersectObjects(interactables, true).find(item => {
+      const interaction = item.object.userData.interaction;
+      if (!interaction) return false;
+      const point = item.object.getWorldPosition(new Vector3());
+      const reach = interaction.id === 'gate' ? 5.4 : interaction.id === 'memory' ? 4.4 : 4.5;
+      return Math.hypot(point.x - player.x, point.z - player.z) <= reach;
+    });
     if (hit) interact(hit.object.userData.interaction);
   }
   function onPointerDown(event) {
@@ -479,6 +489,8 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
     viewButton.textContent = active ? 'Return to illustrated courtyard' : 'Enter the 3D courtyard';
     controls.querySelector('.courtyard-3d-actions').hidden = !active;
     touch.hidden = !active;
+    const perspectiveButton = document.querySelector('[data-perspective-toggle]');
+    if (perspectiveButton) perspectiveButton.hidden = !active;
     if (active) resize();
     status.textContent = active
       ? `Walk the Moonlit Courtyard · ${qualityStatus[quality]} detail · WASD/arrows to move · drag to look · E to inspect.`
@@ -505,11 +517,11 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
     event.preventDefault();
     const direction = button.dataset.walk;
     const pressedAt = performance.now();
-    const startX = camera.position.x, startZ = camera.position.z;
+    const startX = player.x, startZ = player.z;
     held.add(direction); button.setPointerCapture(event.pointerId);
     const stop = () => {
       held.delete(direction);
-      if (performance.now() - pressedAt < 180 && Math.hypot(camera.position.x - startX, camera.position.z - startZ) < .025) {
+      if (performance.now() - pressedAt < 180 && Math.hypot(player.x - startX, player.z - startZ) < .025) {
         held.add(direction); move(.12); held.delete(direction);
       }
     };
@@ -536,7 +548,7 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
     const dt = lastFrame.time ? Math.min(.05, Math.max(0, (now - lastFrame.time) / 1000)) : 0;
     lastFrame.time = now;
     move(dt);
-    camera.rotation.set(pitch, yaw, 0, 'YXZ');
+    perspective.update();
     if (!reducedMotion && quality !== 'performance') {
       for (let i = 0; i < snowPositions.length / 3; i++) {
         let y = snowPositions[i * 3 + 1] - dt * 1.1;
@@ -555,7 +567,7 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
   setQuality(quality, false);
   window.academyMoonlitCourtyard3D = Object.freeze({
     diagnostics: () => ({
-      ready: true, quality, position: { x: camera.position.x, y: camera.position.y, z: camera.position.z },
+      ready: true, quality, perspective: perspective.mode, position: { x: player.x, y: 0, z: player.z },
       yaw, pitch, canvas: { width: canvas.width, height: canvas.height }, pixelRatio: renderer.getPixelRatio(),
       draws: renderer.info.render.calls, geometries: renderer.info.memory.geometries,
       textures: renderer.info.memory.textures, memoryCrystals: memoryMeshes.length,

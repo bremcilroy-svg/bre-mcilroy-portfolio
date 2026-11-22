@@ -5,7 +5,9 @@ import {
   PointLight, Raycaster, Scene, SphereGeometry, SRGBColorSpace, TorusGeometry, TubeGeometry, Vector2, Vector3,
   WebGLRenderer
 } from './vault-three.module.js?v=castle-great-hall-3d';
+import * as THREE from './vault-three.module.js?v=castle-great-hall-3d';
 import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
+import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspective';
 
 (() => {
   'use strict';
@@ -82,6 +84,7 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
   scene.fog = new Fog('#11192e', 18, 39);
   const camera = new PerspectiveCamera(72, 1, .08, 55);
   camera.position.set(0, 1.68, 7.6);
+  const player = new Vector3(0, 0, 7.6);
   const ambient = new HemisphereLight('#d8eaff', '#30233d', 1.65);
   scene.add(ambient);
   const moon = new DirectionalLight('#c4e7ff', 2.35);
@@ -284,6 +287,7 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
   const pointer = new Vector2();
   let yaw = 0, pitch = 0, drag = null, active = true;
   const forward = new Vector3(), right = new Vector3();
+  const perspective = createPerspectiveView(THREE,{scene,camera,canvas,getPose:()=>({x:player.x,z:player.z,yaw,pitch})});
   const held = new Set();
   const discoveryButtons = new Map([...document.querySelectorAll('[data-discovery]')].map(button => [button.dataset.discovery, button]));
   const reveal = document.getElementById('hall-reveal');
@@ -330,7 +334,7 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
     const speed = 3.1 * Math.min(dt, .05);
     const dx = (right.x * moving.x + forward.x * moving.z) * speed;
     const dz = (right.z * moving.x + forward.z * moving.z) * speed;
-    const nextX = camera.position.x + dx, nextZ = camera.position.z + dz;
+    const nextX = player.x + dx, nextZ = player.z + dz;
     // Keep the wanderer within the hall and clear of the stone piers and throne.
     const clear = (x, z) => {
       if (Math.abs(x) > 8.05 || z < -11.45 || z > 9.35) return false;
@@ -341,8 +345,8 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
       }
       return true;
     };
-    if (clear(nextX, camera.position.z)) camera.position.x = nextX;
-    if (clear(camera.position.x, nextZ)) camera.position.z = nextZ;
+    if (clear(nextX, player.z)) player.x = nextX;
+    if (clear(player.x, nextZ)) player.z = nextZ;
   }
   function onPointerDown(event) {
     if (event.button !== 0 && event.pointerType !== 'touch') return;
@@ -367,11 +371,11 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
   function inspectAt(event) {
     const rect = canvas.getBoundingClientRect();
     pointer.set((event.clientX - rect.left) / rect.width * 2 - 1, -((event.clientY - rect.top) / rect.height * 2 - 1));
-    camera.rotation.set(pitch, yaw, 0, 'YXZ');
+    perspective.update();
     raycaster.setFromCamera(pointer, camera);
     const hit = raycaster.intersectObjects(clickable, true)[0]?.object;
     if (!hit) return;
-    if (raycaster.ray.origin.distanceTo(hit.point) > 8) return;
+    if (Math.hypot(hit.point.x-player.x,hit.point.z-player.z) > 8) return;
     const item = hit;
     let node = item;
     while (node && !node.userData.discovery && !node.userData.url) node = node.parent;
@@ -391,7 +395,7 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
       const nearby = clickable.map(object => {
         const point = new Vector3();
         object.getWorldPosition(point);
-        return { object, point, distance: point.distanceTo(camera.position) };
+        return { object, point, distance: Math.hypot(point.x-player.x,point.z-player.z) };
       }).filter(item => item.distance < 2.8).sort((a, b) => a.distance - b.distance)[0];
       let target = nearby?.object;
       while (target && !target.userData.discovery && !target.userData.url) target = target.parent;
@@ -406,6 +410,8 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
     main.classList.toggle('academy-great-hall-3d-active', is3d);
     canvas.hidden = !is3d;
     receiver.hidden = !is3d;
+    const perspectiveButton = document.querySelector('[data-perspective-toggle]');
+    if (perspectiveButton) perspectiveButton.hidden = !is3d;
     viewButton.textContent = is3d ? 'Return to illustrated view' : 'Enter the 3D Great Hall';
     status.textContent = is3d
       ? `Walkable Great Hall · ${quality === 'high' ? 'High' : quality === 'balanced' ? 'Balanced' : 'Performance'} detail · WASD or the arrows to walk · drag to look · E to inspect.`
@@ -428,14 +434,14 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
     event.preventDefault();
     const direction = button.dataset.walk;
     const pressedAt = performance.now();
-    const startX = camera.position.x, startZ = camera.position.z;
+    const startX = player.x, startZ = player.z;
     held.add(direction);
     button.setPointerCapture(event.pointerId);
     const stop = () => {
       held.delete(direction);
       // A brief tap can begin and end between rendered frames. Make it a small
       // deliberate step so touch controls work for tap users as well as holds.
-      if (performance.now() - pressedAt < 180 && Math.hypot(camera.position.x - startX, camera.position.z - startZ) < .025) {
+      if (performance.now() - pressedAt < 180 && Math.hypot(player.x - startX, player.z - startZ) < .025) {
         held.add(direction);
         move(.12);
         held.delete(direction);
@@ -455,7 +461,7 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
     const dt = Math.min(.05, Math.max(0, (now - (animate.last || now)) / 1000));
     animate.last = now;
     move(dt);
-    camera.rotation.set(pitch, yaw, 0, 'YXZ');
+    perspective.update();
     renderer.render(scene, camera);
   };
   resize();
@@ -463,7 +469,7 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
   setQuality(quality);
   window.academyGreatHall3D = Object.freeze({
     diagnostics: () => ({
-      ready: true, quality, position: { x: camera.position.x, y: camera.position.y, z: camera.position.z },
+      ready: true, quality, perspective: perspective.mode, position: { x: player.x, y: 0, z: player.z },
       yaw, pitch, canvas: { width: canvas.width, height: canvas.height },
       pixelRatio: renderer.getPixelRatio(), draws: renderer.info.render.calls,
       geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures

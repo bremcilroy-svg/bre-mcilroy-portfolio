@@ -53,6 +53,12 @@ test('Moonlit Courtyard 3D walk, touch, house details and Fountain memories', as
   expect(starting.motionReduced).toBe(true);
   expect(starting.snow).toBe(false);
 
+  await page.getByRole('button', {name: 'Switch to third-person view'}).click();
+  await expect(canvas).toHaveAttribute('data-perspective', 'third');
+  expect(await page.evaluate(() => localStorage.getItem('amethyst-academy-player-perspective-v1'))).toBe('third');
+  await page.getByRole('button', {name: 'Switch to first-person view'}).click();
+  await expect(canvas).toHaveAttribute('data-perspective', 'first');
+
   if (/android|iphone|tablet/i.test(testInfo.project.name)) {
     const forward = page.getByRole('button', {name: 'Walk forward'});
     await expect(forward).toBeVisible();

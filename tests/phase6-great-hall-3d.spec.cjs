@@ -41,6 +41,11 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
   expect(starting.canvas.width).toBeGreaterThan(0);
   expect(starting.canvas.height).toBeGreaterThan(0);
 
+  await page.getByRole('button', {name: 'Switch to third-person view'}).click();
+  await expect(canvas).toHaveAttribute('data-perspective', 'third');
+  await page.getByRole('button', {name: 'Switch to first-person view'}).click();
+  await expect(canvas).toHaveAttribute('data-perspective', 'first');
+
   if (/android|iphone|tablet/i.test(testInfo.project.name)) {
     const forward = page.getByRole('button', {name: 'Walk forward'});
     await expect(forward).toBeVisible();

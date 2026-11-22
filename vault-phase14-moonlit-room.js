@@ -9,15 +9,16 @@ const fallback=immersive.querySelector('.ai6-stage');
 const panel=document.createElement('section');
 panel.id='pv12-experience';panel.hidden=true;
 panel.setAttribute('aria-label','Walk inside the Victorian Author’s Study');
-panel.innerHTML=`<div class="pv12-intro"><h3>Inside the Author’s Study</h3><p>Walk with the arrows, turn to look around, and tap a framed portrait or object to inspect it.</p></div>
-<div class="pv12-viewport" tabindex="0" role="application" aria-label="First person Victorian study. Drag to look around, use movement buttons to walk."><div class="pv12-aim" aria-hidden="true">✦</div><div class="pv12-hud" id="pv12-hud" role="status">The library is waiting.</div></div>
+panel.innerHTML=`<div class="pv12-intro"><h3>Inside the Author’s Study</h3><p>Walk with the arrows, turn to look around, and tap a framed portrait or object to inspect it. Switch between first- and third-person views with the view button or V key.</p></div>
+<div class="pv12-viewport" tabindex="0" role="application" aria-label="Walkable Victorian study with first- and third-person views. Drag to look around, use movement buttons to walk."><div class="pv12-aim" aria-hidden="true">✦</div><div class="pv12-hud" id="pv12-hud" role="status">The library is waiting.</div></div>
 <div class="pv12-controls"><div class="pv12-turn"><button type="button" data-action="left">↶ Turn left</button><button type="button" data-action="right">Turn right ↷</button></div><div class="pv12-walk"><button type="button" data-action="forward">↑ Walk</button><button type="button" data-action="backward">↓ Back</button></div></div>
 <div class="pv12-actions"><button type="button" data-action="inspect">✦ Inspect what I'm facing</button><button type="button" data-action="reset">⌂ Return to doorway</button><button type="button" data-action="gizmo">🐾 Pet Gizmo</button><button type="button" data-action="original">Original discoveries ↓</button></div>
 <p class="pv12-note">Drag inside the scene to turn your head. Tap a picture to enlarge it. If 3D isn't supported, the original interactive study remains available.</p>`;
 const heading=immersive.querySelector('.ai6-heading');
 heading?.insertAdjacentElement('afterend',panel);
 let THREE;
-try{THREE=await import('https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js');}
+let createPerspectiveView;
+try{THREE=await import('https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js');({createPerspectiveView}=await import('./vault-perspective.js?v=phase7-perspective'));}
 catch(e){panel.dataset.unavailable='true';console.warn('3D study unavailable; keeping original room.',e);return;}
 const viewport=panel.querySelector('.pv12-viewport');
 let renderer;
@@ -32,6 +33,7 @@ const scene=new THREE.Scene();scene.background=new THREE.Color('#1c1220');scene.
 const camera=new THREE.PerspectiveCamera(70,1,.07,40);
 const state={x:0,z:3.7,yaw:0};
 camera.rotation.order='YXZ';
+const perspective=createPerspectiveView(THREE,{scene,camera,canvas:renderer.domElement,getPose:()=>({x:state.x,z:state.z,yaw:state.yaw})});
 const ambient=new THREE.HemisphereLight('#b8b1d4','#3e2531',1.5);scene.add(ambient);
 const candleLight=new THREE.PointLight('#ffc28a',22,9,2);candleLight.position.set(-3,2.6,-3.4);scene.add(candleLight);
 const moonLight=new THREE.PointLight('#99b6ff',15,10,2);moonLight.position.set(2.5,3,-4.7);scene.add(moonLight);
@@ -215,7 +217,7 @@ objectLabel('GIZMO 🐾',-3.7,1.15,5.66,Math.PI,'gizmo',1.45,.5);
 const hud=panel.querySelector('#pv12-hud');
 const raycaster=new THREE.Raycaster();
 const pointer=new THREE.Vector2();
-function look(){camera.position.set(state.x,1.67,state.z);camera.rotation.y=state.yaw;camera.rotation.x=0;}
+function look(){perspective.update();}
 function act(name){
  if(room.hidden)return;
  if(name.startsWith('photo:')){
