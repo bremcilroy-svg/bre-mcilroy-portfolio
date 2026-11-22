@@ -259,6 +259,12 @@ test('the palace doors animate and lead to the existing Great Hall',async({page}
 test('players can pass through the opened gates and reach the palace entrance',async({page})=>{
  await page.goto(base+'academy-perimeter-3d.html');
  await expect(page.locator('#status')).toContainText('ready',{timeout:30000});
+ const camera=()=>page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.activeCamera.position.z);
+ const beforeTouch=await camera(),forward=page.locator('[data-move="forward"]');
+ await forward.dispatchEvent('pointerdown',{pointerId:73,pointerType:'touch',isPrimary:true,button:0});
+ await page.waitForTimeout(180);
+ await forward.dispatchEvent('pointerup',{pointerId:73,pointerType:'touch',isPrimary:true,button:0});
+ await expect.poll(camera,{timeout:3000}).toBeLessThan(beforeTouch-.08);
  await page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.activeCamera.position.set(0,1.8,-29));
  const blocker=()=>page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.getMeshByName('closed wrought iron gate collision').checkCollisions);
  await expect.poll(blocker,{timeout:6000}).toBe(false);
