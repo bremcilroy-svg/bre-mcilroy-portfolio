@@ -18,7 +18,7 @@ test('East Wing and Enchanted Library are walkable 3D with saved perspective and
     await page.goto(base+room.url);
     await page.waitForFunction(()=>window.academyDiscoveryRoom3D?.diagnostics().ready||document.querySelector('.academy-discovery-stage')?.dataset.unavailable==='true',null,{timeout:30000});
     const result=await page.evaluate(()=>window.academyDiscoveryRoom3D?.diagnostics()||null);
-    expect(result?.ready).toBe(true);expect(result.kind).toBe(room.kind);expect(result.geometryCount).toBeGreaterThan(4);expect(result.geometryCount).toBeLessThan(40);expect(result.interactableCount).toBeGreaterThanOrEqual(3);expect(['webgl','canvas-quad-v2']).toContain(result.renderer);expect(result.actualWebGL).toBe(result.renderer==='webgl');
+    expect(result?.ready).toBe(true);expect(result.kind).toBe(room.kind);expect(result.geometryCount).toBeGreaterThan(0);expect(result.meshCount).toBeGreaterThan(30);expect(result.meshCount).toBeLessThan(300);expect(result.interactableCount).toBeGreaterThanOrEqual(3);expect(['webgl','canvas-quad-v2']).toContain(result.renderer);expect(result.actualWebGL).toBe(result.renderer==='webgl');
     const stage=page.locator('.academy-discovery-stage'),canvas=stage.locator('canvas');
     await expect(stage).toBeVisible();await expect(page.getByRole('heading',{name:room.quality})).toBeVisible();
     if(expected==='first'){await page.getByRole('button',{name:'Switch to third-person view'}).click();expected='third';}
