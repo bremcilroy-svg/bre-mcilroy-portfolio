@@ -7,7 +7,8 @@ import {createPerspectiveView} from './vault-perspective.js?v=phase7-perspective
  'use strict';
  const kind=document.body.dataset.discoveryRoom,configs={
   wing:{title:'Enchanted East Wing',bg:'#171126',floor:'#51465d',wall:'#5f526e',trim:'#d8c9e5',glass:'#77c9ef',accent:'#8760a3'},
-  library:{title:'Enchanted Library',bg:'#171126',floor:'#46324e',wall:'#493452',trim:'#cbb5dc',glass:'#75c9ed',accent:'#a474b7'}
+  library:{title:'Enchanted Library',bg:'#171126',floor:'#46324e',wall:'#493452',trim:'#cbb5dc',glass:'#75c9ed',accent:'#a474b7'},
+  houses:{title:'The Four Houses',bg:'#171126',floor:'#51465d',wall:'#493452',trim:'#d8c9e5',glass:'#75c9ed',accent:'#8760a3'}
  },c=configs[kind],main=document.querySelector('main'),header=main?.querySelector('header');
  if(!c||!main||!header)return;
  const stage=document.createElement('section');stage.className='academy-discovery-stage';stage.setAttribute('aria-label',`Walkable ${c.title}`);
@@ -27,21 +28,32 @@ import {createPerspectiveView} from './vault-perspective.js?v=phase7-perspective
  if(kind==='wing'){
   for(const [id,x,color,label]of[['library',-4,'#74435e','Enchanted Library'],['observatory',0,c.glass,'Owl Observatory'],['chamber',4,'#963b51','Royal Heart Chamber']]){box('carved silver doorway',[3.05,5.8,.3],[x,2.9,-8.8],silver);const face=box(`${label} door`,[2.45,5.1,.2],[x,2.55,-8.55],mat(color));target(face,id);ball(`${label} amethyst crest`,.26,[x,4.35,-8.39],plum);}
   for(const x of [-7,-3,1,5,7]){box('carved arcade column',[.42,5.9,.46],[x,2.95,1.2],silver);ball('amethyst column capital',.28,[x,6,1.2],plum);}
-  const owl=target(ball('snow owl head',.43,[-6,2,-3],paper),'owl');ball('snow owl body',.62,[-6,1.3,-3],paper);ball('snow owl jewel',.08,[-6,2,-2.58],plum,owl);
+  const owl=target(ball('snow owl head',.43,[-6,2,-3],paper),'owl');ball('snow owl body',.62,[-6,1.3,-3],paper);ball('snow owl jewel',.08,[0,.05,.42],plum,owl);
   for(const [x,color]of[[-6,'#74489a'],[6,'#377da3']]){box('house flagpole',[.08,3.2,.08],[x,4.25,3],silver);box('velvet house banner',[1.45,1.45,.08],[x-.55,4.45,3],mat(color));}
- }else{
+ }else if(kind==='library'){
   for(const x of[-7.5,7.5]){box('towering oak bookcase',[1.65,6.2,13],[x,3,-1],wood);for(let level=0;level<5;level++){box('silver library shelf',[1.85,.14,12.5],[x,1+level*1.15,-1],silver);for(let n=0;n<12;n++)box('colorful storybook',[.32,.82,.42],[x,1.52+level*1.15,-6.4+n*1.02],n%2?bookA:bookB);}}
   box('oak storyteller desk',[4,.25,2],[0,1.05,-3.2],wood);for(const x of[-1.7,1.7])box('desk carved leg',[.22,1,.22],[x,.5,-3.2],silver);
   target(box('silver-bound storybook',[.8,.18,.95],[-.8,1.27,-3.35],paper),'book');target(ball('amethyst lamp crystal',.25,[.9,1.62,-3.2],glass),'lamp');target(box('amethyst lamp base',[.6,.14,.42],[.9,1.25,-3.2],plum),'lamp');target(box('desk writing surface',[3.4,.08,1.7],[0,1.22,-3.2],wood),'desk');
+ }else{
+  const banners=[['owl',-5.7,'#542e7c','Air'],['dragon',-1.9,'#8d2946','Fire'],['wolf',1.9,'#205c8b','Water'],['deer',5.7,'#78619b','Earth']];
+  for(const [id,x,color,element]of banners){
+   box('tall silver house banner pole',[.12,7,.12],[x,3.55,-5.9],silver);
+   box(`${id} velvet house flag`,[2.2,2.2,.12],[x,5.1,-5.8],mat(color));
+   box(`${element} elemental standard`,[1.4,.16,.18],[x,5.05,-5.68],glass);
+   box('carved silver house plinth',[1.5,.7,1.1],[x,.35,-5.7],silver);
+   const crest=target(ball(`${id} house guardian crest`,.58,[x,2,-5.3],mat(color)) ,id);
+   ball(`${element} gemstone`,.18,[0,0,.55],glass,crest);
+  }
+  for(const x of[-7.1,-3.8,0,3.8,7.1]){box('gallery silver column',[.36,6,.38],[x,3,-1],silver);ball('gallery crescent capital',.22,[x,6.1,-1],plum);}
  }
  let renderer;try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'low-power'});}catch{try{renderer=createCanvasRenderer(THREE);stage.replaceChild(renderer.domElement,canvas);}catch(error){stage.dataset.unavailable='true';status.textContent='This browser cannot draw the walkable room. The stories and navigation remain available below.';console.warn('Discovery room renderer unavailable',error);return;}}
  const viewCanvas=renderer.domElement;viewCanvas.className='academy-discovery-canvas';viewCanvas.tabIndex=0;viewCanvas.setAttribute('aria-label',canvas.getAttribute('aria-label'));
  const perspective=createPerspectiveView(THREE,{scene,camera,canvas:viewCanvas,getPose:()=>player,distance:3.2}),held=new Set(),keys=new Set();let drag=null,last=0,raf=0,renders=0;
- const collision=(x,z)=>Math.abs(x)>7.9||z < -8.95||z>8.7||(kind==='library'&&Math.abs(x)>6.15&&Math.abs(z)<5.3);
+ const collision=(x,z)=>Math.abs(x)>7.9||z < -8.95||z>8.7||(kind==='library'&&Math.abs(x)>6.15&&Math.abs(z)<5.3)||(kind==='houses'&&[-7.1,-3.8,0,3.8,7.1].some(cx=>Math.abs(x-cx)<.48&&Math.abs(z+1)<.56));
  function redraw(){if(!raf&&!document.hidden)raf=requestAnimationFrame(frame);}function resize(){const r=stage.getBoundingClientRect(),w=Math.max(1,r.width),h=Math.max(260,r.height);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();redraw();}
  function step(f,s,d){if(!f&&!s)return;const m=Math.hypot(f,s);f/=m;s/=m;const fx=-Math.sin(player.yaw),fz=-Math.cos(player.yaw),rx=Math.cos(player.yaw),rz=-Math.sin(player.yaw),nx=player.x+(rx*s+fx*f)*d,nz=player.z+(rz*s+fz*f)*d;if(!collision(nx,player.z))player.x=nx;if(!collision(player.x,nz))player.z=nz;}
  function move(dt){step(Number(keys.has('w')||keys.has('arrowup')||held.has('forward'))-Number(keys.has('s')||keys.has('arrowdown')||held.has('back')),Number(keys.has('d')||held.has('right'))-Number(keys.has('a')||held.has('left')),3.1*Math.min(dt,.05));}
- function discover(id){if(kind==='wing'){document.querySelector(`[data-room="${id}"]`)?.click();status.textContent=`${id==='library'?'The Enchanted Library':id==='observatory'?'The Owl Observatory':'The Royal Heart Chamber'} discovery opened below.`;}else{document.querySelector(`[data-object="${id}"]`)?.click();status.textContent=`${id==='book'?'The Silver-Bound Book':id==='lamp'?'The Amethyst Lamp':'The Storyteller’s Desk'} story opened below.`;}}
+ function discover(id){if(kind==='wing'){document.querySelector(`[data-room="${id}"]`)?.click();status.textContent=`${id==='library'?'The Enchanted Library':id==='observatory'?'The Owl Observatory':id==='owl'?'The Snow Owl Guardian':'The Royal Heart Chamber'} discovery opened below.`;}else if(kind==='library'){document.querySelector(`[data-object="${id}"]`)?.click();status.textContent=`${id==='book'?'The Silver-Bound Book':id==='lamp'?'The Amethyst Lamp':'The Storyteller’s Desk'} story opened below.`;}else{document.querySelector(`[data-heraldry="${id}"] button`)?.click();const names={owl:'House Amethyst',dragon:'House Emberheart',wolf:'House Frosttopaz',deer:'House Silverthorn'};status.textContent=`${names[id]||'House'} crest and story opened below.`;}}
  const ray=new THREE.Raycaster(),ndc=new THREE.Vector2();function inspectAt(x,y){const r=viewCanvas.getBoundingClientRect();ndc.set((x-r.left)/r.width*2-1,-((y-r.top)/r.height*2-1));perspective.update();ray.setFromCamera(ndc,camera);const hit=ray.intersectObjects(targets,false)[0];if(hit&&hit.distance<9)discover(hit.object.userData.discovery);}
  viewCanvas.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0)return;drag={id:e.pointerId,x:e.clientX,y:e.clientY,sx:e.clientX,sy:e.clientY,moved:false};viewCanvas.setPointerCapture(e.pointerId);redraw();});
  viewCanvas.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;if(Math.hypot(e.clientX-drag.sx,e.clientY-drag.sy)>6)drag.moved=true;player.yaw-=(e.clientX-drag.x)*.004;player.pitch=Math.max(-.48,Math.min(.48,player.pitch-(e.clientY-drag.y)*.003));drag.x=e.clientX;drag.y=e.clientY;redraw();});
