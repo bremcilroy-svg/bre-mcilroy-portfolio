@@ -77,11 +77,16 @@ import {createPerspectiveView} from './vault-perspective.js?v=phase7-perspective
   for(let level=0;level<3;level++)for(let n=0;n<5;n++)box('royal house book',[.19,.92,.42],[4.93+n*.28,.8+level*1.02,-4.99],n%2?mat.house:mat.housePale);
   // Each room keeps its own house colors and retains the other three elemental identities.
   const banners=[['Amethyst','#74489a','air'],['Emberheart','#963b51','fire'],['Frostveil','#377da3','ice'],['Silverthorn','#766888','earth']];
+  const flagStarGeometry=new THREE.OctahedronGeometry(.08,0);
   banners.forEach(([name,color,element],i)=>{
     const x=i%2===0?-7.08:7.08,z=-5.5+Math.floor(i/2)*6.8,flagmat=new THREE.MeshStandardMaterial({color,roughness:.7}),face=x<0?1:-1;
     box(name+' silver flagpole',[.07,3.8,.07],[x,5.15,z],mat.silver);
-    const flag=box(name+' '+element+' house flag',[.1,1.15,1.65],[x+face*.58,4.9,z],flagmat);flag.userData.houseBanner=name;
-    ball(name+' silver crest star',.19,[x+face*.62,4.94,z],mat.silver);
+    const flag=box(name+' '+element+' house flag',[.1,1.15,1.65],[x+face*.58,4.9,z],flagmat);flag.userData.houseBanner=name;flag.userData.houseFlag=true;
+    for(let row=0;row<3;row++)for(let col=0;col<5;col++){
+      const star=new THREE.Mesh(flagStarGeometry,mat.silver);star.name=name+' established silver star';
+      star.position.set(x+face*.66,4.9+(1-row)*.32,z+(col-2)*.29);star.scale.setScalar(row===1&&col===2?1.35:1);
+      star.userData.houseBanner=name;room.add(star);
+    }
   });
   const guardian=item(config.guardian, 'guardian',[-5.55,0,2.8]);
   const creatureMat=house==='emberheart'?mat.housePale:mat.white;
@@ -174,6 +179,6 @@ import {createPerspectiveView} from './vault-perspective.js?v=phase7-perspective
   function frame(now){frameHandle=0;if(document.hidden){last=0;return;}const dt=last?Math.min(.05,Math.max(0,(now-last)/1000)):0;last=now;move(dt);look();renderer.render(scene,camera);renderCount++;if(keys.size||held.size)frameHandle=requestAnimationFrame(frame);else last=0;}
   requestRender();
   let geometryCount=0;const geos=new Set();scene.traverse(o=>{if(o.geometry)geos.add(o.geometry);});geometryCount=geos.size;
-  window.academyHouseRoom3D=Object.freeze({diagnostics:()=>({ready:true,house,perspective:perspective.mode,position:{x:player.x,z:player.z},yaw:player.yaw,renderCount,geometryCount,bannerCount:room.children.filter(o=>o.userData.houseBanner).length,renderer:renderCanvas.dataset.renderer||'webgl',actualWebGL:Boolean(renderer.isWebGLRenderer),quality:qualitySelect.value,companion:'Gizmo'}),inspect});
+  window.academyHouseRoom3D=Object.freeze({diagnostics:()=>({ready:true,house,perspective:perspective.mode,position:{x:player.x,z:player.z},yaw:player.yaw,renderCount,geometryCount,bannerCount:room.children.filter(o=>o.userData.houseFlag).length,starCount:room.children.filter(o=>o.name.endsWith('established silver star')).length,renderer:renderCanvas.dataset.renderer||'webgl',actualWebGL:Boolean(renderer.isWebGLRenderer),quality:qualitySelect.value,companion:'Gizmo'}),inspect});
   status.textContent=`Walkable House ${config.name} common room · WASD or arrows to move · drag or touch to look · E to inspect.`;
 })();

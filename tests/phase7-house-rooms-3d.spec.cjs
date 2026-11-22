@@ -29,6 +29,7 @@ test('four Academy house common rooms are walkable 3D and preserve house progres
     expect(result.house).toBe(house);
     expect(result.companion).toBe('Gizmo');
     expect(result.bannerCount).toBe(4);
+    expect(result.starCount).toBe(60);
     expect(result.geometryCount).toBeGreaterThan(5);
     expect(result.geometryCount).toBeLessThan(55);
     expect(['webgl','canvas-quad-v2']).toContain(result.renderer);
