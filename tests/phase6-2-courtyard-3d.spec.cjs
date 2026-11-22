@@ -17,9 +17,9 @@ test('Moonlit Courtyard 3D walk, touch, house details and Fountain memories', as
   page.on('pageerror', error => errors.push(error.message));
   await page.emulateMedia({reducedMotion: 'reduce'});
   await page.addInitScript(({memoryKey, progressKey, qualityKey, memories}) => {
-    localStorage.setItem(memoryKey, JSON.stringify(memories));
-    localStorage.setItem(progressKey, 'existing-puzzle-progress-sentinel');
-    localStorage.setItem(qualityKey, 'high');
+    if (localStorage.getItem(memoryKey) === null) localStorage.setItem(memoryKey, JSON.stringify(memories));
+    if (localStorage.getItem(progressKey) === null) localStorage.setItem(progressKey, 'existing-puzzle-progress-sentinel');
+    if (localStorage.getItem(qualityKey) === null) localStorage.setItem(qualityKey, 'high');
   }, {memoryKey, progressKey, qualityKey, memories: startingMemories()});
   await page.goto(base + 'academy-moonlit-courtyard.html');
 

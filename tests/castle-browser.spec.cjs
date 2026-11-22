@@ -262,7 +262,9 @@ test('players can pass through the opened gates and reach the palace entrance',a
  await page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.activeCamera.position.set(0,1.8,-29));
  const blocker=()=>page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.getMeshByName('closed wrought iron gate collision').checkCollisions);
  await expect.poll(blocker,{timeout:6000}).toBe(false);
- const moved=await page.evaluate(()=>{const c=BABYLON.EngineStore.LastCreatedScene.activeCamera;c.position.set(0,1.8,-33);c.moveWithCollisions(new BABYLON.Vector3(0,0,-2));return c.position.z});
+ await page.evaluate(()=>{const c=BABYLON.EngineStore.LastCreatedScene.activeCamera;c.position.set(0,1.8,-33);c.cameraDirection.addInPlace(new BABYLON.Vector3(0,0,-2))});
+ await page.waitForTimeout(120);
+ const moved=await page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.activeCamera.position.z);
  expect(moved).toBeLessThan(-34);
  await page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.activeCamera.position.set(0,1.8,2));
  await expect(page.locator('#enter-palace')).toBeVisible({timeout:5000});
