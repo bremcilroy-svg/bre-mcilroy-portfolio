@@ -6,6 +6,7 @@
 <title>Owl Observatory · Amethyst Crescent Academy</title>
 <link rel="stylesheet" href="academy-first-day.css?v=1">
 <script type="module" src="academy-first-day.js?v=1"></script>
+<script type="module" src="academy-observatory-3d.js?v=phase7-observatory"></script>
 <style>
 :root { color-scheme: dark; }
 body { margin: 0; min-height: 100svh; background: radial-gradient(at 50% 10%, #35314c, #121220 70%); color: #f3edf7; font: 1rem/1.55 Georgia, serif; }
@@ -14,6 +15,19 @@ h1 { font-size: clamp(2.25rem, 8vw, 4.2rem); font-weight: 400; line-height: 1.05
 .eyebrow { color: #c5dcf9; text-transform: uppercase; letter-spacing: .12em; font: 650 .75rem system-ui; }
 a { color: #ead1ff; }
 nav { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem; }
+#observatory-3d-stage { width: 100%; height: clamp(21rem, 58svh, 39rem); min-height: 21rem; position: relative; overflow: hidden; margin: 1.5rem 0; border: 1px solid #9f90bf; border-radius: 1rem; background: #10172c; box-shadow: 0 1rem 3rem #080711a8; }
+#observatory-3d-canvas { display: block; width: 100%; height: 100%; touch-action: none; outline-offset: -4px; }
+#observatory-3d-status { position: absolute; inset: .65rem .65rem auto; z-index: 2; width: fit-content; max-width: calc(100% - 1.3rem); margin: 0; padding: .45rem .7rem; border: 1px solid #c2c8e477; border-radius: .55rem; background: #10172ccc; color: #edf5ff; font: .82rem/1.4 system-ui,sans-serif; }
+.observatory-3d-settings { position: absolute; z-index: 3; right: .65rem; top: .65rem; display: flex; align-items: center; gap: .45rem; padding: .35rem .5rem; border-radius: .55rem; background: #10172ccc; font: .8rem system-ui,sans-serif; }
+.observatory-3d-settings select { min-height: 2.4rem; max-width: 10rem; }
+.observatory-3d-touch { position: absolute; z-index: 3; inset: auto .7rem .7rem; display: flex; align-items: end; justify-content: space-between; pointer-events: none; }
+.observatory-3d-touch button { pointer-events: auto; min-width: 3rem; min-height: 3rem; border-radius: 50%; border: 1px solid #d4c4e8; background: #24182dcc; color: white; font: 700 1.2rem system-ui,sans-serif; touch-action: none; }
+.observatory-3d-touch .observatory-dpad { display: grid; grid-template-columns: repeat(3,3rem); gap: .2rem; }
+.observatory-3d-touch .observatory-dpad button:nth-child(1) { grid-column: 2; }
+.observatory-3d-touch .observatory-dpad button:nth-child(2) { grid-column: 1; }
+.observatory-3d-touch .observatory-dpad button:nth-child(3) { grid-column: 2; }
+.observatory-3d-touch .observatory-dpad button:nth-child(4) { grid-column: 3; grid-row: 2; }
+@media (max-width: 560px) { main { padding: 1rem; } #observatory-3d-stage { height: 58svh; min-height: 20rem; margin-inline: -.2rem; width: calc(100% + .4rem); } .observatory-3d-settings { top: auto; bottom: .7rem; right: .7rem; } }
 </style>
 <link rel="stylesheet" href="academy-castle-scenes.css?v=1"></head>
 <body class="academy-stone-scene academy-scene-observatory">
@@ -21,6 +35,12 @@ nav { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem; }
 <p class="eyebrow">Amethyst Crescent Academy · First class</p>
 <h1>The Owl Observatory</h1>
 <p>Climb to the telescope and trace the owl in the night sky.</p>
+<section id="observatory-3d-stage" aria-label="Walkable 3D Owl Observatory">
+<canvas id="observatory-3d-canvas" tabindex="0" aria-label="Walk with W A S D or arrow keys. Drag or touch to look around. Press V to change perspective and E to inspect the telescope."></canvas>
+<p id="observatory-3d-status" role="status" aria-live="polite">Preparing the royal observatory…</p>
+<div class="observatory-3d-settings"><label for="observatory-3d-quality">Graphics</label><select id="observatory-3d-quality" aria-label="Observatory graphics quality"><option value="high">High</option><option value="balanced">Balanced</option><option value="performance">Performance</option></select></div>
+<div class="observatory-3d-touch" aria-label="Touch movement controls"><div class="observatory-dpad"><button type="button" data-walk="forward" aria-label="Walk forward">↑</button><button type="button" data-walk="left" aria-label="Walk left">←</button><button type="button" data-walk="back" aria-label="Walk backward">↓</button><button type="button" data-walk="right" aria-label="Walk right">→</button></div><button type="button" data-inspect>Inspect</button></div>
+</section>
 <section id="observatory-gate"><p>Check in with your student key card at the Royal Great Hall.</p><a href="academy-royal-great-hall.html">Go to the Royal Great Hall</a></section>
 <button type="button" id="open-telescope" aria-expanded="false" aria-controls="telescope-view" hidden>Look through the telescope</button>
 <section id="telescope-view" hidden aria-labelledby="telescope-title">
