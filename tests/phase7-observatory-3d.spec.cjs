@@ -32,6 +32,10 @@ test('Owl Observatory 3D room preserves the constellation puzzle across emulated
   // CanvasRenderer remains an explicitly distinguishable 3D fallback.
   expect(['webgl','canvas-quad-v2']).toContain(initial.renderer);
   expect(initial.actualWebGL).toBe(initial.renderer==='webgl');
+  await page.waitForTimeout(250);
+  const idleRenderCount=await page.evaluate(()=>window.academyObservatory3D.diagnostics().renderCount);
+  await page.waitForTimeout(300);
+  expect(await page.evaluate(()=>window.academyObservatory3D.diagnostics().renderCount)).toBe(idleRenderCount);
   await expect(page.locator('#open-telescope')).toBeVisible();
   await expect(page.getByRole('button',{name:'Switch to third-person view'})).toBeVisible();
   await page.getByRole('button',{name:'Switch to third-person view'}).click();

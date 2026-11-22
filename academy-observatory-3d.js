@@ -125,7 +125,7 @@ import {createPerspectiveView} from './vault-perspective.js?v=phase7-perspective
   const perspective=createPerspectiveView(THREE,{scene,camera,canvas:renderCanvas,getPose:()=>player,distance:3.1});
   const dpad=stage.querySelector('.observatory-3d-touch');
   const keys=new Set(),held=new Set();
-  let drag=null,last=0;
+  let drag=null,last=0,frameHandle=0,renderCount=0;
   const collides=(x,z)=>{
     if(Math.hypot(x,z)>8.15)return true;
     if(Math.hypot(x,z+3.55)<1.48)return true;
@@ -134,7 +134,7 @@ import {createPerspectiveView} from './vault-perspective.js?v=phase7-perspective
   };
   function resize(){
     const r=stage.getBoundingClientRect(),w=Math.max(1,r.width),h=Math.max(260,r.height);
-    renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
+    renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();requestRender();
   }
   function move(dt){
     let f=Number(keys.has('w')||keys.has('arrowup')||held.has('forward'))-Number(keys.has('s')||keys.has('arrowdown')||held.has('back'));
@@ -165,21 +165,21 @@ import {createPerspectiveView} from './vault-perspective.js?v=phase7-perspective
     look();ray.setFromCamera(pointer,camera);const hit=ray.intersectObjects([room],true).find(h=>h.object.name==='telescope dais'||h.object.parent?.name==='Gizmo gray and white companion'||h.object.parent?.name==='blue-eyed snowy owl companion');
     if(hit){const name=hit.object.name==='telescope dais'?'telescope':hit.object.parent.name.includes('Gizmo')?'gizmo':'owl';inspect(name);}
   }
-  renderCanvas.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0)return;drag={id:e.pointerId,x:e.clientX,y:e.clientY,sx:e.clientX,sy:e.clientY,moved:false};renderCanvas.setPointerCapture(e.pointerId);});
-  renderCanvas.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;if(Math.hypot(e.clientX-drag.sx,e.clientY-drag.sy)>6)drag.moved=true;player.yaw-=(e.clientX-drag.x)*.004;player.pitch=Math.max(-.48,Math.min(.48,player.pitch-(e.clientY-drag.y)*.003));drag.x=e.clientX;drag.y=e.clientY;});
-  renderCanvas.addEventListener('pointerup',e=>{if(!drag||drag.id!==e.pointerId)return;const clicked=!drag.moved;drag=null;if(clicked)pointerClick(e);});
+  renderCanvas.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0)return;drag={id:e.pointerId,x:e.clientX,y:e.clientY,sx:e.clientX,sy:e.clientY,moved:false};renderCanvas.setPointerCapture(e.pointerId);requestRender();});
+  renderCanvas.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;if(Math.hypot(e.clientX-drag.sx,e.clientY-drag.sy)>6)drag.moved=true;player.yaw-=(e.clientX-drag.x)*.004;player.pitch=Math.max(-.48,Math.min(.48,player.pitch-(e.clientY-drag.y)*.003));drag.x=e.clientX;drag.y=e.clientY;requestRender();});
+  renderCanvas.addEventListener('pointerup',e=>{if(!drag||drag.id!==e.pointerId)return;const clicked=!drag.moved;drag=null;if(clicked)pointerClick(e);requestRender();});
   renderCanvas.addEventListener('pointercancel',()=>drag=null);
-  renderCanvas.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(['w','a','s','d','arrowup','arrowdown'].includes(k)){e.preventDefault();keys.add(k);}if(k==='e'){e.preventDefault();inspect();}});
-  renderCanvas.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
-  window.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(e.target.closest('button,a,input,select,textarea'))return;if(['w','a','s','d','arrowup','arrowdown'].includes(k)){e.preventDefault();keys.add(k);}if(k==='e')inspect();});
-  window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
+  renderCanvas.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(['w','a','s','d','arrowup','arrowdown'].includes(k)){e.preventDefault();keys.add(k);requestRender();}if(k==='e'){e.preventDefault();inspect();}});
+  renderCanvas.addEventListener('keyup',e=>{keys.delete(e.key.toLowerCase());requestRender();});
+  window.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(e.target.closest('button,a,input,select,textarea'))return;if(['w','a','s','d','arrowup','arrowdown'].includes(k)){e.preventDefault();keys.add(k);requestRender();}if(k==='e')inspect();if(k==='v')requestRender();});
+  window.addEventListener('keyup',e=>{keys.delete(e.key.toLowerCase());requestRender();});
   window.addEventListener('blur',()=>{keys.clear();held.clear();});
   for(const b of dpad.querySelectorAll('[data-walk]')){
-    b.addEventListener('pointerdown',e=>{e.preventDefault();held.add(b.dataset.walk);b.setPointerCapture(e.pointerId);});
-    for(const event of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(event,()=>held.delete(b.dataset.walk));
+    b.addEventListener('pointerdown',e=>{e.preventDefault();held.add(b.dataset.walk);b.setPointerCapture(e.pointerId);requestRender();});
+    for(const event of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(event,()=>{held.delete(b.dataset.walk);requestRender();});
   }
   for(const b of dpad.querySelectorAll('[data-turn]')){
-    b.addEventListener('pointerdown',e=>{e.preventDefault();player.yaw+=Number(b.dataset.turn);b.setPointerCapture(e.pointerId);});
+    b.addEventListener('pointerdown',e=>{e.preventDefault();player.yaw+=Number(b.dataset.turn);b.setPointerCapture(e.pointerId);requestRender();});
   }
   const qualityLevels={high:1.5,balanced:1,performance:.72};
   function setQuality(value,save=true){
@@ -188,15 +188,21 @@ import {createPerspectiveView} from './vault-perspective.js?v=phase7-perspective
     const ratio=Math.min(window.devicePixelRatio||1,qualityLevels[quality]);
     renderer.setPixelRatio(ratio);
     if(save){try{localStorage.setItem(qualityKey,quality);}catch{status.textContent='Graphics changed for this visit; browser storage is unavailable.';}}
-    resize();
+    resize();requestRender();
   }
   let savedQuality='high';try{const value=localStorage.getItem(qualityKey);if(Object.hasOwn(qualityLevels,value))savedQuality=value;}catch{}
   if(qualitySelect){qualitySelect.value=savedQuality;qualitySelect.addEventListener('change',()=>setQuality(qualitySelect.value));}
   setQuality(savedQuality,false);
   if(!('ontouchstart' in window))stage.querySelector('.observatory-3d-touch').setAttribute('aria-label','Movement controls; also playable with WASD, arrow keys, mouse drag, or touch.');
+  const perspectiveToggle=document.querySelector('[data-perspective-toggle]');
+  if(perspectiveToggle){const perspectiveObserver=new MutationObserver(requestRender);perspectiveObserver.observe(perspectiveToggle,{attributes:true,attributeFilter:['aria-pressed']});}
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){keys.clear();held.clear();last=0;}else requestRender();});
   const ro=new ResizeObserver(resize);ro.observe(stage);resize();
-  function frame(now){requestAnimationFrame(frame);if(document.hidden){last=0;return;}const dt=last?Math.min(.05,Math.max(0,(now-last)/1000)):0;last=now;move(dt);look();renderer.render(scene,camera);}
-  requestAnimationFrame(frame);
-  window.academyObservatory3D=Object.freeze({diagnostics:()=>({ready:true,perspective:perspective.mode,position:{x:player.x,z:player.z},yaw:player.yaw,draws:renderer.info?.render?.calls??null,canvas:{width:renderCanvas.width,height:renderCanvas.height},compatibility:Boolean(renderer.isCompatibility),actualWebGL:Boolean(renderer.isWebGLRenderer),renderer:renderCanvas.dataset.renderer||'webgl',quality:qualitySelect?.value||'high',bannerCount:room.children.filter(o=>o.userData.houseBanner).length}),inspect});
+  // This scene is static between player inputs. Keep requestAnimationFrame active
+  // only while walking; an idle observatory should not redraw or burn mobile GPU.
+  function frame(now){frameHandle=0;if(document.hidden){last=0;return;}const dt=last?Math.min(.05,Math.max(0,(now-last)/1000)):0;last=now;move(dt);look();renderer.render(scene,camera);renderCount++;if(keys.size||held.size)frameHandle=requestAnimationFrame(frame);else last=0;}
+  function requestRender(){if(!frameHandle&&!document.hidden)frameHandle=requestAnimationFrame(frame);}
+  requestRender();
+  window.academyObservatory3D=Object.freeze({diagnostics:()=>({ready:true,perspective:perspective.mode,position:{x:player.x,z:player.z},yaw:player.yaw,draws:renderer.info?.render?.calls??null,renderCount,canvas:{width:renderCanvas.width,height:renderCanvas.height},compatibility:Boolean(renderer.isCompatibility),actualWebGL:Boolean(renderer.isWebGLRenderer),renderer:renderCanvas.dataset.renderer||'webgl',quality:qualitySelect?.value||'high',bannerCount:room.children.filter(o=>o.userData.houseBanner).length}),inspect});
   status.textContent='Walkable Owl Observatory · WASD or arrows to move · drag to look · E to approach the telescope.';
 })();
