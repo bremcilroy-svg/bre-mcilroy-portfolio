@@ -26,6 +26,8 @@ test('Owl Observatory 3D room preserves the constellation puzzle across emulated
   const initial=await page.evaluate(()=>window.academyObservatory3D?.diagnostics()||null);
   expect(initial?.ready).toBe(true);
   expect(initial.bannerCount).toBe(4);
+  expect(initial.geometryCount).toBeGreaterThan(5);
+  expect(initial.geometryCount).toBeLessThan(40);
   expect(initial.canvas.width).toBeGreaterThan(0);
   expect(initial.canvas.height).toBeGreaterThan(0);
   // WebGL is reported only when the browser actually created the WebGL renderer;

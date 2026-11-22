@@ -1,5 +1,6 @@
 import * as THREE from './vault-three.module.js?v=academy-observatory-3d';
 import {createCanvasRenderer} from './vault-canvas.js?v=academy-observatory-3d';
+import {createRoyalRoomKit} from './academy-3d-architecture.js?v=academy-observatory-3d';
 import {createPerspectiveView} from './vault-perspective.js?v=phase7-perspective';
 
 (() => {
@@ -35,18 +36,23 @@ import {createPerspectiveView} from './vault-perspective.js?v=phase7-perspective
   };
   const room = new THREE.Group();
   scene.add(room);
-  const boxes = [];
+  const roomKit=createRoyalRoomKit(THREE,room);
+  const cylinderGeometryCache=new Map();
   function box(name, size, position, material, parent=room) {
-    const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size),material);
-    mesh.name=name;mesh.position.set(...position);mesh.castShadow=true;mesh.receiveShadow=true;parent.add(mesh);boxes.push(mesh);return mesh;
+    const mesh=roomKit.box({name,size,position,material});
+    mesh.castShadow=true;mesh.receiveShadow=true;
+    if(parent!==room)parent.add(mesh);
+    return mesh;
   }
   function cylinder(name, top, bottom, height, position, material, parent=room, sides=12) {
-    const mesh=new THREE.Mesh(new THREE.CylinderGeometry(top,bottom,height,sides),material);
-    mesh.name=name;mesh.position.set(...position);mesh.castShadow=true;mesh.receiveShadow=true;parent.add(mesh);return mesh;
+    const key=[top,bottom,sides].join(':');
+    if(!cylinderGeometryCache.has(key))cylinderGeometryCache.set(key,new THREE.CylinderGeometry(top,bottom,1,sides));
+    const mesh=new THREE.Mesh(cylinderGeometryCache.get(key),material);
+    mesh.name=name;mesh.position.set(...position);mesh.scale.y=height;mesh.castShadow=true;mesh.receiveShadow=true;parent.add(mesh);return mesh;
   }
   function sphere(name,size,position,material,parent=room,segments=12){
-    const mesh=new THREE.Mesh(new THREE.SphereGeometry(size,segments,Math.max(8,segments-2)),material);
-    mesh.name=name;mesh.position.set(...position);mesh.castShadow=true;parent.add(mesh);return mesh;
+    const mesh=roomKit.sphere({name,position,size:[size,size,size],material,parent});
+    mesh.castShadow=true;return mesh;
   }
 
   scene.add(new THREE.HemisphereLight('#d9eaff','#211b2b',1.45));
@@ -59,10 +65,11 @@ import {createPerspectiveView} from './vault-perspective.js?v=phase7-perspective
   const ring=new THREE.Mesh(new THREE.TorusGeometry(5.8,.06,8,48),materials.silver);ring.rotation.x=Math.PI/2;ring.position.y=.04;room.add(ring);
   const wall=new THREE.Mesh(new THREE.CylinderGeometry(9,9,6,16,1,true),materials.stone);wall.position.y=2.85;wall.name='octagonal limestone observatory walls';room.add(wall);
   const dome=new THREE.Mesh(new THREE.SphereGeometry(8.98,24,12,0,Math.PI*2,0,Math.PI/2),materials.night);dome.position.y=5.8;dome.name='night sky dome';room.add(dome);
+  const windowPaneGeometry=new THREE.PlaneGeometry(1.05,3.1);
   for(let i=0;i<16;i++){
     const a=i*Math.PI/8,x=Math.sin(a)*8.78,z=Math.cos(a)*8.78;
     cylinder('silver wall buttress',.28,.38,6,[x,2.9,z],materials.pale,room,8);
-    const pane=new THREE.Mesh(new THREE.PlaneGeometry(1.05,3.1),materials.glass);
+    const pane=new THREE.Mesh(windowPaneGeometry,materials.glass);
     pane.position.set(x*.967,3.35,z*.967);pane.rotation.y=a;room.add(pane);
     const mullion=box('silver window mullion',[.07,3.1,.09],[x*.95,3.35,z*.95],materials.silver);
     mullion.rotation.y=a;
@@ -99,13 +106,13 @@ import {createPerspectiveView} from './vault-perspective.js?v=phase7-perspective
   for(const side of [-1,1]){
     sphere('snow owl blue eye',.11,[side*.19,1.12,.34],materials.eye,owl,10);
     sphere('snow owl pupil',.045,[side*.19,1.12,.43],materials.black,owl,8);
-    const wing=sphere('owl silver wing',.31,[side*.5,.42,0],materials.pale,owl,10);wing.scale.set(.62,1.25,.65);
+    const wing=sphere('owl silver wing',.31,[side*.5,.42,0],materials.pale,owl,10);wing.scale.multiply(new THREE.Vector3(.62,1.25,.65));
   }
   const beak=new THREE.Mesh(new THREE.ConeGeometry(.11,.25,5),materials.gold);beak.position.set(0,.88,.4);beak.rotation.x=Math.PI/2;owl.add(beak);
   cylinder('owl silver perch',.08,.13,2.2,[-6.2,.12,-2.5],materials.silver,room,8);
   // Gizmo stays beside the telescope, modeled with his familiar gray and white markings.
   const gizmo=new THREE.Group();gizmo.name='Gizmo gray and white companion';gizmo.position.set(2.9,.14,4.25);room.add(gizmo);
-  const body=sphere('Gizmo gray body',.47,[0,.32,0],materials.catGray,gizmo,12);body.scale.set(1.2,.82,.8);
+  const body=sphere('Gizmo gray body',.47,[0,.32,0],materials.catGray,gizmo,12);body.scale.multiply(new THREE.Vector3(1.2,.82,.8));
   sphere('Gizmo white chest',.25,[0,.24,.34],materials.catWhite,gizmo,10);
   sphere('Gizmo head',.32,[0,.72,.12],materials.catGray,gizmo,12);
   for(const side of [-1,1]){
@@ -203,6 +210,7 @@ import {createPerspectiveView} from './vault-perspective.js?v=phase7-perspective
   function frame(now){frameHandle=0;if(document.hidden){last=0;return;}const dt=last?Math.min(.05,Math.max(0,(now-last)/1000)):0;last=now;move(dt);look();renderer.render(scene,camera);renderCount++;if(keys.size||held.size)frameHandle=requestAnimationFrame(frame);else last=0;}
   function requestRender(){if(!frameHandle&&!document.hidden)frameHandle=requestAnimationFrame(frame);}
   requestRender();
-  window.academyObservatory3D=Object.freeze({diagnostics:()=>({ready:true,perspective:perspective.mode,position:{x:player.x,z:player.z},yaw:player.yaw,draws:renderer.info?.render?.calls??null,renderCount,canvas:{width:renderCanvas.width,height:renderCanvas.height},compatibility:Boolean(renderer.isCompatibility),actualWebGL:Boolean(renderer.isWebGLRenderer),renderer:renderCanvas.dataset.renderer||'webgl',quality:qualitySelect?.value||'high',bannerCount:room.children.filter(o=>o.userData.houseBanner).length}),inspect});
+  let geometryCount=0;const uniqueGeometries=new Set();scene.traverse(object=>{if(object.geometry)uniqueGeometries.add(object.geometry);});geometryCount=uniqueGeometries.size;
+  window.academyObservatory3D=Object.freeze({diagnostics:()=>({ready:true,perspective:perspective.mode,position:{x:player.x,z:player.z},yaw:player.yaw,draws:renderer.info?.render?.calls??null,renderCount,geometryCount,canvas:{width:renderCanvas.width,height:renderCanvas.height},compatibility:Boolean(renderer.isCompatibility),actualWebGL:Boolean(renderer.isWebGLRenderer),renderer:renderCanvas.dataset.renderer||'webgl',quality:qualitySelect?.value||'high',bannerCount:room.children.filter(o=>o.userData.houseBanner).length}),inspect});
   status.textContent='Walkable Owl Observatory · WASD or arrows to move · drag to look · E to approach the telescope.';
 })();
