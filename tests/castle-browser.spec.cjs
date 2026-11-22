@@ -251,6 +251,7 @@ test('the palace doors animate and lead to the existing Great Hall',async({page}
  await expect(page.locator('#status')).toContainText('ready',{timeout:30000});
  await page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.activeCamera.position.set(0,1.8,2));
  const button=page.locator('#enter-palace');await expect(button).toBeVisible({timeout:5000});await button.click();
+ await expect.poll(async()=>page.evaluate(()=>BABYLON.EngineStore.LastCreatedScene.getMeshByName('closed main entrance collision').checkCollisions),{timeout:5000}).toBe(false);
  await expect(page.locator('#status')).toContainText('doors open',{timeout:5000});
  await expect(page).toHaveURL(/academy-royal-great-hall[.]html#royal-reception/,{timeout:10000});
 });
