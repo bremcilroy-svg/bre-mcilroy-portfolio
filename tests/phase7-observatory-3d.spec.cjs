@@ -55,6 +55,13 @@ test('Owl Observatory 3D room preserves the constellation puzzle across emulated
   if(/android|iphone|tablet/i.test(testInfo.project.name)) {
     const forward=page.getByRole('button',{name:'Walk forward'});
     await expect(forward).toBeVisible();
+    const [qualityBox,controlsBox]=await Promise.all([
+      page.getByLabel('Observatory graphics quality').boundingBox(),
+      page.locator('.observatory-3d-touch').boundingBox()
+    ]);
+    expect(qualityBox.x+qualityBox.width<=controlsBox.x || controlsBox.x+controlsBox.width<=qualityBox.x
+      || qualityBox.y+qualityBox.height<=controlsBox.y || controlsBox.y+controlsBox.height<=qualityBox.y).toBe(true);
+    expect((await forward.boundingBox()).height).toBeGreaterThanOrEqual(44);
     await forward.tap();
   } else {
     const canvas=page.locator('#observatory-3d-canvas');
