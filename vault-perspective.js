@@ -60,6 +60,15 @@ export function createPerspectiveView(THREE, {scene, camera, canvas, getPose, di
   button.setAttribute('aria-pressed', String(mode === 'third'));
   button.style.cssText = 'position:fixed;top:calc(112px + env(safe-area-inset-top,0px));right:max(12px,env(safe-area-inset-right,0px));z-index:10030;min-height:44px;padding:9px 13px;border:1px solid #d6c5ec;border-radius:22px;background:#24182deF;color:#fff;font:600 13px system-ui,sans-serif;box-shadow:0 3px 12px #0008;cursor:pointer;touch-action:manipulation';
   document.body.append(button);
+  const syncButtonVisibility = () => {
+    let visible = Boolean(canvas?.isConnected);
+    for (let node = canvas; visible && node && node !== document.body; node = node.parentElement) {
+      if (node.hidden) visible = false;
+    }
+    button.hidden = !visible;
+  };
+  const visibilityObserver = new MutationObserver(syncButtonVisibility);
+  visibilityObserver.observe(document.body, {subtree:true, attributes:true, attributeFilter:['hidden']});
   const label = () => {
     button.textContent = mode === 'third' ? 'Switch to first person' : 'Switch to third person';
     button.setAttribute('aria-label', mode === 'third' ? 'Switch to first-person view' : 'Switch to third-person view');
@@ -71,6 +80,7 @@ export function createPerspectiveView(THREE, {scene, camera, canvas, getPose, di
     label();
     update();
   };
+  syncButtonVisibility();
   button.addEventListener('click', () => setMode(mode === 'first' ? 'third' : 'first'));
   window.addEventListener('keydown', event => {
     if (event.code !== 'KeyV' || event.repeat || event.target.closest('button,a,input,select,textarea,[role="dialog"]')) return;
