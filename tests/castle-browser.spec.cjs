@@ -215,6 +215,13 @@ test('walkable perimeter scene starts facing the gate and offers courtyard passa
  await expect(page).toHaveURL(/academy-moonlit-courtyard[.]html/);
 });
 
+test('the royal invitation leads to walkable gates and retains a direct courtyard link',async({page})=>{
+ await page.goto(base+'amethyst-crescent-academy.html');
+ await expect(page.locator('#academy-gate')).toHaveAttribute('href','academy-perimeter-3d.html');
+ await page.goto(base+'academy-perimeter-3d.html');
+ await expect(page.getByRole('link',{name:'Enter Courtyard Directly'})).toHaveAttribute('href','academy-moonlit-courtyard.html');
+});
+
 test('royal perimeter contains four raised house flags and a collision-aware gate',async({page})=>{
  await page.goto(base+'academy-perimeter-3d.html');
  await expect(page.locator('#status')).toContainText('ready',{timeout:30000});
