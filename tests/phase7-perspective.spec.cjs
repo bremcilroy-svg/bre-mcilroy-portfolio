@@ -14,6 +14,10 @@ function seedProgress({viewKey}) {
     'bre-poetry-vault-dawn-v1': {emblemPlaced:true,panels:['star','moon','horizon','sun'],turns:{star:0,moon:0,horizon:0,sun:0},lightAligned:true,found:['seed','rain','leaf','bloom'],book:['seed','rain','leaf','bloom'],unlocked:true,completed:true}
   };
   for (const [key,value] of Object.entries(seeds)) if (localStorage.getItem(key) === null) localStorage.setItem(key, JSON.stringify(value));
+  // Unlock the isolated author-room fixture with synthetic completed progress;
+  // never touch a real profile or rewrite an existing save.
+  if (localStorage.getItem('bre-poetry-vault-society-v1') === null) localStorage.setItem('bre-poetry-vault-society-v1', JSON.stringify({hints:[],clean:[],inscriptions:[],started:[],fifth:true}));
+  if (localStorage.getItem('bre-poetry-vault-keepsakes-v1') === null) localStorage.setItem('bre-poetry-vault-keepsakes-v1', JSON.stringify({secrets:['heart','mirror','labyrinth','dawn']}));
   if (localStorage.getItem(viewKey) === null) localStorage.setItem(viewKey, 'first');
   if (localStorage.getItem('phase7-progress-sentinel') === null) localStorage.setItem('phase7-progress-sentinel', 'preserve-existing-progress');
 }
