@@ -63,13 +63,15 @@ test('the four walkable Poetry Vault chapters share the saved perspective withou
   await page.addInitScript(seedProgress, {viewKey});
   await page.goto(base + 'poetry-vault.html?resume=1');
   const before = await page.evaluate(() => ['bre-poetry-vault-heart-v1','bre-poetry-vault-mirror-v1','bre-poetry-vault-labyrinth-v1','bre-poetry-vault-dawn-v1'].map(key => localStorage.getItem(key)));
+  let expected = 'first';
   for (const route of ['poetry-vault.html','poetry-vault-mirror.html','poetry-vault-labyrinth.html','poetry-vault-dawn.html']) {
     await page.goto(base + route + '?resume=1');
     const canvas = page.locator('#room-canvas');
     await expect(canvas).toBeVisible({timeout:30000});
-    await expect(canvas).toHaveAttribute('data-perspective', 'first', {timeout:30000});
-    await page.getByRole('button', {name:'Switch to third-person view'}).click();
+    await expect(canvas).toHaveAttribute('data-perspective', expected, {timeout:30000});
+    if (expected === 'first') await page.getByRole('button', {name:'Switch to third-person view'}).click();
     await expect(canvas).toHaveAttribute('data-perspective', 'third');
+    expected = 'third';
     expect(await page.evaluate(key => localStorage.getItem(key), viewKey)).toBe('third');
   }
   const after = await page.evaluate(keys => keys.map(key => localStorage.getItem(key)), saveKeys);
