@@ -41,7 +41,7 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
   expect(starting.canvas.width).toBeGreaterThan(0);
   expect(starting.canvas.height).toBeGreaterThan(0);
 
-  if (testInfo.project.name.includes('android')) {
+  if (/android|iphone|tablet/i.test(testInfo.project.name)) {
     const forward = page.getByRole('button', {name: 'Walk forward'});
     await expect(forward).toBeVisible();
     const beforeTouch = await page.evaluate(() => window.academyGreatHall3D.diagnostics().position);
@@ -57,11 +57,28 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
   }
 
   const beforeLook = await page.evaluate(() => window.academyGreatHall3D.diagnostics().yaw);
-  const bounds = await canvas.boundingBox();
-  await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
-  await page.mouse.down();
-  await page.mouse.move(bounds.x + bounds.width / 2 + 75, bounds.y + bounds.height / 2 + 8, {steps: 5});
-  await page.mouse.up();
+  const dragPoint = await page.evaluate(() => {
+    const canvas = document.querySelector('#great-hall-3d-canvas');
+    const rect = canvas.getBoundingClientRect();
+    for (const fy of [.12, .24, .4, .58, .76, .9]) for (const fx of [.04, .16, .3, .5, .7, .84, .96]) {
+      const x = rect.left + rect.width * fx, y = rect.top + rect.height * fy;
+      if (document.elementFromPoint(x, y) === canvas) return {x, y};
+    }
+    return null;
+  });
+  expect(dragPoint, 'the scene should have an unobstructed area for camera input').not.toBeNull();
+  if (testInfo.project.name.includes('android')) {
+    const session = await page.context().newCDPSession(page);
+    await session.send('Input.dispatchTouchEvent', {type: 'touchStart', touchPoints: [{id: 1, x: dragPoint.x, y: dragPoint.y}]});
+    await session.send('Input.dispatchTouchEvent', {type: 'touchMove', touchPoints: [{id: 1, x: dragPoint.x + 75, y: dragPoint.y + 8}]});
+    await session.send('Input.dispatchTouchEvent', {type: 'touchEnd', touchPoints: []});
+    await session.detach();
+  } else {
+    await page.mouse.move(dragPoint.x, dragPoint.y);
+    await page.mouse.down();
+    await page.mouse.move(dragPoint.x + 75, dragPoint.y + 8, {steps: 5});
+    await page.mouse.up();
+  }
   const afterLook = await page.evaluate(() => window.academyGreatHall3D.diagnostics().yaw);
   expect(Math.abs(afterLook - beforeLook)).toBeGreaterThan(.15);
 
