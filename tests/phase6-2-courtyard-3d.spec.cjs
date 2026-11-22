@@ -138,7 +138,7 @@ test('Moonlit Courtyard 3D walk, touch, house details and Fountain memories', as
   expect(await page.evaluate(key => localStorage.getItem(key), progressKey)).toBe('existing-puzzle-progress-sentinel');
   const note = page.getByLabel('Memory note for The Moonlit Courtyard');
   await note.fill('Saved during the courtyard 3D regression test.');
-  const saveNote = note.locator('xpath=..').getByRole('button', {name: 'Save note'});
+  const saveNote = note.locator('xpath=..').locator('button').first();
   await saveNote.click();
   await expect(saveNote).toHaveText('✓ Saved');
   expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)).find(memory => memory.title === 'The Moonlit Courtyard')?.note, memoryKey))
