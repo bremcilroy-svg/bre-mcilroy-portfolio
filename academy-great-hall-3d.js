@@ -365,7 +365,6 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
     if (event.button !== 0 && event.pointerType !== 'touch') return;
     canvas.focus({preventScroll:true});
     drag = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
-    pointerSurface.setPointerCapture(event.pointerId);
   }
   function onPointerMove(event) {
     if (!drag || drag.id !== event.pointerId) return;
@@ -450,9 +449,9 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
   viewButton.addEventListener('click', () => setView(!active));
   qualitySelect.addEventListener('change', () => setQuality(qualitySelect.value));
   pointerSurface.addEventListener('pointerdown', onPointerDown);
-  pointerSurface.addEventListener('pointermove', onPointerMove);
-  pointerSurface.addEventListener('pointerup', onPointerUp);
-  pointerSurface.addEventListener('pointercancel', () => { drag = null; });
+  window.addEventListener('pointermove', onPointerMove);
+  window.addEventListener('pointerup', onPointerUp);
+  window.addEventListener('pointercancel', () => { drag = null; });
   window.addEventListener('keydown', keyDown);
   window.addEventListener('keyup', keyUp);
   window.addEventListener('blur', () => { keys.clear(); held.clear(); });
