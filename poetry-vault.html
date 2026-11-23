@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Poetry Vault · The Heart Chamber | Bre McIlroy</title>
+<meta name="description" content="Enter The Heart Chamber, a first-person Victorian poetry escape room. Find four letters, open a diary, and discover four original poems by Bre McIlroy.">
+<meta name="theme-color" content="#100d0e"><link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="poetry-vault.css?v=phase5-safe-area"><script type="module" src="poetry-vault.js?v=phase7-perspective"></script>
+<link rel="stylesheet" href="vault-cinematic.css?v=20261112-entrance">
+  <link rel="stylesheet" href="vault-phase11-integration.css?v=111">
+<script defer src="vault-phase11-integration.js?v=111"></script>
+<link rel="stylesheet" href="vault-final-polish.css?v=160"><link rel="stylesheet" href="vault-gizmo-companion.css?v=4"><link rel="stylesheet" href="vault-gizmo-exact.css?v=1">
+<script defer src="vault-gizmo-companion.js?v=4"></script><script defer src="vault-gizmo-exact.js?v=1"></script><link rel="stylesheet" href="vault-gizmo-visible.css?v=2">
+<script defer src="vault-gizmo-visible.js?v=2"></script>
+<!-- Phase 15.5 — Connected Castle -->
+<link rel="stylesheet" href="vault-journey-bridge.css?v=155">
+<script type="module" src="vault-journey-bridge.js?v=197"></script>
+
+<link rel="stylesheet" href="vault-gizmo-walk.css?v=1">
+<script defer src="vault-gizmo-walk.js?v=1"></script><link rel="stylesheet" href="vault-gizmo-real-fix.css?v=2">
+<script defer src="vault-gizmo-real-fix.js?v=2"></script>
+<link rel="stylesheet" href="vault-gizmo-display-fix.css?v=3">
+<script defer src="vault-gizmo-display-fix.js?v=3"></script>
+<link rel="stylesheet" href="vault-gizmo-natural.css?v=1">
+<script defer src="vault-gizmo-natural.js?v=1"></script>
+<link rel="stylesheet" href="vault-gizmo-poses.css?v=1">
+<script defer src="vault-gizmo-poses.js?v=1"></script>
+<link rel="stylesheet" href="vault-gizmo-floor-polish.css?v=1">
+<script defer src="vault-gizmo-floor-polish.js?v=1"></script>
+<link rel="stylesheet" href="vault-gizmo-call.css?v=1">
+<script defer src="vault-gizmo-call.js?v=1"></script>
+<!-- Magical Academy — Room Recreation Phase 1 -->
+<link rel="stylesheet" href="vault-academy-phase1.css?v=1">
+<script defer src="vault-academy-phase1.js?v=1"></script>
+<!-- Magical Academy — Phase 2 -->
+<link rel="stylesheet" href="vault-academy-phase2.css?v=1">
+<script defer src="vault-academy-phase2.js?v=1"></script>
+<!-- Magical Academy — Phase 3A -->
+<link rel="stylesheet" href="vault-academy-phase3.css?v=1">
+<script defer src="vault-academy-phase3.js?v=1"></script>
+
+<link rel="stylesheet" href="vault-academy-phase3c.css?v=3c1">
+
+<link rel="stylesheet" href="vault-universe.css?v=20261118-royal">
+<script defer src="vault-universe.js?v=1"></script>
+<link rel="stylesheet" href="vault-royal-mobile-fix.css?v=3d1">
+<link rel="stylesheet" href="academy-heart-reverie.css?v=1">
+<script type="module" src="academy-heart-reverie.js?v=1"></script>
+<link rel="stylesheet" href="academy-room-presence.css?v=1"><script defer src="academy-room-presence.js?v=1"></script><link rel="stylesheet" href="academy-castle-threshold.css?v=3"><script defer src="academy-castle-threshold.js?v=3"></script><link rel="stylesheet" href="academy-treasure-chests.css?v=4"><script type="module" src="academy-treasure-chests.js?v=1"></script><link rel="stylesheet" href="vault-enchanted-atmosphere.css?v=1"><script defer src="vault-enchanted-atmosphere.js?v=1"></script><link rel="stylesheet" href="vault-discovery-moments.css?v=1"><script defer src="vault-discovery-moments.js?v=1"></script><link rel="stylesheet" href="vault-castle-whispers.css?v=1"><script defer src="vault-castle-whispers.js?v=1"></script><link rel="stylesheet" href="academy-vault-transition.css?v=1"><script defer src="academy-vault-transition.js?v=1"></script><style>
+@media (min-width: 701px) {
+  #pv-castle-whisper { top: 166px; }
+}
+</style><link rel="stylesheet" href="vault-gizmo-controls.css?v=1">
+<script type="module" src="vault-gizmo-controls.js?v=1"></script><link rel="stylesheet" href="vault-room-controls.css?v=2">
+<script type="module" src="vault-room-controls.js?v=1"></script><link rel="stylesheet" href="academy-game-smooth.css?v=1"><style id="academy-heart-chamber-royal-atmosphere">
+/* Royal architectural frame, without covering the interactive 3D scene. */
+#vault{background-color:#120e20}
+#vault::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+background:radial-gradient(ellipse at 50% 3%,#d5eaff27,transparent 45%),
+linear-gradient(90deg,#15102777,transparent 14%,transparent 86%,#15102777);
+box-shadow:inset 0 0 85px #09091a80}
+#vault::after{content:"";position:fixed;left:50%;top:0;transform:translateX(-50%);width:min(75vw,700px);height:clamp(18px,4vw,46px);pointer-events:none;z-index:1;border-radius:0 0 55% 55%;
+border-bottom:3px solid #d3c6ec7a;background:linear-gradient(#c6e6ff17,#5e437c18 55%,transparent);
+box-shadow:0 7px 25px #a7d8ff24}
+#vault .masthead,#vault .welcome,#vault #play-ui{position:relative;z-index:2}
+/* Give bottom-anchored room controls the space below the masthead. */
+#vault:has(#play-ui:not([hidden])){display:flex;flex-direction:column;min-height:0}
+#vault #play-ui{flex:1;pointer-events:none}
+#vault #play-ui button{pointer-events:auto}
+@media(pointer:coarse){
+ #vault #play-ui .touch-controls{bottom:calc(64px + env(safe-area-inset-bottom))}
+ #vault #play-ui .interact-wrap{bottom:calc(164px + env(safe-area-inset-bottom))}
+}
+@media(max-width:800px){
+ #vault #play-ui .tools{bottom:calc(54px + env(safe-area-inset-bottom))}
+ #vault #play-ui .touch-controls{bottom:calc(98px + env(safe-area-inset-bottom))}
+ #vault #play-ui .interact-wrap{bottom:calc(207px + env(safe-area-inset-bottom))}
+}
+#vault .welcome .chapter-label{letter-spacing:.17em;color:#e5c9ff}
+#vault .welcome .room-caption{filter:drop-shadow(0 0 12px #bca4ef55)}
+@media(max-width:700px){#vault::after{width:85vw;height:19px}#vault::before{box-shadow:inset 0 0 32px #09091a55}}
+@media(prefers-reduced-motion:reduce){#vault::before,#vault::after{animation:none;transition:none}}
+</style><style id="academy-heart-chamber-medieval-detail">
+/* Ornamental frame only: no changes to game state, camera, or controls. */
+#vault{--heart-silver:#c7dce9;--heart-amethyst:#a88ccf}
+#vault .welcome-copy{position:relative;isolation:isolate}
+#vault .welcome-copy::before{content:"";position:absolute;inset:-22px -18px;z-index:-1;pointer-events:none;border:1px solid #c8ddf04f;border-radius:14px 14px 35px 35px;background:linear-gradient(125deg,#19172a9c,#33234272 58%,#101829a8);box-shadow:0 0 38px #a6b8ff26,inset 0 0 30px #b1e5ff12}
+#vault .welcome-copy::after{content:"♛  ✦  ☾  ✦  ♛";position:absolute;top:-34px;left:50%;transform:translateX(-50%);font:clamp(12px,2vw,18px) Georgia,serif;white-space:nowrap;letter-spacing:.35em;color:#d3e7ff;text-shadow:0 0 14px #b2c6ff;pointer-events:none}
+#vault .welcome .chapter-label{color:#e4d0ff;text-shadow:0 0 10px #9d75d68c}
+#vault .welcome .primary{border:1px solid #c9e8f7;box-shadow:0 0 0 2px #b4dfff25,0 7px 24px #9b75c65e}
+#vault .welcome .primary:focus-visible{outline:3px solid #d4f1ff;outline-offset:4px}
+#vault .room-caption{border-top:1px solid #d3e8f35c;padding-top:12px;text-shadow:0 0 12px #bda9f5}
+@media(max-width:700px){
+ #vault .welcome-copy::before{inset:-13px -9px;border-radius:12px 12px 22px 22px}
+ #vault .welcome-copy::after{top:-22px;font-size:11px;letter-spacing:.18em}
+}
+@media(prefers-reduced-motion:reduce){#vault .welcome-copy::before,#vault .welcome-copy::after{animation:none;transition:none}}
+</style><style id="academy-heart-chamber-scene-polish">
+/* Scene enhancement: non-interactive atmospheric lighting, no overlays above
+   the 3D canvas or changes to its controls, puzzles, or saved state. */
+#vault #scene{background:
+ radial-gradient(ellipse 30% 35% at 49% 15%,#c3eaff34,transparent 100%),
+ radial-gradient(ellipse 35% 44% at 81% 44%,#9673bd36,transparent 100%),
+ linear-gradient(140deg,#191c31,#32223e 52%,#110e1d)}
+#vault .vignette{background:
+ radial-gradient(ellipse 58% 60% at 50% 30%,#b6e4ff0b,transparent 100%),
+ linear-gradient(90deg,#0d1124a1,transparent 18%,transparent 82%,#0d1124a1),
+ linear-gradient(0deg,#090b18b8,transparent 30%,transparent 75%,#0b0b1b7e);
+ box-shadow:inset 0 0 125px 25px #0a0c1b80}
+#vault .masthead{border-bottom:1px solid #c6dff04d;background:linear-gradient(#13142adf,#1913286e)}
+#vault .masthead .wordmark{color:#e3efff;text-shadow:0 0 12px #a78ad377}
+#vault #play-ui .chapter-hud{border-color:#c8ddf066}
+#vault #play-ui .chapter-hud .eyebrow{color:#d6c8f5}
+@media(max-width:700px){
+ #vault .vignette{box-shadow:inset 0 0 55px 10px #0a0c1b66}
+ #vault .masthead{background:linear-gradient(#13142ae8,#19132882)}
+}
+@media (orientation: landscape) and (max-height: 500px) {
+ #vault #aca-chest-hunt .aca-chest-easy {left:30%}
+ #vault #aca-chest-hunt .aca-chest-secret {right:48%}
+ body #pv-gizmo-companion.pvg-display-repaired.pvg-floor-polished {
+   top:calc(76px + env(safe-area-inset-top, 0px));
+   bottom:auto!important;
+   width:116px!important;
+   height:92px!important;
+ }
+ body #pv-gizmo-companion.pvg-floor-polished :is(.pvg-cat, #pvg-real-artwork) {
+   width:116px!important;
+   height:74px!important;
+ }
+ body #pv-gizmo-companion.pvg-floor-polished :is(.pvg-controls, .pvg-recording-panel, .pvg-speech) {
+   right:calc(100% + 8px);
+   bottom:0!important;
+ }
+ body #pv-gizmo-companion.pvg-floor-polished :is(.pvg-recording-panel, .pvg-speech) {
+   top:100%;
+   bottom:auto!important;
+ }
+}
+@media(prefers-contrast:more){#vault .vignette{background:transparent;box-shadow:none}}
+</style></head>
+<body>
+<main id="vault">
+<div id="scene" aria-label="First-person view of a Victorian library"></div>
+<div class="vignette" aria-hidden="true"></div>
+<header class="masthead"><a href="writing.html" class="back">← <span>Bre McIlroy / Writing</span></a><a class="wordmark" href="poetry-vault-entrance.html" aria-label="The Poetry Vault main menu">THE POETRY VAULT</a><button id="settings-button" disabled aria-label="Open sound and graphics settings">Sound & settings</button></header>
+<section class="welcome" id="welcome" aria-labelledby="welcome-title">
+<div class="welcome-copy"><p class="eyebrow">The Library of Forgotten Words</p><p class="chapter-label">CHAPTER I <span>—</span> THE HEART CHAMBER</p><h1 id="welcome-title">Some words<br>wait to be<br><em>found.</em></h1><p class="intro">Four sealed letters. A locked diary. A room that remembers.</p><p class="description">Step into a Victorian library and uncover four poems from <i>Love, Pain &amp; The Chaos in My Brain</i> by Bre McIlroy.</p><div class="welcome-actions"><button class="primary" id="start" disabled>Enter the chamber <span>→</span></button></div><p class="fine">Solve the puzzles to unlock the poems · Hints available</p><p id="resume-note" class="fine"></p></div>
+<div class="room-caption"><span class="ornament">✧</span><p>LOVE LEAVES A TRACE.</p><span>Follow the letters.</span></div>
+</section>
+<section id="play-ui" hidden aria-label="Game controls">
+<div class="chapter-hud"><p class="eyebrow">I / The Heart Chamber</p><h1 id="objective">Find the four sealed letters.</h1><p id="progress">0 / 4 letters · 0 / 4 poems</p></div>
+<nav class="tools" aria-label="Chamber tools"><button id="explore">Explore objects</button><button id="journal">Journal <span id="journal-count">0</span></button><button id="hint">Hint</button><button id="help">Controls</button></nav>
+<div id="crosshair" aria-hidden="true">+</div>
+<div class="interact-wrap"><p id="look-prompt">Look around. The letters carry gold seals.</p><button id="interact" class="primary" disabled>Approach an object</button></div>
+<div class="move-help" id="desktop-help">W A S D to move · Drag to look · E to inspect</div>
+<div class="touch-controls" aria-label="Touch movement controls"><div class="movement-pad"><button data-move="forward" aria-label="Move forward">↑</button><button data-move="left" aria-label="Step left">←</button><button data-move="back" aria-label="Move backward">↓</button><button data-move="right" aria-label="Step right">→</button></div><div class="look-pad"><button data-move="turnLeft" aria-label="Look left">↶</button><button data-move="turnRight" aria-label="Look right">↷</button></div></div>
+</section>
+<div id="toast" role="status" aria-live="polite"></div>
+<p id="scene-status" class="scene-status" role="status">Opening the library…</p>
+<noscript><div class="no-script">This interactive room needs JavaScript. Enable it, then reload. <a href="writing.html">Return to Writing &amp; Poetry</a>.</div></noscript>
+</main>
+<dialog id="panel" aria-labelledby="panel-title"><div class="dialog-top"><p class="eyebrow" id="panel-kicker">The Heart Chamber</p><button id="close-panel" class="close" aria-label="Close panel">×</button></div><h2 id="panel-title" tabindex="-1"></h2><div id="panel-content"></div></dialog>
+<script defer src="academy-game-smooth.js?v=1"></script></body></html>

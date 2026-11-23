@@ -1,0 +1,15 @@
+/* Phase 10.1 — Portrait-style frames. Add AFTER vault-phase10-gallery.css. */
+#pv10-gallery .pv10-wall{gap:clamp(14px,2.4vw,30px);align-items:center;justify-items:center;padding:clamp(12px,2.5vw,30px)}
+#pv10-gallery .pv10-frame{position:relative;display:block;width:100%;max-width:300px;padding:clamp(8px,1.4vw,15px);border:5px ridge #d8b38c;border-radius:5px;background:linear-gradient(135deg,#6b3e2b 0%,#f8d998 12%,#9a633e 23%,#f6dfac 32%,#714323 44%,#c69a66 53%,#f8e3b7 62%,#7a4b35 76%,#d5b087 87%,#4a2b2e 100%);box-shadow:inset 0 0 0 2px #f7e2b7,inset 0 0 0 6px #422032,0 12px 24px #0009,0 0 0 2px #3e243c;overflow:visible;aspect-ratio:3/4}
+#pv10-gallery .pv10-frame::before{content:'❦';position:absolute;z-index:2;top:-12px;left:50%;transform:translateX(-50%);font:clamp(16px,2vw,23px) Georgia,serif;color:#f9dbb3;text-shadow:0 1px 2px #2e152e,0 0 8px #e4b5f5;background:radial-gradient(ellipse,#5d345a 25%,#34203a 75%);border:2px solid #d4b3a0;border-radius:50%;padding:1px 9px;pointer-events:none}
+#pv10-gallery .pv10-frame::after{content:'◆';position:absolute;z-index:2;bottom:-11px;left:50%;transform:translateX(-50%);font-size:16px;color:#d3a0ef;text-shadow:0 0 6px #e9b9ff,0 2px 2px #210d2b;pointer-events:none}
+#pv10-gallery .pv10-frame img{display:block;width:100%;height:100%;min-height:0;aspect-ratio:auto;object-fit:cover;object-position:center;border:3px ridge #50304c;border-radius:1px;box-shadow:inset 0 0 0 2px #cfa7bb;background:#211525}
+#pv10-gallery .pv10-frame span{display:none!important}
+#pv10-gallery .pv10-animal{border-color:#cdb1d2}
+#pv10-gallery .pv10-animal img{object-position:center}
+#pv10-viewer .pv10-caption{display:none!important}
+#pv10-wall-gallery span{display:none!important}
+#pv10-wall-gallery{padding:3px;border:3px ridge #c9a48c;background:#251527;box-shadow:0 4px 15px #0008;border-radius:2px}
+#pv10-wall-gallery img{aspect-ratio:1/1;height:auto;object-fit:cover}
+@media(max-width:720px){#pv10-gallery .pv10-wall{gap:18px 14px}#pv10-gallery .pv10-frame{padding:8px;border-width:4px;aspect-ratio:3/4}#pv10-gallery .pv10-frame img{height:100%;border-width:2px}}
+@media(max-width:380px){#pv10-gallery .pv10-wall{gap:16px 10px;padding:8px}#pv10-gallery .pv10-frame{padding:6px}}

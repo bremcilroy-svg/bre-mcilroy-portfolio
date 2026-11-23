@@ -1,0 +1,127 @@
+#vault-room-extras {
+  display: block;
+  position: fixed;
+  top: calc(60px + env(safe-area-inset-top, 0px));
+  right: max(8px, env(safe-area-inset-right));
+  z-index: 10022;
+}
+#vault-room-extras .vault-extras-toggle {
+  display: block;
+  margin-left: auto;
+  min-height: 44px;
+  padding: 8px 14px;
+  background: #38243e;
+  color: #fff1ea;
+  border: 1px solid #dfbda2;
+  border-radius: 22px;
+  font: 600 .8rem system-ui, sans-serif;
+}
+#vault-extras-content {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  width: min(310px, calc(100vw - 16px));
+  max-height: calc(100dvh - 132px);
+  overflow: auto;
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  background: #241729;
+  border: 1px solid #b69ac1;
+  border-radius: 14px;
+  box-shadow: 0 10px 32px #0009;
+}
+.vault-extras-toggle[aria-expanded="false"] + #vault-extras-content { display: none; }
+#vault-extras-content :is(#pv11-journey, #vu-launch, #pv-castle-whisper, .aca-heart-reverie, .aca-moonlit-reflection, .aca-owl-trail, .aca-sunrise-glass) {
+  position: static !important;
+  max-width: 100%;
+  width: auto;
+  margin: 0;
+  transform: none !important;
+}
+#vault-extras-content #pv11-journey .pv11-routes {
+  position: static;
+  width: auto;
+  margin-top: 6px;
+}
+
+/* Keep the passage below the chapter header and within short viewports. */
+body:has(#vault-room-extras) #pv155-bridge {
+  top: calc(60px + env(safe-area-inset-top));
+}
+body:has(#vault-room-extras) #pv155-bridge .pv155-panel {
+  max-height: calc(100vh - 120px);
+  max-height: calc(100dvh - 120px - env(safe-area-inset-top));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@media (max-width: 800px), (pointer: coarse) {
+  body #aca-room-presence .aca-presence-approach { display: none !important; }
+}
+
+/* Leave room for the Academy map and Gizmo above the movement pads. */
+@media (pointer: coarse), (max-width: 800px) {
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #vault .touch-controls {
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+  body:is(.labyrinth-chapter, .dawn-chapter) #pv-gizmo-companion {
+    left: auto !important;
+    right: max(10px, env(safe-area-inset-right, 0px)) !important;
+    bottom: calc(200px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #vault:has(#play-ui:not([hidden])) {
+    min-height: 0;
+    height: 100dvh;
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #vault #play-ui .tools {
+    top: auto;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    left: 20px;
+    right: 20px;
+    max-width: none;
+    justify-content: center;
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #vault #play-ui .chapter-hud {
+    top: 114px;
+    left: 30%;
+    right: auto;
+    width: min(29vw, 250px);
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #vault #play-ui .interact-wrap {
+    bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #vault #aca-chest-hunt .aca-chest-easy {
+    left: 28%;
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #vault #aca-chest-hunt .aca-chest-secret {
+    right: 30%;
+    top: 52%;
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #pv-gizmo-companion {
+    top: calc(115px + env(safe-area-inset-top, 0px));
+    left: auto !important;
+    right: max(10px, env(safe-area-inset-right, 0px)) !important;
+    bottom: auto !important;
+    width: 92px !important;
+    height: 88px !important;
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #pv-gizmo-companion .pvg-controls {
+    right: calc(100% + 8px);
+    left: auto;
+    bottom: 0;
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #pv-gizmo-companion:has(.pvg-controls) :is(.pvg-recording-panel, .pvg-speech) {
+    top: 100%;
+    bottom: auto !important;
+    left: auto;
+    right: calc(100% + 8px);
+  }
+  body:is(.mirror-chapter, .labyrinth-chapter, .dawn-chapter) #pv-gizmo-companion .pvg-cat {
+    width: 82px !important;
+    height: 72px !important;
+  }
+}

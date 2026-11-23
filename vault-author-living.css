@@ -1,0 +1,27 @@
+/* Phase 6.1: all additions scoped to the immersive room. */
+.ai61-enabled .ai61-intro{border-left:3px solid #d7ad79;padding:9px 13px;background:#422d3a;color:#f5dfca;font:14px/1.5 system-ui,sans-serif;margin:14px 0}
+.ai61-enabled .ai6-object{box-shadow:0 0 16px #e2bb8066,0 16px 20px #0008;animation:ai61-glow 3.5s ease-in-out infinite alternate}
+.ai61-enabled .ai6-floor{background:repeating-linear-gradient(90deg,#563a37 0 68px,#b18b5830 69px 71px,#302127 72px 77px),linear-gradient(#53393c,#24151e)}
+.ai61-hearth{position:absolute;right:4%;top:28%;width:13%;height:42%;min-width:68px;border:7px ridge #84634f;background:linear-gradient(#352332,#130d14);box-shadow:0 0 26px #f0a55b22;display:flex;flex-direction:column;align-items:center;justify-content:space-between;color:#efc898}
+.ai61-mantel{height:25%;width:125%;background:linear-gradient(#6b4440,#35272c);border:2px solid #9e7352;text-align:center}
+.ai61-fire{font-size:clamp(20px,4vw,44px);color:#f3a05c;text-shadow:0 0 14px #ffb567,0 0 30px #d65b35;animation:ai61-fire 1.8s ease-in-out infinite alternate}
+.ai61-bed{position:absolute;top:106%;right:-12%;min-width:92px;border:2px solid #d6a77c;border-radius:50%;background:#61394d;color:#f9dfc4;text-align:center;padding:7px 9px;font:700 8px system-ui,sans-serif;letter-spacing:.04em}
+.ai61-bed span{color:#f5d99d}
+.ai61-enabled .ai6-cat{transition:transform .45s ease,left .6s ease,bottom .6s ease;transform:translate(var(--ai61-cat-x,0px),var(--ai61-cat-y,0px))}
+.ai61-enabled .ai6-cat.ai61-resting{left:78%;bottom:8%;transform:rotate(-10deg) scale(.72,.65)}
+.ai61-enabled .ai6-cat.ai61-following:not(.ai61-resting){animation:ai61-pawsteps 1.5s ease-in-out infinite alternate}
+.ai61-cat-controls{display:flex;gap:8px;flex-wrap:wrap}.ai61-cat-controls button{min-height:44px!important}
+.ai61-dialog{width:min(92vw,530px);max-height:min(88vh,720px);overflow:auto;margin:auto;padding:0;border:2px solid #cda475;border-radius:17px;background:radial-gradient(circle at top,#4b3044,#211723 80%);color:#f8e7d4;box-shadow:0 25px 100px #000c}
+.ai61-dialog::backdrop{background:#100a15c9;backdrop-filter:blur(4px)}
+.ai61-dialog-inner{position:relative;padding:clamp(20px,5vw,40px);text-align:center}
+.ai61-close{position:absolute;right:12px;top:10px;border:1px solid #ad8a70;background:#2b1d2c;color:#fff;font-size:27px;width:44px;height:44px;border-radius:8px;cursor:pointer}
+.ai61-eyebrow{font:700 11px system-ui,sans-serif;letter-spacing:.17em;color:#e2bc8f;margin:20px 0}
+.ai61-symbol{font:65px Georgia,serif;color:#f3d2a0;text-shadow:0 0 25px #c18d6b}
+.ai61-title{font:normal clamp(25px,6vw,38px) Georgia,serif;color:#f5d3a6;margin:10px 0 14px}
+.ai61-description,.ai61-gizmo{line-height:1.65;font-size:16px}.ai61-gizmo{font-style:italic;color:#eac8a7}
+.ai61-buttons{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:25px}.ai61-buttons button{min-height:46px;border:1px solid #cfaa80;border-radius:9px;background:#5b3b4e;color:#fff0dc;padding:10px 16px;cursor:pointer;font:600 14px system-ui,sans-serif}.ai61-buttons .ai61-explore{background:#a87a4e;color:#1b1019}
+@keyframes ai61-glow{to{box-shadow:0 0 26px #f0d29b99,0 16px 20px #0008}}
+@keyframes ai61-fire{to{opacity:.68;transform:scale(1.08)}}
+@keyframes ai61-pawsteps{to{transform:translate(var(--ai61-cat-x,0px),calc(var(--ai61-cat-y,0px) - 4px))}}
+@media(max-width:620px){.ai61-hearth{right:2%;top:29%;width:14%;min-width:55px;border-width:4px}.ai61-bed{min-width:70px;font-size:7px}.ai61-cat-controls{justify-content:center}.ai61-enabled .ai6-cat.ai61-resting{left:76%}}
+@media(prefers-reduced-motion:reduce){.ai61-enabled .ai6-object,.ai61-fire,.ai61-enabled .ai6-cat{animation:none!important;transition:none!important}}

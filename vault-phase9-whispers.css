@@ -1,0 +1,39 @@
+/* Phase 9.2 — Gothic bookshelf, scoped to its own section */
+#pv92-shelf{box-sizing:border-box;max-width:1140px;margin:52px auto;padding:clamp(20px,4vw,48px);border:1px solid #98718c;border-radius:20px;color:#f5e5e7;background:radial-gradient(ellipse at 50% 0,#513253,#211627 70%);box-shadow:0 16px 45px #0006}
+#pv92-shelf *{box-sizing:border-box}
+#pv92-shelf .pv92-head{text-align:center;max-width:700px;margin:0 auto 28px}
+#pv92-shelf .eyebrow{color:#e4b5ce;font-size:.77rem;letter-spacing:.14em}
+#pv92-shelf h2,#pv92-shelf h3{font-family:Georgia,serif;color:#f4cfa8}
+#pv92-shelf h2{font-size:clamp(2rem,5vw,3.3rem);margin:8px 0 12px}
+#pv92-shelf .pv92-arch{position:relative;overflow:hidden;padding:28px 15px 22px;border:10px ridge #86624d;border-radius:48% 48% 12px 12px / 16% 16% 12px 12px;background:radial-gradient(ellipse at 50% 0,#44304f,#140e1a 80%);box-shadow:inset 0 0 30px #000a}
+#pv92-shelf .pv92-stars{text-align:center;color:#f2d29b;letter-spacing:1em;margin:0 0 24px}
+#pv92-shelf .pv92-books{display:flex;justify-content:center;align-items:flex-end;gap:clamp(5px,1.3vw,14px);min-height:270px}
+#pv92-shelf .pv92-book{--book:#634061;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:10px;width:clamp(49px,12%,105px);height:clamp(205px,29vw,280px);padding:15px 6px 12px;border:2px solid #d0ab7d;border-radius:8px 10px 4px 4px;background:linear-gradient(90deg,#140d1b,var(--book) 22%,var(--book) 78%,#1b1021);color:#f8dba8;cursor:pointer;box-shadow:inset 3px 0 4px #fff2,4px 4px 8px #0008;transition:transform .2s,box-shadow .2s}
+#pv92-shelf .pv92-book:nth-child(2){height:clamp(215px,31vw,300px)}
+#pv92-shelf .pv92-book:nth-child(4){height:clamp(195px,27vw,260px)}
+#pv92-shelf .pv92-book[data-found="true"]{box-shadow:0 0 22px #d4a4e58a,inset 0 0 20px #f4d7fa26;transform:translateY(-9px)}
+#pv92-shelf .pv92-glyph{font-size:1.8rem}
+#pv92-shelf .pv92-spine-name{writing-mode:vertical-rl;transform:rotate(180deg);font-family:Georgia,serif;font-size:clamp(.65rem,1.5vw,.95rem);text-align:center;overflow:hidden}
+#pv92-shelf .pv92-book-number{font-size:.7rem}
+#pv92-shelf .pv92-ledge{height:17px;background:linear-gradient(#d0ab7d,#513324,#21151b);margin-top:0;border-radius:3px}
+#pv92-shelf .pv92-bottom{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:28px}
+#pv92-shelf .pv92-whisper,#pv92-shelf .pv92-puzzle{border:1px solid #866781;border-radius:13px;background:#1d1425;padding:clamp(18px,3vw,30px)}
+#pv92-shelf .pv92-whisper h3,#pv92-shelf .pv92-puzzle h3{font-size:1.55rem}
+#pv92-shelf #pv92-voice{font:italic 1.15rem/1.7 Georgia,serif}
+#pv92-shelf #pv92-clue{color:#dfb4d1}
+#pv92-shelf .pv92-letters{display:flex;gap:8px;margin:15px 0 24px}
+#pv92-shelf .pv92-letters span{display:grid;place-items:center;min-width:40px;min-height:47px;border:1px solid #c3a0ae;border-radius:7px;background:#402844;color:#f9d6a7;font:1.4rem Georgia,serif}
+#pv92-shelf label{display:block;margin-bottom:10px}
+#pv92-shelf .pv92-answer-row{display:flex;gap:9px;flex-wrap:wrap}
+#pv92-shelf input{width:150px;max-width:100%;min-height:45px;padding:8px 12px;border:2px solid #b58aa9;border-radius:7px;background:#f7e9e7;color:#241429;font-size:1rem}
+#pv92-shelf button:not(.pv92-book){min-height:45px;border:1px solid #cba58c;border-radius:8px;padding:10px 14px;background:#67405e;color:#fff0e3;cursor:pointer}
+#pv92-shelf button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+#pv92-shelf #pv92-status{color:#f3cda2;min-height:2rem}
+#pv92-shelf .pv92-reward{border:1px solid #e2c79b;border-radius:12px;padding:20px;background:#3b2b3d;box-shadow:0 0 28px #d3a2e044}
+#pv92-shelf .pv92-reward strong{color:#f8d4a3}
+#pv92-shelf .pv92-note{font-size:.85rem;color:#c9b3c4;margin-top:22px}
+#author-immersive .pv92-wall-shelf{position:absolute;z-index:5;left:7%;top:35%;width:20%;min-height:58px;background:#3d2849;border:2px ridge #b79a74;color:#f3d4a7;cursor:pointer;box-shadow:0 0 18px #bf8fd288}
+#author-immersive .pv92-wall-shelf span{display:block;font-size:clamp(14px,3vw,30px)}
+#author-immersive .pv92-wall-shelf small{font-size:clamp(6px,.9vw,10px)}
+@media(max-width:720px){#pv92-shelf{margin:35px 12px;padding:18px}#pv92-shelf .pv92-bottom{grid-template-columns:1fr}#pv92-shelf .pv92-arch{padding:20px 7px 12px}#pv92-shelf .pv92-books{gap:5px}#pv92-shelf .pv92-book{width:18%;padding:9px 3px}#pv92-shelf .pv92-letters span{min-width:35px}#author-immersive .pv92-wall-shelf{top:38%;left:5%}}
+@media(prefers-reduced-motion:reduce){#pv92-shelf .pv92-book{transition:none}}

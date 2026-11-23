@@ -1,0 +1,28 @@
+/* Phase 11.2 — paintings INSIDE the interactive study */
+#pv11-memory-wall{display:none!important}
+#pv112-controls{max-width:1040px;margin:12px auto 20px;text-align:center;color:#eed4c0;font:15px Georgia,serif}
+#pv112-controls>div{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+#pv112-controls button{min-height:46px;padding:9px 12px;background:#50324f;border:1px solid #e0b98b;border-radius:8px;color:#fff2df;font:600 13px system-ui;cursor:pointer}
+#pv112-controls button:focus-visible,#pv112-wall button:focus-visible{outline:3px solid #fff0ac;outline-offset:3px}
+#pv112-wall{display:none;position:absolute;inset:5% 6% 14%;z-index:6;pointer-events:none}
+.pv112-gallery-view #pv112-wall{display:block}
+.pv112-gallery-view .ai6-world>.ai6-object,.pv112-gallery-view .ai6-world>.ai6-cat,.pv112-gallery-view .ai6-world>.pv8-wall-portrait{visibility:hidden;pointer-events:none}
+#pv112-wall .pv112-wall-surface{position:absolute;inset:0;background:repeating-linear-gradient(90deg,#3b263e 0 44px,#51334d 45px 49px,#3b263e 50px 90px);border:14px ridge #8b614f;box-shadow:inset 0 0 70px #000b}
+#pv112-wall .pv112-pictures{position:absolute;inset:8% 9% 16%;display:flex;align-items:center;justify-content:space-evenly;gap:clamp(8px,2vw,24px)}
+#pv112-wall .pv112-portrait{display:block;flex:0 1 31%;max-width:180px;min-width:0;padding:0;border:0;background:none;cursor:pointer;pointer-events:auto;filter:drop-shadow(5px 8px 5px #000b)}
+#pv112-wall .pv112-portrait:nth-child(2){transform:translateY(12%)}
+#pv112-wall .pv112-portrait:nth-child(3){transform:translateY(-8%)}
+#pv112-wall .pv112-portrait.photo{padding:5px;border:7px ridge #d4a86f;background:#a27b51}
+#pv112-wall .pv112-portrait img{display:block;width:100%;height:auto;max-height:230px;object-fit:contain}
+#pv112-wall .pv112-portrait.photo img{aspect-ratio:3/4;object-fit:cover;border:2px solid #34202e}
+#pv112-wall .pv112-portrait:hover{filter:drop-shadow(0 0 12px #f2ca88)}
+#pv11-journey{bottom:max(75px,env(safe-area-inset-bottom))!important}
+@media(max-width:650px){
+#pv112-wall{inset:8% 1% 16%}
+#pv112-wall .pv112-pictures{inset:8% 6% 15%;gap:6px}
+#pv112-wall .pv112-portrait{flex-basis:33%}
+#pv112-wall .pv112-portrait.photo{padding:2px;border-width:3px}
+#pv112-wall .pv112-portrait img{max-height:165px}
+#pv112-controls button{font-size:12px;padding:8px}
+#pv11-journey .pv11-toggle{font-size:12px!important;padding:8px 12px!important}
+}

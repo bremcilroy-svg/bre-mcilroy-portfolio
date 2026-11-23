@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Classroom Wing · Amethyst Crescent Academy</title>
+<link rel="stylesheet" href="academy-vault-transition.css?v=1">
+<script defer src="academy-vault-transition.js?v=2"></script>
+<script type="module" src="academy-student-pass.js?v=1"></script>
+<style>
+:root { color-scheme: dark; }
+body { margin: 0; color: #f2e8df; background: radial-gradient(ellipse at 48% 0, #403140, #17121b 72%); font: 1.05rem/1.55 Georgia, serif; }
+main { max-width: 52rem; margin: auto; padding: clamp(1.25rem, 6vw, 4rem); }
+h1 { margin: .2rem 0; font-size: clamp(2.5rem, 8vw, 4.3rem); font-weight: normal; line-height: 1; }
+.eyebrow { font: 650 .75rem system-ui; letter-spacing: .11em; text-transform: uppercase; color: #ebca9e; }
+a { color: #f0d2ab; }
+details { margin: 1rem 0; padding: 1rem 1.2rem; background: #29202a; border: 1px solid #877063; }
+summary { min-height: 44px; display: list-item; cursor: pointer; font-size: 1.4rem; }
+nav { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<p class="eyebrow">Amethyst Crescent Academy</p>
+<h1>Classroom Wing</h1>
+<section id="classroom-gate">
+<h2>The classroom doors are locked</h2>
+<p>Complete the entrance trial and issue your student key card in the Author’s Study.</p>
+<p><a href="poetry-vault-entrance.html">Begin the entrance trial</a> · <a href="poetry-vault-author-room.html">Visit the Author’s Study</a></p>
+</section>
+<section id="academy-lessons" hidden aria-label="Academy classrooms">
+<p id="classroom-welcome"></p>
+<details><summary>Astronomy Observatory</summary><p>Start with the Moon. Over several nights, notice where the bright edge lies and how the illuminated shape changes. Sketch what you see in an observation journal.</p><p><a href="academy-enchanted-east-wing.html">Visit the Owl Observatory in the East Wing</a> · <a href="academy-owl-observatory.html">Attend the Observatory class</a></p></details>
+<details><summary>Heraldry Studio</summary><p>A crest should be recognizable at a glance. Start with your house guardian, then pair one strong color with a lighter trim. Sketch how it would look embroidered on your uniform.</p><p><a href="academy-four-houses.html">Study the Academy house crests</a></p></details>
+<details><summary>Poetry Seminar</summary><p>Choose an object from one of the trial rooms. Describe it in three lines using sound, texture, and light. Read the lines aloud and listen for the word you want to keep.</p><p><a href="academy-enchanted-library.html">Visit the Enchanted Library</a></p></details>
+</section>
+<nav aria-label="Academy navigation"><a href="academy-royal-great-hall.html">Return to the Royal Great Hall</a><a href="poetry-vault-author-room.html">Return to the Author’s Study</a></nav>
+</main>
+</body>
+</html>

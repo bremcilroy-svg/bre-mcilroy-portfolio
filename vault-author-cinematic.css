@@ -1,0 +1,25 @@
+/* Author's Study cinematic entrance and full-screen exploration. Add after existing CSS. */
+#pv-cinema{position:fixed;inset:0;z-index:12000;background:#120d19;display:grid;place-items:center;overflow:hidden;isolation:isolate;color:#f7dfb9;pointer-events:all}
+#pv-cinema[hidden]{display:none!important}
+#pv-cinema .cinema-backdrop{position:absolute;inset:0;background:radial-gradient(ellipse at center,#765273 0%,#28172f 58%,#0c0910 100%)}
+#pv-cinema .cinema-title{position:absolute;z-index:2;top:9%;width:90%;text-align:center;font:clamp(23px,6vw,50px) Georgia,serif;text-shadow:0 3px 15px #000}
+#pv-cinema .cinema-doors{position:absolute;inset:0;display:flex;perspective:1100px}
+#pv-cinema .cinema-door{width:50%;height:100%;background:repeating-linear-gradient(90deg,transparent 0 16%,#d7ac7433 16.3%,transparent 17.5%),linear-gradient(110deg,#261725,#57314b 40%,#241323);border:9px ridge #bb8d60;box-shadow:inset 0 0 80px #000a;transform-origin:left center;transition:transform 1.65s cubic-bezier(.3,.7,.2,1)}
+#pv-cinema .cinema-door:last-child{transform-origin:right center}
+#pv-cinema.opening .cinema-door:first-child{transform:rotateY(-105deg)}
+#pv-cinema.opening .cinema-door:last-child{transform:rotateY(105deg)}
+#pv-cinema .cinema-light{position:absolute;inset:0;background:radial-gradient(ellipse at center,#f5d4a855,transparent 70%);opacity:0;transition:opacity 1.5s}
+#pv-cinema.opening .cinema-light{opacity:1}
+#pv-cinema .cinema-skip{position:absolute;right:20px;bottom:25px;z-index:5;min-height:44px;padding:10px 16px;border:1px solid #e9c493;border-radius:9px;background:#2c1c31;color:#fff;cursor:pointer}
+body.pv13-inside #pv12-experience{display:flex!important;flex-direction:column!important;overflow:hidden!important;padding:0!important;height:100dvh!important;background:#120c19!important}
+body.pv13-inside #pv12-experience .pv12-intro,body.pv13-inside #pv12-experience .pv12-note{display:none!important}
+body.pv13-inside #pv12-experience .pv12-viewport{flex:1 1 auto!important;min-height:0!important;width:100%!important;max-width:none!important;height:auto!important;border:0!important;border-radius:0!important;margin:0!important;box-shadow:none!important}
+body.pv13-inside #pv12-experience #pv13-exit{position:absolute!important;top:calc(12px + env(safe-area-inset-top));left:12px;z-index:110;padding:10px 14px;margin:0!important;max-width:42vw;font-size:12px}
+body.pv13-inside #pv12-experience .pv12-controls{position:absolute!important;z-index:105;bottom:calc(12px + env(safe-area-inset-bottom));left:10px;margin:0!important;justify-content:flex-start!important;max-width:65%;gap:5px!important;pointer-events:none}
+body.pv13-inside #pv12-experience .pv12-controls button{pointer-events:auto;min-height:44px;padding:8px 11px;background:#2e2038df;backdrop-filter:blur(5px)}
+body.pv13-inside #pv12-experience .pv12-actions{position:absolute!important;z-index:105;right:10px;bottom:calc(12px + env(safe-area-inset-bottom));margin:0!important;max-width:35%;display:flex!important;flex-direction:column;gap:5px!important;pointer-events:none}
+body.pv13-inside #pv12-experience .pv12-actions button{pointer-events:auto;min-height:40px;padding:7px 9px;background:#2e2038e8;font-size:11px}
+body.pv13-inside #pv12-experience .pv12-hud{bottom:115px;max-width:min(520px,75vw);left:50%;right:auto;transform:translateX(-50%);padding:7px 10px;font-size:12px}
+body.pv13-inside #pv-gizmo-companion{z-index:11000!important;right:12px!important;left:auto!important;bottom:calc(240px + env(safe-area-inset-bottom))!important}
+@media(max-width:600px){body.pv13-inside #pv12-experience .pv12-controls{max-width:67%}body.pv13-inside #pv12-experience .pv12-controls button{font-size:11px;padding:7px 8px}body.pv13-inside #pv12-experience .pv12-actions{max-width:32%}body.pv13-inside #pv12-experience .pv12-actions button{font-size:10px}body.pv13-inside #pv12-experience .pv12-hud{bottom:145px}}
+@media(prefers-reduced-motion:reduce){#pv-cinema .cinema-door,#pv-cinema .cinema-light{transition-duration:.01ms!important}}

@@ -1,0 +1,828 @@
+.sky { min-height: max(100svh, 640px); }
+.sky .castle { bottom: clamp(42px, 8svh, 95px); width: min(106vw, 900px, 103svh); }
+.sky .path { display: none; }
+.sky .actions { transition: opacity .24s; }
+.sky.is-delivering .actions { opacity: 0; pointer-events: none; }
+#academy-gate { background: linear-gradient(135deg, #233855, #425477); border-color: #c4ecff; }
+#academy-gate:hover { background: #496784; }
+.academy-pawprints { fill: #3c4a64; }
+.academy-gate-leaf { transform-box: fill-box; transform-origin: left center; }
+#academy-mail-glow, #academy-flying-envelope { opacity: 0; }
+#academy-flying-envelope { filter: drop-shadow(0 0 8px #a1deff); }
+.is-delivering .academy-gate-leaf { animation: gate-swing .55s ease-out .7s both; }
+.is-delivering .academy-gate-right { animation-delay: .76s; }
+@keyframes gate-swing { to { transform: scaleX(.09) skewY(-7deg); } }
+.is-delivering .academy-pawprints use { animation: paw-ignite .42s ease-out var(--step) both; }
+@keyframes paw-ignite {
+  to { fill: #d8f7ff; filter: drop-shadow(0 0 6px #58cfff) drop-shadow(0 0 3px #c5f7ff); }
+}
+.is-delivering #academy-flying-envelope { animation: envelope-flight 2.45s linear both; }
+@keyframes envelope-flight {
+  0% { opacity: 0; transform: translate(449px, 681px) rotate(-11deg) scale(.94); }
+  9% { opacity: 1; transform: translate(438px, 653px) rotate(9deg) scale(.91); }
+  28% { opacity: 1; transform: translate(460px, 609px) rotate(-7deg) scale(.78); }
+  47% { opacity: 1; transform: translate(450px, 583px) rotate(5deg) scale(.66); }
+  67% { opacity: 1; transform: translate(450px, 546px) rotate(-8deg) scale(.53); }
+  85% { opacity: 1; transform: translate(451px, 513px) rotate(1deg) scale(.43); }
+  94% { opacity: 1; transform: translate(450px, 489px) scale(.34,.18); }
+  100% { opacity: 0; transform: translate(450px, 489px) scale(.17,0); }
+}
+.is-delivering #academy-mail-glow { animation: mail-slot-flash .46s ease-out 2.18s both; }
+@keyframes mail-slot-flash { 0%, 100% { opacity: 0; } 35% { opacity: 1; filter: drop-shadow(0 0 8px #b4efff); } }
+.academy-gate-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+#academy-letter { box-sizing: border-box; width: min(94vw, 580px); max-height: 94dvh; padding: 18px; border: 0; color: #2d2639; background: transparent; overflow: auto; }
+#academy-letter::backdrop { background: #070d1ccc; backdrop-filter: blur(4px); }
+.academy-letter-paper { position: relative; z-index: 1; padding: clamp(20px, 5vw, 40px); border: 1px solid #b2a095; border-radius: 3px; background: radial-gradient(ellipse at 32% 15%, #f9f4ed, #e8d9ca); box-shadow: 0 16px 34px #070a18a8; line-height: 1.5; transform-origin: 50% 88%; }
+.academy-letter-heading { margin: 0; padding-right: 25px; font: 700 .68rem system-ui; text-transform: uppercase; letter-spacing: .17em; color: #624761; }
+.academy-letter-paper h2 { margin: .35rem 0 1rem; font-size: clamp(1.65rem, 5vw, 2.45rem); line-height: 1.12; }
+.academy-letter-paper p { margin-block: .75rem; }
+.academy-letter-signature { font-style: italic; }
+#academy-letter-close, #academy-letter-send { min-height: 44px; cursor: pointer; }
+#academy-letter-close { position: absolute; top: 8px; right: 8px; width: 44px; border: 0; background: transparent; color: #422d44; font-size: 1.5rem; }
+#academy-letter-send { border: 1px solid #694359; background: #563850; color: #fff2ff; border-radius: 4px; padding: .5rem 1rem; font: 600 .88rem system-ui; }
+.academy-letter-envelope { position: absolute; z-index: 2; left: 10%; bottom: 10px; width: 80%; height: 36%; border: 1px solid #b7a59b; border-radius: 4px; opacity: 0; pointer-events: none; background: linear-gradient(151deg, transparent 49%, #ac9a96 50%, transparent 51%), linear-gradient(209deg, transparent 49%, #ac9a96 50%, transparent 51%), #dfd6d0; }
+#academy-letter[open] .academy-letter-paper { animation: letter-unfold .48s ease-out both; }
+#academy-letter.is-sealing .academy-letter-paper { animation: letter-fold .52s ease-in both; }
+#academy-letter.is-sealing .academy-letter-envelope { animation: envelope-return .52s .07s ease-out both; }
+@keyframes letter-unfold { from { transform: translateY(18%) scale(.82,.17); opacity: .2; } to { transform: none; opacity: 1; } }
+@keyframes letter-fold { to { transform: translateY(31%) scale(.77,.13); opacity: 0; } }
+@keyframes envelope-return { to { opacity: 1; } }
+@media (max-width: 600px) {
+  .sky .castle { width: 130vw; bottom: 12svh; }
+  #academy-letter { padding: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #academy-letter[open] .academy-letter-paper, #academy-letter.is-sealing .academy-letter-envelope,
+  .is-delivering .academy-gate-leaf, .is-delivering .academy-pawprints use, .is-delivering #academy-flying-envelope,
+  .is-delivering #academy-mail-glow { animation: none; }
+  .is-delivering .academy-gate-leaf { transform: scaleX(.09); }
+  .is-delivering .academy-pawprints { fill: #d8f7ff; }
+}
+
+/* The charter is legible on small screens, with ornament outside the text. */
+.academy-letter-paper {
+  padding: clamp(23px, 6vw, 45px);
+  border: 1px solid #98734b;
+  border-radius: 4px 3px 6px 2px;
+  color: #332218;
+  background:
+    radial-gradient(ellipse at 51% 29%, #fff5d15c, transparent 66%),
+    repeating-linear-gradient(0deg, #784a2211 0, transparent 1px 4px),
+    linear-gradient(112deg, #c7a06d, #f5e1ad 12%, #f6e7ba 42%, #edd7a1 79%, #c6a06d);
+  box-shadow: inset 0 0 22px #6c3c2d70, 0 16px 34px #070a18a8;
+}
+.academy-letter-paper::before {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border: 3px double #86633d9c;
+  pointer-events: none;
+}
+.academy-letter-paper h2 {
+  color: #562a39;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  font-weight: 700;
+}
+.academy-letter-heading {
+  color: #664233;
+  font: 700 .69rem Georgia, serif;
+}
+.academy-letter-signoff { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.academy-wax-seal {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 56px;
+  aspect-ratio: 1;
+  border-radius: 45% 52% 47% 50%;
+  background: radial-gradient(circle at 34% 28%, #9d4764, #722b45 63%, #4a162b);
+  color: #e79aab;
+  box-shadow: 2px 5px 7px #492b2260, inset 0 0 0 4px #742b47, inset 0 0 0 6px #b7677c;
+  font: bold 29px Georgia, serif;
+  transform: rotate(-12deg);
+}
+#academy-letter-send { background: #642b40; border-color: #542539; }
+
+/* The approach photo and animated gate share one coordinate system. */
+.sky {
+  background: #172331 url('academy-castle-united-flags.webp') center bottom / cover no-repeat;
+}
+.sky .castle {
+  width: max(100vw, 150svh);
+  max-width: none;
+  bottom: 0;
+  filter: none;
+}
+.sky .top { text-shadow: 0 3px 14px #060b16, 0 1px 3px #060b16; }
+.sky .top h1 { font-size: clamp(2rem, 4.5vw, 3.6rem); }
+.academy-pawprints { fill: #dce8f7; }
+.academy-pawprints use { opacity: .34; }
+.is-delivering .academy-pawprints use { opacity: 1; }
+@media (max-width: 600px) {
+  .sky {
+    background:
+      linear-gradient(180deg, #152235 0%, #23364b 29%, transparent 59%, #15202bfd 100%),
+      #182736;
+  }
+  .sky .castle { width: 110vw; bottom: 17svh; }
+  .sky .top h1 { font-size: clamp(2rem, 8vw, 3rem); }
+}
+
+@media (max-width:600px) { .sky .castle image { mask-image: linear-gradient(transparent, #000 10%, #000 90%, transparent); } }
+
+.sky .top h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4.8vw, 4.5rem);
+  letter-spacing: -.026em;
+  color: #f5f4ff;
+}
+.sky .top h1 span { color: #d1efff; }
+.academy-letter-paper h2 { text-align: center; margin-top: .7rem; }
+.academy-school-crest {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 5px;
+  width: 64px;
+  height: 72px;
+  margin: 0 auto;
+  color: #d4edff;
+  background: linear-gradient(140deg, #8e659c, #31234e 55%, #1c253e);
+  box-shadow: inset 0 0 0 2px #b4d6eb, inset 0 0 0 5px #b4d6eb44;
+  clip-path: polygon(0 0,100% 0,100% 65%,50% 100%,0 65%);
+}
+.academy-crest-moon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  box-shadow: inset 7px -3px #d4edff;
+  transform: rotate(-18deg);
+}
+.academy-crest-stars { font-size: 9px; letter-spacing: 1px; }
+.academy-letter-signature strong {
+  font: italic 700 clamp(1.75rem, 5vw, 2.5rem) 'Segoe Script', 'Brush Script MT', cursive;
+  color: #64344c;
+}
+@media (max-width: 600px) {
+  .sky { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-height: 100svh; }
+  .sky .top { grid-row: 1; padding: clamp(24px, 5svh, 48px) 18px 0; }
+  .sky .top h1 { font-size: clamp(2rem, 9vw, 3.3rem); }
+  .sky .top h1 span { display: block; }
+  .sky .castle {
+    grid-row: 2;
+    position: relative;
+    place-self: center;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    width: 104vw;
+  }
+  .sky .actions {
+    grid-row: 3;
+    position: relative;
+    bottom: auto;
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+  }
+  .academy-letter-paper { font-size: clamp(.95rem, 4vw, 1rem); padding: 20px 23px; }
+  .academy-school-crest { width: 52px; height: 60px; }
+}
+
+/* A silver-engraved invitation on pearl stock. */
+.academy-letter-paper {
+  color-scheme: light;
+  color: #25344c;
+  background: radial-gradient(ellipse at 50% 10%, #fff 0%, #f1f5fa 62%, #e2eaf3 100%);
+  border-color: #899db8;
+  box-shadow: 0 16px 34px #070a18a8;
+}
+.academy-letter-paper::before { border-color: #859bb8; }
+.academy-letter-paper h2,
+.academy-letter-signature strong { color: #35324e; }
+#academy-letter-close { color: #35324e; }
+.academy-school-crest {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  background: none;
+  box-shadow: none;
+  clip-path: none;
+}
+.academy-school-crest svg { width: 49px; height: 56px; align-self: end; }
+.academy-crest-moon {
+  position: absolute;
+  top: 0;
+  left: 3px;
+  width: 56px;
+  height: 56px;
+  box-shadow: inset 7px -3px #a3b7d3;
+}
+.academy-wax-seal {
+  color: #dbeaf8;
+  background: radial-gradient(circle at 34% 28%, #7895b8, #435a84 63%, #293553);
+  box-shadow: 2px 5px 7px #16264050, inset 0 0 0 4px #536c96, inset 0 0 0 6px #9db6cf;
+}
+.academy-wax-seal svg { width: 30px; height: 30px; fill: currentColor; }
+#academy-letter-send { color: #fff; background: #364d72; border-color: #293853; }
+
+
+/* Mobile royal-gate layout: one uninterrupted castle composition, not
+   a separate title panel, cropped gate, and floating empty band. */
+@media (max-width: 600px) {
+  .sky {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    min-height: 100dvh;
+    overflow: hidden;
+    background: #081329;
+  }
+  .sky .top {
+    flex: 0 0 auto;
+    z-index: 4;
+    padding: clamp(18px, 3.5svh, 32px) 14px 8px;
+    background: linear-gradient(180deg,#061128f5,#06112899 75%,transparent);
+  }
+  .sky .top h1 {
+    font-size: clamp(2rem, 8vw, 3.2rem);
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+  .sky .castle {
+    position: relative;
+    flex: 1 1 auto;
+    align-self: center;
+    place-self: auto;
+    left: auto;
+    bottom: auto;
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    max-height: none;
+    transform: none;
+    overflow: visible;
+  }
+  .sky .actions {
+    position: relative;
+    flex: 0 0 auto;
+    z-index: 5;
+    bottom: auto;
+    gap: 9px;
+    padding: 12px 14px max(24px,env(safe-area-inset-bottom));
+    background: linear-gradient(180deg,transparent,#061128 20%);
+  }
+  .sky .actions .gate { width: min(100%,390px); text-align: center; }
+  .sky .actions .back { font-size: 13px; line-height: 1.4; text-align: center; }
+  .sky .mountains,.sky .ground,.sky .path { display: none; }
+  .sky .snow-paw-trail { bottom: 19%; }
+}
+/* Keep the royal invitation centered, readable, and its seal/signature clear
+   of the action button on small phones. */
+#academy-letter {
+  width: min(94vw, 580px);
+  max-height: min(92dvh, 920px);
+  margin: auto;
+  padding: 8px;
+  overflow: auto;
+}
+.academy-letter-paper {
+  display: flow-root;
+  padding: clamp(20px, 4.5vw, 38px);
+}
+.academy-school-crest { margin: 0 auto 12px; }
+.academy-letter-signoff {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 16px 0 22px;
+}
+.academy-letter-signature { min-width: 0; margin: 0; }
+.academy-letter-signature strong {
+  display: block;
+  margin-top: 5px;
+  font-size: clamp(1.65rem, 6vw, 2.5rem);
+  line-height: 1.25;
+}
+#academy-letter-send { display: block; width: 100%; margin-top: 8px; }
+@media (max-width:600px) {
+  #academy-letter { width: calc(100vw - 20px); max-height: 94dvh; }
+  .academy-letter-paper { padding: 22px 20px; font-size: 1rem; line-height: 1.5; }
+  .academy-letter-paper h2 { font-size: clamp(1.65rem, 7vw, 2.3rem); }
+  .academy-letter-signoff { margin: 18px 0 22px; }
+  .academy-school-crest { width: 66px; height: 66px; }
+  .academy-school-crest svg { width: 43px; height: 48px; }
+}
+
+
+/* Formal royal charter: engraved silverwork, realistic owl relief and ink. */
+.academy-letter-paper {
+  border: 1px solid #9ba9b8;
+  background:
+    radial-gradient(ellipse at 23% 12%, #ffffff 0%, transparent 56%),
+    repeating-linear-gradient(94deg, #b7c5d00a 0 1px, transparent 1px 5px),
+    linear-gradient(132deg, #d8e2eb 0%, #fffefa 17%, #f7f5ee 55%, #dce6ee 100%);
+  box-shadow: inset 0 0 28px #6b829327, inset 0 0 0 5px #ffffff65, 0 20px 55px #02091bcc;
+}
+.academy-letter-paper::before {
+  inset: 10px;
+  border: 3px double #8298b1a8;
+  box-shadow: inset 0 0 0 5px #e6eef480;
+}
+.academy-school-crest {
+  width: 118px;
+  height: 128px;
+  margin: 0 auto 8px;
+  filter: drop-shadow(1px 4px 3px #36465a40);
+}
+.academy-school-crest .academy-crest-moon { display: none; }
+.academy-school-crest svg { display: block; width: 112px; height: 126px; align-self: center; }
+.academy-letter-signature {
+  font-family: Georgia,serif;
+  font-style: italic;
+  color: #394760;
+}
+.academy-letter-signature strong {
+  display: inline-block;
+  position: relative;
+  margin: 7px 0 2px;
+  font-family: 'Segoe Script','URW Chancery L','Apple Chancery','Brush Script MT',cursive;
+  font-size: clamp(2.1rem, 6vw, 3.2rem);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -.065em;
+  line-height: 1.4;
+  color: #253c62;
+  text-shadow: .3px .4px #57719450;
+  transform: rotate(-5deg);
+}
+.academy-letter-signature strong::after {
+  content: '';
+  display: block;
+  width: 125%;
+  height: 13px;
+  margin-top: -14px;
+  border-bottom: 2px solid #36577c;
+  border-radius: 0 0 80% 25%;
+  transform: rotate(-4deg);
+  opacity: .85;
+}
+.academy-wax-seal {
+  width: 69px;
+  border-radius: 48% 52% 46% 54%;
+  background:
+    radial-gradient(circle at 32% 25%,#b9d1e9 0%,transparent 38%),
+    repeating-radial-gradient(circle at 55% 48%,#526d9410 0 2px,#253b5a13 3px 5px),
+    radial-gradient(circle at 38% 30%,#8ba9c7,#496b91 57%,#203955);
+  box-shadow: 2px 6px 9px #1b2b415e,inset 0 0 0 3px #38587b,inset 0 0 0 6px #9db9d5,inset 0 0 0 9px #294669;
+  transform: rotate(-9deg);
+}
+.academy-wax-seal svg { filter: drop-shadow(1px 2px 1px #162a49); }
+@media(max-width:600px){
+  .academy-school-crest { width: 98px; height: 102px; margin-bottom: 4px; }
+  .academy-school-crest svg { width: 92px; height: 104px; }
+  .academy-letter-signature strong { font-size: clamp(2rem, 9vw, 2.7rem); }
+  .academy-wax-seal { width: 60px; }
+  .academy-letter-paper { padding: 19px 21px; }
+}
+
+
+/* Mobile layout correction: the castle SVG precedes the heading in the DOM,
+   so explicitly order the hero and controls and keep the entire CTA visible. */
+@media(max-width:600px){
+ .sky{
+   display:flex!important;
+   flex-direction:column!important;
+   justify-content:space-between!important;
+   min-height:100svh!important;
+   min-height:100dvh!important;
+   height:auto!important;
+   overflow:visible!important;
+   background:#071329!important;
+ }
+ .sky .top{
+   order:0!important;
+   flex:0 0 auto!important;
+   position:relative!important;
+   padding:clamp(20px,4svh,36px) 16px 10px!important;
+   background:none!important;
+ }
+ .sky .top h1{font-size:clamp(2rem,8vw,3.1rem)!important;line-height:1.08!important}
+ .sky .castle{
+   order:1!important;
+   display:block!important;
+   flex:0 0 auto!important;
+   position:relative!important;
+   width:100vw!important;
+   height:auto!important;
+   max-height:min(50svh,430px)!important;
+   aspect-ratio:900/600!important;
+   align-self:center!important;
+   margin:0!important;
+   left:auto!important;
+   bottom:auto!important;
+   transform:none!important;
+   overflow:hidden!important;
+ }
+ .sky .actions{
+   order:2!important;
+   display:flex!important;
+   position:relative!important;
+   flex:0 0 auto!important;
+   padding:12px 16px max(28px,env(safe-area-inset-bottom))!important;
+   margin:0!important;
+   gap:10px!important;
+   background:none!important;
+   opacity:1;
+ }
+ .sky .actions .gate{min-height:52px!important}
+ .sky .actions .back{display:block!important}
+ .sky .moon,.sky .stars,.sky .snow,.sky .mountains,.sky .ground,.sky .owl,.sky .snow-paw-trail{pointer-events:none}
+}
+@media(max-width:600px) and (max-height:740px){
+ .sky .top{padding-top:12px!important}
+ .sky .top h1{font-size:clamp(1.8rem,7.2vw,2.5rem)!important}
+ .sky .castle{max-height:38svh!important}
+ .sky .actions{gap:7px!important}
+}
+#academy-letter{max-height:calc(100dvh - 28px)!important;overflow-y:auto!important;overscroll-behavior:contain}
+#academy-letter .academy-letter-paper{overflow:visible}
+#academy-letter .academy-letter-signoff{margin-bottom:18px}
+#academy-letter #academy-letter-send{position:relative;z-index:3;min-height:48px}
+@media(max-width:600px){
+ #academy-letter{max-height:calc(100dvh - 20px)!important;scrollbar-width:thin}
+ #academy-letter .academy-school-crest{width:70px;height:78px}
+ #academy-letter .academy-school-crest svg{width:70px;height:78px}
+ #academy-letter .academy-letter-paper{padding:18px 20px 22px}
+ #academy-letter .academy-letter-paper h2{margin:.3rem 0 .7rem;font-size:clamp(1.5rem,6.5vw,2rem)}
+ #academy-letter .academy-letter-paper p{margin:.65rem 0;font-size:clamp(.95rem,3.7vw,1.06rem);line-height:1.48}
+ #academy-letter .academy-letter-signature strong{font-size:2.1rem}
+}
+
+
+/* Royal Headmaster's title, with room for the handwritten signature. */
+.academy-headmaster-title {
+ display:block;
+ margin-top:10px;
+ font-family:Georgia,'Times New Roman',serif;
+ font-style:normal;
+ font-size:clamp(.76rem,2.7vw,.92rem);
+ font-weight:700;
+ text-transform:uppercase;
+ letter-spacing:.22em;
+ color:#425a77;
+}
+.academy-letter-signature strong {margin-top:1px!important}
+.academy-perimeter-gate {filter:drop-shadow(0 5px 4px #091b34a8)}
+@media(max-width:600px){
+ .academy-letter-signoff{align-items:flex-end}
+ .academy-headmaster-title{font-size:.75rem;letter-spacing:.16em}
+}
+
+
+/* Full courtyard gates: keep both leaves at their authored SVG dimensions.
+   Earlier fill-box transforms shifted the right leaf away from its hinge. */
+.academy-perimeter-gate { pointer-events:none; filter:drop-shadow(0 8px 7px #061327b8); }
+.academy-perimeter-gate .academy-gate-leaf {
+ transform-box:view-box;
+ transform-origin:26px 520px;
+ will-change:transform;
+}
+.academy-perimeter-gate .academy-gate-right { transform-origin:874px 520px; }
+.is-delivering .academy-perimeter-gate .academy-gate-left {
+ animation:academy-open-left 1.05s cubic-bezier(.2,.7,.3,1) .7s both;
+}
+.is-delivering .academy-perimeter-gate .academy-gate-right {
+ animation:academy-open-right 1.05s cubic-bezier(.2,.7,.3,1) .7s both;
+}
+@keyframes academy-open-left {
+ to { transform:translateX(-380px) scaleX(.13); opacity:.72; }
+}
+@keyframes academy-open-right {
+ to { transform:translateX(380px) scaleX(.13); opacity:.72; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .is-delivering .academy-perimeter-gate .academy-gate-left,
+ .is-delivering .academy-perimeter-gate .academy-gate-right { animation:none; }
+}
+
+
+/* Approved photorealistic crest: the legacy illustration remains a fallback
+   until the image asset is added to the repository. */
+.academy-school-crest:has(.academy-crest-realistic:not([hidden])) svg {display:none}
+.academy-school-crest .academy-crest-realistic {
+ display:block;
+ width:100%;
+ height:100%;
+ object-fit:contain;
+ filter:drop-shadow(0 4px 5px #17243c40);
+}
+.academy-school-crest .academy-crest-realistic[hidden] {display:none}
+.academy-school-crest:has(.academy-crest-realistic:not([hidden])) {
+ width:clamp(124px,25vw,174px);
+ height:clamp(124px,25vw,174px);
+}
+@media(max-width:600px){
+ #academy-letter .academy-school-crest:has(.academy-crest-realistic:not([hidden])) {
+  width:112px;
+  height:112px;
+  margin:0 auto 6px;
+ }
+}
+
+
+/* Match the approved dark-backed owl artwork to ivory parchment without
+   altering the image file; screen blending removes the black square visually. */
+#academy-letter .academy-crest-realistic:not([hidden]) {
+ mix-blend-mode:screen;
+ filter:drop-shadow(0 2px 2px #42536a35);
+}
+@media(max-width:600px){
+ /* The letter itself must scroll above Android's browser bottom toolbar. */
+ #academy-letter {
+  max-height:calc(100dvh - 104px)!important;
+  overflow-y:auto!important;
+  padding-bottom:16px!important;
+  box-sizing:border-box;
+ }
+ #academy-letter .academy-letter-paper {padding-bottom:26px!important}
+ #academy-letter #academy-letter-send {
+  display:block;
+  width:100%;
+  margin-bottom:10px!important;
+ }
+}
+
+
+/* Royal entrance revision: taller, full-span silver iron gates, clearly visible
+   against the photographic castle on desktop and portrait phones. */
+.sky .castle .academy-perimeter-gate {opacity:1;filter:drop-shadow(0 5px 6px #061126f0) drop-shadow(0 0 3px #d7f1ff90)}
+.sky .castle .academy-perimeter-gate .academy-gate-leaf {stroke-linejoin:round}
+@media(max-width:600px){
+ .sky .castle {max-height:min(56svh,500px)!important;min-height:0!important}
+ .sky .castle .academy-perimeter-gate {opacity:1}
+}
+/* A handwritten royal invitation, with readable text on every device. */
+#academy-letter .academy-letter-paper{
+ background:
+  radial-gradient(ellipse at 52% 0%,#ffffffd9,transparent 66%),
+  linear-gradient(130deg,#f5f5f5 0%,#fffcf4 43%,#e5eaf3 100%)!important;
+ color:#292d46!important;
+ border:2px solid #b7c6d8!important;
+ box-shadow:inset 0 0 0 5px #f8f9fc,inset 0 0 0 7px #a8bbd0,0 18px 48px #02091ca8!important;
+}
+#academy-letter .academy-letter-paper h2{
+ font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif!important;
+ font-style:italic;
+ font-weight:500!important;
+ letter-spacing:-.035em;
+ color:#3b315e!important;
+ text-align:center;
+ text-wrap:balance;
+}
+#academy-letter .academy-royal-kicker{
+ text-align:center;
+ font-family:Georgia,serif!important;
+ font-size:clamp(.63rem,2.2vw,.79rem)!important;
+ font-weight:700;
+ letter-spacing:.14em;
+ text-transform:uppercase;
+ color:#65527c!important;
+ margin:6px 0 12px!important;
+}
+#academy-letter .academy-letter-paper>p:not(.academy-royal-kicker){
+ font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif!important;
+ font-size:clamp(1.04rem,3.6vw,1.2rem)!important;
+ line-height:1.62!important;
+ letter-spacing:.006em;
+}
+#academy-letter .academy-letter-opening::first-letter{
+ font-size:1.8em;
+ color:#78599b;
+ font-weight:700;
+}
+#academy-letter .academy-headmaster-title{
+ font-family:Georgia,serif!important;
+ color:#544071!important;
+ letter-spacing:.16em!important;
+}
+#academy-letter .academy-letter-signature strong{
+ color:#3a315f!important;
+ font-family:'Brush Script MT','Segoe Script','Apple Chancery',cursive!important;
+}
+#academy-letter #academy-letter-send{
+ background:linear-gradient(135deg,#343b62,#62467c)!important;
+ border:1px solid #a4b6d5!important;
+ border-radius:7px!important;
+ box-shadow:inset 0 1px #ffffff45,0 4px 12px #1e234744!important;
+ font-family:Georgia,serif!important;
+ font-size:1.05rem!important;
+ letter-spacing:.025em;
+}
+@media(max-width:600px){
+ #academy-letter .academy-letter-paper>p:not(.academy-royal-kicker){
+  font-size:clamp(.98rem,3.7vw,1.1rem)!important;
+  line-height:1.5!important;
+ }
+ #academy-letter .academy-royal-kicker{letter-spacing:.09em}
+}
+
+
+/* Monumental gate movement: preserve each leaf's actual hinge. The right
+   leaf is mirrored at x=900; generic CSS transforms used to erase that
+   SVG transform, making it disappear rather than open. */
+.sky .castle .academy-perimeter-gate .academy-gate-left{
+ transform-box:view-box!important;
+ transform-origin:0 0!important;
+ transform:translate(0px,0px) scale(1,1);
+}
+.sky .castle .academy-perimeter-gate .academy-gate-right{
+ transform-box:view-box!important;
+ transform-origin:0 0!important;
+ transform:translate(900px,0px) scale(-1,1);
+}
+.sky.is-delivering .castle .academy-perimeter-gate .academy-gate-left{
+ animation:academy-monumental-left 1.3s cubic-bezier(.22,.7,.25,1) .55s both!important;
+}
+.sky.is-delivering .castle .academy-perimeter-gate .academy-gate-right{
+ animation:academy-monumental-right 1.3s cubic-bezier(.22,.7,.25,1) .55s both!important;
+}
+@keyframes academy-monumental-left{
+ from{transform:translate(0px,0px) scale(1,1)}
+ to{transform:translate(0px,0px) scale(.1,1)}
+}
+@keyframes academy-monumental-right{
+ from{transform:translate(900px,0px) scale(-1,1)}
+ to{transform:translate(900px,0px) scale(-.1,1)}
+}
+@media(prefers-reduced-motion:reduce){
+ .sky.is-delivering .castle .academy-perimeter-gate .academy-gate-left{
+  animation:none!important;transform:scale(.1,1)!important;
+ }
+ .sky.is-delivering .castle .academy-perimeter-gate .academy-gate-right{
+  animation:none!important;transform:translate(900px,0px) scale(-.1,1)!important;
+ }
+}
+
+
+/* Royal entrance art direction: deeper metal, gem highlights and luminous
+   invitation framing. Keeps the real HTML button and existing gate events. */
+.sky .castle .academy-perimeter-gate{
+ filter:drop-shadow(0 12px 10px #030819db) drop-shadow(0 0 2px #f4f9ffb8);
+}
+.sky .castle .academy-perimeter-gate .academy-gate-leaf{
+ filter:drop-shadow(0 2px 2px #060f25c9);
+}
+.sky .castle .academy-perimeter-gate circle{
+ filter:drop-shadow(0 0 9px #b885ff);
+}
+#academy-letter{
+ background:transparent!important;
+ border:0!important;
+ box-shadow:none!important;
+}
+#academy-letter .academy-letter-paper{
+ position:relative;
+ isolation:isolate;
+ border:3px solid #a889c0!important;
+ border-radius:15px!important;
+ background:
+  radial-gradient(ellipse at 50% 0%,#fffdf8 0%,#f9f1e6 48%,#e6d9e6 100%)!important;
+ box-shadow:inset 0 0 0 5px #fff8ed,inset 0 0 0 7px #b59cc4,0 22px 65px #05071cdd!important;
+}
+#academy-letter .academy-letter-paper:after{
+ content:"";
+ position:absolute;
+ inset:14px;
+ border:1px solid #ad89b8;
+ border-radius:7px;
+ pointer-events:none;
+ z-index:-1;
+}
+#academy-letter .academy-royal-kicker{
+ color:#75518e!important;
+ letter-spacing:.19em;
+}
+#academy-letter .academy-letter-paper h2{
+ font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif!important;
+ font-size:clamp(2.05rem,6vw,3.4rem)!important;
+ font-style:italic;
+ color:#482c71!important;
+ text-shadow:0 1px #ffffff;
+}
+#academy-letter .academy-school-crest:has(.academy-crest-realistic:not([hidden])){
+ width:clamp(118px,25vw,165px);
+ height:clamp(118px,25vw,165px);
+}
+#academy-letter .academy-letter-signature strong{
+ display:block;
+ font-size:clamp(2rem,6vw,3.2rem)!important;
+ color:#352258!important;
+}
+#academy-letter .academy-wax-seal{
+ background:radial-gradient(circle at 30% 25%,#a66bd5,#6b2e96 58%,#3b175c)!important;
+ box-shadow:inset 0 0 0 4px #653184,inset 0 0 0 7px #b18cce,0 5px 12px #33164a7a!important;
+}
+#academy-letter #academy-letter-send{
+ background:linear-gradient(100deg,#30164c,#68328d 52%,#32184f)!important;
+ border:2px solid #c6a5e3!important;
+ box-shadow:inset 0 1px #ffffff55,0 5px 14px #25123766!important;
+}
+#academy-letter #academy-letter-send:focus-visible{
+ outline:3px solid #7b56a5;
+ outline-offset:3px;
+}
+@media(max-width:600px){
+ #academy-letter .academy-letter-paper{padding:22px 22px 26px!important}
+ #academy-letter .academy-letter-paper:after{inset:9px}
+ #academy-letter .academy-letter-paper h2{font-size:clamp(1.95rem,7.4vw,2.6rem)!important}
+}
+
+
+/* Cinematic reveal: reflected moonlight travels across both gate leaves
+   before they part. All decoration is CSS; existing gameplay stays intact. */
+.sky .castle .academy-gate-leaf{
+ transition:filter .35s ease;
+}
+.sky .castle .academy-gate-leaf::after{content:none}
+.sky.is-delivering .castle .academy-perimeter-gate{
+ filter:drop-shadow(0 8px 9px #030819d9) drop-shadow(0 0 10px #d6d2ffb8);
+}
+.sky.is-delivering .castle .academy-perimeter-gate circle{
+ animation:academy-gem-awaken 1.15s ease-in-out 1 both;
+}
+@keyframes academy-gem-awaken{
+ 0%,100%{opacity:1;filter:drop-shadow(0 0 7px #b885ff)}
+ 45%{opacity:1;filter:drop-shadow(0 0 24px #f4d8ff)}
+}
+.sky.is-delivering .castle #academy-pawprints{
+ animation:academy-paw-reveal 1.35s ease-in 1.05s both;
+}
+@keyframes academy-paw-reveal{
+ from{opacity:0}to{opacity:1}
+}
+@media(prefers-reduced-motion:reduce){
+ .sky.is-delivering .castle .academy-perimeter-gate circle,
+ .sky.is-delivering .castle #academy-pawprints{animation:none!important}
+}
+
+
+/* Phase: atmospheric realism for the existing castle photograph and silver gate.
+   Visual effects stay behind the invitation and do not intercept taps. */
+.sky .castle{isolation:isolate}
+.sky .castle .academy-perimeter-gate{
+ filter:drop-shadow(0 10px 9px #071020e8) drop-shadow(0 1px 1px #ffffffbf);
+}
+.sky .castle .academy-perimeter-gate .academy-gate-leaf{
+ filter:drop-shadow(0 3px 2px #060c18e8) drop-shadow(0 0 1px #f8fdff);
+}
+.sky .castle .academy-perimeter-gate .academy-gate-leaf circle{
+ filter:drop-shadow(0 0 5px #bd8cff) drop-shadow(0 0 13px #ad69f4);
+}
+.sky .castle .academy-perimeter-gate .academy-gate-leaf path{
+ stroke-linejoin:round;
+}
+.sky.is-delivering .castle .academy-perimeter-gate .academy-gate-left{
+ animation:academy-monumental-left 1.65s cubic-bezier(.15,.7,.2,1) .35s both!important;
+}
+.sky.is-delivering .castle .academy-perimeter-gate .academy-gate-right{
+ animation:academy-monumental-right 1.65s cubic-bezier(.15,.7,.2,1) .35s both!important;
+}
+.sky.is-delivering .castle{
+ filter:drop-shadow(0 18px 24px #080b21) drop-shadow(0 0 24px #d2e8ff85);
+}
+@media(prefers-reduced-motion:reduce){
+ .sky.is-delivering .castle .academy-perimeter-gate .academy-gate-left,
+ .sky.is-delivering .castle .academy-perimeter-gate .academy-gate-right{
+  animation:none!important;
+ }
+}
+
+
+/* Cinematic threshold: light pours through the parted gates and guides
+   the visitor toward the next playable courtyard scene. */
+.sky::after{pointer-events:none}
+.sky.is-delivering::before{
+ content:"";
+ position:absolute;
+ z-index:4;
+ inset:0;
+ pointer-events:none;
+ background:
+  radial-gradient(ellipse 20% 30% at 50% 64%,#fff8e3c9 0%,#b8dcff88 36%,transparent 100%),
+  linear-gradient(90deg,transparent 24%,#c0d8ff18 50%,transparent 76%);
+ opacity:0;
+ animation:academy-threshold-glow 2.45s ease-in-out .25s both;
+}
+@keyframes academy-threshold-glow{
+ 0%,12%{opacity:0}
+ 38%{opacity:.22}
+ 72%{opacity:.75}
+ 100%{opacity:.95}
+}
+.sky.is-delivering .academy-pawprints{
+ filter:drop-shadow(0 0 5px #ffffff) drop-shadow(0 0 12px #83c9ff);
+}
+@media(prefers-reduced-motion:reduce){
+ .sky.is-delivering::before{animation:none;opacity:.4}
+}

@@ -1,0 +1,157 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#21152f"><meta name="description" content="Explore the royal castle grounds and connected wings of Amethyst Crescent Academy."><title>Royal Castle Grounds | Amethyst Crescent Academy</title><style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#101326;color:#f8f1ff;font-family:Georgia,serif}a{color:inherit}button{font:inherit}.hero{min-height:85svh;position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse at 55% 23%,#b49aba 0,#65517d 31%,#2b2a50 62%,#141b32 100%);display:flex;align-items:center;flex-direction:column;justify-content:space-between;padding:35px 14px 24px;text-align:center}.hero:before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(#fff9 1px,transparent 2px) 0 0/83px 77px;opacity:.45}.title{position:relative;z-index:3;text-shadow:0 3px 14px #151027}.title p{font:700 11px system-ui;letter-spacing:.25em;text-transform:uppercase;color:#d8edff}.title h1{font-size:clamp(34px,6vw,70px);font-weight:normal;margin:8px 0}.title span{display:block;font-size:clamp(15px,2vw,21px);max-width:640px;line-height:1.5}.palace{position:relative;width:min(1100px,100%);margin:auto;filter:drop-shadow(0 18px 24px #08091b);z-index:1}.palace svg{width:100%;display:block;height:auto}.ground{position:absolute;z-index:-1;bottom:-13%;left:-20%;width:140%;height:34%;border-radius:50% 50% 0 0;background:radial-gradient(ellipse at 50% 0,#e5f4ff,#a2b3d6 35%,#444c78 77%);box-shadow:0 -10px 60px #d6e9ff99}.nav{position:relative;z-index:3;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:12px}.nav a,.links a{padding:12px 17px;border-radius:999px;background:#573b75e8;border:1px solid #d9d2f0;text-decoration:none;font:600 14px system-ui}.nav a:focus-visible,.links a:focus-visible,.wing a:focus-visible{outline:3px solid #b9e9ff;outline-offset:4px}.overview{max-width:1160px;margin:auto;padding:42px 18px 70px}.overview h2{text-align:center;font-weight:normal;font-size:clamp(28px,4vw,48px)}.overview>p{text-align:center;max-width:690px;margin:0 auto 32px;line-height:1.6;color:#ddd5e9}.wings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.wing{border:1px solid #b9a9d0;border-radius:20px;padding:24px;background:linear-gradient(145deg,var(--wing),#1c1a31);box-shadow:0 12px 26px #09071277}.wing h3{font-size:26px;font-weight:normal;margin:0 0 9px}.wing p{line-height:1.6;max-width:50ch;color:#eee5f4}.wing .element{font:700 11px system-ui;letter-spacing:.2em;text-transform:uppercase;color:#d8edff}.wing a{display:inline-block;border:1px solid #e5d9f4;border-radius:24px;padding:10px 16px;text-decoration:none;background:#ffffff18}.amethyst{--wing:#55337b}.ember{--wing:#762c49}.frost{--wing:#23587e}.silver{--wing:#665482}.destinations{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:25px}.destinations a{display:block;text-align:center;border:1px solid #a99bc0;background:#312843;border-radius:14px;padding:18px 10px;text-decoration:none}.note{font:12px/1.5 system-ui;color:#cfc7db;text-align:center;margin-top:26px}@media(max-width:640px){.hero{min-height:68svh}.wings,.destinations{grid-template-columns:1fr}.palace{width:140%;max-width:none;margin-left:-20%}.wing{padding:19px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style><style>
+/* Walkable palace panorama: architectural destinations are real links, not fake doors. */
+.palace .castle-hotspot{position:absolute;z-index:4;display:flex;align-items:center;justify-content:center;min-width:92px;max-width:170px;padding:8px 11px;border:1px solid #f4e6ff;border-radius:20px;background:#20182ad9;box-shadow:0 5px 15px #090714a8;color:#fff;font:700 clamp(10px,1.2vw,13px) system-ui;text-align:center;text-decoration:none;transform:translate(-50%,-50%);transition:background .2s,box-shadow .2s}
+.palace .castle-hotspot:hover{background:#62427f;box-shadow:0 0 20px #dfc3ff}
+.palace .castle-hotspot:focus-visible{outline:3px solid #b8eaff;outline-offset:3px}
+.palace .hot-amethyst{left:16.5%;top:43%}.palace .hot-ember{left:30%;top:34%}.palace .hot-hall{left:50%;top:75%}.palace .hot-frost{left:70%;top:34%}.palace .hot-silver{left:83.5%;top:43%}
+.castle-guide{position:relative;z-index:3;text-align:center;font:600 12px/1.5 system-ui;color:#e8e1f3;margin:4px auto 12px;max-width:700px}
+@media(max-width:640px){.palace .castle-hotspot{min-width:55px;max-width:95px;padding:5px 4px;font-size:9px;border-radius:9px}.palace .hot-amethyst{left:17%;top:48%}.palace .hot-ember{left:32%;top:37%}.palace .hot-hall{left:50%;top:77%}.palace .hot-frost{left:68%;top:37%}.palace .hot-silver{left:83%;top:48%}}
+@media(prefers-reduced-motion:reduce){.palace .castle-hotspot{transition:none}}
+</style><link rel="stylesheet" href="academy-game-smooth.css?v=1"><style>
+/* Full academy perimeter: a complete enclosed quadrangle, not merely a facade. */
+.perimeter{max-width:1160px;margin:0 auto;padding:38px 18px 20px;text-align:center}
+.perimeter h2{font-size:clamp(28px,4vw,44px);font-weight:normal;margin:0 0 12px}
+.perimeter p{max-width:690px;margin:0 auto 20px;line-height:1.55;color:#dce6f5}
+.perimeter-map{position:relative;max-width:900px;margin:auto;border:1px solid #b7c9e3;border-radius:24px;overflow:hidden;background:radial-gradient(ellipse at center,#3d4869,#151e38 75%);box-shadow:0 20px 55px #080d20}
+.perimeter-map svg{display:block;width:100%;height:auto}
+.perimeter-map a{position:absolute;left:50%;bottom:2.5%;transform:translateX(-50%);padding:10px 16px;border:1px solid #e5f2ff;border-radius:999px;background:#432d64;color:white;text-decoration:none;font:700 clamp(11px,1.7vw,14px) system-ui;white-space:nowrap}
+.perimeter-map a:focus-visible{outline:3px solid #c2f1ff;outline-offset:3px}
+</style></head><body><main><section class="hero"><header class="title"><p>The Royal Kingdom · Amethyst Crescent Academy</p><h1>The Royal Castle Grounds</h1><span>Beyond the silver gates rises a sprawling princess palace, where four elemental houses share one enchanted kingdom.</span></header><div class="palace"><svg viewBox="0 0 1100 510" role="img" aria-label="Grand medieval royal castle of black stone, four elemental house towers, silver battlements and glowing amethyst crystal windows"><defs><linearGradient id="stone" x2="0" y2="1"><stop stop-color="#626074"/><stop offset=".55" stop-color="#34313f"/><stop offset="1" stop-color="#17151f"/></linearGradient><linearGradient id="roof" x2=".8" y2="1"><stop stop-color="#615073"/><stop offset=".45" stop-color="#30233f"/><stop offset="1" stop-color="#100e19"/></linearGradient><linearGradient id="glass" x2="1" y2="1"><stop stop-color="#dfb9ff"/><stop offset=".55" stop-color="#8744c6"/><stop offset="1" stop-color="#43116f"/></linearGradient><pattern id="blocks" width="65" height="33" patternUnits="userSpaceOnUse"><path d="M0 0H65M32 0V16M0 16H65M0 16V33" stroke="#0b0911" stroke-opacity=".23" fill="none"/></pattern><g id="window"><path d="M-14 26V0Q0 -27 14 0V26Z" fill="url(#glass)" stroke="#c9b1d8" stroke-width="3"/><path d="M0 -11V25M-14 10H14" stroke="#e5c9ff" stroke-width="2"/></g></defs><!-- Distant connected medieval wings and watchtowers enlarge the castle skyline. -->
+<g aria-hidden="true" pointer-events="none" fill="#191722" stroke="#706581" stroke-width="3">
+ <path d="M18 312H148V422H18ZM952 312H1082V422H952Z"/>
+ <path d="M40 244H100V422H40ZM1000 244H1060V422H1000Z"/>
+ <path d="M29 244L70 172L111 244ZM989 244L1030 172L1071 244Z" fill="#30243f"/>
+ <path d="M10 313v-20h19v10h20v-10h20v10h20v-10h20v10h20v-10h19v20ZM942 313v-20h19v10h20v-10h20v10h20v-10h20v10h20v-10h19v20Z"/>
+</g>
+<g aria-hidden="true" pointer-events="none" fill="#7736a8" stroke="#b9a0d7" stroke-width="2">
+ <path d="M57 300v-28q13 -18 26 0v28ZM1017 300v-28q13 -18 26 0v28Z"/>
+ <path d="M33 372v-25q12 -17 24 0v25ZM1050 372v-25q12 -17 24 0v25Z"/>
+</g>
+<path d="M25 427Q225 388 400 415T780 407T1080 420V510H25Z" fill="#8392b1" opacity=".75"/><g fill="url(#stone)" stroke="#76678d" stroke-width="4"><path d="M95 267H1005V460H95Z"/><path d="M230 195H870V453H230Z"/><path d="M360 150H740V445H360Z"/></g><g fill="url(#blocks)"><path d="M95 267H1005V460H95Z"/><path d="M230 195H870V453H230Z"/><path d="M360 150H740V445H360Z"/></g><g fill="url(#roof)" stroke="#e2e0f1" stroke-width="5"><path d="M215 196L550 65L885 196Z"/><path d="M345 151L550 38L755 151Z"/></g><g fill="url(#stone)" stroke="#817495" stroke-width="4"><rect x="120" y="175" width="125" height="285"/><rect x="855" y="175" width="125" height="285"/><rect x="280" y="130" width="100" height="320"/><rect x="720" y="130" width="100" height="320"/><rect x="487" y="70" width="126" height="380"/></g><g fill="url(#roof)" stroke="#e5d9ef" stroke-width="5"><path d="M107 176L182 18L258 176Z"/><path d="M842 176L917 18L993 176Z"/><path d="M267 131L330 0L393 131Z"/><path d="M707 131L770 0L833 131Z"/><path d="M474 70L550 -25L626 70Z"/></g><g fill="#f6edfa" opacity=".8"><circle cx="182" cy="19" r="6"/><circle cx="917" cy="19" r="6"/><circle cx="330" cy="6" r="6"/><circle cx="770" cy="6" r="6"/></g><g><path d="M182 19V-11M330 0V-24M770 0V-24M917 19V-11" stroke="#dce7f4" stroke-width="4"/><path d="M182 -11q25 -8 44 4v25q-24 -12 -44 -4Z" fill="#643b86"/><path d="M330 -24q25 -8 44 4v25q-24 -12 -44 -4Z" fill="#a03252"/><path d="M770 -24q25 -8 44 4v25q-24 -12 -44 -4Z" fill="#3a83ad"/><path d="M917 -11q25 -8 44 4v25q-24 -12 -44 -4Z" fill="#a18bc3"/></g><g><use href="#window" x="182" y="254"/><use href="#window" x="182" y="343"/><use href="#window" x="917" y="254"/><use href="#window" x="917" y="343"/><use href="#window" x="330" y="220"/><use href="#window" x="330" y="310"/><use href="#window" x="770" y="220"/><use href="#window" x="770" y="310"/><use href="#window" x="550" y="133"/><use href="#window" x="550" y="215"/><use href="#window" x="440" y="290"/><use href="#window" x="660" y="290"/><use href="#window" x="430" y="366"/><use href="#window" x="670" y="366"/></g><path d="M498 460V365Q550 288 602 365V460Z" fill="#342d50" stroke="#eee5f5" stroke-width="9"/><path d="M550 325V460" stroke="#dce7f2" stroke-width="5"/><path d="M515 386H585" stroke="#dce7f2" stroke-width="4"/><path d="M0 460Q550 420 1100 460V510H0Z" fill="#c8d9e8" opacity=".65"/>
+<!-- Silver-and-ice Gothic facade detailing; decorative, no navigation or save changes. -->
+<g aria-hidden="true" pointer-events="none">
+ <g fill="none" stroke="#e5f5ff" stroke-linejoin="round" stroke-linecap="round">
+  <path d="M396 171Q550 98 704 171" stroke-width="6" opacity=".9"/>
+  <path d="M409 174Q550 117 691 174" stroke="#94cde9" stroke-width="3" opacity=".85"/>
+  <path d="M400 191H700M402 199H698" stroke-width="3" opacity=".7"/>
+  <path d="M487 93H613M493 102H607" stroke-width="4" opacity=".8"/>
+  <path d="M360 154V185M740 154V185" stroke-width="5"/>
+ </g>
+ <g fill="#d6efff" stroke="#7cabc9" stroke-width="2.5">
+  <path d="M514 170V143Q528 121 542 143V170Z"/>
+  <path d="M558 170V143Q572 121 586 143V170Z"/>
+  <path d="M527 140V167M571 140V167" stroke="#f7faff" stroke-width="2"/>
+ </g>
+ <g fill="#a7b9e9" stroke="#f5fbff" stroke-width="2">
+  <path d="M550 106l11 14-11 14-11-14Z"/>
+  <circle cx="550" cy="120" r="4" fill="#f7faff"/>
+ </g>
+ <g stroke="#b4d7ef" stroke-width="3" opacity=".85">
+  <path d="M252 206V264M848 206V264M268 206V264M832 206V264"/>
+ </g>
+</g>
+<!-- Princess-palace silhouette: delicate silver turrets, crystal crowns, and royal balcony. -->
+<g aria-hidden="true" pointer-events="none">
+ <g fill="#c3dff2" stroke="#f1f9ff" stroke-width="3">
+  <rect x="420" y="111" width="35" height="88" rx="5"/>
+  <rect x="645" y="111" width="35" height="88" rx="5"/>
+  <path d="M414 114L437 52L461 114Z" fill="#9ac8e9"/>
+  <path d="M639 114L662 52L686 114Z" fill="#9ac8e9"/>
+  <path d="M425 111L437 72L449 111M650 111L662 72L674 111" fill="#e2f6ff" opacity=".7"/>
+ </g>
+ <g fill="#f4faff" stroke="#a9c4e5" stroke-width="2">
+  <path d="M437 43l6 9-6 9-6-9Z"/>
+  <path d="M662 43l6 9-6 9-6-9Z"/>
+  <path d="M550 5l10 18-10 18-10-18Z"/>
+ </g>
+ <g fill="none" stroke="#e6f5ff" stroke-width="5">
+  <path d="M463 285Q550 258 637 285"/>
+  <path d="M463 295Q550 268 637 295" stroke="#a2c9e6" stroke-width="3"/>
+  <path d="M470 291V318M490 283V314M510 278V310M530 275V309M550 274V308M570 275V309M590 278V310M610 283V314M630 291V318" stroke-width="3"/>
+ </g>
+ <g fill="#c9e8fa" stroke="#f8fdff" stroke-width="2">
+  <path d="M520 266V238Q535 215 550 238V266Z"/>
+  <path d="M550 266V238Q565 215 580 238V266Z"/>
+  <path d="M535 237V263M565 237V263" fill="none"/>
+ </g>
+ <g fill="#e6d6f9" stroke="#fff" stroke-width="2">
+  <path d="M536 200l7 9 7-9 7 9 7-9v19h-28Z"/>
+  <circle cx="550" cy="207" r="3" fill="#a17bcf"/>
+ </g>
+</g>
+<!-- Repeated crystal lancet windows evoke a vast inhabited medieval palace. -->
+<g aria-hidden="true" pointer-events="none" fill="#7135a5" stroke="#d1b8e8" stroke-width="2">
+ <path d="M111 354v-30q12 -17 24 0v30ZM151 354v-30q12 -17 24 0v30ZM191 354v-30q12 -17 24 0v30Z"/>
+ <path d="M885 354v-30q12 -17 24 0v30ZM925 354v-30q12 -17 24 0v30ZM965 354v-30q12 -17 24 0v30Z"/>
+ <path d="M409 258v-27q10 -14 20 0v27ZM671 258v-27q10 -14 20 0v27Z"/>
+</g>
+<!-- Medieval defensive architecture: crenellated parapets, stone buttresses, and amethyst rose window. -->
+<g aria-hidden="true" pointer-events="none">
+ <g fill="#1c1925" stroke="#8b829b" stroke-width="2">
+  <path d="M96 267v-24h24v14h20v-14h24v14h20v-14h24v14h20v-14h24v24Z"/>
+  <path d="M848 267v-24h24v14h20v-14h24v14h20v-14h24v14h20v-14h24v24Z"/>
+  <path d="M231 196v-22h24v12h18v-12h24v12h18v-12h24v22Z"/>
+  <path d="M761 196v-22h24v12h18v-12h24v12h18v-12h24v22Z"/>
+ </g>
+ <g fill="#191720" stroke="#665c76" stroke-width="3">
+  <path d="M255 451V290l18-23v184ZM827 451V290l18-23v184Z"/>
+  <path d="M390 446V248l13-22v220ZM697 446V248l13-22v220Z"/>
+ </g>
+ <g transform="translate(550 184)">
+  <circle r="34" fill="#171222" stroke="#d2c3e4" stroke-width="7"/>
+  <circle r="27" fill="#66249a" stroke="#a675db" stroke-width="2"/>
+  <g stroke="#dfb6ff" stroke-width="3" fill="none">
+   <circle r="12"/><path d="M-27 0H27M0 -27V27M-19 -19L19 19M19 -19L-19 19"/>
+  </g>
+  <circle r="5" fill="#f0d9ff"/>
+ </g>
+</g>
+<!-- Continuous perimeter privacy wall and central wrought-silver academy gates -->
+<g aria-hidden="true">
+ <path d="M0 421H1100V510H0Z" fill="#8893ac" stroke="#d8e4f0" stroke-width="5"/>
+ <path d="M0 421H1100V510H0Z" fill="url(#blocks)" opacity=".65"/>
+ <path d="M0 419H1100" stroke="#edf4ff" stroke-width="10"/>
+ <path d="M0 437H1100" stroke="#55647f" stroke-width="5"/>
+ <g fill="#b8c9db" stroke="#edf4ff" stroke-width="3">
+  <path d="M8 420V386H46V420ZM105 420V386H143V420ZM202 420V386H240V420ZM299 420V386H337V420ZM396 420V386H434V420Z"/>
+  <path d="M666 420V386H704V420ZM763 420V386H801V420ZM860 420V386H898V420ZM957 420V386H995V420ZM1054 420V386H1092V420Z"/>
+ </g>
+ <rect x="448" y="382" width="204" height="128" rx="12" fill="#e3eaf2" stroke="#6e7b98" stroke-width="7"/>
+ <path d="M463 510V432Q463 388 550 383Q637 388 637 432V510Z" fill="#1a2038" stroke="#d9e8fa" stroke-width="8"/>
+ <path d="M470 510V433Q470 398 547 394V510ZM553 394Q630 398 630 433V510H553Z" fill="#283752" stroke="#a9c3df" stroke-width="3"/>
+ <g stroke="#c5d9ed" stroke-width="5" fill="none">
+  <path d="M485 420V510M502 409V510M519 401V510M536 396V510M568 396V510M585 401V510M602 409V510M619 420V510"/>
+  <path d="M470 451H630M470 481H630M550 394V510"/>
+ </g>
+ <g fill="#d9e7f7" stroke="#71839d" stroke-width="3"><circle cx="550" cy="390" r="12"/><circle cx="550" cy="390" r="4" fill="#6d3c92"/></g>
+ <path d="M448 382V365H470V382M630 382V365H652V382" fill="#d9e6f2" stroke="#7789a3" stroke-width="3"/>
+</g></svg><a class="castle-hotspot hot-amethyst" href="academy-house-amethyst.html" aria-label="Enter Amethyst Royal Tower">Amethyst · Air</a><a class="castle-hotspot hot-ember" href="academy-house-emberheart.html" aria-label="Enter Emberheart Royal Tower">Emberheart · Fire</a><a class="castle-hotspot hot-hall" href="academy-royal-great-hall.html" aria-label="Enter the Royal Great Hall">Royal Great Hall</a><a class="castle-hotspot hot-frost" href="academy-house-frostveil.html" aria-label="Enter Frosttopaz Royal Tower">Frosttopaz · Water</a><a class="castle-hotspot hot-silver" href="academy-house-silverthorn.html" aria-label="Enter Silverthorn Royal Tower">Silverthorn · Earth</a></div><p class="castle-guide">Select a tower or the palace doors to enter that part of the Academy. All four houses remain connected to the same royal grounds.</p><div class="ground"></div><nav class="nav" aria-label="Royal castle exploration"><a href="#wings">Explore the Four Royal Wings</a><a href="academy-moonlit-courtyard.html">Walk Through the Courtyard</a><a href="academy-elemental-flags.html">View Elemental Flags</a></nav></section><section class="royal-procession" aria-labelledby="procession-title">
+ <p class="procession-kicker">The Black Amethyst Palace · Royal approach</p>
+ <h2 id="procession-title">The Queen’s Processional Way</h2>
+ <p>Beyond the silver gates, follow the ancient cobbled approach beneath amethyst-lit arches. The four house wings surround the inner court; the Grand Stair leads onward to the Royal Great Hall.</p>
+ <nav class="procession-stops" aria-label="Explore the connected royal approach">
+  <a href="amethyst-crescent-academy.html"><span class="stop-number">I</span><strong>The Silver Gates</strong><small>Begin at the castle entrance</small></a>
+  <a href="academy-moonlit-courtyard.html"><span class="stop-number">II</span><strong>The Moonlit Courtyard</strong><small>Cross the inner royal court</small></a>
+  <a href="academy-royal-great-hall.html#royal-reception"><span class="stop-number">III</span><strong>The Grand Stair & Hall</strong><small>Enter the royal reception</small></a>
+  <a href="academy-enchanted-east-wing.html"><span class="stop-number">IV</span><strong>The Enchanted East Wing</strong><small>Discover the palace passages</small></a>
+ </nav>
+ <p class="procession-note">The four elemental house towers and Poetry Vault remain accessible through their existing entrances. This route uses the current connected rooms; it does not replace any puzzles or save data.</p>
+</section>
+<style>
+.royal-procession{max-width:1160px;margin:20px auto 0;padding:38px 18px 42px;text-align:center;color:#f4e8ff}
+.royal-procession .procession-kicker{font:700 11px system-ui,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#c8a4f4}
+.royal-procession h2{font-size:clamp(29px,4vw,48px);font-weight:normal;margin:8px 0 14px}
+.royal-procession>p:not(.procession-kicker){max-width:710px;margin:0 auto 24px;line-height:1.6;color:#d8cce6}
+.procession-stops{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch}
+.procession-stops a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:160px;padding:20px 12px;border:1px solid #9b79bc;border-radius:16px;text-decoration:none;background:linear-gradient(150deg,#30243e,#111019);box-shadow:inset 0 1px #d5b6f433,0 12px 24px #08071155}
+.procession-stops a:hover,.procession-stops a:focus-visible{outline:3px solid #c8a4f4;outline-offset:2px;background:linear-gradient(150deg,#503367,#1c1525)}
+.procession-stops .stop-number{display:grid;place-items:center;width:44px;height:44px;border:2px solid #c4a1e5;border-radius:50%;background:#4b296a;color:#f7eaff;font-size:20px}
+.procession-stops strong{font-size:clamp(15px,1.8vw,20px);font-weight:normal}
+.procession-stops small{font:12px/1.4 system-ui,sans-serif;color:#d6c7e7}
+.royal-procession .procession-note{font:12px/1.5 system-ui,sans-serif;color:#cfc2dd;margin-top:18px}
+@media(max-width:720px){.procession-stops{grid-template-columns:repeat(2,minmax(0,1fr))}.procession-stops a{min-height:145px}}
+@media(max-width:360px){.procession-stops{grid-template-columns:1fr}.procession-stops a{min-height:110px}}
+</style>
+<section class="perimeter" id="perimeter" aria-labelledby="perimeter-heading"><h2 id="perimeter-heading">The Royal Academy's Enclosed Grounds</h2><p>Beyond the grand silver entrance, a continuous high stone privacy wall encircles all four wings, the gardens, and the central palace. Corner watchtowers guard the complete perimeter, with the main gate providing the ceremonial entrance.</p><div class="perimeter-map"><svg viewBox="0 0 900 570" role="img" aria-label="Bird's-eye architectural plan of a complete four-sided privacy wall enclosing the academy, with four corner towers and a central entrance gate in the south wall"><defs><linearGradient id="pm-stone" x2="1" y2="1"><stop stop-color="#e6f1ff"/><stop offset=".5" stop-color="#a0b5d2"/><stop offset="1" stop-color="#7389ac"/></linearGradient><linearGradient id="pm-land" x2="0" y2="1"><stop stop-color="#405c67"/><stop offset="1" stop-color="#242d50"/></linearGradient></defs><rect width="900" height="570" fill="#161d36"/><ellipse cx="450" cy="290" rx="390" ry="240" fill="#52617d" opacity=".35"/><rect x="100" y="82" width="700" height="414" rx="5" fill="url(#pm-land)"/><path d="M104 86H796V492H104Z" fill="none" stroke="#42506c" stroke-width="47"/><path d="M104 86H796V492H104Z" fill="none" stroke="url(#pm-stone)" stroke-width="27"/><path d="M104 86H796V492H104Z" fill="none" stroke="#f2f7ff" stroke-width="4" stroke-dasharray="16 9"/><g fill="#c8d9eb" stroke="#f3f6ff" stroke-width="5"><rect x="66" y="47" width="76" height="76" rx="13"/><rect x="758" y="47" width="76" height="76" rx="13"/><rect x="66" y="455" width="76" height="76" rx="13"/><rect x="758" y="455" width="76" height="76" rx="13"/></g><g fill="#687b9c" stroke="#d7e6f6" stroke-width="3"><rect x="84" y="65" width="40" height="40" rx="5"/><rect x="776" y="65" width="40" height="40" rx="5"/><rect x="84" y="473" width="40" height="40" rx="5"/><rect x="776" y="473" width="40" height="40" rx="5"/></g><path d="M450 492V385" stroke="#d1d4df" stroke-width="30" stroke-dasharray="7 6"/><rect x="388" y="474" width="124" height="36" rx="5" fill="#283550" stroke="#eff7ff" stroke-width="7"/><path d="M450 475V510M398 490H502" stroke="#c8e4f8" stroke-width="5"/><g fill="#b6b0d5" stroke="#e6e1f6" stroke-width="5"><rect x="340" y="194" width="220" height="190" rx="12"/><rect x="383" y="146" width="134" height="64" rx="7"/></g><g fill="#4e3c76" stroke="#dfd1fa" stroke-width="4"><path d="M325 194L450 105L575 194Z"/><path d="M376 146L450 96L524 146Z"/></g><g fill="#9ecbe6" stroke="#e9f8ff" stroke-width="3"><rect x="416" y="225" width="68" height="95" rx="25"/><rect x="369" y="247" width="28" height="53" rx="12"/><rect x="503" y="247" width="28" height="53" rx="12"/></g><g font-family="Georgia,serif" text-anchor="middle" fill="#fff" font-size="20"><text x="218" y="210">Amethyst</text><text x="678" y="210">Emberheart</text><text x="218" y="372">Silverthorn</text><text x="678" y="372">Frosttopaz</text></g><g fill="#8a73b7"><circle cx="220" cy="249" r="23"/></g><circle cx="678" cy="249" r="23" fill="#a34863"/><circle cx="220" cy="408" r="23" fill="#688a74"/><circle cx="678" cy="408" r="23" fill="#5699c7"/><text x="450" y="350" text-anchor="middle" fill="#332a51" font-family="Georgia,serif" font-size="19">Royal Great Hall</text></svg><a href="academy-perimeter-3d.html" aria-label="Walk the enclosed academy grounds and approach the silver gates">Walk the Royal Grounds in 3D</a></div></section><section class="overview" id="wings"><h2>Four Houses. One Royal Kingdom.</h2><p>Each wing has its own color, element, and common room. Follow the palace passages to explore without losing your existing character or Poetry Vault progress.</p><div class="wings"><article class="wing amethyst"><span class="element">Air · Purple & Silver</span><h3>Amethyst Royal Tower</h3><p>A high palace tower with violet glass, silver balconies, and the hush of enchanted wind.</p><a href="academy-house-amethyst.html">Enter Amethyst Tower</a></article><article class="wing ember"><span class="element">Fire · Ruby Red & Silver</span><h3>Emberheart Royal Tower</h3><p>Warm candlelit galleries, grand hearths, and ruby tapestries illuminate the western wing.</p><a href="academy-house-emberheart.html">Enter Emberheart Tower</a></article><article class="wing frost"><span class="element">Water · Icy Blue & Silver</span><h3>Frosttopaz Royal Tower</h3><p>Arched windows overlook the frozen lake and fountains of the northern gardens.</p><a href="academy-house-frostveil.html">Enter Frosttopaz Tower</a></article><article class="wing silver"><span class="element">Earth · Lavender & Silver</span><h3>Silverthorn Royal Tower</h3><p>Living vines climb the stone arches around a peaceful royal garden and woodland hall.</p><a href="academy-house-silverthorn.html">Enter Silverthorn Tower</a></article></div><div class="destinations"><a href="academy-royal-great-hall.html">Enter the Royal Great Hall</a><a href="academy-enchanted-east-wing.html">Explore the Enchanted East Wing</a><a href="academy-character-creator.html">Create Your Character</a><a href="academy-classrooms.html">Visit the Classrooms</a><a href="academy-royal-gardens.html">Explore the Royal Gardens</a><a href="poetry-vault-entrance.html">Find the Hidden Poetry Vault</a><a href="amethyst-crescent-academy.html">Return to the Royal Gates</a></div><p class="note">This architectural panorama is an illustrated castle expansion concept. The photorealistic exterior and embroidered elemental flag artwork are planned visual upgrades, not yet installed here.</p></section></main><script defer src="academy-game-smooth.js?v=1"></script></body></html>

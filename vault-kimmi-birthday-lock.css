@@ -1,0 +1,33 @@
+/* Kimmi's Birthday — calendar and cake-wheel lock */
+#pv-kimmi-lock{margin:22px auto;max-width:620px;display:grid;grid-template-columns:minmax(150px,210px) 1fr;gap:18px;align-items:center;color:#f6e7d9}
+#pv-kimmi-lock *{box-sizing:border-box}
+#pv-kimmi-lock .pvk-calendar{border:8px ridge #b88d68;border-radius:9px;background:#ead8b7;color:#3c2633;box-shadow:4px 8px 18px #0009;transform:rotate(-3deg);overflow:hidden}
+#pv-kimmi-lock .pvk-calendar-top{background:#713d59;color:#fff1d8;padding:12px 8px;font:700 16px Georgia,serif;letter-spacing:.1em}
+#pv-kimmi-lock .pvk-calendar-top span{float:right}
+#pv-kimmi-lock .pvk-calendar-day{font:700 13px system-ui,sans-serif;letter-spacing:.2em;margin-top:12px}
+#pv-kimmi-lock .pvk-calendar-date{font:700 78px/1.2 Georgia,serif;color:#6c314b}
+#pv-kimmi-lock .pvk-calendar-note{padding:7px 6px 15px;font:italic 18px Georgia,serif;color:#542d4a}
+#pv-kimmi-lock .pvk-panel{border:1px solid #b58a71;border-radius:12px;padding:15px 12px;background:#291b2bcf;box-shadow:inset 0 0 25px #0006}
+#pv-kimmi-lock .pvk-eyebrow{font:700 10px system-ui,sans-serif;letter-spacing:.15em;text-transform:uppercase;color:#e4bb9b}
+#pv-kimmi-lock h3{font:normal 25px Georgia,serif;color:#f6d5ae;margin:8px 0}
+#pv-kimmi-lock .pvk-panel>p{font-size:13px;line-height:1.5}
+#pv-kimmi-lock .pvk-wheels{display:flex;justify-content:center;gap:7px;margin:14px 0}
+#pv-kimmi-lock .pvk-column{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
+#pv-kimmi-lock .pvk-spin{width:49px;height:39px;min-height:39px!important;padding:3px!important;border:1px solid #e3b987!important;border-radius:7px;background:#533a4d!important;color:#ffe7c5!important;font-size:16px!important;touch-action:manipulation}
+#pv-kimmi-lock .pvk-digit{display:grid;place-items:center;width:49px;height:65px;border:4px ridge #b99360;border-radius:7px;background:linear-gradient(100deg,#a07852,#ead0a0 48%,#7e543d);box-shadow:inset 0 0 12px #0008;color:#2c1b29;font:700 32px Georgia,serif}
+#pv-kimmi-lock .pvk-try{width:100%;padding:12px!important;min-height:47px!important;background:#704459!important;border:1px solid #e4bf9b!important;border-radius:9px;color:#fff4e5!important;font:700 14px Georgia,serif!important}
+#pv-kimmi-lock .pvk-status{min-height:36px;color:#f1d4ae}
+#pv-kimmi-lock button:focus-visible{outline:3px solid #ffecac;outline-offset:2px}
+#pv-kimmi-lock.pvk-unlocked .pvk-panel{border-color:#f7d58b;box-shadow:0 0 24px #e6bf7050}
+#pv13-enter.pvk-sealed{filter:grayscale(.6);opacity:.72}
+#pv-kimmi-lock .pvk-shake{animation:pvk-shake .2s 2}
+@keyframes pvk-shake{50%{transform:translateX(3px)}}
+.pvk-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+@media(max-width:600px){
+ #pv-kimmi-lock{grid-template-columns:1fr;max-width:370px;gap:14px}
+ #pv-kimmi-lock .pvk-calendar{max-width:205px;width:100%;margin:auto}
+ #pv-kimmi-lock .pvk-panel{padding:13px 10px}
+ #pv-kimmi-lock .pvk-wheels{gap:6px}
+ #pv-kimmi-lock .pvk-digit{width:48px;height:60px}
+ #pv-kimmi-lock .pvk-spin{width:48px}
+}

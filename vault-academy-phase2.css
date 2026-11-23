@@ -1,0 +1,35 @@
+/* Phase 2: Academy entrance only. 3D puzzle scene remains untouched. */
+body.academy-p2 #vault{--academy-gold:#e3c18e}
+body.academy-p2 .welcome{z-index:2;background:linear-gradient(95deg,#100b1bf7 0%,#21142eea 49%,#19102bd4 100%);isolation:isolate}
+body.academy-p2 .welcome:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.8;background:radial-gradient(ellipse at 80% 24%,#8b64a755,transparent 40%),repeating-linear-gradient(90deg,transparent 0 18%,#e9c59e16 18.2%,transparent 18.5%,transparent 21%),linear-gradient(0deg,#24112a99,transparent 55%)}
+body.academy-p2 .welcome-copy{position:relative;z-index:2;max-width:530px}
+body.academy-p2 .welcome h1{font-size:clamp(43px,6vw,77px);line-height:1.04;text-shadow:0 3px 22px #000a}
+body.academy-p2 .welcome .chapter-label{margin:14px 0}
+body.academy-p2 .welcome .intro{font-size:19px}
+body.academy-p2 .welcome .description{max-width:470px}
+body.academy-p2 .welcome .welcome-actions{margin-top:17px;gap:10px}
+body.academy-p2 .welcome .fine{margin-top:12px}
+body.academy-p2 .room-caption{z-index:1;bottom:9%;right:5%;background:#1a1029a6;border:1px solid #bca07a88;border-radius:12px;padding:16px;backdrop-filter:blur(4px)}
+.academy-p2-architecture{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.academy-p2-window{position:absolute;right:6%;top:13%;width:31%;height:68%;border:10px double #ba96718a;border-radius:46% 46% 3% 3%;background:radial-gradient(ellipse at 50% 25%,#c8a7e44d,transparent 62%),linear-gradient(90deg,transparent 48%,#a8886e88 49%,#a8886e88 51%,transparent 52%);box-shadow:inset 0 0 70px #0008,0 0 45px #a68bd42c;opacity:.65}
+.academy-p2-stars{position:absolute;inset:0;background-image:radial-gradient(#ffdda6 1px,transparent 2px),radial-gradient(#cab8ff 1px,transparent 2px);background-size:97px 91px,143px 139px;background-position:20px 30px,70px 11px;opacity:.45;animation:academy-glow 6s ease-in-out infinite alternate}
+.academy-p2-banner{position:absolute;top:15%;right:4%;width:75px;height:145px;background:linear-gradient(#634263,#281b35);border:2px solid #c9a777;clip-path:polygon(0 0,100% 0,100% 100%,50% 84%,0 100%);display:grid;place-items:center;color:#e9c59e;font:38px Georgia,serif;box-shadow:0 5px 20px #0008}
+.academy-p2-banner:nth-child(2){right:18%;top:18%;background:linear-gradient(#473a69,#201830)}
+.academy-p2-banner:nth-child(3){right:32%;top:15%;background:linear-gradient(#68404a,#27141e)}
+.academy-p2-banner:nth-child(4){right:46%;top:18%;background:linear-gradient(#375b58,#162725)}
+.academy-p2-identity{display:flex;flex-wrap:wrap;gap:7px;align-items:center;background:#2c2038;border:1px solid #a98b73;border-radius:8px;padding:9px 12px;font:12px/1.5 system-ui;margin-top:14px;max-width:450px}
+.academy-p2-identity strong{color:#f1cf9d}
+.academy-p2-identity[hidden]{display:none!important}
+@keyframes academy-glow{from{opacity:.22}to{opacity:.6}}
+@media(max-width:700px){
+ body.academy-p2 #vault{height:100svh;min-height:650px}
+ body.academy-p2 .welcome{align-items:flex-start;overflow-y:auto;overscroll-behavior:contain;padding:122px 6% 55px}
+ body.academy-p2 .welcome-copy{width:100%;padding-bottom:40px}
+ body.academy-p2 .welcome h1{font-size:clamp(42px,10vw,65px)}
+ body.academy-p2 .welcome .intro{font-size:18px}
+ body.academy-p2 .room-caption{display:none}
+ .academy-p2-window{right:-12%;width:62%;top:9%;height:65%;opacity:.25}
+ .academy-p2-banner{width:35px;height:65px;font-size:22px;opacity:.45;top:12%!important}
+ .academy-p2-banner:nth-child(2){right:17%}.academy-p2-banner:nth-child(3){right:30%}.academy-p2-banner:nth-child(4){right:43%}
+}
+@media(prefers-reduced-motion:reduce){.academy-p2-stars{animation:none}}

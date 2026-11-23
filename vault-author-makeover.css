@@ -1,0 +1,42 @@
+/* Phase 6.3 — scoped cosmetic improvements; preserves all previous game mechanics. */
+.ai63-ready .ai6-heading{max-width:960px}
+.ai63-ready .ai63-help{color:#e5cda9;font-size:14px;margin:12px 0 0}
+.ai63-ready .ai6-stage{box-shadow:0 22px 55px #000a,inset 0 0 22px #b78d6133}
+.ai63-ready .ai6-back-wall{background:repeating-linear-gradient(90deg,transparent 0 65px,#a47b4930 66px 69px,transparent 70px 130px),linear-gradient(#251a2e,#51354a 68%,#261a27)}
+.ai63-ready .ai6-floor{background:repeating-linear-gradient(90deg,#5c3a3b 0 68px,#352126 70px 76px),linear-gradient(#593d3e,#1b1217)}
+.ai63-ready .ai6-object{box-shadow:0 0 16px #c59c6466,0 10px 15px #0009}
+.ai63-ready .ai6-object:focus-visible{outline:3px solid #ffe2a7;outline-offset:3px}
+.ai63-ready .ai6-window{box-shadow:0 0 55px #adb6e244,0 0 14px #dfb99144}
+.ai63-firelight{position:absolute;right:1%;bottom:20%;width:30%;height:35%;border-radius:50%;background:radial-gradient(ellipse,#f4a9532e,transparent 68%);pointer-events:none;z-index:2}
+.ai63-carpet{position:absolute;left:31%;bottom:0;width:45%;height:14%;border:2px solid #c79a66aa;background:repeating-linear-gradient(90deg,#6c314466 0 16px,#4b253a77 16px 30px);transform:skewX(-12deg);opacity:.6;pointer-events:none;z-index:1}
+.ai63-tools{max-width:1040px;margin:15px auto 0;border:1px solid #ae876d;border-radius:14px;background:linear-gradient(145deg,#38243b,#231925);color:#f7e6d0;overflow:hidden}
+.ai63-tools summary{cursor:pointer;min-height:54px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;font:600 15px system-ui,sans-serif;list-style:none}
+.ai63-tools summary::-webkit-details-marker{display:none}
+.ai63-tools summary:focus-visible{outline:3px solid #e6c58e;outline-offset:-4px}
+.ai63-tools summary:after{content:'⌄';font-size:24px;line-height:1}
+.ai63-tools[open] summary:after{content:'⌃'}
+.ai63-summary-hint{margin-left:auto;font:12px system-ui,sans-serif;color:#d8bba5}
+.ai63-tools-content{padding:8px 14px 16px;border-top:1px solid #765368}
+.ai63-tools-content .ai61-cat-controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:5px 0 12px}
+.ai63-tools-content .ai61-cat-controls button{flex:1 1 145px;min-height:44px}
+.ai63-tools-content .ai62-controls{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.ai63-tools-content .ai62-controls button{max-width:none;width:100%;min-height:48px}
+.ai63-tools-content .ai62-controls button:last-child:nth-child(odd){grid-column:1/-1}
+.ai63-tools-content .ai62-status{font-size:13px}
+.ai63-quick{max-width:1040px;margin:13px auto 0;display:flex;gap:8px;flex-wrap:wrap}
+.ai63-quick button{flex:1 1 160px;min-height:46px;border:1px solid #b88f6b;border-radius:10px;background:#39263c;color:#f6e4cf;padding:10px 12px;font:600 13px system-ui,sans-serif;cursor:pointer}
+.ai63-quick button:focus-visible,.ai63-quick button:hover{outline:2px solid #d8b889;outline-offset:2px}
+@media(max-width:620px){
+  .ai63-ready .ai6-stage{height:430px}
+  .ai63-ready .ai6-toolbar{padding-bottom:0!important;gap:12px}
+  .ai63-ready .ai6-movement{margin:0 auto}
+  .ai63-ready .ai6-actions{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .ai63-ready .ai6-actions>button{width:100%;min-width:0;font-size:12px;padding:10px 6px}
+  .ai63-ready .ai6-actions>#ai6-original{grid-column:1/-1}
+  .ai63-ready .ai6-prompt{padding:7px 9px;bottom:5px;max-width:calc(100% - 12px);font-size:11px;line-height:1.35}
+  .ai63-tools summary{font-size:14px}.ai63-summary-hint{font-size:11px}
+  .ai63-quick button{flex:1 1 100%;min-height:44px}
+  /* Move the global Gizmo companion above the bottom nav/controls rather than over buttons. */
+  body:has(.ai63-ready) #gizmo-guide-toggle,body:has(.ai63-ready) .vg-guide-toggle,body:has(.ai63-ready) .gizmo-guide-toggle{bottom:84px!important;right:12px!important}
+}
+@media(prefers-reduced-motion:reduce){.ai63-ready *{scroll-behavior:auto!important}}

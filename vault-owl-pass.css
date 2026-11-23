@@ -1,0 +1,11 @@
+/* Phase 16.1 — Owlkeeper's royal pass */
+#pv16-pass{box-sizing:border-box;max-width:420px;margin:26px auto;padding:0 12px;text-align:center;color:#f8e9dc}
+#pv16-pass[hidden]{display:none!important}
+.pv16-pass-card{position:relative;overflow:hidden;padding:23px 14px 25px;border:7px double #d5a96b;border-radius:22px;background:radial-gradient(ellipse at 50% 35%,#6c3d75 0%,#481c42 48%,#281526 100%);box-shadow:0 12px 35px #0008,inset 0 0 35px #d5a96b25}
+.pv16-pass-top,.pv16-pass-footer{font:700 11px Georgia,serif;letter-spacing:.18em;color:#f0cb91}
+.pv16-pass-owl{margin:15px auto 5px;filter:drop-shadow(0 0 13px #cba0ff7a)}
+.pv16-pass-name{font:700 15px Georgia,serif;letter-spacing:.1em;color:#dbb4ff}
+.pv16-pass-card h3{font:normal 29px/1.2 Georgia,serif;color:#fff0da;margin:15px 0 24px}
+.pv16-pass-note{font:13px/1.6 system-ui,sans-serif;color:#e9d4df}
+#pv16-pass-download{min-height:44px;padding:10px 18px;border:1px solid #d9b17d;border-radius:8px;background:#623a60;color:#fff0d8;font:700 14px Georgia,serif;cursor:pointer}
+#pv-kimmi-lock.pv16-returning .pvk-panel{display:none}

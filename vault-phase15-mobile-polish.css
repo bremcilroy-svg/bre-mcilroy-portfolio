@@ -1,0 +1,16 @@
+/* Phase 15 — mobile lock clarity, no changes to the lock or its code. */
+#pv15-helpers{display:none}
+@media(max-width:700px){
+ body.pv15-puzzle-visible:not(.pv15-helpers-open) #pv11-journey,
+ body.pv15-puzzle-visible:not(.pv15-helpers-open) .gg-guide{visibility:hidden!important;pointer-events:none!important}
+ body.pv15-puzzle-visible #pv15-helpers{display:block!important;position:fixed;z-index:10020;right:max(10px,env(safe-area-inset-right));bottom:max(10px,env(safe-area-inset-bottom));padding:9px 13px;min-height:42px;max-width:145px;border-radius:28px;border:1px solid #dfbda2;background:#38243e;color:#fff0e4;font:600 12px system-ui,sans-serif;box-shadow:0 4px 18px #000a}
+ body.pv15-puzzle-visible.pv15-helpers-open #pv11-journey{left:8px!important;bottom:65px!important;z-index:10010!important}
+ body.pv15-puzzle-visible.pv15-helpers-open .gg-guide{right:8px!important;bottom:65px!important;z-index:10011!important}
+ body.pv15-puzzle-visible.pv15-helpers-open #pv11-journey .pv11-toggle,
+ body.pv15-puzzle-visible.pv15-helpers-open .gg-guide .gg-toggle{padding:8px 10px!important;min-height:42px!important;font-size:12px!important}
+ body.pv15-puzzle-visible.pv15-helpers-open #pv11-journey .pv11-routes,
+ body.pv15-puzzle-visible.pv15-helpers-open .gg-guide .gg-panel{max-height:60dvh!important}
+ #pv-kimmi-lock .pvk-calendar{max-width:min(100%,350px)}
+ #pv-kimmi-lock .pvk-panel{min-width:0}
+}
+#pv15-helpers:focus-visible{outline:3px solid #ffe6a5;outline-offset:3px}

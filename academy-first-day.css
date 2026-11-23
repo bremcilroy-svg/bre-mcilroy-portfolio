@@ -1,0 +1,14 @@
+.first-day-station { width: min(100%, 46rem); margin: 1.5rem auto; padding: clamp(1rem, 4vw, 1.5rem); box-sizing: border-box; background: #271f33; color: #f5eafa; border: 1px solid #a48bac; border-radius: 12px; text-align: left; }
+.first-day-station h2 { margin-block: .2rem .75rem; }
+.first-day-station ol { padding-left: 1.5rem; }
+.first-day-station li { margin-block: .5rem; }
+.first-day-station button, .first-day-station a, #first-day-observatory button { touch-action: manipulation; }
+.first-day-station button, #first-day-observatory button { min-height: 44px; border: 1px solid #ba9fcc; border-radius: 6px; padding: .6rem .9rem; background: #493253; color: #fff6ff; font: 600 .9rem system-ui, sans-serif; cursor: pointer; }
+.first-day-station a { color: #f2d8ff; }
+#first-day-observatory [aria-pressed="true"] { border-color: #d7f9ff; background: #19536a; box-shadow: 0 0 12px #9de7ff7a; }
+#first-day-observatory [hidden], .first-day-station[hidden], .first-day-station [hidden], #first-day-card-badge[hidden] { display: none !important; }
+.telescope-sky { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; padding: clamp(.75rem, 5vw, 2rem); border: 1px solid #91a1c8; border-radius: 18px; background: radial-gradient(ellipse at 47% 36%, #233e68, #101124 72%); }
+.telescope-sky button span { display: block; color: #c9f4ff; font-size: 1.2rem; }
+.constellation-actions { display: flex; flex-wrap: wrap; gap: .55rem; }
+.constellation-solved .telescope-sky { box-shadow: 0 0 22px #87d7ff83; }
+.constellation-badge { padding: .6rem .85rem; border: 1px solid #9ccce4; border-radius: 8px; color: #d6f3ff; background: #22304a; }

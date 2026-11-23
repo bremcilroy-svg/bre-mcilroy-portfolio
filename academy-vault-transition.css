@@ -1,0 +1,26 @@
+/* Castle-to-Vault cinematic navigation: visual only, never touches game state. */
+.vault-cinematic-veil{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,#69447d,#190f2c 68%,#080612);color:#f7eaff;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .48s ease,visibility .48s ease}.vault-cinematic-veil.is-open{opacity:1;visibility:visible;pointer-events:auto}.vault-cinematic-veil-inner{text-align:center;padding:22px;max-width:85vw}.vault-cinematic-veil-symbol{font-size:clamp(42px,10vw,85px);display:block;color:#cdeaff;text-shadow:0 0 28px #d6a8ff;animation:vault-cinematic-glow 1.1s ease-in-out infinite alternate}.vault-cinematic-veil-label{display:block;font:600 clamp(16px,3vw,25px) Georgia,serif;margin-top:16px;letter-spacing:.04em}.vault-cinematic-veil-caption{font:13px system-ui;margin-top:8px;color:#d4c5e6}@keyframes vault-cinematic-glow{from{filter:brightness(.8);transform:scale(.97)}to{filter:brightness(1.3);transform:scale(1.05)}}@media(prefers-reduced-motion:reduce){.vault-cinematic-veil{transition:none}.vault-cinematic-veil-symbol{animation:none}}
+/* The Heart Chamber threshold: opening silver library doors. */
+.vault-cinematic-veil.is-library-door{
+ background:radial-gradient(ellipse at 50% 48%,#b8e9ff,#634f8b 35%,#161026 76%);
+ overflow:hidden;
+}
+.vault-cinematic-veil.is-library-door::before,
+.vault-cinematic-veil.is-library-door::after{
+ content:"";position:absolute;top:0;bottom:0;width:50%;
+ background:repeating-linear-gradient(90deg,#1c1731 0 18%,#4b3a65 19% 21%,#251b3b 22% 43%),linear-gradient(#382b51,#171127);
+ border:clamp(5px,1vw,13px) ridge #d6e6f5;
+ box-shadow:inset 0 0 35px #0c1025,0 0 26px #b3dfff;
+ z-index:-1;
+}
+.vault-cinematic-veil.is-library-door::before{left:0;transform-origin:left center}
+.vault-cinematic-veil.is-library-door::after{right:0;transform-origin:right center}
+.vault-cinematic-veil.is-library-door.is-open::before{animation:academy-library-door-left .55s ease-out both}
+.vault-cinematic-veil.is-library-door.is-open::after{animation:academy-library-door-right .55s ease-out both}
+@keyframes academy-library-door-left{from{transform:translateX(0)}to{transform:translateX(-94%)}}
+@keyframes academy-library-door-right{from{transform:translateX(0)}to{transform:translateX(94%)}}
+.vault-cinematic-veil.is-library-door .vault-cinematic-veil-inner{position:relative;z-index:1;text-shadow:0 2px 14px #131026}
+@media(prefers-reduced-motion:reduce){
+ .vault-cinematic-veil.is-library-door.is-open::before,
+ .vault-cinematic-veil.is-library-door.is-open::after{animation:none}
+}

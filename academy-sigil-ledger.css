@@ -1,0 +1,10 @@
+/* Read-only Crescent Sigil Ledger, distinct from existing door gates */
+.aca-sigil-ledger{max-width:980px;margin:42px auto;padding:clamp(20px,4vw,34px);border:1px solid #9c7eb6;border-radius:22px;background:linear-gradient(135deg,#24182e,#3b254a 65%,#1c172a);color:#f5eaff;box-shadow:0 12px 35px #0005}
+.aca-sigil-ledger h2{color:#f3dcff;margin:.3em 0}.aca-sigil-eyebrow{font:700 11px system-ui;letter-spacing:.16em;color:#d6c2ec}.aca-sigil-ledger>p{line-height:1.65}
+.aca-sigil-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}
+.aca-sigil-card{padding:18px;border:1px solid #685776;border-radius:16px;background:#1d1728;color:#d6c7df}
+.aca-sigil-card.is-earned{border-color:#c8b3e5;background:linear-gradient(145deg,#4a305e,#282039);color:#fff}
+.aca-sigil-symbol{display:block;font-size:36px;color:#c5a7df}.aca-sigil-card.is-earned .aca-sigil-symbol{color:#e9d3ff}
+.aca-sigil-card h3{font-size:17px;margin:8px 0}.aca-sigil-card p{font-size:13px;line-height:1.55}.aca-sigil-card small{color:#d8bfe5}
+.aca-sigil-footnote{font-size:12px;color:#dfd0e7}
+@media(max-width:520px){.aca-sigil-grid{grid-template-columns:1fr}}

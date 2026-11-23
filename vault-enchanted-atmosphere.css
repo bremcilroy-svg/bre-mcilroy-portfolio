@@ -1,0 +1,11 @@
+/* Enchanted atmosphere: visual only; never blocks controls or puzzles. */
+#pv-enchanted-atmosphere{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:2;contain:layout style;opacity:.8}
+#pv-enchanted-atmosphere .pv-aura{position:absolute;inset:-18%;background:radial-gradient(ellipse at 72% 24%,rgba(169,121,236,.13),transparent 38%),radial-gradient(ellipse at 20% 75%,rgba(99,167,225,.11),transparent 45%);animation:pv-aura-breathe 16s ease-in-out infinite alternate}
+#pv-enchanted-atmosphere .pv-mote{position:absolute;left:var(--x);top:var(--y);width:var(--size);height:var(--size);border-radius:50%;background:var(--tone);box-shadow:0 0 10px 2px var(--tone);opacity:0;animation:pv-mote-drift var(--duration) ease-in-out var(--delay) infinite;transform:translate3d(0,0,0)}
+body.mirror-chapter #pv-enchanted-atmosphere .pv-aura{filter:hue-rotate(40deg)}
+body.labyrinth-chapter #pv-enchanted-atmosphere .pv-aura{filter:hue-rotate(85deg);opacity:.7}
+body.dawn-chapter #pv-enchanted-atmosphere .pv-aura{filter:hue-rotate(-55deg);opacity:.75}
+@keyframes pv-aura-breathe{from{opacity:.45;transform:scale(1)}to{opacity:.95;transform:scale(1.08)}}
+@keyframes pv-mote-drift{0%,100%{opacity:0;transform:translate3d(0,15px,0) scale(.5)}40%,70%{opacity:.75}65%{transform:translate3d(var(--drift),-45px,0) scale(1)}}
+@media(prefers-reduced-motion:reduce){#pv-enchanted-atmosphere .pv-aura,#pv-enchanted-atmosphere .pv-mote{animation:none!important}#pv-enchanted-atmosphere .pv-mote{opacity:.18;transform:none}}
+@media(max-width:640px){#pv-enchanted-atmosphere{opacity:.5}#pv-enchanted-atmosphere .pv-mote:nth-child(n+13){display:none}}

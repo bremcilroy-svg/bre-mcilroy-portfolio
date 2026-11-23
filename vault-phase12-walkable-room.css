@@ -1,0 +1,20 @@
+/* Phase 12: replace the fake perspective stage with walkable WebGL scene on success */
+#pv12-experience[hidden]{display:none!important}
+#pv12-experience{max-width:1040px;margin:0 auto 24px;color:#f4e2d2}
+#pv12-experience *{box-sizing:border-box}
+#pv12-experience .pv12-intro h3{font:normal clamp(1.5rem,4vw,2.2rem) Georgia,serif;color:#f4d1a8;margin:8px 0}
+#pv12-experience .pv12-intro p{line-height:1.5}
+#pv12-experience .pv12-viewport{position:relative;height:clamp(370px,62vw,630px);overflow:hidden;border:3px ridge #c49b72;border-radius:16px;background:#211522;touch-action:none;box-shadow:0 15px 45px #000a}
+#pv12-experience canvas{display:block;width:100%;height:100%;touch-action:none}
+#pv12-experience .pv12-aim{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#f7e3bb99;pointer-events:none}
+#pv12-experience .pv12-hud{position:absolute;left:12px;right:12px;bottom:12px;padding:10px 12px;border:1px solid #d5ad83;border-radius:8px;background:#231725e8;color:#ffe9d5;text-align:center;font:14px/1.5 Georgia,serif;pointer-events:none}
+#pv12-experience .pv12-controls,#pv12-experience .pv12-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:12px auto}
+#pv12-experience .pv12-turn,#pv12-experience .pv12-walk{display:flex;gap:8px}
+#pv12-experience button{cursor:pointer;min-height:48px;padding:10px 14px;border:1px solid #d1ac85;border-radius:9px;background:#4b2d4b;color:#fff0dd;font:600 13px system-ui,sans-serif}
+#pv12-experience button:focus-visible{outline:3px solid #fce6a9;outline-offset:3px}
+#pv12-experience .pv12-note{font:12px/1.5 system-ui,sans-serif;color:#d8c0bc;text-align:center}
+#author-immersive.pv12-ready>.ai6-stage,#author-immersive.pv12-ready>.ai6-toolbar,#author-immersive.pv12-ready>.ai6-footnote,#author-immersive.pv12-ready>#pv112-controls{display:none!important}
+#author-immersive.pv12-ready #pv11-memory-wall{display:none!important}
+body:has(#pv12-experience:not([hidden])) #pv11-journey{bottom:max(80px,env(safe-area-inset-bottom))!important}
+@media(max-width:650px){#pv12-experience .pv12-viewport{height:460px}#pv12-experience button{font-size:12px;padding:9px 10px}#pv12-experience .pv12-controls{gap:8px}}
+@media(prefers-reduced-motion:reduce){#pv12-experience *{scroll-behavior:auto!important}}

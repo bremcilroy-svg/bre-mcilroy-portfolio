@@ -1,0 +1,154 @@
+.wardrobe-entry {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.4rem;
+  align-items: center;
+  padding: 2rem;
+  border: 1px solid #785b55;
+  background: linear-gradient(130deg, #37242a, #1d1825);
+}
+.wardrobe-entry h2 { margin: .25rem 0 .65rem; }
+.wardrobe-entry p { margin: .35rem 0 1rem; }
+.wardrobe-chest {
+  width: 7rem;
+  aspect-ratio: 1.45;
+  position: relative;
+  border: 3px double #bc9261;
+  border-radius: 20% 20% 8% 8%;
+  background: linear-gradient(#41262a, #683e31 36%, #b58c58 38%, #493026 42%, #2e1d22);
+  box-shadow: inset 0 0 0 5px #24171e, 0 12px 20px #0006;
+}
+.wardrobe-chest::after {
+  content: '';
+  position: absolute;
+  left: 43%;
+  top: 33%;
+  width: 14%;
+  height: 29%;
+  border: 2px solid #c7a379;
+  border-radius: 3px;
+  background: radial-gradient(ellipse at center, #251923 19%, #af8554 24%, #836040);
+}
+#academy-wardrobe {
+  --cloth: #6d4089;
+  --trim: #e1d6ed;
+  color: #f5ece7;
+  background: #211923;
+  border: 1px solid #a88463;
+  width: min(900px, calc(100% - 2rem));
+  max-width: none;
+  max-height: calc(100dvh - 2rem);
+  padding: clamp(1rem, 3vw, 2rem);
+  overflow: auto;
+  box-sizing: border-box;
+}
+#academy-wardrobe::backdrop { background: #100b13d9; }
+#academy-wardrobe[data-palette="emberheart"] { --cloth: #8c243b; --trim: #f0c390; }
+#academy-wardrobe[data-palette="frostveil"] { --cloth: #407b9c; --trim: #e1eff7; }
+#academy-wardrobe[data-palette="silverthorn"] { --cloth: #76758b; --trim: #e3d7f1; }
+.wardrobe-header { display: flex; justify-content: space-between; align-items: start; gap: 1rem; }
+.wardrobe-header h2 { margin: 0 0 .35rem; }
+#close-wardrobe, #wardrobe-house { color: inherit; border: 1px solid #a88463; background: #322630; min-height: 44px; padding: .45rem .8rem; }
+.wardrobe-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 195px), 1fr)); gap: .8rem; margin: 1rem 0; }
+.wardrobe-look { display: grid; align-content: start; gap: .65rem; border: 1px solid #796362; padding: .8rem; background: #2c222c; }
+.wardrobe-look h3, .wardrobe-look p { margin: 0; }
+.wardrobe-look button { justify-self: start; min-height: 44px; }
+.wardrobe-look button[aria-pressed="true"] { outline: 2px solid var(--trim); outline-offset: 2px; }
+.wardrobe-figure {
+  position: relative;
+  height: 180px;
+  background: radial-gradient(ellipse at 50% 35%, #75636c, #241b25 75%);
+  overflow: hidden;
+  display: grid;
+  justify-items: center;
+}
+.wardrobe-figure::before, .wardrobe-figure::after {
+  content: '';
+  position: absolute;
+  width: min(132px, 78%);
+  height: 160px;
+  top: 12px;
+  background: linear-gradient(105deg, #18101e, var(--cloth) 28%, var(--cloth) 52%, #201721 92%);
+  clip-path: polygon(35% 5%, 44% 0, 56% 0, 65% 5%, 79% 13%, 93% 61%, 80% 66%, 67% 32%, 65% 48%, 79% 100%, 21% 100%, 35% 48%, 33% 32%, 20% 66%, 7% 61%, 21% 13%);
+}
+.wardrobe-figure::after {
+  background: linear-gradient(90deg, var(--trim), #ffffff85, var(--trim));
+  clip-path: polygon(39% 5%, 50% 28%, 61% 5%, 58% 19%, 51% 35%, 51% 98%, 49% 98%, 49% 35%, 42% 19%);
+}
+.wardrobe-figure.tailored::before { clip-path: polygon(35% 5%, 44% 0, 56% 0, 65% 5%, 77% 12%, 89% 58%, 77% 60%, 67% 30%, 64% 55%, 67% 97%, 53% 97%, 50% 62%, 47% 97%, 33% 97%, 36% 55%, 33% 30%, 23% 60%, 11% 58%, 23% 12%); }
+.wardrobe-figure.evening::before { clip-path: polygon(33% 7%, 44% 2%, 53% 10%, 66% 2%, 77% 12%, 92% 49%, 81% 51%, 68% 27%, 62% 43%, 72% 66%, 88% 98%, 12% 98%, 30% 68%, 38% 43%, 30% 28%, 17% 48%, 8% 47%, 21% 16%); }
+.wardrobe-figure.evening::after { clip-path: polygon(35% 7%, 51% 23%, 65% 6%, 62% 14%, 49% 30%, 39% 42%, 62% 42%, 63% 45%, 37% 45%); }
+.wardrobe-crest {
+  position: absolute;
+  z-index: 1;
+  top: 42px;
+  left: calc(50% + 10px);
+  width: 20px;
+  height: 23px;
+  padding: 2px;
+  box-sizing: border-box;
+  background: #251d28;
+  border: 1px solid var(--trim);
+  clip-path: polygon(0 0, 100% 0, 100% 68%, 50% 100%, 0 68%);
+}
+.wardrobe-crest svg { display: block; width: 100%; height: 100%; }
+.wardrobe-links { display: flex; flex-wrap: wrap; gap: .6rem 1.2rem; }
+.academy-orientation ol { display: grid; gap: .45rem; padding-left: 1.25rem; }
+@media (max-width: 520px) {
+  .wardrobe-entry { grid-template-columns: 1fr; padding: 1rem; }
+}
+
+#student-pass {
+  color: #f5ece7;
+  background: #211923;
+  border: 1px solid #a88463;
+  padding: clamp(1rem, 3vw, 2rem);
+  width: min(640px, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+  box-sizing: border-box;
+}
+#student-pass::backdrop { background: #100b13d9; }
+.student-card {
+  --card: #56356d;
+  display: grid;
+  grid-template-columns: clamp(65px, 19vw, 110px) 1fr;
+  gap: .9rem;
+  align-items: center;
+  padding: 1rem;
+  margin: 1rem 0;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 2px solid #ecd3a6;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--card), #201923);
+}
+#student-pass[data-palette="emberheart"] .student-card { --card: #77263d; }
+#student-pass[data-palette="frostveil"] .student-card { --card: #315b75; }
+#student-pass[data-palette="silverthorn"] .student-card { --card: #625b73; }
+.student-card-photo {
+  aspect-ratio: 1;
+  width: 100%;
+  object-fit: cover;
+  border: 1px solid #ecd3a6;
+  border-radius: 5px;
+  background: #302839;
+}
+#student-photo-placeholder { font-size: .7rem; padding: .25rem; box-sizing: border-box; }
+.student-card strong { display: block; overflow-wrap: anywhere; padding-right: 1.8rem; font-size: 1.45rem; }
+.student-card p { margin: .3rem 0 0; }
+.student-card .wardrobe-crest { top: auto; bottom: 8px; left: auto; right: 8px; width: 34px; height: 38px; }
+#student-pass form { display: grid; gap: .45rem; }
+#student-pass form[hidden], #student-doors[hidden] { display: none; }
+#student-pass input, #student-pass-close {
+  min-height: 44px;
+  background: #322630;
+  border: 1px solid #a88463;
+  color: inherit;
+  padding: .5rem;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+#student-pass form button { justify-self: start; margin-top: .45rem; }
+#student-doors { border-top: 1px solid #a88463; padding-top: 1rem; }

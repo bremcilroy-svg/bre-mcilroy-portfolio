@@ -1,0 +1,27 @@
+/* Enchanted Worlds: Royal Style Update 2026-11-18.
+   Drop-in replacement for the existing vault-universe.css already linked on both pages.
+   Decorative changes only. No puzzle logic, movement, Gizmo, or storage modifications. */
+:root{--vu-purple:#63367f;--vu-red:#a5224b;--vu-silver:#d7d9ed;--vu-ice:#9ce5ff;--royal-shadow:#120c1f;--royal-crimson:#821b40;--royal-amethyst:#8653b0}
+#vu-launch{position:fixed;right:14px;bottom:110px;z-index:1800;border:1px solid #d7d9ed;border-radius:30px;background:linear-gradient(130deg,#3e225c,#831f46);color:white;padding:12px 18px;font:600 14px Georgia,serif;box-shadow:0 5px 25px #0009;cursor:pointer}
+#vu-overlay{position:fixed;inset:0;z-index:2000;background:#0b0913dd;display:grid;place-items:center;padding:16px;overflow:auto}
+#vu-overlay[hidden]{display:none!important}
+#vu-dialog{position:relative;width:min(720px,100%);max-height:90vh;overflow:auto;color:#f4efff;background:linear-gradient(145deg,#271536,#3b1730 55%,#171525);border:2px solid #b6a4cf;border-radius:20px;padding:24px;box-shadow:0 0 60px #7b52a766;font-family:Georgia,serif}
+#vu-dialog h2{font-size:clamp(23px,5vw,36px);margin:4px 45px 12px 0;color:#f2d4ff}#vu-dialog p{line-height:1.55}#vu-dialog label{display:block;margin:12px 0 5px}#vu-dialog input,#vu-dialog select{box-sizing:border-box;width:100%;padding:12px;background:#171324;color:#fff;border:1px solid #9f8eb5;border-radius:8px;font-size:16px}#vu-dialog button,#vu-dialog a.vu-link{display:inline-block;margin:6px 6px 6px 0;padding:11px 14px;border-radius:10px;border:1px solid #d4c4e6;color:white;background:#63367f;text-decoration:none;cursor:pointer;font-size:14px}#vu-dialog button:focus-visible,#vu-launch:focus-visible{outline:3px solid #9ce5ff}#vu-close{position:absolute;right:12px;top:12px}#vu-heart{font-size:76px;text-align:center;filter:drop-shadow(0 0 14px #f55);transition:filter .3s}#vu-heart.dark{filter:grayscale(1) brightness(.45) drop-shadow(0 0 14px #5c3b84)}.vu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px}.vu-card{border:1px solid #78658c;padding:12px;border-radius:10px;background:#ffffff0c}.vu-note{font-size:13px;color:#cfc4e2}.vu-owl{font-size:44px;display:inline-block;animation:vu-float 4s ease-in-out infinite}@keyframes vu-float{50%{transform:translateY(-7px) rotate(3deg)}}
+/* Royal silver rather than gold, with ruby and amethyst framing */
+#vu-dialog{border:2px ridge #d4d6e8;background:radial-gradient(ellipse at 15% 5%,#5b3074 0%,transparent 44%),radial-gradient(ellipse at 90% 85%,#74233e 0%,transparent 43%),linear-gradient(145deg,#21162e,#20101f 65%,#11131e);box-shadow:0 0 0 4px #24142e,0 0 35px #9ce5ff35,0 25px 75px #000c}
+#vu-dialog h2{color:#eee1ff;text-shadow:0 0 18px #bda4e055}
+#vu-dialog button,#vu-dialog a.vu-link{background:linear-gradient(135deg,#5b3177,#7b254d);border-color:#c9cce1;box-shadow:inset 0 1px #ffffff28}
+#vu-dialog button:hover,#vu-dialog a.vu-link:hover{border-color:#a8e8ff;filter:brightness(1.12)}
+#vu-dialog .vu-card{background:linear-gradient(140deg,#69428a28,#9b244b24);border-color:#a6a9c8}
+#vu-launch{background:linear-gradient(110deg,#492468,#8a204c 70%,#492468);border:1px solid #dce5f1;box-shadow:0 0 16px #a3dfff44,0 5px 20px #0009}
+/* Academy overlay: preserve all original controls and their pointer events */
+body.academy-p3 .chapter-hud{background:linear-gradient(135deg,#24172dea,#401e3bdc)!important;border:1px solid #b9b9d3!important;box-shadow:0 12px 28px #0008,0 0 20px #9ce5ff19}
+body.academy-p3 .chapter-hud h1{color:#f6e8ff!important;text-shadow:0 1px 9px #0008}
+body.academy-p3 #pv155-bridge .pv155-open{border-color:#cbd4e7;background:linear-gradient(135deg,#452365,#7e2346);color:#f5f3ff}
+body.academy-p3 .tools button,body.academy-p3 .interact-wrap button{border-color:#c6c8df}
+/* Author's room and clock decorative finishing */
+#pv-owlkeeper-clock,#owlkeeper-clock,.owlkeeper-clock{filter:drop-shadow(0 0 12px #a2dfff25)}
+#pv16-pass .pv16-pass-card{border-color:#d3d9e8!important}
+/* Make room for mobile game HUD, castle passage, and companion without hiding them */
+@media(max-width:700px){#vu-launch{right:10px;bottom:145px;font-size:12px;padding:10px 12px}#vu-dialog{padding:18px}body.academy-p3 #pv155-bridge{top:calc(58px + env(safe-area-inset-top))!important;left:8px!important}body.academy-p3 .chapter-hud{max-width:calc(100% - 30px)!important}body.academy-p3 .chapter-hud h1{font-size:clamp(19px,5vw,27px)!important}#vu-launch{max-width:44vw}#vu-dialog{max-height:calc(100dvh - 24px)}}
+@media(prefers-reduced-motion:reduce){.vu-owl{animation:none}#vu-dialog button{transition:none}}

@@ -1,0 +1,85 @@
+.acting-page .acting-hero{display:grid;grid-template-columns:1.15fr .85fr;gap:9%;align-items:center;padding-block:65px 60px}
+.acting-hero h1{font-size:clamp(43px,5.8vw,75px);letter-spacing:-2px;line-height:1.1}
+.acting-hero h1 em{color:var(--pink);font-weight:400}
+.acting-intro-line{font-family:var(--serif);font-size:28px;line-height:1.3;color:var(--white);margin-top:26px}
+.acting-hero>div>p:not(.eyebrow){max-width:470px}
+.acting-location{font-size:10px;letter-spacing:1px;color:#d8bdc7;margin-top:32px}
+.acting-portrait{padding:11px;background:#050506;border:1px solid #3f3038;border-radius:6px;box-shadow:0 15px 60px #4e102333}
+.acting-portrait img{width:100%;height:auto;border-radius:2px}
+.acting-portrait figcaption{font-family:var(--serif);font-size:23px;padding:15px 7px 5px}
+.acting-portrait figcaption span{display:block;font-family:var(--sans);font-size:9px;letter-spacing:1px;color:var(--pink);margin-top:4px}
+.acting-nav{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;border-block:1px solid var(--line);padding-block:17px}
+.acting-nav a{font-size:11px;color:var(--pink);text-decoration:none}
+.acting-nav a:hover{text-decoration:underline}
+.acting-film-section{background:linear-gradient(115deg,#261018,#151115 75%);border-bottom:1px solid var(--line);margin-top:65px;padding-block:60px}
+.acting-credit{display:grid;grid-template-columns:.7fr 1.5fr;gap:9%;align-items:center}
+.acting-credit-mark{border:1px solid #71404f;padding:35px 20px;text-align:center;background:#130c10;display:flex;flex-direction:column;gap:10px}
+.acting-credit-mark span{font-size:9px;letter-spacing:3px;color:var(--pink)}
+.acting-credit-mark b{font-family:var(--serif);font-weight:400;font-size:130px;line-height:1.2;color:#d6a5b1}
+.acting-credit h2{font-size:clamp(36px,4.3vw,56px)}
+.acting-credit-role{font-size:18px;color:var(--white)}
+.acting-credit-facts{grid-template-columns:70px 1fr;gap:6px 20px;font-size:13px;margin-block:23px}
+.acting-credit-facts dt{color:var(--pink)}
+.acting-credit .text-link{display:inline-block;margin-top:22px}
+.acting-feature-grid,.acting-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.acting-clip{border:1px solid var(--line);background:#100e12;min-width:0}
+.acting-play{display:block;position:relative;aspect-ratio:9/13;background:#050506;text-decoration:none;overflow:hidden}
+.acting-play img{width:100%;height:100%;object-fit:contain;transition:opacity .2s}
+.acting-play:hover img{opacity:.8}
+.acting-play-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;width:52px;height:52px;border:1px solid #eab6c6;background:#300e21d9;color:white;font-size:21px;border-radius:50%;padding-left:3px}
+.acting-duration{position:absolute;bottom:13px;right:13px;background:#09060ceb;color:white;border:1px solid #705762;padding:2px 8px;font-size:11px;letter-spacing:.6px}
+.acting-clip-caption{padding:16px 18px}
+.acting-clip-caption h3{font-size:24px}
+.acting-clip-caption p{font-size:10px;letter-spacing:.6px;color:#cbb5c0;margin-top:7px}
+.acting-collection-note{font-size:12px;text-align:center;margin-top:25px}
+.acting-performance-section{padding-top:25px}
+.acting-filters{display:flex;flex-wrap:wrap;gap:10px;margin-top:27px}
+.acting-filters button{background:transparent;border:1px solid #57454e;padding:11px 15px;min-height:44px;color:#eee3e7;font-size:11px;cursor:pointer}
+.acting-filters button span{margin-left:7px;font-size:9px;opacity:.7}
+.acting-filters button:hover{border-color:var(--pink)}
+.acting-filters button[aria-pressed=true]{background:var(--red);border-color:var(--red);color:white}
+.acting-count{color:var(--pink);font-size:11px;letter-spacing:.5px;margin:23px 0 29px}
+.acting-grid [hidden],.acting-filters[hidden],.acting-inquiry[hidden],.acting-email-result[hidden]{display:none}
+.acting-profile{display:grid;grid-template-columns:1fr 1fr;gap:8%;align-items:start}
+.acting-headshots{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.acting-headshots figure{padding:7px;background:#111113;color:var(--white)}
+.acting-headshots img{width:100%;height:auto}
+.acting-headshots figure:last-child{margin-top:45px}
+.acting-headshots figcaption{padding:11px 5px 5px;font-size:10px;line-height:1.5}
+.acting-headshot-download{display:block;color:var(--pink);font-size:10px;line-height:1.7;margin-top:9px;text-underline-offset:4px}
+.acting-clip-caption h3{overflow-wrap:anywhere}
+.acting-profile .button{font-size:11px}
+.acting-casting-heading{max-width:740px;margin-bottom:35px}
+.acting-casting-heading .text-link{display:inline-block;margin-top:20px}
+.acting-inquiry{padding:35px;background:#19161b;border:1px solid var(--line)}
+.acting-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.acting-inquiry label{display:block;color:var(--white);font-size:12px;line-height:1.6}
+.acting-inquiry label>span{font-size:10px;color:#c5b4be}
+.acting-form-full{grid-column:1/-1}
+.acting-inquiry input,.acting-inquiry textarea{display:block;width:100%;margin-top:8px;background:#100e12;color:var(--white);border:1px solid #61515d;border-radius:0;padding:12px 13px;font:14px/1.6 var(--sans);resize:vertical}
+.acting-inquiry input::placeholder,.acting-inquiry textarea::placeholder{color:#b8a8b3;opacity:1}
+.acting-inquiry input:focus-visible,.acting-inquiry textarea:focus-visible{outline:2px solid var(--pink);outline-offset:3px}
+.acting-form-help{font-size:12px;max-width:720px;margin-block:25px}
+.acting-email-result{border-top:1px solid #65515e;margin-top:30px;padding-top:28px}
+.acting-email-result>p{font-size:13px;max-width:680px}
+.acting-email-result>.button{margin-block:20px 25px}
+.acting-email-result textarea{font-size:12px}
+.acting-dialog{background:#0b0a0d;color:var(--white);position:fixed;inset:0;border:0;width:100%;max-width:none;height:100dvh;max-height:none;margin:0;padding:18px 4%;overflow:auto}
+.acting-dialog::backdrop{background:rgba(0,0,0,.95)}
+.acting-dialog:not([open]){display:none}
+.acting-dialog[open]{display:flex;flex-direction:column}
+.acting-viewer-top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:14px;flex-shrink:0}
+.acting-viewer-top>span{font-size:10px;letter-spacing:1.5px;color:var(--pink)}
+.acting-viewer-top button,.acting-viewer-controls button{background:transparent;border:1px solid #65515c;color:var(--pink);min-height:44px;padding:9px 15px;font-size:12px;cursor:pointer}
+.acting-viewer-top button span{font-size:22px;line-height:1;margin-left:9px;vertical-align:middle}
+.acting-video-area{min-height:0;flex:1;display:flex;align-items:center;justify-content:center;position:relative}
+.acting-video-area video{width:auto;height:auto;max-width:100%;max-height:calc(100dvh - 210px);object-fit:contain;background:#000}
+.acting-video-area>p{position:absolute;bottom:15px;padding:18px;background:var(--panel);font-size:13px;text-align:center}
+.acting-viewer-bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:17px;flex-shrink:0}
+.acting-viewer-bottom h2{font-size:26px;letter-spacing:-.4px}
+.acting-viewer-bottom p{font-size:11px;color:#cdb8c2;margin-top:6px}
+.acting-viewer-controls{display:flex;gap:10px}
+.acting-player-help{font-size:10px;color:#b9a7b3;margin-top:12px;text-align:center;flex-shrink:0}
+@media(max-width:1000px){.acting-page .acting-hero{gap:6%}.acting-hero h1{font-size:56px}.acting-feature-grid,.acting-grid{gap:17px}.acting-credit{grid-template-columns:.6fr 1.4fr;gap:7%}.acting-credit-mark b{font-size:100px}.acting-credit-mark{padding:35px 12px}.acting-profile{gap:6%}.acting-headshots{gap:10px}}
+@media(max-width:650px){.acting-page .acting-hero{grid-template-columns:1fr;gap:35px;padding-block:38px}.acting-hero h1{font-size:clamp(40px,10vw,58px);letter-spacing:-1.5px}.acting-hero .eyebrow{font-size:9px;letter-spacing:1.9px}.acting-intro-line{font-size:25px}.acting-hero>div>p:not(.eyebrow):not(.acting-intro-line):not(.acting-location){font-size:15px}.acting-location{font-size:9px;letter-spacing:.4px}.acting-portrait{max-width:360px;justify-self:center;width:100%}.acting-nav{justify-content:center;gap:12px 20px}.acting-nav a{font-size:10px}.acting-film-section{margin-top:40px;padding-block:40px}.acting-credit{grid-template-columns:1fr;gap:25px}.acting-credit-mark{flex-direction:row;justify-content:space-between;align-items:center;padding:15px 20px}.acting-credit-mark b{font-size:58px;line-height:1}.acting-credit-mark span{font-size:8px;letter-spacing:1px}.acting-credit h2{font-size:37px}.acting-credit-role{font-size:16px}.acting-credit .text-link{font-size:11px}.acting-feature-grid{grid-template-columns:1fr;gap:22px}.acting-feature-clip{width:100%;max-width:360px;justify-self:center}.acting-feature-clip .acting-play{aspect-ratio:9/12}.acting-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.acting-clip-caption{padding:12px 10px}.acting-grid .acting-clip-caption h3{font-size:19px}.acting-grid .acting-clip-caption p{font-size:8px;letter-spacing:0}.acting-play-icon{width:43px;height:43px;font-size:18px}.acting-duration{bottom:8px;right:7px;font-size:9px;padding:2px 6px}.acting-filters{gap:8px}.acting-filters button{font-size:10px;padding:11px 12px}.acting-filters button span{margin-left:5px}.acting-profile{grid-template-columns:1fr;gap:30px}.acting-headshots{gap:14px}.acting-headshots figure:last-child{margin-top:30px}.acting-casting-heading h2{font-size:38px}.acting-inquiry{padding:23px 19px}.acting-form-grid{grid-template-columns:1fr;gap:20px}.acting-inquiry input,.acting-inquiry textarea{font-size:16px;padding:11px}.acting-dialog{padding:12px 5%}.acting-video-area video{max-height:calc(100dvh - 255px)}.acting-viewer-bottom{display:block;margin-top:12px}.acting-viewer-bottom h2{font-size:24px}.acting-viewer-controls{margin-top:15px}.acting-viewer-top>span{font-size:9px}.acting-player-help{font-size:9px;line-height:1.5;margin-top:10px}}
+@media print{.acting-nav,.acting-play-icon,.acting-filters,.acting-inquiry,.acting-dialog{display:none!important}.acting-grid,.acting-feature-grid{grid-template-columns:repeat(3,1fr)}.acting-film-section{background:white;margin-top:20px;padding-block:20px}.acting-credit-mark{display:none}.acting-credit{display:block}.acting-clip{background:white;color:black}.acting-clip-caption p,.acting-count{color:#444}.acting-profile{display:block}.acting-headshots{max-width:300px}.acting-portrait{max-width:200px}}

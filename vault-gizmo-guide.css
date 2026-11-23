@@ -1,0 +1,12 @@
+/* Phase 5: scoped floating guide, intentionally independent of game layout. */
+.gg-guide{position:fixed;z-index:8500;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));font-family:system-ui,-apple-system,Arial,sans-serif;color:#f8e8d8;max-width:calc(100vw - 24px)}
+.gg-guide[hidden],.gg-panel[hidden]{display:none!important}
+.gg-toggle{display:flex;align-items:center;gap:8px;margin-left:auto;padding:11px 15px;min-height:48px;background:#40263e;color:#f7dfb9;border:2px solid #d4ac77;border-radius:100px;box-shadow:0 5px 25px #0009;font:700 14px system-ui;cursor:pointer}
+.gg-toggle:focus-visible,.gg-panel button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.gg-panel{box-sizing:border-box;position:absolute;bottom:58px;right:0;width:min(340px,calc(100vw - 24px));max-height:min(570px,calc(100dvh - 100px));overflow:auto;background:linear-gradient(155deg,#352138,#17121e);border:1px solid #caa577;border-radius:17px;padding:16px;box-shadow:0 15px 45px #000b}
+.gg-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}.gg-kicker{color:#e4c298;font:700 11px system-ui;letter-spacing:.13em}.gg-close{border:0;background:transparent;color:#fff;font-size:27px;line-height:1;min-width:40px;min-height:40px;cursor:pointer}
+.gg-character{display:flex;justify-content:center;margin:4px 0}.gg-character svg{width:112px;height:110px;filter:drop-shadow(0 8px 10px #0007)}.gg-place{font:24px Georgia,serif;text-align:center;color:#f5d8aa;margin:6px 0}.gg-speech{min-height:50px;font-size:14px;line-height:1.55;margin:12px 0;color:#f5e8dc}
+.gg-actions{display:flex;flex-wrap:wrap;gap:8px}.gg-actions button{flex:1 1 42%;min-height:44px;border:1px solid #c9a47c;border-radius:8px;padding:8px;background:#56384e;color:#fff0df;font:600 12px system-ui;cursor:pointer}
+.gg-progress{font-size:12px;color:#ebd0aa;margin:12px 0 4px}.gg-footnote{font-size:11px;color:#cbb6b5;margin:4px 0 0}
+@media(max-width:420px){.gg-guide{right:9px;bottom:calc(9px + env(safe-area-inset-bottom,0px))}.gg-panel{bottom:57px}}
+@media(prefers-reduced-motion:reduce){.gg-guide *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}

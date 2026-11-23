@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#130d25"><meta name="description" content="Arrive at the snowy gates of Amethyst Crescent Academy, a royal fantasy castle with a hidden Poetry Vault."><title>Amethyst Crescent Academy | Castle Grounds</title>
+<style>
+:root{color-scheme:dark;font-family:Georgia,'Times New Roman',serif}*{box-sizing:border-box}body{margin:0;background:#0d1021;color:#f8f0ff;min-height:100svh;overflow-x:hidden}a{color:inherit}.sky{position:relative;min-height:100svh;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse at 50% 35%,#6e467b 0,#33234f 38%,#10172d 75%,#0c1324 100%)}.moon{position:absolute;top:7%;right:15%;width:clamp(90px,15vw,180px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fff,#cce9ff 58%,#7da4da);box-shadow:0 0 50px #b7d8ff8c,0 0 140px #a17bff55}.stars{position:absolute;inset:0;background-image:radial-gradient(#fff 1px,transparent 2px),radial-gradient(#b2eaff 1px,transparent 2px);background-size:91px 91px,137px 137px;background-position:10px 15px,50px 40px;opacity:.75}.mountains{position:absolute;bottom:17%;width:100%;height:40%;background:linear-gradient(160deg,#8d9db9,#263352 60%,#161b35);clip-path:polygon(0 75%,12% 43%,24% 67%,40% 18%,55% 61%,72% 30%,88% 70%,100% 35%,100% 100%,0 100%);opacity:.55}.castle{position:absolute;width:min(95vw,900px);height:auto;bottom:13%;left:50%;transform:translateX(-50%);filter:drop-shadow(0 18px 24px #080b21)}.ground{position:absolute;bottom:-4%;left:-15%;width:130%;height:27%;border-radius:50% 50% 0 0;background:radial-gradient(ellipse at 50% 10%,#d3e6ff 0,#93a8ca 36%,#364364 78%);box-shadow:0 -12px 55px #c8e8ff5c}.path{position:absolute;bottom:-2%;left:50%;transform:translateX(-50%);height:23%;width:min(35vw,320px);background:linear-gradient(#9ca6c3,#d4d5e6);clip-path:polygon(45% 0,55% 0,100% 100%,0 100%);opacity:.8}.top{position:relative;z-index:3;text-align:center;padding:clamp(18px,3vw,38px) 15px 0;text-shadow:0 3px 16px #080719}.eyebrow{color:#c9eaff;text-transform:uppercase;letter-spacing:.26em;font:600 11px system-ui,sans-serif}.top h1{margin:10px 0 4px;font-size:clamp(34px,6vw,74px);font-weight:400;line-height:1.05;color:#f7eaff}.top p{margin:10px auto;max-width:600px;color:#e4dff5;font-size:clamp(14px,2vw,19px)}.actions{position:absolute;z-index:4;bottom:clamp(18px,4vh,42px);width:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:0 16px}.gate{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:15px 30px;background:linear-gradient(135deg,#542f70,#792f54);border:1px solid #e2c8f3;border-radius:999px;text-decoration:none;box-shadow:0 0 25px #a58bff65;font:700 15px system-ui,sans-serif;min-height:50px}.gate:hover,.gate:focus-visible{background:#9251a5;outline:2px solid #cceaff;outline-offset:3px}.back{font:12px system-ui,sans-serif;color:#e5e0f5;text-underline-offset:4px}.owl{position:absolute;z-index:2;bottom:22%;right:13%;font-size:clamp(24px,4vw,44px);filter:drop-shadow(0 0 8px #b6dbff)}.snow{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(#fff 1.5px,transparent 2px);background-size:55px 80px;opacity:.42;animation:snow 17s linear infinite}@keyframes snow{to{background-position:35px 800px}}@media(prefers-reduced-motion:reduce){.snow{animation:none}}@media(max-width:600px){.top{padding-top:32px}.castle{bottom:22%;width:125vw;max-width:none}.mountains{bottom:22%}.ground{height:31%}.owl{bottom:32%;right:7%}.actions{bottom:24px}.top h1{font-size:clamp(32px,9vw,52px)}} 
+.sky.gates-opening:after{content:"";position:absolute;inset:0;z-index:9;background:#100e25;opacity:0;animation:academyFade 850ms ease-in forwards;pointer-events:none}@keyframes academyFade{to{opacity:1}}.sky.gates-opening .castle{animation:academyApproach 850ms ease-in forwards}@keyframes academyApproach{to{transform:translateX(-50%) scale(1.4);filter:blur(2px)}}@media(prefers-reduced-motion:reduce){.sky.gates-opening:after,.sky.gates-opening .castle{animation:none}}
+.snow-paw-trail{position:absolute;z-index:2;pointer-events:none;left:50%;transform:translateX(-50%);bottom:5%;width:min(54vw,450px);height:clamp(110px,24vh,240px);overflow:visible;filter:drop-shadow(0 1px 1px #edf7ff88)}@media(max-width:600px){.snow-paw-trail{bottom:12%;width:68vw;height:20vh;opacity:.86}}@media(max-height:560px){.snow-paw-trail{height:20vh;bottom:12%}}
+.academy-flag{transform-box:fill-box;transform-origin:left center;animation:house-flag-wave 3.6s ease-in-out infinite;filter:drop-shadow(2px 3px 2px #17112366)}.academy-house-flags>g:nth-of-type(2) .academy-flag{animation-delay:-1.2s}.academy-house-flags>g:nth-of-type(3) .academy-flag{animation-delay:-2.1s}.academy-house-flags>g:nth-of-type(4) .academy-flag{animation-delay:-.7s}@keyframes house-flag-wave{0%,100%{transform:skewY(-2deg) scaleX(.96)}50%{transform:skewY(3deg) scaleX(1.02)}}@media(prefers-reduced-motion:reduce){.academy-flag{animation:none}}.owl{width:clamp(54px,7vw,100px);font-size:initial}.owl-art{display:block;width:100%;height:auto;filter:drop-shadow(0 5px 8px #10162a)}.castle{filter:drop-shadow(0 18px 24px #080b21) drop-shadow(0 0 12px #c9b9f02b)}.academy-flag{filter:drop-shadow(3px 4px 2px #11102088)}.sky:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#0a0e2155,transparent 28%,transparent 72%,#0a0e2155),radial-gradient(ellipse at 50% 72%,transparent 35%,#090e2166 100%)}@media(max-width:600px){.owl{width:62px}}</style><link rel="stylesheet" href="academy-vault-transition.css?v=1"><script defer src="academy-vault-transition.js?v=1"></script><link rel="stylesheet" href="academy-welcome-gate.css?v=10">
+<script type="module" src="academy-welcome-gate.js?v=1"></script><link rel="stylesheet" href="academy-game-smooth.css?v=1"></head><body><main class="sky">
+<svg class="castle" viewBox="0 0 900 600" role="img" aria-label="An ice-blue glass and limestone castle with pointed towers, flags with stars in all four house colours along the path, and a silver gate">
+<image href="academy-castle-united-flags.webp" width="900" height="600"/>
+<defs>
+  <linearGradient id="academy-gate-metal"><stop stop-color="#749ac4"/><stop offset=".42" stop-color="#e8f8ff"/><stop offset=".68" stop-color="#a2c7e7"/><stop offset="1" stop-color="#5d7ca5"/></linearGradient>
+  <g id="academy-paw"><ellipse cy="6" rx="8" ry="6"/><ellipse cx="-9" cy="-3" rx="3" ry="4"/><ellipse cx="-3" cy="-7" rx="3" ry="4"/><ellipse cx="4" cy="-7" rx="3" ry="4"/><ellipse cx="10" cy="-3" rx="3" ry="4"/></g>
+  <g id="academy-gate-detail" fill="none" stroke="url(#academy-gate-metal)" stroke-linecap="round">
+    <path d="M0 0Q52 -49 112 -10V45H0Z" stroke-width="4.6"/>
+    <path d="M0 25H112M14 -8v53M30 -17v62M46 -22v67M62 -24v69M78 -21v66M94 -16v61" stroke-width="2.7"/>
+    <path d="M4 38Q21 12 42 27T84 27Q100 17 109 32" stroke="#8bccf4" stroke-width="2.8"/>
+  </g>
+</defs>
+<g aria-hidden="true">
+<rect x="439" y="440" width="30" height="8" rx="2" fill="#827160" stroke="#b9aa94"/>
+<path d="M443 444h22" stroke="#211b18" stroke-width="3" stroke-linecap="round"/>
+<rect id="academy-mail-glow" x="440" y="440" width="28" height="8" rx="3" fill="#a7eaff"/>
+</g>
+<g aria-hidden="true" class="academy-approach-scene" transform="translate(3 -45)">
+  <g class="academy-pawprints">
+    <use href="#academy-paw" x="431" y="654" style="--step:.3s"/>
+    <use href="#academy-paw" x="468" y="632" style="--step:.52s"/>
+    <use href="#academy-paw" x="436" y="607" style="--step:.74s"/>
+    <use href="#academy-paw" x="463" y="583" style="--step:.97s"/>
+    <use href="#academy-paw" x="440" y="556" style="--step:1.2s"/>
+    <use href="#academy-paw" x="458" y="534" style="--step:1.43s"/>
+    <use href="#academy-paw" x="445" y="518" style="--step:1.63s"/>
+  </g>
+  <!-- Reduced entrance gate silhouette keeps the castle façade visible. -->
+  <g class="academy-perimeter-gate" aria-hidden="true" transform="matrix(.72 0 0 .58 126 252)">
+    <defs>
+      <linearGradient id="academy-gate-dark" x2="1" y2=".3">
+        <stop stop-color="#10131c"/><stop offset=".38" stop-color="#394253"/><stop offset=".52" stop-color="#b7c7d4"/><stop offset=".68" stop-color="#384153"/><stop offset="1" stop-color="#11141d"/>
+      </linearGradient>
+    </defs>
+    <g class="academy-gate-leaf academy-gate-left">
+      <path d="M22 600V310Q125 226 236 275Q345 238 450 320V600Z" fill="url(#academy-gate-dark)" fill-opacity=".78" stroke="#e5f5ff" stroke-width="13"/>
+      <path d="M22 331Q125 247 236 296Q345 259 450 341M22 485H450M22 560H450" fill="none" stroke="url(#academy-gate-metal)" stroke-width="15"/>
+      <g stroke="#141821" stroke-width="14">
+        <path d="M53 296V600M98 272V600M143 267V600M188 278V600M233 284V600M278 275V600M323 269V600M368 282V600M413 304V600"/>
+      </g>
+      <g fill="#edfaff" stroke="#7598bd" stroke-width="3">
+        <path d="M53 296l-12 20h24zM98 272l-12 20h24zM143 267l-12 20h24zM188 278l-12 20h24zM233 284l-12 20h24zM278 275l-12 20h24zM323 269l-12 20h24zM368 282l-12 20h24zM413 304l-12 20h24z"/>
+      </g>
+      <path d="M40 414Q135 357 236 407T432 414" fill="none" stroke="url(#academy-gate-metal)" stroke-width="12"/>
+      <circle cx="409" cy="494" r="22" fill="#252033" stroke="#b8c9d8" stroke-width="7"/>
+      <path d="M409 478l14 16-14 16-14-16z" fill="#a17add"/>
+    </g>
+    <g class="academy-gate-leaf academy-gate-right" transform="translate(900 0) scale(-1 1)">
+      <path d="M22 600V310Q125 226 236 275Q345 238 450 320V600Z" fill="url(#academy-gate-dark)" fill-opacity=".78" stroke="#e5f5ff" stroke-width="13"/>
+      <path d="M22 331Q125 247 236 296Q345 259 450 341M22 485H450M22 560H450" fill="none" stroke="url(#academy-gate-metal)" stroke-width="15"/>
+      <g stroke="#141821" stroke-width="14">
+        <path d="M53 296V600M98 272V600M143 267V600M188 278V600M233 284V600M278 275V600M323 269V600M368 282V600M413 304V600"/>
+      </g>
+      <g fill="#edfaff" stroke="#7598bd" stroke-width="3">
+        <path d="M53 296l-12 20h24zM98 272l-12 20h24zM143 267l-12 20h24zM188 278l-12 20h24zM233 284l-12 20h24zM278 275l-12 20h24zM323 269l-12 20h24zM368 282l-12 20h24zM413 304l-12 20h24z"/>
+      </g>
+      <path d="M40 414Q135 357 236 407T432 414" fill="none" stroke="url(#academy-gate-metal)" stroke-width="12"/>
+      <circle cx="409" cy="494" r="22" fill="#252033" stroke="#b8c9d8" stroke-width="7"/>
+      <path d="M409 478l14 16-14 16-14-16z" fill="#a17add"/>
+    </g>
+    <g fill="url(#academy-gate-metal)" stroke="#f1faff" stroke-width="6">
+      <rect x="0" y="258" width="27" height="342" rx="4"/>
+      <rect x="873" y="258" width="27" height="342" rx="4"/>
+      <path d="M0 258l13-44 14 44M873 258l14-44 13 44"/>
+    </g>
+  </g>
+  <g id="academy-flying-envelope">
+    <rect x="-30" y="-18" width="60" height="36" rx="3" fill="#eeede6" stroke="#c3eaff" stroke-width="2"/>
+    <path d="M-28 -16L0 5l28-21M-28 16l18-15m38 15L10 1" fill="none" stroke="#9a91a5" stroke-width="1.5"/>
+    <circle cy="5" r="5" fill="#65385e"/>
+  </g>
+</g></svg>
+<header class="top"><h1>Amethyst Crescent <span>Academy</span></h1></header>
+<div class="actions"><a class="gate" href="academy-perimeter-3d.html" id="academy-gate">Open your royal invitation</a><a class="back" href="academy-royal-castle-grounds.html">Explore the expanded royal castle grounds</a><a class="back" href="academy-elemental-flags.html">View the four royal elemental flags</a><a class="back" href="writing.html">Return to Bre McIlroy's portfolio</a></div></main><dialog id="academy-letter" aria-labelledby="academy-letter-title">
+  <div class="academy-letter-envelope" aria-hidden="true"></div>
+  <article class="academy-letter-paper">
+    <button id="academy-letter-close" type="button" aria-label="Close letter and enter the castle">×</button>
+    <div class="academy-school-crest" role="img" aria-label="The Academy’s snow owl beneath a silver crescent">
+      <span class="academy-crest-moon" aria-hidden="true"></span>
+      <img class="academy-crest-realistic" src="academy-royal-owl-crest.webp" alt="" decoding="async" onerror="this.hidden=true">
+      <svg viewBox="0 0 160 184" aria-hidden="true" focusable="false">
+        <defs>
+          <radialGradient id="owl-feather" cx=".43" cy=".28" r=".8"><stop stop-color="#fffefa"/><stop offset=".48" stop-color="#e9eef0"/><stop offset=".82" stop-color="#aab9c8"/><stop offset="1" stop-color="#536c86"/></radialGradient>
+          <radialGradient id="owl-iris"><stop stop-color="#bdf6ff"/><stop offset=".56" stop-color="#6bc8f0"/><stop offset=".9" stop-color="#21649c"/><stop offset="1" stop-color="#102b4d"/></radialGradient>
+          <linearGradient id="owl-silver" x2="1" y2="1"><stop stop-color="#6d819c"/><stop offset=".25" stop-color="#f8fcff"/><stop offset=".54" stop-color="#90a8bd"/><stop offset=".78" stop-color="#f7fbff"/><stop offset="1" stop-color="#586d86"/></linearGradient>
+        </defs>
+        <path d="M115 2C58 -3 13 34 10 87C7 145 50 182 112 178C70 165 48 136 48 94C48 49 73 19 115 2Z" fill="url(#owl-silver)" stroke="#6f8ba6" stroke-width="3"/>
+        <path d="M103 10C54 11 19 44 19 90C19 130 47 160 86 171" fill="none" stroke="#f7fdff" stroke-width="4" opacity=".85"/>
+        <path d="M35 62L24 24L62 45Q80 34 98 45L136 24L125 62Q146 95 128 139Q109 171 80 172Q51 171 32 139Q14 95 35 62Z" fill="url(#owl-feather)" stroke="#8497aa" stroke-width="2"/>
+        <g fill="none" stroke="#70869b" stroke-width="1.1" opacity=".55">
+          <path d="M32 53Q45 68 63 70M128 53Q115 68 97 70M33 78Q53 89 69 100M127 78Q107 89 91 100"/>
+          <path d="M41 108Q57 125 73 130M119 108Q103 125 87 130M47 134Q64 148 80 154Q96 148 113 134"/>
+          <path d="M52 70l-8 19m17-15l-8 22m55-22l8 22m-17-26l8 19M51 118l-5 13m14-8l-3 16m52-21l5 13m-14-8l3 16"/>
+        </g>
+        <path d="M36 78Q53 47 80 77Q107 47 124 78Q118 114 80 126Q42 114 36 78Z" fill="#e8edf0" stroke="#9babb8" stroke-width="1.2"/>
+        <path d="M39 80Q55 60 73 82Q62 104 44 96M121 80Q105 60 87 82Q98 104 116 96" fill="#fffdf7" stroke="#8599aa" stroke-width="1.3"/>
+        <ellipse cx="57" cy="84" rx="12" ry="13" fill="url(#owl-iris)"/><ellipse cx="103" cy="84" rx="12" ry="13" fill="url(#owl-iris)"/>
+        <ellipse cx="57" cy="84" rx="5.5" ry="9" fill="#0d2239"/><ellipse cx="103" cy="84" rx="5.5" ry="9" fill="#0d2239"/>
+        <circle cx="53" cy="79" r="3" fill="#fff"/><circle cx="99" cy="79" r="3" fill="#fff"/>
+        <path d="M73 99L80 115L87 99Q80 102 73 99Z" fill="#b88b4b" stroke="#8c6437"/>
+        <path d="M64 128Q80 143 96 128M57 146Q80 165 103 146" fill="none" stroke="#71879b" stroke-width="1.4" opacity=".65"/>
+        <g fill="#f7f9fa" opacity=".7"><path d="M30 55l9 16-4-24M130 55l-9 16 4-24M50 154l12 10-7-17M110 154l-12 10 7-17"/></g>
+      </svg>
+    </div>
+    <p class="academy-royal-kicker">By royal decree · Under the silver crescent</p>
+    <h2 id="academy-letter-title">You have been chosen</h2>
+    <p class="academy-letter-opening">Amethyst Crescent Academy requests the honour of your presence at a royal reception in the Great Hall.</p>
+    <p>When the silver gates part, follow Gizmo’s pawprints across the Moonlit Courtyard to the Great Hall lobby, where Breezy shall bid you welcome.</p>
+    <p>At the reception, you shall be entrusted with a quest. Those who complete it will be invited to take their place as full members of the Academy.</p>
+    <div class="academy-letter-signoff">
+      <p class="academy-letter-signature">Given under the Academy seal,<br><span class="academy-headmaster-title">Headmaster Breezy</span><strong aria-label="Signed Breezy">Breezy</strong></p>
+      <span class="academy-wax-seal" role="img" aria-label="Gizmo’s pawprint seal"><svg viewBox="-23 -23 48 48" aria-hidden="true"><use href="#academy-paw"/></svg></span>
+    </div>
+    <button id="academy-letter-send" type="button">Accept the invitation</button>
+  </article>
+</dialog>
+<p id="academy-gate-status" class="academy-gate-status" role="status" aria-live="polite"></p>
+<script defer src="academy-game-smooth.js?v=1"></script></body></html>

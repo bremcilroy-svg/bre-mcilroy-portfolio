@@ -1,0 +1,66 @@
+/* Phase 15.5 — small, accessible door navigation; separate from the game HUD */
+#pv155-bridge{position:fixed;z-index:8500;left:12px;top:calc(12px + env(safe-area-inset-top));font:13px/1.4 system-ui,sans-serif;color:#fff0df}
+#pv155-bridge *{box-sizing:border-box}
+#pv155-bridge button{font:inherit;cursor:pointer}
+#pv155-bridge .pv155-open{border:1px solid #d9b07a;border-radius:24px;padding:9px 12px;background:#3d213bdc;color:#ffe8ca;box-shadow:0 3px 14px #0007;min-height:40px}
+#pv155-bridge .pv155-panel{position:absolute;top:48px;left:0;width:min(310px,calc(100vw - 24px));padding:16px;background:#241529f5;border:1px solid #c69a80;border-radius:15px;box-shadow:0 15px 35px #000b}
+#pv155-bridge .pv155-panel[hidden]{display:none}
+#pv155-bridge .pv155-heading{font:700 12px Georgia,serif;letter-spacing:.14em;color:#e7b987;margin:0 0 7px}
+#pv155-bridge .pv155-location{margin:0 0 12px}
+#pv155-bridge .pv155-links{display:grid;gap:8px}
+#pv155-bridge .pv155-route{display:block;text-align:left;border:1px solid #a27c94;border-radius:8px;padding:10px;background:#4b2a4d;color:#fff0e6;min-height:42px}
+#pv155-bridge .pv155-route:disabled{opacity:.53;cursor:not-allowed}
+#pv155-bridge .pv155-note{font-size:11px;opacity:.8;margin:12px 0 0}
+#pv155-transition{position:fixed;inset:0;z-index:20000;overflow:hidden;pointer-events:all;background:#100a17;color:#f6d7a6;display:grid;place-items:center}
+#pv155-transition[hidden]{display:none!important}
+#pv155-transition p{position:relative;z-index:2;font:italic clamp(22px,5vw,40px) Georgia,serif;text-shadow:0 2px 12px #000}
+#pv155-transition .pv155-door{position:absolute;top:0;bottom:0;width:50%;background:repeating-linear-gradient(90deg,#301b31 0 28px,#53314b 29px 48px,#38223a 49px 58px);border:7px ridge #b88b57;transition:transform .55s ease}
+#pv155-transition .left{left:0;transform-origin:left center}
+#pv155-transition .right{right:0;transform-origin:right center}
+#pv155-transition.pv155-animate .left{transform:translateX(-15%)}
+#pv155-transition.pv155-animate .right{transform:translateX(15%)}
+body.pv13-inside #pv155-bridge{display:none!important}
+@media(max-width:650px){#pv155-bridge{top:calc(58px + env(safe-area-inset-top));left:8px}#pv155-bridge .pv155-open{font-size:11px;padding:7px 10px}}
+@media(prefers-reduced-motion:reduce){#pv155-transition .pv155-door{transition:none}}
+
+/* Phase 19.2 — Royal castle atlas, scoped to the existing passage */
+#pv155-bridge .pv192-map-toggle{display:block;width:100%;margin-top:12px;padding:11px;border:1px solid #a8c5e8;border-radius:9px;background:linear-gradient(120deg,#45274f,#243a59);color:#f5eaff;min-height:44px}
+#pv155-bridge .pv192-map-toggle:focus-visible,#pv155-bridge .pv192-map-door:focus-visible{outline:3px solid #a9d7ff;outline-offset:2px}
+#pv155-bridge .pv192-map{max-height:min(48vh,390px);overflow-y:auto;overscroll-behavior:contain;margin-top:10px;padding:12px;border:1px solid #b3a1c8;border-radius:12px;background:radial-gradient(circle at top,#51365f,#1c1429 75%);box-shadow:inset 0 0 20px #0a0810}
+#pv155-bridge .pv192-map[hidden]{display:none}
+#pv155-bridge .pv192-map-door{display:block;width:100%;margin:6px 0;padding:10px;text-align:left;border:1px solid #a48ac0;border-radius:8px;background:#2c1939;color:#f5edff;min-height:44px}
+#pv155-bridge .pv192-map-door[aria-current="page"]{border-color:#a8d9ff;background:#364568}
+#pv155-bridge .pv192-map-door:disabled{opacity:.55;cursor:not-allowed}
+#pv155-bridge .pv192-map-note{font-size:12px;color:#e1d3ea}
+@media(max-width:650px){#pv155-bridge .pv155-panel{max-height:calc(100dvh - 110px);overflow-y:auto}}
+
+/* Phase 19.2 — silver and amethyst cinematic owl guardians */
+#pv155-transition{background:radial-gradient(ellipse at 50% 40%,#38244c,#100a17 78%);color:#e9d9ff}
+#pv155-transition .pv155-door{background:repeating-linear-gradient(90deg,#28182f 0 25px,#55253f 26px 47px,#322141 48px 59px);border:7px ridge #bfc8db;box-shadow:inset 0 0 38px #090510,0 0 28px #a4bde522}
+#pv155-transition .pv155-door::before{content:"";position:absolute;top:9%;bottom:9%;width:5px;background:linear-gradient(#a5d6fa,#d9c1ed,#a5d6fa);opacity:.7}
+#pv155-transition .pv155-door.left::before{right:18px}
+#pv155-transition .pv155-door.right::before{left:18px}
+#pv155-transition .pv192-owl{position:absolute;top:24%;z-index:2;font-size:clamp(28px,6vw,58px);filter:drop-shadow(0 0 12px #a4d6ff);pointer-events:none;transition:transform .55s ease,opacity .55s ease}
+#pv155-transition .pv192-owl-left{left:21%}
+#pv155-transition .pv192-owl-right{right:21%}
+#pv155-transition.pv155-animate .pv192-owl-left{transform:translateX(-24px);opacity:.65}
+#pv155-transition.pv155-animate .pv192-owl-right{transform:translateX(24px);opacity:.65}
+#pv155-transition p{max-width:85vw;text-align:center;color:#f1e6ff}
+@media(prefers-reduced-motion:reduce){#pv155-transition .pv192-owl{transition:none}}
+
+/* Phase 19.2 — individual chamber atmospheres in the castle atlas */
+#pv155-bridge .pv192-map-heading{text-align:center;color:#e8d0ff;letter-spacing:.13em;font-weight:700;font-family:Georgia,serif}
+#pv155-bridge .pv192-whisper{font:italic 13px/1.5 Georgia,serif;color:#b9dafa;text-align:center;margin:12px 4px}
+#pv155-bridge .pv192-map-door:not(:disabled):hover{background:#51365f;border-color:#c7ddff}
+#pv155-bridge .pv192-map-door[aria-current="page"]{box-shadow:inset 3px 0 #a8d9ff}
+
+/* Explain locked doors without requiring hover (mobile and keyboard friendly). */
+#pv155-bridge .pv192-lock-reason{display:block;font:12px/1.4 system-ui,sans-serif;color:#dfcfe8;margin-top:5px;white-space:normal}
+#pv155-bridge .pv192-progress{margin:12px 0;padding:10px;border-top:1px solid #8c769f;border-bottom:1px solid #8c769f;text-align:center;color:#e9dbf5;font:600 12px/1.5 system-ui,sans-serif}
+
+/* Story objective inside the living castle map, not a puzzle shortcut. */
+#pv155-bridge .pv193-next-step{padding:12px;margin:12px 0;border:1px solid #b8a0d0;border-radius:10px;background:linear-gradient(145deg,#43294f,#22203d);color:#f5eaff}
+#pv155-bridge .pv193-next-step strong{display:block;color:#d9eaff;font:700 14px Georgia,serif}
+#pv155-bridge .pv193-next-step p{font:13px/1.55 system-ui,sans-serif;margin:7px 0 9px}
+#pv155-bridge .pv193-next-action{width:100%;min-height:44px;border-color:#c6c8e8;background:#4e3464;color:#fff}
+#pv155-bridge .pv193-next-action:focus-visible{outline:3px solid #a9e6ff;outline-offset:2px}

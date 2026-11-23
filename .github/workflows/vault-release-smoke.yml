@@ -1,0 +1,27 @@
+name: Poetry Vault release smoke checks
+on:
+  push:
+    branches:
+      - phase-19-2-connected-castle
+      - release-poetry-vault-playable
+  workflow_dispatch:
+jobs:
+  source-smoke:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify JavaScript and local page assets
+        run: node scripts/vault-release-smoke.cjs
+      - name: Verify all four chapter puzzle state machines
+        run: node scripts/vault-state-regression.cjs
+      - name: Install headless browser
+        run: |
+          npm install --no-save playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Check all Vault pages in an isolated mobile browser
+        run: node scripts/vault-browser-smoke.cjs
