@@ -52,7 +52,10 @@ for(const chapter of ['poetry-vault.html','poetry-vault-mirror.html','poetry-vau
     page.on('pageerror',error=>errors.push(error.message));
     const response=await page.goto(base+chapter,{waitUntil:'domcontentloaded'});
     expect(response?.status(),chapter+' should exist').toBe(200);
-    await expect(page.locator('body')).toBeVisible();
+    // The author-room route intentionally gates its study section. Check the
+    // visible gate instead of the body box, which can be zero-sized in WebKit
+    // while its hidden sections are being applied.
+    if(chapter==='poetry-vault-author-room.html')await expect(page.locator('#gate')).toBeVisible();
     await page.waitForTimeout(750);
     expect(errors,'JavaScript errors in '+chapter).toEqual([]);
   });

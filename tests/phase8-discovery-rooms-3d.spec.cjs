@@ -10,9 +10,9 @@ test('East Wing, Enchanted Library, and Four Houses are walkable 3D with saved p
   test.setTimeout(120000);
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.addInitScript(()=>{
-    localStorage.setItem('amethyst-academy-player-perspective-v1','first');
-    localStorage.setItem('bre-poetry-vault-heart-graphics-v1','high');
-    localStorage.setItem('discovery-room-preserve-sentinel','keep-progress');
+    if(localStorage.getItem('amethyst-academy-player-perspective-v1')===null)localStorage.setItem('amethyst-academy-player-perspective-v1','first');
+    if(localStorage.getItem('bre-poetry-vault-heart-graphics-v1')===null)localStorage.setItem('bre-poetry-vault-heart-graphics-v1','high');
+    if(localStorage.getItem('discovery-room-preserve-sentinel')===null)localStorage.setItem('discovery-room-preserve-sentinel','keep-progress');
   });
   let expected='first';
   for(const room of rooms){

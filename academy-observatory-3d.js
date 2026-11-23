@@ -182,8 +182,20 @@ import {createPerspectiveView} from './vault-perspective.js?v=phase7-perspective
   window.addEventListener('keyup',e=>{keys.delete(e.key.toLowerCase());requestRender();});
   window.addEventListener('blur',()=>{keys.clear();held.clear();});
   for(const b of dpad.querySelectorAll('[data-walk]')){
-    b.addEventListener('pointerdown',e=>{e.preventDefault();held.add(b.dataset.walk);b.setPointerCapture(e.pointerId);requestRender();});
-    for(const event of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(event,()=>{held.delete(b.dataset.walk);requestRender();});
+    let touchStart=null;
+    b.addEventListener('pointerdown',e=>{e.preventDefault();touchStart={time:performance.now(),x:player.x,z:player.z};held.add(b.dataset.walk);b.setPointerCapture(e.pointerId);requestRender();});
+    const release=()=>{
+      if(touchStart){
+        const elapsed=performance.now()-touchStart.time;
+        const moved=Math.hypot(player.x-touchStart.x,player.z-touchStart.z);
+        // A short mobile tap can begin and end between animation frames. Step once
+        // so touch movement remains responsive even when no held frame was rendered.
+        if(elapsed<180&&moved<.025){held.add(b.dataset.walk);move(.04);}
+        touchStart=null;
+      }
+      held.delete(b.dataset.walk);requestRender();
+    };
+    for(const event of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(event,release);
   }
   for(const b of dpad.querySelectorAll('[data-turn]')){
     b.addEventListener('pointerdown',e=>{e.preventDefault();player.yaw+=Number(b.dataset.turn);b.setPointerCapture(e.pointerId);requestRender();});

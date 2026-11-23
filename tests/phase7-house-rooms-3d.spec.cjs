@@ -12,10 +12,10 @@ test('four Academy house common rooms are walkable 3D and preserve house progres
   test.setTimeout(120000);
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   await page.addInitScript(()=>{
-    localStorage.setItem('amethyst-academy-player-perspective-v1','first');
-    localStorage.setItem('bre-poetry-vault-heart-graphics-v1','high');
-    localStorage.setItem('amethyst-crescent-student-progress-sentinel','keep-house-progress');
-    localStorage.setItem('bre-poetry-vault-heart-v1',JSON.stringify({found:['rose'],completed:false,fixture:'preserve-this-save'}));
+    if(localStorage.getItem('amethyst-academy-player-perspective-v1')===null)localStorage.setItem('amethyst-academy-player-perspective-v1','first');
+    if(localStorage.getItem('bre-poetry-vault-heart-graphics-v1')===null)localStorage.setItem('bre-poetry-vault-heart-graphics-v1','high');
+    if(localStorage.getItem('amethyst-crescent-student-progress-sentinel')===null)localStorage.setItem('amethyst-crescent-student-progress-sentinel','keep-house-progress');
+    if(localStorage.getItem('bre-poetry-vault-heart-v1')===null)localStorage.setItem('bre-poetry-vault-heart-v1',JSON.stringify({found:['rose'],completed:false,fixture:'preserve-this-save'}));
   });
   const pages=testInfo.project.name==='desktop-chromium'?routes:[houseByProject[testInfo.project.name]];
   let expected='first';
