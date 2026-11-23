@@ -1,2 +1,0 @@
-/* Phase 3D: improve small-screen HUD without touching game mechanics */
-@media(max-width:700px){body.academy-p3 #pv155-bridge{top:calc(60px + env(safe-area-inset-top))!important;left:8px!important}body.academy-p3 .chapter-hud{top:118px!important;max-width:calc(100% - 26px)!important;padding:12px!important}body.academy-p3 .chapter-hud h1{font-size:clamp(18px,4.8vw,25px)!important}#vu-launch{bottom:calc(152px + env(safe-area-inset-bottom))!important;right:8px!important}}

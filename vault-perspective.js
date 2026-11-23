@@ -66,7 +66,8 @@ export function createPerspectiveView(THREE, {scene, camera, canvas, getPose, di
       const style = getComputedStyle(node);
       if (node.hidden || style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') visible = false;
     }
-    button.hidden = !visible;
+    const shouldHide = !visible;
+    if (button.hidden !== shouldHide) button.hidden = shouldHide;
   };
   const visibilityObserver = new MutationObserver(syncButtonVisibility);
   visibilityObserver.observe(document.body, {subtree:true, attributes:true, attributeFilter:['hidden']});

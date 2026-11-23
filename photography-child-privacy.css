@@ -1,7 +1,0 @@
-/* Hide candidate child portraits even before the JavaScript runs. */
-.photo-item:has([data-photo-id="7"]),
-.photo-item:has([data-photo-id="13"]),
-.photo-item:has([data-photo-id="15"]),
-.photo-item:has([data-photo-id="58"]),
-.photo-item:has([data-photo-id="59"]),
-.photo-item:has([data-photo-id="61"]) { display:none!important; }
