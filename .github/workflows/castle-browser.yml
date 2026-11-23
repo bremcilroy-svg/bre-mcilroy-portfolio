@@ -39,7 +39,7 @@ jobs:
       - name: Run ${{ matrix.project }} gameplay tests
         run: |
           mkdir -p test-results
-          npx playwright test tests/phase8-discovery-rooms-3d.spec.cjs tests/phase7-perspective.spec.cjs tests/phase7-observatory-3d.spec.cjs tests/phase7-house-rooms-3d.spec.cjs tests/phase6-2-courtyard-3d.spec.cjs tests/phase6-great-hall-3d.spec.cjs tests/castle-browser.spec.cjs tests/castle-journey.spec.cjs tests/phase5-heart-diagnostics.spec.cjs --project=${{ matrix.project }} --workers=1 --reporter=line,json
+          npx playwright test tests/phase6-great-hall-3d.spec.cjs tests/phase8-discovery-rooms-3d.spec.cjs tests/phase7-perspective.spec.cjs tests/phase7-observatory-3d.spec.cjs tests/phase7-house-rooms-3d.spec.cjs tests/phase6-2-courtyard-3d.spec.cjs tests/castle-browser.spec.cjs tests/castle-journey.spec.cjs tests/phase5-heart-diagnostics.spec.cjs --project=${{ matrix.project }} --workers=1 --max-failures=1 --reporter=line,json
         env:
           PLAYWRIGHT_JSON_OUTPUT_NAME: test-results/castle-results.json
           PLAYWRIGHT_HTML_OPEN: never

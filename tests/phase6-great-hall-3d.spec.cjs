@@ -97,7 +97,38 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
   expect(await page.evaluate(key => localStorage.getItem(key), qualityKey)).toBe('performance');
   expect(await page.evaluate(key => localStorage.getItem(key), saveKey)).toBe('phase6-save-sentinel');
 
-  await page.getByRole('button', {name: 'Return to illustrated view'}).click();
+  const returnButton = page.getByRole('button', {name: 'Return to illustrated view'});
+  const clickTarget = await returnButton.evaluate(button => {
+    const rect = button.getBoundingClientRect();
+    const x = rect.left + rect.width / 2, y = rect.top + rect.height / 2;
+    const target = document.elementFromPoint(x, y);
+    const style = target ? getComputedStyle(target) : null;
+    return {
+      hitTag: target?.tagName || null, hitId: target?.id || null,
+      hitClass: typeof target?.className === 'string' ? target.className : '',
+      hitPointerEvents: style?.pointerEvents || null, hitZIndex: style?.zIndex || null,
+      buttonRect: {x: rect.x, y: rect.y, width: rect.width, height: rect.height}
+    };
+  });
+  console.log('Great Hall view-button hit test:', JSON.stringify(clickTarget));
+  expect(clickTarget.hitId).toBe('great-hall-view');
+  await page.evaluate(() => {
+    window.__greatHallViewEvents = [];
+    for (const type of ['pointerdown', 'pointerup', 'click']) {
+      document.addEventListener(type, event => window.__greatHallViewEvents.push({
+        type, targetId: event.target?.id || '', targetTag: event.target?.tagName || '', trusted: event.isTrusted
+      }), true);
+    }
+  });
+  try {
+    await returnButton.click({timeout: 10000});
+  } catch (error) {
+    const events = await Promise.race([
+      page.evaluate(() => window.__greatHallViewEvents),
+      new Promise(resolve => setTimeout(() => resolve('page event probe timed out'), 2500))
+    ]);
+    throw new Error(`Great Hall view click stalled; probe=${JSON.stringify(clickTarget)} events=${JSON.stringify(events)}; ${error.message}`);
+  }
   await expect(canvas).toBeHidden();
   await expect(page.getByRole('button', {name: 'Enter the 3D Great Hall'})).toBeVisible();
   await page.getByRole('button', {name: 'Enter the 3D Great Hall'}).click();
