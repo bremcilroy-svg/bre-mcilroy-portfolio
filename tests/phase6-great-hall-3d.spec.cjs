@@ -64,7 +64,7 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
 
   const beforeLook = await page.evaluate(() => window.academyGreatHall3D.diagnostics().yaw);
   const dragPoint = await page.evaluate(() => {
-    const surface = document.querySelector('#great-hall-3d-pointer-surface');
+    const surface = document.querySelector('#great-hall-3d-canvas');
     const rect = surface.getBoundingClientRect();
     for (const fy of [.12, .24, .4, .58, .76, .9]) for (const fx of [.04, .16, .3, .5, .7, .84, .96]) {
       const x = rect.left + rect.width * fx, y = rect.top + rect.height * fy;
@@ -72,7 +72,7 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
     }
     return null;
   });
-  expect(dragPoint, 'the scene should have an unobstructed area for camera input').not.toBeNull();
+  expect(dragPoint, 'the scene canvas should have an unobstructed area for camera input').not.toBeNull();
   if (testInfo.project.name.includes('android')) {
     const session = await page.context().newCDPSession(page);
     await session.send('Input.dispatchTouchEvent', {type: 'touchStart', touchPoints: [{id: 1, x: dragPoint.x, y: dragPoint.y}]});

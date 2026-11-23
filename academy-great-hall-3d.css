@@ -1,9 +1,7 @@
 /* Great Hall vertical slice: keep the original room available as a one-tap fallback. */
 main .hall{z-index:0;pointer-events:none;overflow:visible}
 body.academy-scene-hall main.academy-great-hall-3d-active .hall{display:block}
-#great-hall-3d-canvas{position:fixed;inset:0;width:100vw;height:100vh;display:block;touch-action:none;cursor:grab;pointer-events:none;z-index:0}
-#great-hall-3d-pointer-surface{position:fixed;inset:0;z-index:1;background:transparent;touch-action:none;pointer-events:auto;cursor:grab}
-#great-hall-3d-pointer-surface[hidden]{display:none!important}
+#great-hall-3d-canvas{position:fixed;inset:0;width:100vw;height:100vh;display:block;touch-action:none;cursor:grab;pointer-events:auto;z-index:0}
 .academy-great-hall-3d-active #great-hall-3d-canvas:not([hidden]){visibility:visible!important;opacity:1!important}
 #great-hall-3d-canvas:active{cursor:grabbing}
 #great-hall-3d-canvas[hidden]{display:none}

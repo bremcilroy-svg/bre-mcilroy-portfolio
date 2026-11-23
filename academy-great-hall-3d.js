@@ -79,14 +79,9 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
     return;
   }
 
-  // Keep scene pointer input on its own layer. Accelerated WebGL canvases can
-  // capture mobile taps above nearby DOM controls in some browser engines.
-  const pointerSurface = document.createElement('div');
-  pointerSurface.id = 'great-hall-3d-pointer-surface';
-  pointerSurface.setAttribute('aria-hidden', 'true');
-  pointerSurface.tabIndex = -1;
-  main.append(pointerSurface);
-  canvas.style.pointerEvents = 'none';
+  // Route scene input through the canvas itself. It lives beneath the room's
+  // higher-z-index HTML controls, so buttons and touch controls remain tappable.
+  canvas.style.pointerEvents = 'auto';
 
   const scene = new Scene();
   scene.background = new Color('#11192e');
@@ -429,7 +424,6 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
     canvas.hidden = false;
     canvas.style.visibility = is3d ? 'visible' : 'hidden';
     canvas.style.opacity = is3d ? '1' : '0';
-    pointerSurface.hidden = !is3d;
     receiver.hidden = !is3d;
     const perspectiveButton = document.querySelector('[data-perspective-toggle]');
     if (perspectiveButton) perspectiveButton.hidden = !is3d;
@@ -448,7 +442,7 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
   if (perspectiveButton) new MutationObserver(requestRender).observe(perspectiveButton, {attributes:true, attributeFilter:['aria-pressed']});
   viewButton.addEventListener('click', () => setView(!active));
   qualitySelect.addEventListener('change', () => setQuality(qualitySelect.value));
-  pointerSurface.addEventListener('pointerdown', onPointerDown);
+  canvas.addEventListener('pointerdown', onPointerDown);
   window.addEventListener('pointermove', onPointerMove);
   window.addEventListener('pointerup', onPointerUp);
   window.addEventListener('pointercancel', () => { drag = null; });
