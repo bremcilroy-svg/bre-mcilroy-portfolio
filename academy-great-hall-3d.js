@@ -85,7 +85,7 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
   pointerSurface.id = 'great-hall-3d-pointer-surface';
   pointerSurface.setAttribute('aria-hidden', 'true');
   pointerSurface.tabIndex = -1;
-  document.body.append(pointerSurface);
+  main.append(pointerSurface);
   canvas.style.pointerEvents = 'none';
 
   const scene = new Scene();
