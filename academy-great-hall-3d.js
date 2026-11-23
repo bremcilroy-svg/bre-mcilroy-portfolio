@@ -415,7 +415,12 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
   function setView(is3d) {
     active = is3d;
     main.classList.toggle('academy-great-hall-3d-active', is3d);
-    canvas.hidden = !is3d;
+    // Keep the WebGL surface attached across view switches. Some mobile WebKit
+    // builds stall while detaching an active GPU canvas from layout.
+    canvas.hidden = false;
+    canvas.style.visibility = is3d ? 'visible' : 'hidden';
+    canvas.style.opacity = is3d ? '1' : '0';
+    canvas.style.pointerEvents = is3d ? 'auto' : 'none';
     receiver.hidden = !is3d;
     const perspectiveButton = document.querySelector('[data-perspective-toggle]');
     if (perspectiveButton) perspectiveButton.hidden = !is3d;

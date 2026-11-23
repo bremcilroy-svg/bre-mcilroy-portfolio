@@ -63,7 +63,8 @@ export function createPerspectiveView(THREE, {scene, camera, canvas, getPose, di
   const syncButtonVisibility = () => {
     let visible = Boolean(canvas?.isConnected);
     for (let node = canvas; visible && node && node !== document.body; node = node.parentElement) {
-      if (node.hidden) visible = false;
+      const style = getComputedStyle(node);
+      if (node.hidden || style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') visible = false;
     }
     button.hidden = !visible;
   };
