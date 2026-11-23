@@ -315,7 +315,7 @@ export function createRoom(container, {onTarget, onInspect, onReady, resolutionS
       scene.add(instances);
     }
   }
-  const motion=createRoomMotion({canvas,camera,container,movable,interactables,map,onTarget,onInspect,onStep:()=>document.dispatchEvent(new CustomEvent('vault-step'))});
+  const motion=createRoomMotion({canvas,camera,scene,container,movable,interactables,map,onTarget,onInspect,onStep:()=>document.dispatchEvent(new CustomEvent('vault-step'))});
   // Support browsers without ResizeObserver and avoid a zero-height canvas
   // during page transitions or temporary layout changes.
   let lastWidth=0,lastHeight=0,lastPixelRatio=0;

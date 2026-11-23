@@ -5,7 +5,9 @@ import {
   PointLight, Raycaster, Scene, SphereGeometry, SRGBColorSpace, TorusGeometry, TubeGeometry, Vector2, Vector3,
   WebGLRenderer
 } from './vault-three.module.js?v=castle-great-hall-3d';
+import * as THREE from './vault-three.module.js?v=castle-great-hall-3d';
 import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
+import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspective';
 
 (() => {
   'use strict';
@@ -77,11 +79,16 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
     return;
   }
 
+  // Route scene input through the canvas itself. It lives beneath the room's
+  // higher-z-index HTML controls, so buttons and touch controls remain tappable.
+  canvas.style.pointerEvents = 'auto';
+
   const scene = new Scene();
   scene.background = new Color('#11192e');
   scene.fog = new Fog('#11192e', 18, 39);
   const camera = new PerspectiveCamera(72, 1, .08, 55);
   camera.position.set(0, 1.68, 7.6);
+  const player = new Vector3(0, 0, 7.6);
   const ambient = new HemisphereLight('#d8eaff', '#30233d', 1.65);
   scene.add(ambient);
   const moon = new DirectionalLight('#c4e7ff', 2.35);
@@ -282,8 +289,9 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
   const keys = new Set();
   const raycaster = new Raycaster();
   const pointer = new Vector2();
-  let yaw = 0, pitch = 0, drag = null, active = true;
+  let yaw = 0, pitch = 0, drag = null, active = false, frameHandle = 0, lastFrame = 0;
   const forward = new Vector3(), right = new Vector3();
+  const perspective = createPerspectiveView(THREE,{scene,camera,canvas,getPose:()=>({x:player.x,z:player.z,yaw,pitch})});
   const held = new Set();
   const discoveryButtons = new Map([...document.querySelectorAll('[data-discovery]')].map(button => [button.dataset.discovery, button]));
   const reveal = document.getElementById('hall-reveal');
@@ -301,6 +309,9 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
     const button = discoveryButtons.get(id);
     if (button) button.click();
   }
+  function requestRender() {
+    if (active && !document.hidden && !frameHandle) frameHandle = requestAnimationFrame(animate);
+  }
   function resize() {
     const width = Math.max(1, window.innerWidth), height = Math.max(1, window.innerHeight);
     const dpr = Math.min(window.devicePixelRatio || 1, 2) * scales[quality];
@@ -308,6 +319,7 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
+    requestRender();
   }
   function setQuality(value) {
     if (!Object.hasOwn(scales, value)) return;
@@ -330,7 +342,7 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
     const speed = 3.1 * Math.min(dt, .05);
     const dx = (right.x * moving.x + forward.x * moving.z) * speed;
     const dz = (right.z * moving.x + forward.z * moving.z) * speed;
-    const nextX = camera.position.x + dx, nextZ = camera.position.z + dz;
+    const nextX = player.x + dx, nextZ = player.z + dz;
     // Keep the wanderer within the hall and clear of the stone piers and throne.
     const clear = (x, z) => {
       if (Math.abs(x) > 8.05 || z < -11.45 || z > 9.35) return false;
@@ -341,13 +353,13 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
       }
       return true;
     };
-    if (clear(nextX, camera.position.z)) camera.position.x = nextX;
-    if (clear(camera.position.x, nextZ)) camera.position.z = nextZ;
+    if (clear(nextX, player.z)) player.x = nextX;
+    if (clear(player.x, nextZ)) player.z = nextZ;
   }
   function onPointerDown(event) {
     if (event.button !== 0 && event.pointerType !== 'touch') return;
+    canvas.focus({preventScroll:true});
     drag = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
-    canvas.setPointerCapture(event.pointerId);
   }
   function onPointerMove(event) {
     if (!drag || drag.id !== event.pointerId) return;
@@ -357,21 +369,23 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
     pitch = Math.max(-.48, Math.min(.48, pitch - dy * .003));
     drag.x = event.clientX;
     drag.y = event.clientY;
+    requestRender();
   }
   function onPointerUp(event) {
     if (!drag || drag.id !== event.pointerId) return;
     const moved = drag.moved;
     drag = null;
     if (!moved) inspectAt(event);
+    requestRender();
   }
   function inspectAt(event) {
     const rect = canvas.getBoundingClientRect();
     pointer.set((event.clientX - rect.left) / rect.width * 2 - 1, -((event.clientY - rect.top) / rect.height * 2 - 1));
-    camera.rotation.set(pitch, yaw, 0, 'YXZ');
+    perspective.update();
     raycaster.setFromCamera(pointer, camera);
     const hit = raycaster.intersectObjects(clickable, true)[0]?.object;
     if (!hit) return;
-    if (raycaster.ray.origin.distanceTo(hit.point) > 8) return;
+    if (Math.hypot(hit.point.x-player.x,hit.point.z-player.z) > 8) return;
     const item = hit;
     let node = item;
     while (node && !node.userData.discovery && !node.userData.url) node = node.parent;
@@ -384,14 +398,15 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
     if (['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'].includes(key) && !event.target.closest('button,select,a,input,textarea')) {
       event.preventDefault();
       keys.add(key);
+      requestRender();
     }
-    if (key === 'arrowleft' && !event.target.closest('button,select,a,input,textarea')) yaw += .035;
-    if (key === 'arrowright' && !event.target.closest('button,select,a,input,textarea')) yaw -= .035;
+    if (key === 'arrowleft' && !event.target.closest('button,select,a,input,textarea')) { yaw += .035; requestRender(); }
+    if (key === 'arrowright' && !event.target.closest('button,select,a,input,textarea')) { yaw -= .035; requestRender(); }
     if (key === 'e') {
       const nearby = clickable.map(object => {
         const point = new Vector3();
         object.getWorldPosition(point);
-        return { object, point, distance: point.distanceTo(camera.position) };
+        return { object, point, distance: Math.hypot(point.x-player.x,point.z-player.z) };
       }).filter(item => item.distance < 2.8).sort((a, b) => a.distance - b.distance)[0];
       let target = nearby?.object;
       while (target && !target.userData.discovery && !target.userData.url) target = target.parent;
@@ -400,46 +415,64 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
       else status.textContent = 'No object is close enough to inspect. Walk toward the throne, stained glass, tapestries, or Gizmo.';
     }
   }
-  function keyUp(event) { keys.delete(event.key.toLowerCase()); }
+  function keyUp(event) { keys.delete(event.key.toLowerCase()); requestRender(); }
   function setView(is3d) {
     active = is3d;
     main.classList.toggle('academy-great-hall-3d-active', is3d);
-    canvas.hidden = !is3d;
+    // Keep the WebGL surface attached across view switches. Some mobile WebKit
+    // builds stall while detaching an active GPU canvas from layout.
+    canvas.hidden = false;
+    canvas.style.visibility = is3d ? 'visible' : 'hidden';
+    canvas.style.opacity = is3d ? '1' : '0';
     receiver.hidden = !is3d;
+    const perspectiveButton = document.querySelector('[data-perspective-toggle]');
+    if (perspectiveButton) perspectiveButton.hidden = !is3d;
     viewButton.textContent = is3d ? 'Return to illustrated view' : 'Enter the 3D Great Hall';
     status.textContent = is3d
       ? `Walkable Great Hall · ${quality === 'high' ? 'High' : quality === 'balanced' ? 'Balanced' : 'Performance'} detail · WASD or the arrows to walk · drag to look · E to inspect.`
       : 'Illustrated Great Hall view · all existing discoveries and passages remain available.';
     if (is3d) resize();
+    else {
+      keys.clear(); held.clear(); drag = null; lastFrame = 0;
+      if (frameHandle) cancelAnimationFrame(frameHandle);
+      frameHandle = 0;
+    }
   }
+  const perspectiveButton = document.querySelector('[data-perspective-toggle]');
+  if (perspectiveButton) new MutationObserver(requestRender).observe(perspectiveButton, {attributes:true, attributeFilter:['aria-pressed']});
   viewButton.addEventListener('click', () => setView(!active));
   qualitySelect.addEventListener('change', () => setQuality(qualitySelect.value));
   canvas.addEventListener('pointerdown', onPointerDown);
-  canvas.addEventListener('pointermove', onPointerMove);
-  canvas.addEventListener('pointerup', onPointerUp);
-  canvas.addEventListener('pointercancel', () => { drag = null; });
+  window.addEventListener('pointermove', onPointerMove);
+  window.addEventListener('pointerup', onPointerUp);
+  window.addEventListener('pointercancel', () => { drag = null; });
   window.addEventListener('keydown', keyDown);
   window.addEventListener('keyup', keyUp);
   window.addEventListener('blur', () => { keys.clear(); held.clear(); });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) { keys.clear(); held.clear(); } });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { keys.clear(); held.clear(); lastFrame = 0; if (frameHandle) cancelAnimationFrame(frameHandle); frameHandle = 0; }
+    else requestRender();
+  });
   receiver.addEventListener('pointerdown', event => {
     const button = event.target.closest('button[data-walk]');
     if (!button) return;
     event.preventDefault();
     const direction = button.dataset.walk;
     const pressedAt = performance.now();
-    const startX = camera.position.x, startZ = camera.position.z;
+    const startX = player.x, startZ = player.z;
     held.add(direction);
+    requestRender();
     button.setPointerCapture(event.pointerId);
     const stop = () => {
       held.delete(direction);
       // A brief tap can begin and end between rendered frames. Make it a small
       // deliberate step so touch controls work for tap users as well as holds.
-      if (performance.now() - pressedAt < 180 && Math.hypot(camera.position.x - startX, camera.position.z - startZ) < .025) {
+      if (performance.now() - pressedAt < 180 && Math.hypot(player.x - startX, player.z - startZ) < .025) {
         held.add(direction);
         move(.12);
         held.delete(direction);
       }
+      requestRender();
     };
     button.addEventListener('pointerup', stop, { once: true });
     button.addEventListener('pointercancel', stop, { once: true });
@@ -448,26 +481,27 @@ import { createRoyalRoomKit } from './academy-3d-architecture.js?v=1';
   window.addEventListener('resize', resize, { passive: true });
   if (window.ResizeObserver) new ResizeObserver(resize).observe(hall);
 
-  const animate = () => {
-    requestAnimationFrame(animate);
-    if (!active || document.hidden) return;
-    const now = performance.now();
-    const dt = Math.min(.05, Math.max(0, (now - (animate.last || now)) / 1000));
-    animate.last = now;
+  function animate(now) {
+    frameHandle = 0;
+    if (!active || document.hidden) { lastFrame = 0; return; }
+    const dt = Math.min(.05, Math.max(0, (now - (lastFrame || now)) / 1000));
+    lastFrame = now;
     move(dt);
-    camera.rotation.set(pitch, yaw, 0, 'YXZ');
+    perspective.update();
     renderer.render(scene, camera);
-  };
+    if (keys.size || held.size) requestRender();
+    else lastFrame = 0;
+  }
   resize();
   setView(true);
   setQuality(quality);
   window.academyGreatHall3D = Object.freeze({
     diagnostics: () => ({
-      ready: true, quality, position: { x: camera.position.x, y: camera.position.y, z: camera.position.z },
+      ready: true, quality, perspective: perspective.mode, position: { x: player.x, y: 0, z: player.z },
       yaw, pitch, canvas: { width: canvas.width, height: canvas.height },
       pixelRatio: renderer.getPixelRatio(), draws: renderer.info.render.calls,
       geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures
     })
   });
-  requestAnimationFrame(animate);
+  requestRender();
 })();

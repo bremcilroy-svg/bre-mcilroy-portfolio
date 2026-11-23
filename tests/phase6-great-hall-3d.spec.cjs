@@ -41,6 +41,11 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
   expect(starting.canvas.width).toBeGreaterThan(0);
   expect(starting.canvas.height).toBeGreaterThan(0);
 
+  await page.getByRole('button', {name: 'Switch to third-person view'}).click();
+  await expect(canvas).toHaveAttribute('data-perspective', 'third');
+  await page.getByRole('button', {name: 'Switch to first-person view'}).click();
+  await expect(canvas).toHaveAttribute('data-perspective', 'first');
+
   if (/android|iphone|tablet/i.test(testInfo.project.name)) {
     const forward = page.getByRole('button', {name: 'Walk forward'});
     await expect(forward).toBeVisible();
@@ -49,6 +54,7 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
     await expect.poll(() => page.evaluate(() => window.academyGreatHall3D.diagnostics().position.z)).toBeLessThan(beforeTouch.z - .02);
   } else {
     const beforeWalk = await page.evaluate(() => window.academyGreatHall3D.diagnostics().position);
+    await canvas.evaluate(element => element.focus());
     await page.keyboard.down('w');
     await page.waitForTimeout(500);
     await page.keyboard.up('w');
@@ -58,15 +64,15 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
 
   const beforeLook = await page.evaluate(() => window.academyGreatHall3D.diagnostics().yaw);
   const dragPoint = await page.evaluate(() => {
-    const canvas = document.querySelector('#great-hall-3d-canvas');
-    const rect = canvas.getBoundingClientRect();
+    const surface = document.querySelector('#great-hall-3d-canvas');
+    const rect = surface.getBoundingClientRect();
     for (const fy of [.12, .24, .4, .58, .76, .9]) for (const fx of [.04, .16, .3, .5, .7, .84, .96]) {
       const x = rect.left + rect.width * fx, y = rect.top + rect.height * fy;
-      if (document.elementFromPoint(x, y) === canvas) return {x, y};
+      if (document.elementFromPoint(x, y) === surface) return {x, y};
     }
     return null;
   });
-  expect(dragPoint, 'the scene should have an unobstructed area for camera input').not.toBeNull();
+  expect(dragPoint, 'the scene canvas should have an unobstructed area for camera input').not.toBeNull();
   if (testInfo.project.name.includes('android')) {
     const session = await page.context().newCDPSession(page);
     await session.send('Input.dispatchTouchEvent', {type: 'touchStart', touchPoints: [{id: 1, x: dragPoint.x, y: dragPoint.y}]});
@@ -91,11 +97,28 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
   expect(await page.evaluate(key => localStorage.getItem(key), qualityKey)).toBe('performance');
   expect(await page.evaluate(key => localStorage.getItem(key), saveKey)).toBe('phase6-save-sentinel');
 
-  await page.getByRole('button', {name: 'Return to illustrated view'}).click();
+  const returnButton = page.getByRole('button', {name: 'Return to illustrated view'});
+  const clickTarget = await returnButton.evaluate(button => {
+    const rect = button.getBoundingClientRect();
+    const x = rect.left + rect.width / 2, y = rect.top + rect.height / 2;
+    const target = document.elementFromPoint(x, y);
+    const style = target ? getComputedStyle(target) : null;
+    return {
+      hitTag: target?.tagName || null, hitId: target?.id || null,
+      hitClass: typeof target?.className === 'string' ? target.className : '',
+      hitPointerEvents: style?.pointerEvents || null, hitZIndex: style?.zIndex || null,
+      buttonRect: {x: rect.x, y: rect.y, width: rect.width, height: rect.height}
+    };
+  });
+  console.log('Great Hall view-button hit test:', JSON.stringify(clickTarget));
+  expect(clickTarget.hitId).toBe('great-hall-view');
+  await returnButton.click({timeout: 10000});
   await expect(canvas).toBeHidden();
+  await expect(page.locator('[data-perspective-toggle]')).toBeHidden();
   await expect(page.getByRole('button', {name: 'Enter the 3D Great Hall'})).toBeVisible();
   await page.getByRole('button', {name: 'Enter the 3D Great Hall'}).click();
   await expect(canvas).toBeVisible();
+  await expect(page.locator('[data-perspective-toggle]')).toBeVisible();
   await expect(page.locator('.royal-flag-gallery a')).toHaveCount(4);
   await expect(page.locator('a[href="poetry-vault-entrance.html"]').first()).toBeVisible();
   await page.getByRole('button', {name: 'Visit Gizmo'}).click();

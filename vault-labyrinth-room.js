@@ -109,7 +109,7 @@ export function createLabyrinthRoom(container, {onTarget, onInspect, onReady, on
   function movable(x,z){return Math.abs(x)<5.55&&Math.abs(z)<6.5&&!colliders.some(b=>Math.abs(x-b.x)<b.w&&Math.abs(z-b.z)<b.d);}
   const secret=SECRETS[2],bookmark=target('secret',secret.x,secret.y,secret.z,.6,.45,.6);
   box(.16,.012,.43,0,0,0,materials.gold,bookmark);box(.06,.015,.36,0,.012,0,materials.paper,bookmark);
-  const motion=createRoomMotion({canvas,camera,container,movable,interactables,map,onTarget,onInspect,clearSight,onStep:()=>document.dispatchEvent(new CustomEvent('vault-step'))});
+  const motion=createRoomMotion({canvas,camera,scene,container,movable,interactables,map,onTarget,onInspect,clearSight,onStep:()=>document.dispatchEvent(new CustomEvent('vault-step'))});
   function resized(){const rect=container.getBoundingClientRect();renderer.setSize(rect.width,rect.height,false);camera.aspect=rect.width/rect.height;camera.updateProjectionMatrix();}
   new ResizeObserver(resized).observe(container);resized();
   let lastPausedRender=-Infinity;

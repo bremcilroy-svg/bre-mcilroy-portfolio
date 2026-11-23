@@ -6,6 +6,10 @@ on:
   workflow_dispatch:
 jobs:
   browser-smoke:
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [desktop-chromium, android-chromium, iphone-webkit, tablet-webkit]
     runs-on: ubuntu-latest
     timeout-minutes: 45
     permissions:
@@ -32,10 +36,11 @@ jobs:
           done
           cat /tmp/castle-server.log
           exit 1
-      - name: Run desktop, Android, iPhone and tablet gameplay tests
+      - name: Run ${{ matrix.project }} gameplay tests
         run: |
           mkdir -p test-results
-          npx playwright test tests/phase6-2-courtyard-3d.spec.cjs tests/phase6-great-hall-3d.spec.cjs tests/castle-browser.spec.cjs tests/castle-journey.spec.cjs tests/phase5-heart-diagnostics.spec.cjs --workers=1 --reporter=line,json
+          # Check the current interaction regression first; stop this device job at its first failed test.
+          npx playwright test tests/phase6-great-hall-3d.spec.cjs tests/phase8-discovery-rooms-3d.spec.cjs tests/phase7-perspective.spec.cjs tests/phase7-observatory-3d.spec.cjs tests/phase7-house-rooms-3d.spec.cjs tests/phase6-2-courtyard-3d.spec.cjs tests/castle-browser.spec.cjs tests/castle-journey.spec.cjs tests/phase5-heart-diagnostics.spec.cjs --project=${{ matrix.project }} --workers=1 --max-failures=1 --reporter=line,json
         env:
           PLAYWRIGHT_JSON_OUTPUT_NAME: test-results/castle-results.json
           PLAYWRIGHT_HTML_OPEN: never
@@ -66,7 +71,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: castle-playwright-report
+          name: castle-playwright-report-${{ matrix.project }}
           path: |
             test-results/
             playwright-report/
