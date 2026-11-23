@@ -58,25 +58,29 @@ test('Heart Chamber perspective toggle works with each emulated browser profile'
   expect(errors).toEqual([]);
 });
 
-test('the four walkable Poetry Vault chapters share the saved perspective without changing puzzle saves', async ({page}, testInfo) => {
-  test.skip(testInfo.project.name !== 'desktop-chromium', 'The all-chapter camera loop runs in desktop Chromium; touch movement is covered in the profile matrix above.');
-  await page.addInitScript(seedProgress, {viewKey});
-  await page.goto(base + 'poetry-vault.html?resume=1');
-  const before = await page.evaluate(() => ['bre-poetry-vault-heart-v1','bre-poetry-vault-mirror-v1','bre-poetry-vault-labyrinth-v1','bre-poetry-vault-dawn-v1'].map(key => localStorage.getItem(key)));
-  let expected = 'first';
-  for (const route of ['poetry-vault.html','poetry-vault-mirror.html','poetry-vault-labyrinth.html','poetry-vault-dawn.html']) {
+for (const route of ['poetry-vault.html','poetry-vault-mirror.html','poetry-vault-labyrinth.html','poetry-vault-dawn.html']) {
+  test(`${route} restores either saved perspective without changing its puzzle saves`, async ({page}, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop-chromium', 'All-chapter room checks run independently in desktop Chromium; device profiles cover the Heart Chamber toggle and touch movement.');
+    test.setTimeout(90000);
+    await page.addInitScript(seedProgress, {viewKey});
+    // Start each route with the same saved setting, but in a fresh Playwright
+    // context so a long chain of GPU-backed room navigations cannot leak state.
+    await page.addInitScript(key => localStorage.setItem(key, 'third'), viewKey);
     await page.goto(base + route + '?resume=1');
     const canvas = page.locator('#room-canvas');
-    await expect(canvas).toBeVisible({timeout:30000});
-    await expect(canvas).toHaveAttribute('data-perspective', expected, {timeout:30000});
-    if (expected === 'first') await page.getByRole('button', {name:'Switch to third-person view'}).click();
-    await expect(canvas).toHaveAttribute('data-perspective', 'third');
-    expected = 'third';
-    expect(await page.evaluate(key => localStorage.getItem(key), viewKey)).toBe('third');
-  }
-  const after = await page.evaluate(keys => keys.map(key => localStorage.getItem(key)), saveKeys);
-  expect(after).toEqual(before);
-});
+    await expect(canvas).toBeVisible({timeout:45000});
+    await expect(canvas).toHaveAttribute('data-perspective', 'third', {timeout:30000});
+    await expect(page.getByRole('button', {name:'Switch to first-person view'})).toBeVisible();
+    const before = await page.evaluate(keys => keys.map(key => localStorage.getItem(key)), saveKeys);
+    await page.getByRole('button', {name:'Switch to first-person view'}).click();
+    await expect(canvas).toHaveAttribute('data-perspective', 'first');
+    expect(await page.evaluate(key => localStorage.getItem(key), viewKey)).toBe('first');
+    await page.reload();
+    await expect(page.locator('#room-canvas')).toHaveAttribute('data-perspective', 'first', {timeout:45000});
+    const after = await page.evaluate(keys => keys.map(key => localStorage.getItem(key)), saveKeys);
+    expect(after).toEqual(before);
+  });
+}
 
 test('the owner playable Study uses the same first- and third-person preference', async ({page}, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop-chromium', 'Owner Study WebGL check runs in desktop Chromium.');
