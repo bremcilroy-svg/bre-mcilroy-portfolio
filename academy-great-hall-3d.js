@@ -285,7 +285,7 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
   const keys = new Set();
   const raycaster = new Raycaster();
   const pointer = new Vector2();
-  let yaw = 0, pitch = 0, drag = null, active = true;
+  let yaw = 0, pitch = 0, drag = null, active = false, frameHandle = 0, lastFrame = 0;
   const forward = new Vector3(), right = new Vector3();
   const perspective = createPerspectiveView(THREE,{scene,camera,canvas,getPose:()=>({x:player.x,z:player.z,yaw,pitch})});
   const held = new Set();
@@ -305,6 +305,9 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
     const button = discoveryButtons.get(id);
     if (button) button.click();
   }
+  function requestRender() {
+    if (active && !document.hidden && !frameHandle) frameHandle = requestAnimationFrame(animate);
+  }
   function resize() {
     const width = Math.max(1, window.innerWidth), height = Math.max(1, window.innerHeight);
     const dpr = Math.min(window.devicePixelRatio || 1, 2) * scales[quality];
@@ -312,6 +315,7 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
+    requestRender();
   }
   function setQuality(value) {
     if (!Object.hasOwn(scales, value)) return;
@@ -361,12 +365,14 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
     pitch = Math.max(-.48, Math.min(.48, pitch - dy * .003));
     drag.x = event.clientX;
     drag.y = event.clientY;
+    requestRender();
   }
   function onPointerUp(event) {
     if (!drag || drag.id !== event.pointerId) return;
     const moved = drag.moved;
     drag = null;
     if (!moved) inspectAt(event);
+    requestRender();
   }
   function inspectAt(event) {
     const rect = canvas.getBoundingClientRect();
@@ -388,9 +394,10 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
     if (['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'].includes(key) && !event.target.closest('button,select,a,input,textarea')) {
       event.preventDefault();
       keys.add(key);
+      requestRender();
     }
-    if (key === 'arrowleft' && !event.target.closest('button,select,a,input,textarea')) yaw += .035;
-    if (key === 'arrowright' && !event.target.closest('button,select,a,input,textarea')) yaw -= .035;
+    if (key === 'arrowleft' && !event.target.closest('button,select,a,input,textarea')) { yaw += .035; requestRender(); }
+    if (key === 'arrowright' && !event.target.closest('button,select,a,input,textarea')) { yaw -= .035; requestRender(); }
     if (key === 'e') {
       const nearby = clickable.map(object => {
         const point = new Vector3();
@@ -404,7 +411,7 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
       else status.textContent = 'No object is close enough to inspect. Walk toward the throne, stained glass, tapestries, or Gizmo.';
     }
   }
-  function keyUp(event) { keys.delete(event.key.toLowerCase()); }
+  function keyUp(event) { keys.delete(event.key.toLowerCase()); requestRender(); }
   function setView(is3d) {
     active = is3d;
     main.classList.toggle('academy-great-hall-3d-active', is3d);
@@ -417,7 +424,14 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
       ? `Walkable Great Hall · ${quality === 'high' ? 'High' : quality === 'balanced' ? 'Balanced' : 'Performance'} detail · WASD or the arrows to walk · drag to look · E to inspect.`
       : 'Illustrated Great Hall view · all existing discoveries and passages remain available.';
     if (is3d) resize();
+    else {
+      keys.clear(); held.clear(); drag = null; lastFrame = 0;
+      if (frameHandle) cancelAnimationFrame(frameHandle);
+      frameHandle = 0;
+    }
   }
+  const perspectiveButton = document.querySelector('[data-perspective-toggle]');
+  if (perspectiveButton) new MutationObserver(requestRender).observe(perspectiveButton, {attributes:true, attributeFilter:['aria-pressed']});
   viewButton.addEventListener('click', () => setView(!active));
   qualitySelect.addEventListener('change', () => setQuality(qualitySelect.value));
   canvas.addEventListener('pointerdown', onPointerDown);
@@ -427,7 +441,10 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
   window.addEventListener('keydown', keyDown);
   window.addEventListener('keyup', keyUp);
   window.addEventListener('blur', () => { keys.clear(); held.clear(); });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) { keys.clear(); held.clear(); } });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { keys.clear(); held.clear(); lastFrame = 0; if (frameHandle) cancelAnimationFrame(frameHandle); frameHandle = 0; }
+    else requestRender();
+  });
   receiver.addEventListener('pointerdown', event => {
     const button = event.target.closest('button[data-walk]');
     if (!button) return;
@@ -436,6 +453,7 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
     const pressedAt = performance.now();
     const startX = player.x, startZ = player.z;
     held.add(direction);
+    requestRender();
     button.setPointerCapture(event.pointerId);
     const stop = () => {
       held.delete(direction);
@@ -446,6 +464,7 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
         move(.12);
         held.delete(direction);
       }
+      requestRender();
     };
     button.addEventListener('pointerup', stop, { once: true });
     button.addEventListener('pointercancel', stop, { once: true });
@@ -454,16 +473,17 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
   window.addEventListener('resize', resize, { passive: true });
   if (window.ResizeObserver) new ResizeObserver(resize).observe(hall);
 
-  const animate = () => {
-    requestAnimationFrame(animate);
-    if (!active || document.hidden) return;
-    const now = performance.now();
-    const dt = Math.min(.05, Math.max(0, (now - (animate.last || now)) / 1000));
-    animate.last = now;
+  function animate(now) {
+    frameHandle = 0;
+    if (!active || document.hidden) { lastFrame = 0; return; }
+    const dt = Math.min(.05, Math.max(0, (now - (lastFrame || now)) / 1000));
+    lastFrame = now;
     move(dt);
     perspective.update();
     renderer.render(scene, camera);
-  };
+    if (keys.size || held.size) requestRender();
+    else lastFrame = 0;
+  }
   resize();
   setView(true);
   setQuality(quality);
@@ -475,5 +495,5 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
       geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures
     })
   });
-  requestAnimationFrame(animate);
+  requestRender();
 })();
