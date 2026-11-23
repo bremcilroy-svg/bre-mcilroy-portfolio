@@ -54,6 +54,7 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
     await expect.poll(() => page.evaluate(() => window.academyGreatHall3D.diagnostics().position.z)).toBeLessThan(beforeTouch.z - .02);
   } else {
     const beforeWalk = await page.evaluate(() => window.academyGreatHall3D.diagnostics().position);
+    await canvas.evaluate(element => element.focus());
     await page.keyboard.down('w');
     await page.waitForTimeout(500);
     await page.keyboard.up('w');
