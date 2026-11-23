@@ -6,7 +6,7 @@ const saveKeys = [
   'bre-poetry-vault-labyrinth-v1', 'bre-poetry-vault-dawn-v1'
 ];
 
-function seedProgress({viewKey}) {
+function seedProgress({viewKey, initialPerspective = 'first'}) {
   const seeds = {
     'bre-poetry-vault-heart-v1': {found:['rose','ribbon','moon','key'],drawerOpen:true,diaryOpen:true,completed:true},
     'bre-poetry-vault-mirror-v1': {found:['thorn','tear','veil','ember'],slots:['tear','ember','thorn','veil'],turns:{thorn:0,tear:0,veil:0,ember:0},restored:true,unlocked:true,completed:true},
@@ -18,7 +18,7 @@ function seedProgress({viewKey}) {
   // never touch a real profile or rewrite an existing save.
   if (localStorage.getItem('bre-poetry-vault-society-v1') === null) localStorage.setItem('bre-poetry-vault-society-v1', JSON.stringify({hints:[],clean:[],inscriptions:[],started:[],fifth:true}));
   if (localStorage.getItem('bre-poetry-vault-keepsakes-v1') === null) localStorage.setItem('bre-poetry-vault-keepsakes-v1', JSON.stringify({secrets:['heart','mirror','labyrinth','dawn']}));
-  if (localStorage.getItem(viewKey) === null) localStorage.setItem(viewKey, 'first');
+  if (localStorage.getItem(viewKey) === null) localStorage.setItem(viewKey, initialPerspective);
   if (localStorage.getItem('phase7-progress-sentinel') === null) localStorage.setItem('phase7-progress-sentinel', 'preserve-existing-progress');
 }
 
@@ -62,10 +62,10 @@ for (const route of ['poetry-vault.html','poetry-vault-mirror.html','poetry-vaul
   test(`${route} restores either saved perspective without changing its puzzle saves`, async ({page}, testInfo) => {
     test.skip(testInfo.project.name !== 'desktop-chromium', 'All-chapter room checks run independently in desktop Chromium; device profiles cover the Heart Chamber toggle and touch movement.');
     test.setTimeout(90000);
-    await page.addInitScript(seedProgress, {viewKey});
-    // Start each route with the same saved setting, but in a fresh Playwright
-    // context so a long chain of GPU-backed room navigations cannot leak state.
-    await page.addInitScript(key => localStorage.setItem(key, 'third'), viewKey);
+    // Start each route in a fresh Playwright context with a persisted third
+    // person preference. The seed only writes when absent, so reload exercises
+    // the preference saved by the in-game control instead of resetting it.
+    await page.addInitScript(seedProgress, {viewKey, initialPerspective:'third'});
     await page.goto(base + route + '?resume=1');
     const canvas = page.locator('#room-canvas');
     await expect(canvas).toBeVisible({timeout:45000});
