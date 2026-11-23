@@ -64,11 +64,11 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
 
   const beforeLook = await page.evaluate(() => window.academyGreatHall3D.diagnostics().yaw);
   const dragPoint = await page.evaluate(() => {
-    const canvas = document.querySelector('#great-hall-3d-canvas');
-    const rect = canvas.getBoundingClientRect();
+    const surface = document.querySelector('#great-hall-3d-pointer-surface');
+    const rect = surface.getBoundingClientRect();
     for (const fy of [.12, .24, .4, .58, .76, .9]) for (const fx of [.04, .16, .3, .5, .7, .84, .96]) {
       const x = rect.left + rect.width * fx, y = rect.top + rect.height * fy;
-      if (document.elementFromPoint(x, y) === canvas) return {x, y};
+      if (document.elementFromPoint(x, y) === surface) return {x, y};
     }
     return null;
   });

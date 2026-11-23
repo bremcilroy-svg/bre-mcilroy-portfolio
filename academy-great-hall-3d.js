@@ -79,6 +79,15 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
     return;
   }
 
+  // Keep scene pointer input on its own layer. Accelerated WebGL canvases can
+  // capture mobile taps above nearby DOM controls in some browser engines.
+  const pointerSurface = document.createElement('div');
+  pointerSurface.id = 'great-hall-3d-pointer-surface';
+  pointerSurface.setAttribute('aria-hidden', 'true');
+  pointerSurface.tabIndex = -1;
+  document.body.append(pointerSurface);
+  canvas.style.pointerEvents = 'none';
+
   const scene = new Scene();
   scene.background = new Color('#11192e');
   scene.fog = new Fog('#11192e', 18, 39);
@@ -354,8 +363,9 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
   }
   function onPointerDown(event) {
     if (event.button !== 0 && event.pointerType !== 'touch') return;
+    canvas.focus({preventScroll:true});
     drag = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
-    canvas.setPointerCapture(event.pointerId);
+    pointerSurface.setPointerCapture(event.pointerId);
   }
   function onPointerMove(event) {
     if (!drag || drag.id !== event.pointerId) return;
@@ -420,7 +430,7 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
     canvas.hidden = false;
     canvas.style.visibility = is3d ? 'visible' : 'hidden';
     canvas.style.opacity = is3d ? '1' : '0';
-    canvas.style.pointerEvents = is3d ? 'auto' : 'none';
+    pointerSurface.hidden = !is3d;
     receiver.hidden = !is3d;
     const perspectiveButton = document.querySelector('[data-perspective-toggle]');
     if (perspectiveButton) perspectiveButton.hidden = !is3d;
@@ -439,10 +449,10 @@ import { createPerspectiveView } from './vault-perspective.js?v=phase7-perspecti
   if (perspectiveButton) new MutationObserver(requestRender).observe(perspectiveButton, {attributes:true, attributeFilter:['aria-pressed']});
   viewButton.addEventListener('click', () => setView(!active));
   qualitySelect.addEventListener('change', () => setQuality(qualitySelect.value));
-  canvas.addEventListener('pointerdown', onPointerDown);
-  canvas.addEventListener('pointermove', onPointerMove);
-  canvas.addEventListener('pointerup', onPointerUp);
-  canvas.addEventListener('pointercancel', () => { drag = null; });
+  pointerSurface.addEventListener('pointerdown', onPointerDown);
+  pointerSurface.addEventListener('pointermove', onPointerMove);
+  pointerSurface.addEventListener('pointerup', onPointerUp);
+  pointerSurface.addEventListener('pointercancel', () => { drag = null; });
   window.addEventListener('keydown', keyDown);
   window.addEventListener('keyup', keyUp);
   window.addEventListener('blur', () => { keys.clear(); held.clear(); });
