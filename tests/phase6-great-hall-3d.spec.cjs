@@ -114,9 +114,11 @@ test('Royal Great Hall 3D scene renders, responds to movement/look and preserves
   expect(clickTarget.hitId).toBe('great-hall-view');
   await returnButton.click({timeout: 10000});
   await expect(canvas).toBeHidden();
+  await expect(page.locator('[data-perspective-toggle]')).toBeHidden();
   await expect(page.getByRole('button', {name: 'Enter the 3D Great Hall'})).toBeVisible();
   await page.getByRole('button', {name: 'Enter the 3D Great Hall'}).click();
   await expect(canvas).toBeVisible();
+  await expect(page.locator('[data-perspective-toggle]')).toBeVisible();
   await expect(page.locator('.royal-flag-gallery a')).toHaveCount(4);
   await expect(page.locator('a[href="poetry-vault-entrance.html"]').first()).toBeVisible();
   await page.getByRole('button', {name: 'Visit Gizmo'}).click();
